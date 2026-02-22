@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OT Connect Israel
 
-## Getting Started
+A two-sided marketplace connecting private occupational therapists in Israel with patients.
 
-First, run the development server:
+## Stack
+
+- **Framework:** Next.js 16+ (App Router) + TypeScript (strict)
+- **Database:** MongoDB Atlas + Mongoose
+- **Auth:** NextAuth.js v5
+- **i18n:** next-intl — Hebrew (RTL), Arabic (RTL), English
+- **Styling:** Tailwind CSS v4 + shadcn/ui
+- **Payments:** PayPlus / Cardcom
+- **Email:** Resend
+- **Storage:** AWS S3 / Cloudflare R2
+- **Hosting:** AWS App Runner + ECR
+- **Analytics:** Posthog
+
+## Local Development
+
+### Prerequisites
+
+- Node.js 20+
+- MongoDB Atlas account (or local MongoDB)
+
+### Setup
 
 ```bash
+# Install dependencies
+npm install
+
+# Copy env vars
+cp .env.example .env.local
+# Fill in .env.local with your values
+
+# Start dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The app runs at [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Navigating to `/` will redirect to `/he/` (Hebrew default).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Commands
 
-## Learn More
+| Command | Description |
+|---|---|
+| `npm run dev` | Start development server |
+| `npm run build` | Build for production |
+| `npm run lint` | ESLint |
+| `npm run typecheck` | TypeScript type check |
+| `npm run test` | Run Vitest tests |
+| `npm run test:watch` | Vitest in watch mode |
+| `npm run format` | Format with Prettier |
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+├── app/
+│   ├── [locale]/           — All locale-aware pages (he/ar/en)
+│   │   ├── (public)/       — Public pages (home, search, OT profiles)
+│   │   ├── (auth)/         — Login, register, password reset
+│   │   ├── (ot)/           — OT dashboard (protected)
+│   │   ├── (patient)/      — Patient account (protected)
+│   │   └── (admin)/        — Admin dashboard (protected)
+│   └── api/                — API routes
+├── components/
+│   ├── ui/                 — shadcn/ui base components
+│   ├── search/             — Search-specific components
+│   ├── profile/            — OT profile components
+│   └── dashboard/          — Dashboard components
+├── i18n/                   — next-intl routing + request config
+├── lib/
+│   ├── db/                 — MongoDB connection + Mongoose models
+│   ├── auth/               — NextAuth config
+│   ├── search/             — Atlas Search query builders
+│   └── payments/           — PayPlus/Cardcom integration
+├── messages/               — i18n translation files (he/ar/en)
+├── middleware.ts            — next-intl locale routing middleware
+└── types/                  — Shared TypeScript types
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Locales
 
-## Deploy on Vercel
+| Locale | Language | Direction | URL prefix |
+|---|---|---|---|
+| `he` | Hebrew (default) | RTL | `/he/...` |
+| `ar` | Arabic | RTL | `/ar/...` |
+| `en` | English | LTR | `/en/...` |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Branch Strategy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+main              ← Production (protected, PR + manual approval)
+dev               ← Staging (protected, PR only)
+dev/feat/<n>      ← Feature branches
+dev/fix/<n>       ← Bug fixes
+dev/hotfix/<n>    ← Critical fixes (branch from main)
+dev/infra/<desc>  ← Infrastructure changes
+```
+
+## Environment Variables
+
+See `.env.example` for all required variables. Never commit secrets.

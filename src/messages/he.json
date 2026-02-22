@@ -1,0 +1,122 @@
+{
+  "common": {
+    "appName": "OT Connect",
+    "loading": "טוען...",
+    "error": "שגיאה",
+    "save": "שמור",
+    "cancel": "ביטול",
+    "back": "חזור",
+    "next": "הבא",
+    "submit": "שלח",
+    "search": "חיפוש"
+  },
+  "nav": {
+    "home": "דף הבית",
+    "search": "חיפוש מטפלים",
+    "login": "כניסה",
+    "register": "הרשמה",
+    "dashboard": "לוח בקרה",
+    "profile": "פרופיל",
+    "logout": "יציאה"
+  },
+  "home": {
+    "heroTitle": "מצאו את המרפא בעיסוק המתאים לכם",
+    "heroSubtitle": "מרפאים בעיסוק פרטיים ברחבי ישראל, חיפוש לפי התמחות, קופת חולים ומיקום",
+    "searchPlaceholder": "התמחות או שם מרפא...",
+    "searchButton": "חיפוש",
+    "quickFilters": {
+      "paediatrics": "ילדים ופיתוח",
+      "neuro": "שיקום נוירולוגי",
+      "mentalHealth": "בריאות הנפש",
+      "handTherapy": "טיפול ביד"
+    }
+  },
+  "search": {
+    "title": "חיפוש מרפאים בעיסוק",
+    "results": "{count} מרפאים נמצאו",
+    "noResults": "לא נמצאו מרפאים התואמים לחיפוש שלך",
+    "sortBy": "מיין לפי",
+    "sortOptions": {
+      "relevance": "רלוונטיות",
+      "distance": "מרחק",
+      "rating": "דירוג"
+    },
+    "filters": {
+      "specialisation": "התמחות",
+      "insurance": "קופת חולים",
+      "location": "מיקום",
+      "sessionType": "סוג טיפול",
+      "language": "שפה",
+      "availability": "זמינות"
+    },
+    "sessionTypes": {
+      "inPerson": "פרונטלי",
+      "telehealth": "טלה-מדיסין",
+      "homeVisit": "ביקור בית"
+    },
+    "insurance": {
+      "clalit": "כללית",
+      "maccabi": "מכבי",
+      "meuhedet": "מאוחדת",
+      "leumit": "לאומית",
+      "private": "פרטי בלבד"
+    }
+  },
+  "profile": {
+    "contactPhone": "התקשר",
+    "contactEmail": "שלח אימייל",
+    "save": "שמור למועדפים",
+    "specialisations": "התמחויות",
+    "insurance": "קופות חולים",
+    "languages": "שפות",
+    "location": "מיקום",
+    "sessionTypes": "סוגי טיפול",
+    "about": "אודות",
+    "fees": "עלות טיפול",
+    "acceptingPatients": "מקבל מטופלים חדשים"
+  },
+  "auth": {
+    "login": {
+      "title": "כניסה לחשבון",
+      "email": "אימייל",
+      "password": "סיסמה",
+      "submit": "כניסה",
+      "forgotPassword": "שכחתי סיסמה",
+      "noAccount": "אין לך חשבון?",
+      "register": "הרשמה"
+    },
+    "register": {
+      "title": "הרשמה",
+      "asOT": "אני מרפא בעיסוק",
+      "asPatient": "אני מטופל",
+      "email": "אימייל",
+      "password": "סיסמה",
+      "confirmPassword": "אשר סיסמה",
+      "name": "שם מלא",
+      "submit": "הרשמה",
+      "hasAccount": "כבר יש לך חשבון?",
+      "login": "כניסה"
+    },
+    "errors": {
+      "invalidCredentials": "אימייל או סיסמה שגויים",
+      "emailExists": "אימייל זה כבר רשום במערכת",
+      "required": "שדה חובה",
+      "invalidEmail": "כתובת אימייל לא תקינה",
+      "passwordTooShort": "הסיסמה חייבת להכיל לפחות 8 תווים",
+      "passwordMismatch": "הסיסמאות אינן תואמות"
+    }
+  },
+  "dashboard": {
+    "title": "לוח בקרה",
+    "profileViews": "צפיות בפרופיל",
+    "enquiries": "פניות",
+    "completeness": "שלמות הפרופיל",
+    "subscription": "מנוי",
+    "notifications": "התראות",
+    "editProfile": "ערוך פרופיל",
+    "viewProfile": "צפה בפרופיל",
+    "last7days": "7 ימים אחרונים",
+    "last30days": "30 ימים אחרונים",
+    "allTime": "כל הזמן"
+  }
+}

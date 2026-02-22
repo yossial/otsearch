@@ -1,0 +1,122 @@
+{
+  "common": {
+    "appName": "OT Connect",
+    "loading": "Loading...",
+    "error": "Error",
+    "save": "Save",
+    "cancel": "Cancel",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "search": "Search"
+  },
+  "nav": {
+    "home": "Home",
+    "search": "Find Therapists",
+    "login": "Log in",
+    "register": "Register",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "logout": "Log out"
+  },
+  "home": {
+    "heroTitle": "Find the right occupational therapist for you",
+    "heroSubtitle": "Private OTs across Israel, searchable by specialisation, Kupat Holim and location",
+    "searchPlaceholder": "Specialisation or OT name...",
+    "searchButton": "Search",
+    "quickFilters": {
+      "paediatrics": "Paediatrics",
+      "neuro": "Neurological Rehab",
+      "mentalHealth": "Mental Health",
+      "handTherapy": "Hand Therapy"
+    }
+  },
+  "search": {
+    "title": "Find Occupational Therapists",
+    "results": "{count} therapists found",
+    "noResults": "No therapists found matching your search",
+    "sortBy": "Sort by",
+    "sortOptions": {
+      "relevance": "Relevance",
+      "distance": "Distance",
+      "rating": "Rating"
+    },
+    "filters": {
+      "specialisation": "Specialisation",
+      "insurance": "Insurance",
+      "location": "Location",
+      "sessionType": "Session type",
+      "language": "Language",
+      "availability": "Availability"
+    },
+    "sessionTypes": {
+      "inPerson": "In-person",
+      "telehealth": "Telehealth",
+      "homeVisit": "Home visit"
+    },
+    "insurance": {
+      "clalit": "Clalit",
+      "maccabi": "Maccabi",
+      "meuhedet": "Meuhedet",
+      "leumit": "Leumit",
+      "private": "Private pay"
+    }
+  },
+  "profile": {
+    "contactPhone": "Call",
+    "contactEmail": "Email",
+    "save": "Save to favourites",
+    "specialisations": "Specialisations",
+    "insurance": "Insurance accepted",
+    "languages": "Languages",
+    "location": "Location",
+    "sessionTypes": "Session types",
+    "about": "About",
+    "fees": "Session fees",
+    "acceptingPatients": "Accepting new patients"
+  },
+  "auth": {
+    "login": {
+      "title": "Log in to your account",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Log in",
+      "forgotPassword": "Forgot password?",
+      "noAccount": "Don't have an account?",
+      "register": "Register"
+    },
+    "register": {
+      "title": "Create an account",
+      "asOT": "I am an occupational therapist",
+      "asPatient": "I am a patient",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "name": "Full name",
+      "submit": "Register",
+      "hasAccount": "Already have an account?",
+      "login": "Log in"
+    },
+    "errors": {
+      "invalidCredentials": "Invalid email or password",
+      "emailExists": "This email is already registered",
+      "required": "This field is required",
+      "invalidEmail": "Invalid email address",
+      "passwordTooShort": "Password must be at least 8 characters",
+      "passwordMismatch": "Passwords do not match"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "profileViews": "Profile views",
+    "enquiries": "Enquiries",
+    "completeness": "Profile completeness",
+    "subscription": "Subscription",
+    "notifications": "Notifications",
+    "editProfile": "Edit profile",
+    "viewProfile": "View profile",
+    "last7days": "Last 7 days",
+    "last30days": "Last 30 days",
+    "allTime": "All time"
+  }
+}

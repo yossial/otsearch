@@ -5,14 +5,14 @@ A two-sided marketplace connecting private occupational therapists in Israel wit
 ## Stack
 
 - **Framework:** Next.js 16+ (App Router) + TypeScript (strict)
-- **Database:** MongoDB Atlas + Mongoose
+- **Database:** MongoDB Atlas (eu-west-1) + Mongoose
 - **Auth:** NextAuth.js v5
 - **i18n:** next-intl — Hebrew (RTL), Arabic (RTL), English
 - **Styling:** Tailwind CSS v4 + shadcn/ui
-- **Payments:** PayPlus / Cardcom
+- **Payments:** PayPlus / Cardcom (Israeli processors)
 - **Email:** Resend
-- **Storage:** AWS S3 / Cloudflare R2
-- **Hosting:** AWS App Runner + ECR
+- **Storage:** AWS S3 eu-west-1 — `ot-connect-dev-uploads` / `ot-connect-prod-uploads`
+- **Hosting:** AWS App Runner + ECR (eu-west-1) — `ot-connect-dev` / `ot-connect-prod`
 - **Analytics:** Posthog
 
 ## Local Development

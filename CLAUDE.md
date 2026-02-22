@@ -4,12 +4,12 @@
 
 OT Connect Israel is a two-sided marketplace connecting private occupational therapists in Israel with patients.
 
-**Stack:** Next.js 14+ (App Router) · TypeScript (strict) · MongoDB Atlas · NextAuth.js · PayPlus/Cardcom · next-intl (he/ar/en RTL)
-**Hosting:** AWS App Runner + ECR · MongoDB Atlas eu-west-1 · Cloudflare CDN
-**Styling:** Tailwind CSS + shadcn/ui + RTL plugin
+**Stack:** Next.js 16+ (App Router) · TypeScript (strict) · MongoDB Atlas · NextAuth.js v5 · PayPlus/Cardcom · next-intl (he/ar/en RTL)
+**Hosting:** AWS App Runner + ECR (eu-west-1) · MongoDB Atlas eu-west-1 · Cloudflare CDN
+**Styling:** Tailwind CSS v4 + shadcn/ui
 **Payments:** PayPlus / Cardcom (Israeli processors)
 **Email:** Resend
-**File storage:** AWS S3 / Cloudflare R2
+**File storage:** AWS S3 (eu-west-1) — `ot-connect-dev-uploads` / `ot-connect-prod-uploads`
 **Analytics:** Posthog
 
 ---
@@ -90,18 +90,19 @@ infra/<description>  ← Infrastructure changes
 
 ## Environment Variables
 
-All secrets in AWS Secrets Manager. Never commit secrets. Only `.env.example` is committed.
+All secrets stored in **AWS Secrets Manager** (eu-west-1) under `/ot-connect/dev/*` and `/ot-connect/prod/*`. App Runner pulls them at deploy time. Never commit secrets. Only `.env.example` is committed.
 
 Required env vars (see `.env.example`):
 - `MONGODB_URI`
 - `NEXTAUTH_SECRET`
 - `NEXTAUTH_URL`
-- `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY`
-- `APP_RUNNER_ROLE_ARN`
+- `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` — S3 access (IAM user `ot-connect-app`)
 - `PAYPLUS_API_KEY`
 - `GOOGLE_MAPS_API_KEY`
 - `RESEND_API_KEY`
 - `S3_BUCKET_NAME` / `S3_REGION`
+
+GitHub Actions uses OIDC (no long-lived keys) — role `ot-connect-github-actions`.
 
 ---
 

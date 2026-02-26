@@ -1,16 +1,11 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
 import '@/app/globals.css';
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: {
@@ -38,10 +33,12 @@ export default async function LocaleLayout({
   const dir = locale === 'en' ? 'ltr' : 'rtl';
 
   return (
-    <html lang={locale} dir={dir} className={inter.variable}>
+    <html lang={locale} dir={dir}>
       <body className="bg-bg font-sans text-text-primary antialiased">
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
         </NextIntlClientProvider>
       </body>
     </html>

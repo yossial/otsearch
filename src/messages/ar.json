@@ -35,6 +35,9 @@
     "title": "البحث عن المعالجين الوظيفيين",
     "results": "تم العثور على {count} معالج",
     "noResults": "لم يتم العثور على معالجين يطابقون بحثك",
+    "showFilters": "عرض الفلاتر",
+    "hideFilters": "إخفاء الفلاتر",
+    "activeFilters": "{count} فلاتر نشطة",
     "sortBy": "ترتيب حسب",
     "sortOptions": {
       "relevance": "الصلة",

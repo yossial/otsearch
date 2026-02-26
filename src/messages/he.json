@@ -35,6 +35,9 @@
     "title": "חיפוש מרפאים בעיסוק",
     "results": "{count} מרפאים נמצאו",
     "noResults": "לא נמצאו מרפאים התואמים לחיפוש שלך",
+    "showFilters": "הצג מסננים",
+    "hideFilters": "הסתר מסננים",
+    "activeFilters": "{count} מסננים פעילים",
     "sortBy": "מיין לפי",
     "sortOptions": {
       "relevance": "רלוונטיות",

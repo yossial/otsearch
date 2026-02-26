@@ -11,7 +11,9 @@
     "test": "vitest run --passWithNoTests",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "db:up": "docker compose up -d mongo",
+    "db:down": "docker compose down"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

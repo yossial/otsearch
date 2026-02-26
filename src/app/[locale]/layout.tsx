@@ -14,8 +14,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | OT Connect',
-    default: 'OT Connect — Find Occupational Therapists in Israel',
+    template: '%s | Therapio',
+    default: 'Therapio — Find Occupational Therapists in Israel',
   },
   description:
     'Find private occupational therapists in Israel. Search by specialisation, Kupat Holim, and location.',

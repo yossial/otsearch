@@ -35,6 +35,9 @@
     "title": "Find Occupational Therapists",
     "results": "{count} therapists found",
     "noResults": "No therapists found matching your search",
+    "showFilters": "Show filters",
+    "hideFilters": "Hide filters",
+    "activeFilters": "{count} active filters",
     "sortBy": "Sort by",
     "sortOptions": {
       "relevance": "Relevance",

@@ -2,6 +2,7 @@
  * Data access layer for OT profiles.
  * Used directly by Server Components and API route handlers.
  */
+import type { SortOrder } from 'mongoose';
 import { connectDB } from '@/lib/db';
 import { OTProfile } from '@/lib/db/models/OTProfile';
 import type { OTProfilePublic, SearchResult } from '@/types';
@@ -87,8 +88,8 @@ export async function searchOTs(query: OTSearchQuery): Promise<SearchResult> {
   const skip = (page - 1) * limit;
 
   // Sort: featured first, then premium, then by createdAt desc
-  const sort: Record<string, number> = q?.trim()
-    ? { score: { $meta: 'textScore' } as unknown as number, isFeatured: -1 }
+  const sort: Record<string, SortOrder | { $meta: string }> = q?.trim()
+    ? { score: { $meta: 'textScore' }, isFeatured: -1 }
     : { isFeatured: -1, subscriptionTier: -1, createdAt: -1 };
 
   const [docs, total] = await Promise.all([
@@ -101,7 +102,7 @@ export async function searchOTs(query: OTSearchQuery): Promise<SearchResult> {
   ]);
 
   return {
-    profiles: docs.map((d) => toPublic(d as Record<string, unknown>)),
+    profiles: docs.map((d) => toPublic(d as unknown as Record<string, unknown>)),
     total,
     page,
     totalPages: Math.ceil(total / limit),
@@ -112,7 +113,7 @@ export async function getOTBySlug(slug: string): Promise<OTProfilePublic | null>
   await connectDB();
   const doc = await OTProfile.findOne({ slug, isActive: true }).lean();
   if (!doc) return null;
-  return toPublic(doc as Record<string, unknown>);
+  return toPublic(doc as unknown as Record<string, unknown>);
 }
 
 /** Fire-and-forget profile view counter increment */

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import type { OTProfilePublic } from '@/types';
 import { cn } from '@/lib/utils';
@@ -53,7 +54,7 @@ export default function OTCard({ ot, locale }: OTCardProps) {
       )}
 
       <div className="flex-shrink-0">
-        <img
+        <Image
           src={ot.photo ?? `https://i.pravatar.cc/150?u=${ot.slug}`}
           alt={name}
           width={64}

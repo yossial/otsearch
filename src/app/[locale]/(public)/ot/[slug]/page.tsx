@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getTranslations, getLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
@@ -69,7 +70,7 @@ export default async function OTProfilePage({ params }: OTProfilePageProps) {
         {/* Profile header */}
         <div className="mb-6 flex flex-col gap-4 rounded-lg bg-surface p-6 shadow-card sm:flex-row sm:items-start">
           <div className="flex-shrink-0">
-            <img
+            <Image
               src={ot.photo ?? `https://i.pravatar.cc/150?u=${ot.slug}`}
               alt={name}
               width={96}

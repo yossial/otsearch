@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: '**.r2.cloudflarestorage.com',
       },
+      {
+        // Placeholder avatars used by seed data and profiles without a photo
+        protocol: 'https',
+        hostname: 'i.pravatar.cc',
+      },
     ],
   },
 };

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 
 export default function SearchBar() {
@@ -12,7 +12,7 @@ export default function SearchBar() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const params = query.trim() ? `?q=${encodeURIComponent(query.trim())}` : '';
-    router.push(`/search${params}`);
+    router.push(`/${params}`);
   }
 
   return (

@@ -18,6 +18,7 @@
     "register": "Register",
     "dashboard": "Dashboard",
     "profile": "Profile",
+    "editProfile": "Edit profile",
     "logout": "Log out"
   },
   "home": {

@@ -38,7 +38,12 @@ export interface OTSearchQuery {
   sessionType?: string | string[];
   language?: string | string[];
   city?: string;
+  /** Geographic search — not yet implemented in searchOTs() */
+  lat?: number;
+  lng?: number;
+  radius?: number;
   acceptingOnly?: boolean;
+  sort?: 'relevance' | 'distance' | 'rating';
   page?: number;
   limit?: number;
 }

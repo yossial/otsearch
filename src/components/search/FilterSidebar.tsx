@@ -2,46 +2,42 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { useRouter, usePathname } from '@/i18n/navigation';
+import { useSearchParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
+// Values must match the Specialisation enum in src/types/index.ts
 const SPECIALTIES = [
-  { value: 'paediatrics', labelKey: 'paediatrics' },
-  { value: 'neuro', labelKey: 'neuro' },
-  { value: 'mentalHealth', labelKey: 'mentalHealth' },
-  { value: 'handTherapy', labelKey: 'handTherapy' },
-  { value: 'geriatrics', labelKey: 'geriatrics' },
-  { value: 'sensoryProcessing', labelKey: 'sensoryProcessing' },
+  { value: 'paediatrics', label: 'ילדים ופיתוח' },
+  { value: 'neurological', label: 'שיקום נוירולוגי' },
+  { value: 'mental-health', label: 'בריאות הנפש' },
+  { value: 'hand-therapy', label: 'טיפול ביד' },
+  { value: 'geriatrics', label: 'גריאטריה' },
+  { value: 'sensory-processing', label: 'עיבוד חושי' },
 ] as const;
 
-const SPECIALTY_LABELS: Record<string, string> = {
-  paediatrics: 'ילדים ופיתוח',
-  neuro: 'שיקום נוירולוגי',
-  mentalHealth: 'בריאות הנפש',
-  handTherapy: 'טיפול ביד',
-  geriatrics: 'גריאטריה',
-  sensoryProcessing: 'עיבוד חושי',
-};
-
+// Values must match the InsuranceType enum in src/types/index.ts
 const INSURANCE_OPTIONS = [
   { value: 'clalit', label: 'כללית' },
   { value: 'maccabi', label: 'מכבי' },
   { value: 'meuhedet', label: 'מאוחדת' },
   { value: 'leumit', label: 'לאומית' },
   { value: 'private', label: 'פרטי בלבד' },
-];
+] as const;
 
+// Values must match the SessionType enum in src/types/index.ts
 const SESSION_TYPE_OPTIONS = [
-  { value: 'inPerson', label: 'פרונטלי' },
+  { value: 'in-person', label: 'פרונטלי' },
   { value: 'telehealth', label: 'טלה-מדיסין' },
-  { value: 'homeVisit', label: 'ביקור בית' },
-];
+  { value: 'home-visit', label: 'ביקור בית' },
+] as const;
 
 const LANGUAGE_OPTIONS = [
   { value: 'he', label: 'עברית' },
   { value: 'ar', label: 'ערבית' },
   { value: 'en', label: 'אנגלית' },
   { value: 'ru', label: 'רוסית' },
-];
+] as const;
 
 // Inline chevron — rotates 180° when section is expanded
 function ChevronIcon({ open }: { open: boolean }) {
@@ -167,34 +163,20 @@ function CheckboxItem({
 export default function FilterSidebar() {
   const tSearch = useTranslations('search');
 
+  // Routing — derive all filter state from URL so the sidebar stays in
+  // sync with the address bar (back/forward navigation, shareable URLs).
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const selectedSpecialties = searchParams.getAll('specialisation');
+  const selectedInsurance = searchParams.getAll('insurance');
+  const selectedSessionTypes = searchParams.getAll('sessionType');
+  const selectedLanguages = searchParams.getAll('language');
+  const acceptingOnly = searchParams.get('acceptingOnly') === 'true';
+
   // Mobile: controls whether the entire panel is visible
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
-  const [selectedInsurance, setSelectedInsurance] = useState<string[]>([]);
-  const [selectedSessionTypes, setSelectedSessionTypes] = useState<string[]>([]);
-  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
-  const [acceptingOnly, setAcceptingOnly] = useState(false);
-
-  function toggleItem(
-    value: string,
-    current: string[],
-    setter: (v: string[]) => void
-  ) {
-    setter(
-      current.includes(value)
-        ? current.filter((v) => v !== value)
-        : [...current, value]
-    );
-  }
-
-  function clearAll() {
-    setSelectedSpecialties([]);
-    setSelectedInsurance([]);
-    setSelectedSessionTypes([]);
-    setSelectedLanguages([]);
-    setAcceptingOnly(false);
-  }
 
   const activeFilterCount =
     selectedSpecialties.length +
@@ -204,6 +186,44 @@ export default function FilterSidebar() {
     (acceptingOnly ? 1 : 0);
 
   const hasFilters = activeFilterCount > 0;
+
+  /** Rebuild the URL with an updated multi-value param and navigate. */
+  function updateFilter(param: string, values: string[]) {
+    const next = new URLSearchParams(searchParams.toString());
+    next.delete(param);
+    values.forEach((v) => next.append(param, v));
+    next.delete('page'); // reset pagination when filters change
+    const qs = next.toString();
+    router.replace(pathname + (qs ? `?${qs}` : ''));
+  }
+
+  function toggleItem(param: string, value: string, current: string[]) {
+    const next = current.includes(value)
+      ? current.filter((v) => v !== value)
+      : [...current, value];
+    updateFilter(param, next);
+  }
+
+  function clearAll() {
+    const next = new URLSearchParams(searchParams.toString());
+    ['specialisation', 'insurance', 'sessionType', 'language', 'acceptingOnly', 'page'].forEach(
+      (p) => next.delete(p)
+    );
+    const qs = next.toString();
+    router.replace(pathname + (qs ? `?${qs}` : ''));
+  }
+
+  function toggleAcceptingOnly() {
+    const next = new URLSearchParams(searchParams.toString());
+    if (acceptingOnly) {
+      next.delete('acceptingOnly');
+    } else {
+      next.set('acceptingOnly', 'true');
+    }
+    next.delete('page');
+    const qs = next.toString();
+    router.replace(pathname + (qs ? `?${qs}` : ''));
+  }
 
   return (
     <div className="md:w-72 md:flex-shrink-0">
@@ -251,7 +271,7 @@ export default function FilterSidebar() {
               onClick={clearAll}
               className="text-xs font-medium text-primary hover:underline"
             >
-              נקה הכל
+              {tSearch('clearFilters')}
             </button>
           )}
         </div>
@@ -263,10 +283,10 @@ export default function FilterSidebar() {
           {SPECIALTIES.map((s) => (
             <CheckboxItem
               key={s.value}
-              label={SPECIALTY_LABELS[s.value]}
+              label={s.label}
               checked={selectedSpecialties.includes(s.value)}
               onChange={() =>
-                toggleItem(s.value, selectedSpecialties, setSelectedSpecialties)
+                toggleItem('specialisation', s.value, selectedSpecialties)
               }
             />
           ))}
@@ -282,7 +302,7 @@ export default function FilterSidebar() {
               label={opt.label}
               checked={selectedInsurance.includes(opt.value)}
               onChange={() =>
-                toggleItem(opt.value, selectedInsurance, setSelectedInsurance)
+                toggleItem('insurance', opt.value, selectedInsurance)
               }
             />
           ))}
@@ -298,11 +318,7 @@ export default function FilterSidebar() {
               label={opt.label}
               checked={selectedSessionTypes.includes(opt.value)}
               onChange={() =>
-                toggleItem(
-                  opt.value,
-                  selectedSessionTypes,
-                  setSelectedSessionTypes
-                )
+                toggleItem('sessionType', opt.value, selectedSessionTypes)
               }
             />
           ))}
@@ -318,7 +334,7 @@ export default function FilterSidebar() {
               label={opt.label}
               checked={selectedLanguages.includes(opt.value)}
               onChange={() =>
-                toggleItem(opt.value, selectedLanguages, setSelectedLanguages)
+                toggleItem('language', opt.value, selectedLanguages)
               }
             />
           ))}
@@ -329,13 +345,13 @@ export default function FilterSidebar() {
         {/* Accepting patients toggle */}
         <label className="flex cursor-pointer items-center justify-between gap-3">
           <span className="text-sm font-medium text-text-primary">
-            מקבל/ת מטופלים חדשים
+            {tSearch('acceptingPatientsFilter')}
           </span>
           <button
             type="button"
             role="switch"
             aria-checked={acceptingOnly}
-            onClick={() => setAcceptingOnly((prev) => !prev)}
+            onClick={toggleAcceptingOnly}
             className={cn(
               'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
               acceptingOnly ? 'bg-primary' : 'bg-border'

@@ -8,7 +8,8 @@
     "back": "חזור",
     "next": "הבא",
     "submit": "שלח",
-    "search": "חיפוש"
+    "search": "חיפוש",
+    "tagline": "מציאת מרפאים בעיסוק פרטיים בישראל"
   },
   "nav": {
     "home": "דף הבית",
@@ -38,6 +39,8 @@
     "showFilters": "הצג מסננים",
     "hideFilters": "הסתר מסננים",
     "activeFilters": "{count} מסננים פעילים",
+    "clearFilters": "נקה הכל",
+    "acceptingPatientsFilter": "מקבל/ת מטופלים חדשים",
     "sortBy": "מיין לפי",
     "sortOptions": {
       "relevance": "רלוונטיות",
@@ -63,7 +66,14 @@
       "meuhedet": "מאוחדת",
       "leumit": "לאומית",
       "private": "פרטי בלבד"
-    }
+    },
+    "otTitle": "מרפא/ה בעיסוק",
+    "callButton": "התקשר",
+    "viewProfile": "צפה בפרופיל",
+    "insuranceLabel": "ביטוח:",
+    "sessionLabel": "טיפול:",
+    "feePerSession": "לטיפול",
+    "noFeeInfo": "מחיר לפי פניה"
   },
   "profile": {
     "contactPhone": "התקשר",
@@ -76,7 +86,10 @@
     "sessionTypes": "סוגי טיפול",
     "about": "אודות",
     "fees": "עלות טיפול",
-    "acceptingPatients": "מקבל מטופלים חדשים"
+    "acceptingPatients": "מקבל מטופלים חדשים",
+    "backToSearch": "חזרה לחיפוש",
+    "otTitle": "מרפא/ה בעיסוק",
+    "feePerSession": "לטיפול"
   },
   "auth": {
     "login": {
@@ -121,9 +134,14 @@
     "last7days": "7 ימים אחרונים",
     "last30days": "30 ימים אחרונים",
     "allTime": "כל הזמן",
+    "incompleteProfile": "הפרופיל שלך עוד לא מלא — מלא את הפרטים כדי להופיע בתוצאות החיפוש.",
+    "completeProfile": "השלמת הפרופיל",
+    "patientAccountNotice": "חשבון זה הוא חשבון מטופל. חפש מרפאים בעיסוק",
+    "searchPageLink": "בעמוד החיפוש",
     "edit": {
       "title": "עריכת פרופיל",
       "bio": "אודות (עברית)",
+      "bioAr": "אודות (ערבית)",
       "bioEn": "אודות (אנגלית)",
       "city": "עיר",
       "address": "כתובת",

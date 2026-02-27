@@ -70,9 +70,9 @@ export default async function DashboardPage() {
         {/* Profile incomplete notice */}
         {profile && !profile.location.city && (
           <div className="rounded-lg bg-amber-50 px-5 py-4 text-sm text-amber-800">
-            הפרופיל שלך עוד לא מלא — מלא את הפרטים כדי להופיע בתוצאות החיפוש.
+            {t('incompleteProfile')}
             {' '}<Link href="/dashboard/edit" className="font-semibold underline">
-              השלמת הפרופיל
+              {t('completeProfile')}
             </Link>
           </div>
         )}
@@ -80,9 +80,9 @@ export default async function DashboardPage() {
         {/* No OT profile — patient account */}
         {!profile && (
           <div className="rounded-lg bg-surface p-6 shadow-card text-text-secondary text-sm">
-            חשבון זה הוא חשבון מטופל. חפש מרפאים בעיסוק{' '}
+            {t('patientAccountNotice')}{' '}
             <Link href="/search" className="font-semibold text-primary hover:underline">
-              בעמוד החיפוש
+              {t('searchPageLink')}
             </Link>
             .
           </div>

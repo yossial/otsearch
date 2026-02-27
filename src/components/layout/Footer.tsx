@@ -18,7 +18,7 @@ export default function Footer() {
               {tCommon('appName')}
             </Link>
             <p className="text-sm text-text-muted">
-              מציאת מרפאים בעיסוק פרטיים בישראל
+              {tCommon('tagline')}
             </p>
           </div>
 
@@ -37,19 +37,13 @@ export default function Footer() {
               {tNav('search')}
             </Link>
             <Link
-              href="/for-therapists"
-              className="text-sm text-text-secondary transition-colors hover:text-primary"
-            >
-              For Therapists
-            </Link>
-            <Link
-              href="/login"
+              href="/auth/login"
               className="text-sm text-text-secondary transition-colors hover:text-primary"
             >
               {tNav('login')}
             </Link>
             <Link
-              href="/register"
+              href="/auth/register"
               className="text-sm text-text-secondary transition-colors hover:text-primary"
             >
               {tNav('register')}

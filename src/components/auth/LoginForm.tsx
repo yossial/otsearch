@@ -62,9 +62,7 @@ export default function LoginForm() {
           <label htmlFor="password" className="text-sm font-medium text-text-primary">
             {t('login.password')}
           </label>
-          <Link href="/auth/forgot-password" className="text-xs text-primary hover:underline">
-            {t('login.forgotPassword')}
-          </Link>
+          <span className="text-xs text-text-muted">{t('login.forgotPassword')}</span>
         </div>
         <input
           id="password"

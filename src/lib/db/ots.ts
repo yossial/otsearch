@@ -116,6 +116,14 @@ export async function getOTBySlug(slug: string): Promise<OTProfilePublic | null>
   return toPublic(doc as unknown as Record<string, unknown>);
 }
 
+/** Get OT profile by MongoDB ID — used by dashboard (includes inactive profiles) */
+export async function getOTProfileById(id: string): Promise<OTProfilePublic | null> {
+  await connectDB();
+  const doc = await OTProfile.findById(id).lean();
+  if (!doc) return null;
+  return toPublic(doc as unknown as Record<string, unknown>);
+}
+
 /** Fire-and-forget profile view counter increment */
 export function incrementProfileViews(slug: string): void {
   connectDB()

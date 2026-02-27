@@ -120,6 +120,24 @@
     "viewProfile": "View profile",
     "last7days": "Last 7 days",
     "last30days": "Last 30 days",
-    "allTime": "All time"
+    "allTime": "All time",
+    "edit": {
+      "title": "Edit profile",
+      "bio": "About (Hebrew)",
+      "bioEn": "About (English)",
+      "city": "City",
+      "address": "Address",
+      "phone": "Phone",
+      "specialisations": "Specialisations",
+      "languages": "Languages",
+      "sessionTypes": "Session types",
+      "insurance": "Insurance accepted",
+      "feeMin": "Min session fee (₪)",
+      "feeMax": "Max session fee (₪)",
+      "acceptingPatients": "Accepting new patients",
+      "saveSuccess": "Profile updated successfully",
+      "saveError": "Error saving profile",
+      "save": "Save changes"
+    }
   }
 }

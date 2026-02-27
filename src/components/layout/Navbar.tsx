@@ -3,19 +3,15 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useSession, signOut } from 'next-auth/react';
-import { Link, usePathname } from '@/i18n/navigation';
-import { cn } from '@/lib/utils';
+import { Link } from '@/i18n/navigation';
 
 export default function Navbar() {
   const t = useTranslations('nav');
-  const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { data: session } = useSession();
   const isLoggedIn = !!session?.user;
-
-  const navLinks = [
-    { href: '/search', label: t('search') },
-  ];
+  const role = (session?.user as { role?: string } | undefined)?.role;
+  const isOT = role === 'ot';
 
   const close = () => setMobileOpen(false);
 
@@ -27,26 +23,18 @@ export default function Navbar() {
           <span className="text-xl font-bold text-primary tracking-tight">Therapio</span>
         </Link>
 
-        {/* Desktop nav links */}
-        <nav className="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(
-                'text-sm font-medium transition-colors hover:text-primary',
-                pathname === link.href ? 'text-primary' : 'text-text-secondary'
-              )}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
         {/* Desktop auth */}
         <div className="hidden md:flex items-center gap-3">
           {isLoggedIn ? (
             <>
+              {isOT && (
+                <Link
+                  href="/dashboard/edit"
+                  className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-text-primary transition-colors hover:border-primary hover:text-primary"
+                >
+                  {t('editProfile')}
+                </Link>
+              )}
               <Link
                 href="/dashboard"
                 className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-text-primary transition-colors hover:border-primary hover:text-primary"
@@ -102,25 +90,23 @@ export default function Navbar() {
       {/* Mobile menu */}
       {mobileOpen && (
         <div className="border-t border-border bg-surface px-4 pb-4 md:hidden">
-          <nav className="flex flex-col gap-1 pt-3">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={close}
-                className={cn(
-                  'rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-bg-alt hover:text-primary',
-                  pathname === link.href ? 'bg-primary-light text-primary' : 'text-text-secondary'
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
           <div className="mt-3 flex flex-col gap-2">
             {isLoggedIn ? (
               <>
-                <Link href="/dashboard" onClick={close} className="rounded-lg border border-border px-4 py-2 text-center text-sm font-medium text-text-primary transition-colors hover:border-primary hover:text-primary">
+                {isOT && (
+                  <Link
+                    href="/dashboard/edit"
+                    onClick={close}
+                    className="rounded-lg border border-border px-4 py-2 text-center text-sm font-medium text-text-primary transition-colors hover:border-primary hover:text-primary"
+                  >
+                    {t('editProfile')}
+                  </Link>
+                )}
+                <Link
+                  href="/dashboard"
+                  onClick={close}
+                  className="rounded-lg border border-border px-4 py-2 text-center text-sm font-medium text-text-primary transition-colors hover:border-primary hover:text-primary"
+                >
                   {t('dashboard')}
                 </Link>
                 <button

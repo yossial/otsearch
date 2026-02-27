@@ -69,7 +69,7 @@ export default async function OTProfilePage({ params }: OTProfilePageProps) {
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-directional" aria-hidden="true">
             <path d="m15 18-6-6 6-6" />
           </svg>
-          חזרה לחיפוש
+          {t('backToSearch')}
         </Link>
 
         {/* Profile header */}
@@ -87,7 +87,7 @@ export default async function OTProfilePage({ params }: OTProfilePageProps) {
             <div className="flex flex-wrap items-start gap-3">
               <div>
                 <h1 className="text-2xl font-bold text-text-primary">{name}</h1>
-                <p className="text-base text-text-secondary">מרפא/ה בעיסוק</p>
+                <p className="text-base text-text-secondary">{t('otTitle')}</p>
               </div>
               <div className="flex flex-wrap gap-2">
                 {ot.subscriptionTier === 'premium' && (
@@ -171,7 +171,7 @@ export default async function OTProfilePage({ params }: OTProfilePageProps) {
                   <span className="text-2xl font-bold text-text-primary">
                     ₪{ot.feeRange.min}–₪{ot.feeRange.max}
                   </span>
-                  <span className="text-sm text-text-muted">לטיפול</span>
+                  <span className="text-sm text-text-muted">{t('feePerSession')}</span>
                 </div>
               )}
 

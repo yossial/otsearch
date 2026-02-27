@@ -8,7 +8,8 @@
     "back": "رجوع",
     "next": "التالي",
     "submit": "إرسال",
-    "search": "بحث"
+    "search": "بحث",
+    "tagline": "البحث عن معالجين وظيفيين في إسرائيل"
   },
   "nav": {
     "home": "الرئيسية",
@@ -65,7 +66,14 @@
       "meuhedet": "مئوحيدت",
       "leumit": "لئومت",
       "private": "خاص فقط"
-    }
+    },
+    "otTitle": "معالج/ة وظيفي",
+    "callButton": "اتصل",
+    "viewProfile": "عرض الملف الشخصي",
+    "insuranceLabel": "تأمين:",
+    "sessionLabel": "نوع العلاج:",
+    "feePerSession": "للجلسة",
+    "noFeeInfo": "السعر حسب الطلب"
   },
   "profile": {
     "contactPhone": "اتصال",
@@ -78,7 +86,10 @@
     "sessionTypes": "أنواع الجلسات",
     "about": "نبذة عن المعالج",
     "fees": "رسوم الجلسة",
-    "acceptingPatients": "يقبل مرضى جدد"
+    "acceptingPatients": "يقبل مرضى جدد",
+    "backToSearch": "العودة للبحث",
+    "otTitle": "معالج/ة وظيفي",
+    "feePerSession": "للجلسة"
   },
   "auth": {
     "login": {
@@ -123,6 +134,10 @@
     "last7days": "آخر 7 أيام",
     "last30days": "آخر 30 يومًا",
     "allTime": "كل الأوقات",
+    "incompleteProfile": "ملفك الشخصي غير مكتمل — أضف تفاصيلك لتظهر في نتائج البحث.",
+    "completeProfile": "أكمل ملفك الشخصي",
+    "patientAccountNotice": "هذا حساب مريض. ابحث عن معالجين وظيفيين",
+    "searchPageLink": "في صفحة البحث",
     "edit": {
       "title": "تعديل الملف الشخصي",
       "bio": "نبذة (عبري)",

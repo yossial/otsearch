@@ -18,7 +18,7 @@ export default function Footer() {
               {tCommon('appName')}
             </Link>
             <p className="text-sm text-text-muted">
-              מציאת מרפאים בעיסוק פרטיים בישראל
+              {tCommon('tagline')}
             </p>
           </div>
 

@@ -31,9 +31,11 @@ const SESSION_TYPE_LABELS: Record<string, string> = {
 interface OTCardProps {
   ot: OTProfilePublic;
   locale: string;
+  /** Translation function for the 'search' namespace, passed by the parent Server Component */
+  t: (key: string) => string;
 }
 
-export default function OTCard({ ot, locale }: OTCardProps) {
+export default function OTCard({ ot, locale, t }: OTCardProps) {
   const name =
     ot.displayName[locale as keyof typeof ot.displayName] ??
     ot.displayName.he;
@@ -67,12 +69,12 @@ export default function OTCard({ ot, locale }: OTCardProps) {
         <div className="flex flex-wrap items-start justify-between gap-2">
           <div>
             <h3 className="text-base font-bold text-text-primary">{name}</h3>
-            <p className="text-sm text-text-secondary">מרפא/ה בעיסוק</p>
+            <p className="text-sm text-text-secondary">{t('otTitle')}</p>
           </div>
           {ot.isAcceptingPatients && (
             <span className="flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-700">
               <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-              מקבל/ת מטופלים חדשים
+              {t('acceptingPatientsFilter')}
             </span>
           )}
         </div>
@@ -94,7 +96,7 @@ export default function OTCard({ ot, locale }: OTCardProps) {
 
         <div className="flex flex-wrap gap-x-4 gap-y-2">
           <div className="flex flex-wrap items-center gap-1">
-            <span className="text-xs text-text-muted">ביטוח:</span>
+            <span className="text-xs text-text-muted">{t('insuranceLabel')}</span>
             {ot.insuranceAccepted.map((ins) => (
               <span key={ins} className="rounded bg-bg-alt px-1.5 py-0.5 text-xs text-text-secondary">
                 {INSURANCE_LABELS[ins] ?? ins}
@@ -102,7 +104,7 @@ export default function OTCard({ ot, locale }: OTCardProps) {
             ))}
           </div>
           <div className="flex flex-wrap items-center gap-1">
-            <span className="text-xs text-text-muted">טיפול:</span>
+            <span className="text-xs text-text-muted">{t('sessionLabel')}</span>
             {ot.sessionTypes.map((st) => (
               <span key={st} className="rounded bg-bg-alt px-1.5 py-0.5 text-xs text-text-secondary">
                 {SESSION_TYPE_LABELS[st] ?? st}
@@ -114,9 +116,9 @@ export default function OTCard({ ot, locale }: OTCardProps) {
         <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
           <span className="text-sm font-medium text-text-secondary">
             {ot.feeRange ? (
-              <>₪{ot.feeRange.min}–₪{ot.feeRange.max}{' '}<span className="text-xs font-normal text-text-muted">לטיפול</span></>
+              <>₪{ot.feeRange.min}–₪{ot.feeRange.max}{' '}<span className="text-xs font-normal text-text-muted">{t('feePerSession')}</span></>
             ) : (
-              <span className="text-xs text-text-muted">מחיר לפי פניה</span>
+              <span className="text-xs text-text-muted">{t('noFeeInfo')}</span>
             )}
           </span>
           <div className="flex items-center gap-2">
@@ -124,10 +126,10 @@ export default function OTCard({ ot, locale }: OTCardProps) {
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.25h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.84A16 16 0 0 0 15.06 16l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
               </svg>
-              התקשר
+              {t('callButton')}
             </a>
             <Link href={`/ot/${ot.slug}`} className="rounded-lg border border-primary px-3.5 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary-light">
-              צפה בפרופיל
+              {t('viewProfile')}
             </Link>
           </div>
         </div>

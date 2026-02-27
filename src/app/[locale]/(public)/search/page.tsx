@@ -88,7 +88,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             ) : (
               <div className="flex flex-col gap-4">
                 {profiles.map((ot) => (
-                  <OTCard key={ot.id} ot={ot} locale={locale} />
+                  <OTCard key={ot.id} ot={ot} locale={locale} t={t} />
                 ))}
               </div>
             )}

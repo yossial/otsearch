@@ -24,11 +24,43 @@ export const authConfig: NextAuthConfig = {
           return NextResponse.redirect(loginUrl);
         }
       }
+
+      // Protect /[locale]/onboarding — must be logged in
+      if (/^\/(he|ar|en)\/onboarding/.test(pathname)) {
+        if (!isLoggedIn) {
+          const locale = pathname.split('/')[1] ?? 'he';
+          const loginUrl = new URL(`/${locale}/auth/login`, request.url);
+          return NextResponse.redirect(loginUrl);
+        }
+      }
+
+      // Redirect logged-in users with no role to role-select
+      // (exempts: auth pages, API routes, and the role-select page itself)
+      if (isLoggedIn) {
+        const role = (auth?.user as { role?: string | null } | undefined)?.role;
+        const isRoleSelectPage = /^\/(he|ar|en)\/auth\/role-select/.test(pathname);
+        const isAuthPage = /^\/(he|ar|en)\/auth/.test(pathname);
+        const isOnboardingPage = /^\/(he|ar|en)\/onboarding/.test(pathname);
+
+        if (!role && !isRoleSelectPage && !isAuthPage && !isOnboardingPage) {
+          const locale = pathname.split('/')[1] ?? 'he';
+          return NextResponse.redirect(
+            new URL(`/${locale}/auth/role-select`, request.url)
+          );
+        }
+      }
+
       return true;
     },
-    jwt({ token, user }) {
+    jwt({ token, user, trigger, session }) {
+      // Update token from session.update() calls (used after role selection)
+      if (trigger === 'update' && session) {
+        const s = session as { role?: string | null; otProfileId?: string | null };
+        if (s.role !== undefined) token.role = s.role;
+        if (s.otProfileId !== undefined) token.otProfileId = s.otProfileId;
+      }
       if (user) {
-        token.role = (user as { role?: string }).role;
+        token.role = (user as { role?: string | null }).role ?? null;
         token.otProfileId = (user as { otProfileId?: string | null }).otProfileId ?? null;
       }
       return token;
@@ -36,11 +68,11 @@ export const authConfig: NextAuthConfig = {
     session({ session, token }) {
       if (session.user) {
         session.user.id = token.sub!;
-        (session.user as unknown as Record<string, unknown>).role = token.role;
+        (session.user as unknown as Record<string, unknown>).role = token.role ?? null;
         (session.user as unknown as Record<string, unknown>).otProfileId = token.otProfileId;
       }
       return session;
     },
   },
-  providers: [], // Credentials provider added in auth.ts (Node.js only)
+  providers: [], // Credentials + Google providers added in auth.ts (Node.js only)
 };

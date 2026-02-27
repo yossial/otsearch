@@ -46,7 +46,7 @@ export default async function OTProfilePage({ params }: OTProfilePageProps) {
   const { slug } = await params;
   const locale = await getLocale();
 
-  let ot = await getOTBySlug(slug).catch((err: unknown) => {
+  const ot = await getOTBySlug(slug).catch((err: unknown) => {
     console.warn('[OTProfilePage] DB unavailable, falling back to mock data:', (err as Error).message);
     return getMockOTBySlug(slug);
   });

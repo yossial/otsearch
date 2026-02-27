@@ -26,9 +26,9 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
   const query: SearchParams = {
     q: sp.q,
-    specialisation: sp.specialisation,
-    insurance: sp.insurance,
-    sessionType: sp.sessionType,
+    specialisation: sp.specialisation as SearchParams['specialisation'],
+    insurance: sp.insurance as SearchParams['insurance'],
+    sessionType: sp.sessionType as SearchParams['sessionType'],
     language: sp.language,
     city: sp.city,
     acceptingOnly: sp.acceptingOnly === 'true',

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getTranslations, getLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { getOTBySlug, incrementProfileViews } from '@/lib/db/ots';
+import { getMockOTBySlug } from '@/lib/mock-search';
 
 const SPECIALTY_LABELS: Record<string, string> = {
   paediatrics: 'ילדים ופיתוח',
@@ -46,8 +47,8 @@ export default async function OTProfilePage({ params }: OTProfilePageProps) {
   const locale = await getLocale();
 
   const ot = await getOTBySlug(slug).catch((err: unknown) => {
-    console.error('[OTProfilePage] getOTBySlug failed:', err);
-    return null;
+    console.warn('[OTProfilePage] DB unavailable, falling back to mock data:', (err as Error).message);
+    return getMockOTBySlug(slug);
   });
 
   if (!ot) notFound();

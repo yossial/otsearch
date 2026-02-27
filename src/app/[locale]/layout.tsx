@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { SessionProvider } from 'next-auth/react';
 import { routing } from '@/i18n/routing';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -36,9 +37,11 @@ export default async function LocaleLayout({
     <html lang={locale} dir={dir}>
       <body className="bg-bg font-sans text-text-primary antialiased">
         <NextIntlClientProvider messages={messages}>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
+          <SessionProvider>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+          </SessionProvider>
         </NextIntlClientProvider>
       </body>
     </html>

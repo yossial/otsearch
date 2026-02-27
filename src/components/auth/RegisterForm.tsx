@@ -60,8 +60,15 @@ export default function RegisterForm() {
       }
 
       // Auto-login after registration
-      await signIn('credentials', { email: email.trim().toLowerCase(), password, redirect: false });
-      router.push('/dashboard');
+      const result = await signIn('credentials', { email: email.trim().toLowerCase(), password, redirect: false });
+      setLoading(false);
+      if (result?.error) {
+        // Registration succeeded but auto-login failed — send to login
+        router.push('/auth/login');
+        return;
+      }
+      // OTs go to their dashboard; patients can start searching
+      router.push(role === 'patient' ? '/search' : '/dashboard');
       router.refresh();
     } catch {
       setError(t('errors.required'));

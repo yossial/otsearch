@@ -271,7 +271,7 @@ export default function FilterSidebar() {
               onClick={clearAll}
               className="text-xs font-medium text-primary hover:underline"
             >
-              נקה הכל
+              {tSearch('clearFilters')}
             </button>
           )}
         </div>
@@ -345,7 +345,7 @@ export default function FilterSidebar() {
         {/* Accepting patients toggle */}
         <label className="flex cursor-pointer items-center justify-between gap-3">
           <span className="text-sm font-medium text-text-primary">
-            מקבל/ת מטופלים חדשים
+            {tSearch('acceptingPatientsFilter')}
           </span>
           <button
             type="button"

@@ -38,6 +38,8 @@
     "showFilters": "عرض الفلاتر",
     "hideFilters": "إخفاء الفلاتر",
     "activeFilters": "{count} فلاتر نشطة",
+    "clearFilters": "مسح الكل",
+    "acceptingPatientsFilter": "يقبل مرضى جدد",
     "sortBy": "ترتيب حسب",
     "sortOptions": {
       "relevance": "الصلة",
@@ -124,6 +126,7 @@
     "edit": {
       "title": "تعديل الملف الشخصي",
       "bio": "نبذة (عبري)",
+      "bioAr": "نبذة (عربي)",
       "bioEn": "نبذة (إنجليزي)",
       "city": "المدينة",
       "address": "العنوان",

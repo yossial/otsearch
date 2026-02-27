@@ -36,6 +36,7 @@ export default function ProfileEditForm({ profile }: Props) {
   const t = useTranslations('dashboard.edit');
 
   const [bioHe, setBioHe] = useState(profile.bio.he);
+  const [bioAr, setBioAr] = useState(profile.bio.ar);
   const [bioEn, setBioEn] = useState(profile.bio.en);
   const [city, setCity] = useState(profile.location.city);
   const [address, setAddress] = useState(profile.location.address);
@@ -63,7 +64,7 @@ export default function ProfileEditForm({ profile }: Props) {
     setSuccess(false);
 
     const body: Record<string, unknown> = {
-      bio: { he: bioHe, ar: profile.bio.ar, en: bioEn },
+      bio: { he: bioHe, ar: bioAr, en: bioEn },
       location: { ...profile.location, city: city.trim(), address: address.trim() },
       contactPhone: phone.trim(),
       specialisations,
@@ -104,6 +105,14 @@ export default function ProfileEditForm({ profile }: Props) {
           rows={4}
           dir="rtl"
           className="w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+        />
+        <label className="mt-3 block text-sm font-medium text-text-primary">{t('bioAr')}</label>
+        <textarea
+          value={bioAr}
+          onChange={(e) => setBioAr(e.target.value)}
+          rows={4}
+          dir="rtl"
+          className="mt-1.5 w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
         />
         <label className="mt-3 block text-sm font-medium text-text-primary">{t('bioEn')}</label>
         <textarea

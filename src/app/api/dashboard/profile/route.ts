@@ -42,6 +42,14 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ error: 'No valid fields to update' }, { status: 400 });
     }
 
+    // Auto-activate the profile once the OT provides their city — the minimum
+    // required to appear in search results. Once active, manual deactivation
+    // must be done by an admin.
+    const locationCity = (update.location as { city?: string } | undefined)?.city?.trim();
+    if (locationCity) {
+      update.isActive = true;
+    }
+
     await connectDB();
     const profile = await OTProfile.findByIdAndUpdate(
       otProfileId,

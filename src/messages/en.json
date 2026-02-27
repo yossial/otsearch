@@ -38,6 +38,8 @@
     "showFilters": "Show filters",
     "hideFilters": "Hide filters",
     "activeFilters": "{count} active filters",
+    "clearFilters": "Clear all",
+    "acceptingPatientsFilter": "Accepting new patients",
     "sortBy": "Sort by",
     "sortOptions": {
       "relevance": "Relevance",
@@ -124,6 +126,7 @@
     "edit": {
       "title": "Edit profile",
       "bio": "About (Hebrew)",
+      "bioAr": "About (Arabic)",
       "bioEn": "About (English)",
       "city": "City",
       "address": "Address",

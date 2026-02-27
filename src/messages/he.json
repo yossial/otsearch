@@ -38,6 +38,8 @@
     "showFilters": "הצג מסננים",
     "hideFilters": "הסתר מסננים",
     "activeFilters": "{count} מסננים פעילים",
+    "clearFilters": "נקה הכל",
+    "acceptingPatientsFilter": "מקבל/ת מטופלים חדשים",
     "sortBy": "מיין לפי",
     "sortOptions": {
       "relevance": "רלוונטיות",
@@ -124,6 +126,7 @@
     "edit": {
       "title": "עריכת פרופיל",
       "bio": "אודות (עברית)",
+      "bioAr": "אודות (ערבית)",
       "bioEn": "אודות (אנגלית)",
       "city": "עיר",
       "address": "כתובת",

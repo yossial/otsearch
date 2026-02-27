@@ -44,7 +44,11 @@ interface OTProfilePageProps {
 export default async function OTProfilePage({ params }: OTProfilePageProps) {
   const { slug } = await params;
   const locale = await getLocale();
-  const ot = await getOTBySlug(slug);
+
+  const ot = await getOTBySlug(slug).catch((err: unknown) => {
+    console.error('[OTProfilePage] getOTBySlug failed:', err);
+    return null;
+  });
 
   if (!ot) notFound();
 

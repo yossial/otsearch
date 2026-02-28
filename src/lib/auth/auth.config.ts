@@ -34,15 +34,15 @@ export const authConfig: NextAuthConfig = {
         }
       }
 
-      // Redirect logged-in users with no role to role-select
-      // (exempts: auth pages, API routes, and the role-select page itself)
+      // Redirect logged-in users with no role to role-select — only when
+      // accessing the dashboard. Public pages (OT profiles, home, search) are
+      // freely accessible regardless of whether a role has been chosen yet.
       if (isLoggedIn) {
         const role = (auth?.user as { role?: string | null } | undefined)?.role;
+        const isDashboardPage = /^\/(he|ar|en)\/dashboard/.test(pathname);
         const isRoleSelectPage = /^\/(he|ar|en)\/auth\/role-select/.test(pathname);
-        const isAuthPage = /^\/(he|ar|en)\/auth/.test(pathname);
-        const isOnboardingPage = /^\/(he|ar|en)\/onboarding/.test(pathname);
 
-        if (!role && !isRoleSelectPage && !isAuthPage && !isOnboardingPage) {
+        if (!role && isDashboardPage && !isRoleSelectPage) {
           const locale = pathname.split('/')[1] ?? 'he';
           return NextResponse.redirect(
             new URL(`/${locale}/auth/role-select`, request.url)

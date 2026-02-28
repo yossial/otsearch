@@ -74,7 +74,25 @@
     "insuranceLabel": "Insurance:",
     "sessionLabel": "Session:",
     "feePerSession": "per session",
-    "noFeeInfo": "Price on request"
+    "noFeeInfo": "Price on request",
+    "filtersTitle": "Filters",
+    "specialisationLabels": {
+      "paediatrics": "Paediatrics",
+      "neurological": "Neurological rehab",
+      "mental-health": "Mental health",
+      "hand-therapy": "Hand therapy",
+      "geriatrics": "Geriatrics",
+      "sensory-processing": "Sensory processing",
+      "vocational": "Vocational rehab",
+      "ergonomic": "Ergonomics"
+    },
+    "languageLabels": {
+      "he": "Hebrew",
+      "ar": "Arabic",
+      "en": "English",
+      "ru": "Russian",
+      "fr": "French"
+    }
   },
   "profile": {
     "contactPhone": "Call",
@@ -178,6 +196,7 @@
       "sessionTypeLabel": "How would you prefer to receive therapy?",
       "sessionTypeAny": "No preference"
     }
+  },
   "dashboard": {
     "title": "Dashboard",
     "profileViews": "Profile views",

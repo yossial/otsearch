@@ -5,41 +5,12 @@ import { Link } from '@/i18n/navigation';
 import { getOTBySlug, incrementProfileViews } from '@/lib/db/ots';
 import { getMockOTBySlug } from '@/lib/mock-search';
 
-const SPECIALTY_LABELS: Record<string, string> = {
-  paediatrics: 'ילדים ופיתוח',
-  neurological: 'שיקום נוירולוגי',
-  'mental-health': 'בריאות הנפש',
-  'hand-therapy': 'טיפול ביד',
-  geriatrics: 'גריאטריה',
-  'sensory-processing': 'עיבוד חושי',
-  vocational: 'שיקום תעסוקתי',
-  ergonomic: 'ארגונומיה',
-};
-
-const INSURANCE_LABELS: Record<string, string> = {
-  clalit: 'כללית',
-  maccabi: 'מכבי',
-  meuhedet: 'מאוחדת',
-  leumit: 'לאומית',
-  private: 'פרטי',
-};
-
-const SESSION_TYPE_LABELS: Record<string, string> = {
-  'in-person': 'פרונטלי',
-  telehealth: 'טלה-מדיסין',
-  'home-visit': 'ביקור בית',
-};
-
-const LANGUAGE_LABELS: Record<string, string> = {
-  he: 'עברית',
-  ar: 'ערבית',
-  en: 'אנגלית',
-  ru: 'רוסית',
-  fr: 'צרפתית',
-};
-
 interface OTProfilePageProps {
   params: Promise<{ locale: string; slug: string }>;
+}
+
+function stKey(st: string) {
+  return st === 'in-person' ? 'inPerson' : st === 'home-visit' ? 'homeVisit' : 'telehealth';
 }
 
 export default async function OTProfilePage({ params }: OTProfilePageProps) {
@@ -57,6 +28,7 @@ export default async function OTProfilePage({ params }: OTProfilePageProps) {
   incrementProfileViews(slug);
 
   const t = await getTranslations('profile');
+  const tSearch = await getTranslations('search');
 
   const name = ot.displayName[locale as keyof typeof ot.displayName] ?? ot.displayName.he;
   const bio = ot.bio[locale as keyof typeof ot.bio] ?? ot.bio.he;
@@ -64,8 +36,8 @@ export default async function OTProfilePage({ params }: OTProfilePageProps) {
   return (
     <div className="min-h-screen bg-bg">
       <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
-        {/* Back link */}
-        <Link href="/search" className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-secondary transition-colors hover:text-primary">
+        {/* Back link — home page is now the search page */}
+        <Link href="/" className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-secondary transition-colors hover:text-primary">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-directional" aria-hidden="true">
             <path d="m15 18-6-6 6-6" />
           </svg>
@@ -126,7 +98,7 @@ export default async function OTProfilePage({ params }: OTProfilePageProps) {
               <div className="flex flex-wrap gap-2">
                 {ot.specialisations.map((spec) => (
                   <span key={spec} className="rounded-full bg-primary-light px-3 py-1.5 text-sm font-medium text-primary">
-                    {SPECIALTY_LABELS[spec] ?? spec}
+                    {tSearch(`specialisationLabels.${spec}`)}
                   </span>
                 ))}
               </div>
@@ -154,7 +126,7 @@ export default async function OTProfilePage({ params }: OTProfilePageProps) {
                       </svg>
                     )}
                     <span className="text-sm font-medium text-text-primary">
-                      {SESSION_TYPE_LABELS[st] ?? st}
+                      {tSearch(`sessionTypes.${stKey(st)}`)}
                     </span>
                   </div>
                 ))}
@@ -196,7 +168,7 @@ export default async function OTProfilePage({ params }: OTProfilePageProps) {
                 <div className="flex flex-wrap gap-1.5">
                   {ot.insuranceAccepted.map((ins) => (
                     <span key={ins} className="rounded-full bg-bg-alt px-2.5 py-1 text-xs font-medium text-text-secondary">
-                      {INSURANCE_LABELS[ins] ?? ins}
+                      {tSearch(`insurance.${ins}`)}
                     </span>
                   ))}
                 </div>
@@ -210,7 +182,7 @@ export default async function OTProfilePage({ params }: OTProfilePageProps) {
                 <div className="flex flex-wrap gap-1.5">
                   {ot.languages.map((lang) => (
                     <span key={lang} className="rounded-full bg-bg-alt px-2.5 py-1 text-xs font-medium text-text-secondary">
-                      {LANGUAGE_LABELS[lang] ?? lang}
+                      {tSearch(`languageLabels.${lang}`)}
                     </span>
                   ))}
                 </div>

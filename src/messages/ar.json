@@ -74,7 +74,25 @@
     "insuranceLabel": "تأمين:",
     "sessionLabel": "نوع العلاج:",
     "feePerSession": "للجلسة",
-    "noFeeInfo": "السعر حسب الطلب"
+    "noFeeInfo": "السعر حسب الطلب",
+    "filtersTitle": "الفلاتر",
+    "specialisationLabels": {
+      "paediatrics": "طب الأطفال",
+      "neurological": "إعادة التأهيل العصبي",
+      "mental-health": "الصحة النفسية",
+      "hand-therapy": "علاج اليد",
+      "geriatrics": "طب الشيخوخة",
+      "sensory-processing": "معالجة حسية",
+      "vocational": "إعادة التأهيل المهني",
+      "ergonomic": "الإرغونوميا"
+    },
+    "languageLabels": {
+      "he": "العبرية",
+      "ar": "العربية",
+      "en": "الإنجليزية",
+      "ru": "الروسية",
+      "fr": "الفرنسية"
+    }
   },
   "profile": {
     "contactPhone": "اتصال",
@@ -178,6 +196,7 @@
       "sessionTypeLabel": "ما نوع الجلسة المفضل لديك؟",
       "sessionTypeAny": "لا يهمني"
     }
+  },
   "dashboard": {
     "title": "لوحة التحكم",
     "profileViews": "مشاهدات الملف الشخصي",

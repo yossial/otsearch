@@ -74,7 +74,25 @@
     "insuranceLabel": "ביטוח:",
     "sessionLabel": "טיפול:",
     "feePerSession": "לטיפול",
-    "noFeeInfo": "מחיר לפי פניה"
+    "noFeeInfo": "מחיר לפי פניה",
+    "filtersTitle": "מסננים",
+    "specialisationLabels": {
+      "paediatrics": "ילדים ופיתוח",
+      "neurological": "שיקום נוירולוגי",
+      "mental-health": "בריאות הנפש",
+      "hand-therapy": "טיפול ביד",
+      "geriatrics": "גריאטריה",
+      "sensory-processing": "עיבוד חושי",
+      "vocational": "שיקום תעסוקתי",
+      "ergonomic": "ארגונומיה"
+    },
+    "languageLabels": {
+      "he": "עברית",
+      "ar": "ערבית",
+      "en": "אנגלית",
+      "ru": "רוסית",
+      "fr": "צרפתית"
+    }
   },
   "profile": {
     "contactPhone": "התקשר",
@@ -178,6 +196,7 @@
       "sessionTypeLabel": "איך מעדיפים לקבל טיפול?",
       "sessionTypeAny": "לא משנה"
     }
+  },
   "dashboard": {
     "title": "לוח בקרה",
     "profileViews": "צפיות בפרופיל",

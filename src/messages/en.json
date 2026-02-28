@@ -162,8 +162,22 @@
       "mohNumber": "Ministry of Health licence number",
       "acceptingPatients": "Accepting new patients",
       "saveError": "Error saving profile"
+    },
+    "patient": {
+      "title": "Let's personalise your search",
+      "subtitle": "A few questions to help find the right therapist for you",
+      "skip": "Skip to search",
+      "findTherapists": "Show therapists",
+      "whoLabel": "Who are you looking for?",
+      "whoSelf": "Myself",
+      "whoChild": "My child",
+      "whoFamily": "A family member",
+      "specialisationsLabel": "What kind of help are you looking for? (choose as many as you like)",
+      "cityLabel": "Which city or area?",
+      "cityPlaceholder": "e.g. Tel Aviv, Jerusalem...",
+      "sessionTypeLabel": "How would you prefer to receive therapy?",
+      "sessionTypeAny": "No preference"
     }
-  },
   "dashboard": {
     "title": "Dashboard",
     "profileViews": "Profile views",

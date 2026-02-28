@@ -71,7 +71,7 @@ export default function RoleSelectClient() {
       if (role === 'ot') {
         router.push('/onboarding/ot');
       } else {
-        router.push('/');
+        router.push('/onboarding/patient');
       }
       router.refresh();
     } catch {

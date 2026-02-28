@@ -162,8 +162,22 @@
       "mohNumber": "رقم ترخيص وزارة الصحة",
       "acceptingPatients": "أقبل مرضى جدد",
       "saveError": "حدث خطأ في حفظ الملف الشخصي"
+    },
+    "patient": {
+      "title": "سنساعدك في العثور على المعالج المناسب",
+      "subtitle": "بعض الأسئلة لنجد أفضل معالج لك",
+      "skip": "تخطي إلى البحث",
+      "findTherapists": "عرض المعالجين",
+      "whoLabel": "من تبحث له/لها؟",
+      "whoSelf": "لنفسي",
+      "whoChild": "لطفلي",
+      "whoFamily": "لأحد أفراد العائلة",
+      "specialisationsLabel": "ما مجال الصعوبة؟ (يمكن اختيار أكثر من واحد)",
+      "cityLabel": "في أي مدينة أو منطقة؟",
+      "cityPlaceholder": "مثلاً: تل أبيب، حيفا...",
+      "sessionTypeLabel": "ما نوع الجلسة المفضل لديك؟",
+      "sessionTypeAny": "لا يهمني"
     }
-  },
   "dashboard": {
     "title": "لوحة التحكم",
     "profileViews": "مشاهدات الملف الشخصي",

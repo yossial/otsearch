@@ -162,8 +162,22 @@
       "mohNumber": "מספר רישיון משרד הבריאות",
       "acceptingPatients": "מקבל/ת מטופלים חדשים",
       "saveError": "שגיאה בשמירת הפרופיל"
+    },
+    "patient": {
+      "title": "נעשה לך חיפוש מותאם אישית",
+      "subtitle": "כמה שאלות כדי שנוכל למצוא את המרפא המתאים לך",
+      "skip": "דלג לחיפוש",
+      "findTherapists": "הצג מרפאים",
+      "whoLabel": "עבור מי מחפשים?",
+      "whoSelf": "עצמי",
+      "whoChild": "ילד/ה שלי",
+      "whoFamily": "בן/בת משפחה אחר/ת",
+      "specialisationsLabel": "מה תחום הקושי? (ניתן לבחור כמה)",
+      "cityLabel": "באיזו עיר/אזור?",
+      "cityPlaceholder": "לדוגמה: תל אביב, ירושלים...",
+      "sessionTypeLabel": "איך מעדיפים לקבל טיפול?",
+      "sessionTypeAny": "לא משנה"
     }
-  },
   "dashboard": {
     "title": "לוח בקרה",
     "profileViews": "צפיות בפרופיל",

@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { connectDB } from '@/lib/db';
 import { User } from '@/lib/db/models/User';
-import { OTProfile } from '@/lib/db/models/OTProfile';
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,15 +9,11 @@ export async function POST(req: NextRequest) {
       email?: string;
       password?: string;
       name?: string;
-      role?: string;
     };
-    const { email, password, name, role } = body;
+    const { email, password, name } = body;
 
-    if (!email || !password || !name || !role) {
+    if (!email || !password || !name) {
       return NextResponse.json({ error: 'required' }, { status: 400 });
-    }
-    if (!['ot', 'patient'].includes(role)) {
-      return NextResponse.json({ error: 'invalid role' }, { status: 400 });
     }
     if (password.length < 8) {
       return NextResponse.json({ error: 'passwordTooShort' }, { status: 400 });
@@ -35,47 +30,14 @@ export async function POST(req: NextRequest) {
     }
 
     const passwordHash = await bcrypt.hash(password, 12);
-    const user = await User.create({
+    // Role is null until the user completes role selection after login.
+    // OTProfile is created at that point via /api/auth/set-role.
+    await User.create({
       email: email.toLowerCase(),
       passwordHash,
       name,
-      role,
+      role: null,
     });
-
-    // For OT registrations: create a draft profile (inactive until complete)
-    if (role === 'ot') {
-      const baseSlug = name
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^\w\s-]/g, '')
-        .trim()
-        .replace(/\s+/g, '-');
-      const slug = `${baseSlug}-${String(user._id).slice(-4)}`;
-
-      const profile = await OTProfile.create({
-        slug,
-        displayName: { he: name, ar: name, en: name },
-        bio: { he: '', ar: '', en: '' },
-        mohRegistrationNumber: '',
-        specialisations: [],
-        languages: ['he'],
-        location: {
-          type: 'Point',
-          coordinates: [34.7818, 32.0853],
-          city: '',
-          address: '',
-        },
-        sessionTypes: [],
-        insuranceAccepted: [],
-        contactEmail: email.toLowerCase(),
-        contactPhone: '',
-        subscriptionTier: 'free',
-        isActive: false,
-      });
-
-      await User.updateOne({ _id: user._id }, { otProfileId: profile._id });
-    }
 
     return NextResponse.json({ ok: true }, { status: 201 });
   } catch (err) {

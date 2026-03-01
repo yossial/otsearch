@@ -4,20 +4,20 @@ declare module 'next-auth' {
   interface Session {
     user: {
       id: string;
-      role: string;
+      role: string | null; // null until role-select step is completed
       otProfileId: string | null;
     } & DefaultSession['user'];
   }
 
   interface User {
-    role: string;
+    role: string | null; // null for new users before role selection
     otProfileId: string | null;
   }
 }
 
 declare module 'next-auth/jwt' {
   interface JWT {
-    role?: string;
+    role?: string | null;
     otProfileId?: string | null;
   }
 }

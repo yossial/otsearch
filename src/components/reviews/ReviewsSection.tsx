@@ -13,11 +13,7 @@ export default async function ReviewsSection({ slug, sessionUserId, userRole }: 
   const t = await getTranslations('reviews');
   const result = await getOTReviews(slug).catch(() => null);
 
-  const canSubmit = !!sessionUserId && userRole !== 'ot';
   const hasReviews = !!result && result.total > 0;
-
-  // Hide section entirely if nothing to show
-  if (!hasReviews && !canSubmit) return null;
 
   const locale = 'en'; // server-side locale for date formatting
 

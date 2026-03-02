@@ -5,7 +5,9 @@
 import type { SortOrder } from 'mongoose';
 import { connectDB } from '@/lib/db';
 import { OTProfile } from '@/lib/db/models/OTProfile';
-import type { OTProfilePublic, SearchResult } from '@/types';
+import { Review } from '@/lib/db/models/Review';
+import { computeRatingStats } from '@/lib/ratingStats';
+import type { OTProfilePublic, SearchResult, ReviewsResult, ReviewPublic } from '@/types';
 
 function toPublic(doc: Record<string, unknown>): OTProfilePublic {
   return {
@@ -27,6 +29,8 @@ function toPublic(doc: Record<string, unknown>): OTProfilePublic {
     isFeatured: doc.isFeatured as boolean,
     isAcceptingPatients: doc.isAcceptingPatients as boolean,
     profileViews: doc.profileViews as number,
+    ratingAvg: (doc.ratingAvg as number) ?? 0,
+    ratingCount: (doc.ratingCount as number) ?? 0,
     createdAt: (doc.createdAt as Date).toISOString(),
   };
 }
@@ -99,8 +103,7 @@ export async function searchOTs(query: OTSearchQuery): Promise<SearchResult> {
     // Text-search: rank by relevance score, featured first
     sortOrder = { score: { $meta: 'textScore' }, isFeatured: -1 };
   } else if (sortBy === 'rating') {
-    // Most-viewed profiles first (profile views as engagement proxy), featured first
-    sortOrder = { profileViews: -1, isFeatured: -1 };
+    sortOrder = { ratingAvg: -1, ratingCount: -1, isFeatured: -1 };
   } else {
     // Default (relevance without query): featured, then premium tier, then newest
     sortOrder = { isFeatured: -1, subscriptionTier: -1, createdAt: -1 };
@@ -142,5 +145,59 @@ export async function getOTProfileById(id: string): Promise<OTProfilePublic | nu
 export function incrementProfileViews(slug: string): void {
   connectDB()
     .then(() => OTProfile.updateOne({ slug }, { $inc: { profileViews: 1 } }))
+    .catch(() => {});
+}
+
+/** Get paginated approved reviews for an OT profile */
+export async function getOTReviews(
+  slug: string,
+  { page = 1, limit = 10 }: { page?: number; limit?: number } = {}
+): Promise<ReviewsResult | null> {
+  await connectDB();
+  const profile = await OTProfile.findOne({ slug, isActive: true }).lean();
+  if (!profile) return null;
+
+  const filter = { otProfileId: profile._id, isApproved: true };
+  const skip = (page - 1) * limit;
+
+  const [docs, total] = await Promise.all([
+    Review.find(filter)
+      .populate('userId', 'name')
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean(),
+    Review.countDocuments(filter),
+  ]);
+
+  const reviews: ReviewPublic[] = docs.map((d) => ({
+    id: String(d._id),
+    reviewerName: (d.userId as { name?: string } | null)?.name ?? 'Anonymous',
+    rating: d.rating,
+    text: d.text,
+    createdAt: (d.createdAt as Date).toISOString(),
+  }));
+
+  return {
+    reviews,
+    total,
+    page,
+    totalPages: Math.ceil(total / limit),
+    ratingAvg: (profile.ratingAvg as number) ?? 0,
+    ratingCount: (profile.ratingCount as number) ?? 0,
+  };
+}
+
+/** Fire-and-forget: recalculate and persist ratingAvg + ratingCount on OTProfile */
+export function recalculateRatingStats(otProfileId: string): void {
+  connectDB()
+    .then(async () => {
+      const result = await Review.aggregate<{ avg: number; count: number }>([
+        { $match: { otProfileId: new (await import('mongoose')).default.Types.ObjectId(otProfileId), isApproved: true } },
+        { $group: { _id: null, avg: { $avg: '$rating' }, count: { $sum: 1 } } },
+      ]);
+      const { ratingAvg, ratingCount } = computeRatingStats(result);
+      await OTProfile.updateOne({ _id: otProfileId }, { $set: { ratingAvg, ratingCount } });
+    })
     .catch(() => {});
 }

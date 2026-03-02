@@ -30,6 +30,7 @@ const t = (key: string): string => {
     otTitle: 'מרפא/ה בעיסוק',
     acceptingPatientsFilter: 'מקבל/ת מטופלים חדשים',
     callButton: 'התקשר',
+    contactButton: 'צור קשר',
     viewProfile: 'צפה בפרופיל',
     insuranceLabel: 'ביטוח:',
     sessionLabel: 'טיפול:',
@@ -58,6 +59,8 @@ const mockProfile: OTProfilePublic = {
   isFeatured: false,
   isAcceptingPatients: true,
   profileViews: 42,
+  ratingAvg: 0,
+  ratingCount: 0,
   createdAt: '2024-01-01T00:00:00.000Z',
 };
 
@@ -81,7 +84,7 @@ describe('OTCard', () => {
 
   it('renders fee range', () => {
     render(<OTCard ot={mockProfile} locale="he" t={t} />);
-    expect(screen.getByText(/₪250/)).toBeInTheDocument();
+    expect(screen.getByText('250–400')).toBeInTheDocument();
   });
 
   it('shows accepting patients badge when isAcceptingPatients is true', () => {

@@ -70,6 +70,7 @@
     },
     "otTitle": "מרפא/ה בעיסוק",
     "callButton": "התקשר",
+    "contactButton": "צור קשר",
     "viewProfile": "צפה בפרופיל",
     "insuranceLabel": "ביטוח:",
     "sessionLabel": "טיפול:",
@@ -232,5 +233,54 @@
       "saveError": "שגיאה בשמירת הפרופיל",
       "save": "שמור שינויים"
     }
+  },
+  "reviews": {
+    "title": "ביקורות",
+    "titleWithCount": "ביקורות ({count})",
+    "noReviews": "אין ביקורות עדיין",
+    "basedOn": "על בסיס {count} ביקורות",
+    "formTitle": "השאר ביקורת",
+    "ratingLabel": "הדירוג שלך",
+    "ratingRequired": "אנא בחר דירוג",
+    "textLabel": "הביקורת שלך",
+    "textPlaceholder": "שתף את החוויה שלך עם המרפא/ה...",
+    "textTooShort": "הביקורת חייבת להכיל לפחות 20 תווים",
+    "textTooLong": "הביקורת לא יכולה לעלות על 1000 תווים",
+    "submit": "שלח ביקורת",
+    "submitting": "שולח...",
+    "submitSuccess": "תודה! הביקורת שלך התקבלה.",
+    "submitError": "שגיאה בשליחת הביקורת. נסה שוב.",
+    "alreadyReviewed": "כבר כתבת ביקורת על מרפא/ה זה.",
+    "loginPrompt": "רוצה לשתף את החוויה שלך?",
+    "loginLink": "התחבר כדי לכתוב ביקורת",
+    "otCannotReview": "מרפאים בעיסוק אינם יכולים לכתוב ביקורות.",
+    "showMore": "הצג עוד ביקורות"
+  },
+  "contact": {
+    "title": "שלח הודעה",
+    "subtitle": "צור קשר עם {name}",
+    "backToProfile": "חזרה לפרופיל",
+    "mapTitle": "מיקום",
+    "nameLabel": "שם מלא",
+    "namePlaceholder": "השם שלך",
+    "emailLabel": "כתובת אימייל",
+    "emailPlaceholder": "your@email.com",
+    "phoneLabel": "מספר טלפון",
+    "phonePlaceholder": "אופציונלי",
+    "subjectLabel": "נושא",
+    "subjects": {
+      "newPatient": "פנייה של מטופל חדש",
+      "appointment": "בקשה לתור",
+      "insurance": "שאלה על ביטוח / תשלום",
+      "general": "שאלה כללית",
+      "other": "אחר"
+    },
+    "messageLabel": "הודעה",
+    "messagePlaceholder": "שלום, אני מעוניין/ת...",
+    "submit": "שלח הודעה",
+    "sending": "שולח...",
+    "success": "ההודעה נשלחה!",
+    "successDetail": "הודעתך נשלחה ל{name}. הם יחזרו אליך בקרוב.",
+    "error": "שגיאה בשליחת ההודעה. נסה שוב."
   }
 }

@@ -70,6 +70,7 @@
     },
     "otTitle": "معالج/ة وظيفي",
     "callButton": "اتصل",
+    "contactButton": "تواصل",
     "viewProfile": "عرض الملف الشخصي",
     "insuranceLabel": "تأمين:",
     "sessionLabel": "نوع العلاج:",
@@ -232,5 +233,54 @@
       "saveError": "خطأ في حفظ الملف الشخصي",
       "save": "حفظ التغييرات"
     }
+  },
+  "reviews": {
+    "title": "التقييمات",
+    "titleWithCount": "التقييمات ({count})",
+    "noReviews": "لا توجد تقييمات بعد",
+    "basedOn": "بناءً على {count} تقييمات",
+    "formTitle": "اترك تقييماً",
+    "ratingLabel": "تقييمك",
+    "ratingRequired": "يرجى اختيار تقييم",
+    "textLabel": "مراجعتك",
+    "textPlaceholder": "شارك تجربتك مع هذا المعالج...",
+    "textTooShort": "يجب أن تحتوي المراجعة على 20 حرفاً على الأقل",
+    "textTooLong": "يجب ألا تتجاوز المراجعة 1000 حرف",
+    "submit": "إرسال التقييم",
+    "submitting": "جارٍ الإرسال...",
+    "submitSuccess": "شكراً! تم إرسال تقييمك.",
+    "submitError": "فشل إرسال التقييم. يرجى المحاولة مرة أخرى.",
+    "alreadyReviewed": "لقد قيّمت هذا المعالج من قبل.",
+    "loginPrompt": "هل تريد مشاركة تجربتك؟",
+    "loginLink": "سجّل الدخول لترك تقييم",
+    "otCannotReview": "لا يمكن للمعالجين ترك تقييمات.",
+    "showMore": "عرض المزيد من التقييمات"
+  },
+  "contact": {
+    "title": "أرسل رسالة",
+    "subtitle": "تواصل مع {name}",
+    "backToProfile": "العودة إلى الملف الشخصي",
+    "mapTitle": "الموقع",
+    "nameLabel": "الاسم الكامل",
+    "namePlaceholder": "اسمك",
+    "emailLabel": "عنوان البريد الإلكتروني",
+    "emailPlaceholder": "your@email.com",
+    "phoneLabel": "رقم الهاتف",
+    "phonePlaceholder": "اختياري",
+    "subjectLabel": "الموضوع",
+    "subjects": {
+      "newPatient": "استفسار مريض جديد",
+      "appointment": "طلب موعد",
+      "insurance": "سؤال حول التأمين / الرسوم",
+      "general": "سؤال عام",
+      "other": "أخرى"
+    },
+    "messageLabel": "الرسالة",
+    "messagePlaceholder": "مرحباً، أود...",
+    "submit": "إرسال الرسالة",
+    "sending": "جارٍ الإرسال...",
+    "success": "تم إرسال الرسالة!",
+    "successDetail": "تم إرسال رسالتك إلى {name}. سيتواصلون معك قريباً.",
+    "error": "فشل إرسال رسالتك. يرجى المحاولة مرة أخرى."
   }
 }

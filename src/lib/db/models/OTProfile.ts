@@ -30,6 +30,8 @@ export interface OTProfileDocument extends Document {
   isAcceptingPatients: boolean;
   isActive: boolean;
   profileViews: number;
+  ratingAvg: number;
+  ratingCount: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -86,6 +88,8 @@ const OTProfileSchema = new Schema<OTProfileDocument>(
     isAcceptingPatients: { type: Boolean, default: true },
     isActive: { type: Boolean, default: true },
     profileViews: { type: Number, default: 0 },
+    ratingAvg: { type: Number, default: 0, min: 0, max: 5 },
+    ratingCount: { type: Number, default: 0, min: 0 },
   },
   { timestamps: true }
 );
@@ -104,6 +108,9 @@ OTProfileSchema.index(
 
 // Geospatial index on location
 OTProfileSchema.index({ location: '2dsphere' });
+
+// Rating sort index
+OTProfileSchema.index({ ratingAvg: -1, ratingCount: -1 });
 
 export const OTProfile: Model<OTProfileDocument> =
   mongoose.models.OTProfile ??

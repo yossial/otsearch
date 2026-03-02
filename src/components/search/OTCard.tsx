@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import type { OTProfilePublic } from '@/types';
 import { cn } from '@/lib/utils';
+import StarDisplay from '@/components/reviews/StarDisplay';
 
 function stKey(st: string) {
   return st === 'in-person' ? 'inPerson' : st === 'home-visit' ? 'homeVisit' : 'telehealth';
@@ -58,6 +59,15 @@ export default function OTCard({ ot, locale, t }: OTCardProps) {
           )}
         </div>
 
+        {/* Star rating — only shown when there are reviews */}
+        {ot.ratingCount > 0 && (
+          <div className="flex items-center gap-1.5">
+            <StarDisplay rating={ot.ratingAvg} size="sm" />
+            <span className="text-sm font-medium text-text-primary">{ot.ratingAvg.toFixed(1)}</span>
+            <span className="text-sm text-text-muted">({ot.ratingCount})</span>
+          </div>
+        )}
+
         <div className="flex items-center gap-1 text-sm text-text-secondary">
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0" aria-hidden="true">
             <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" />
@@ -93,21 +103,42 @@ export default function OTCard({ ot, locale, t }: OTCardProps) {
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
-          <span className="text-sm font-medium text-text-secondary">
-            {ot.feeRange ? (
-              <>₪{ot.feeRange.min}–₪{ot.feeRange.max}{' '}<span className="text-xs font-normal text-text-muted">{t('feePerSession')}</span></>
-            ) : (
-              <span className="text-xs text-text-muted">{t('noFeeInfo')}</span>
-            )}
-          </span>
+          {ot.feeRange ? (
+            <div className="flex items-baseline gap-1">
+              <span className="text-sm font-medium text-text-muted">₪</span>
+              <span className="text-sm text-text-primary">{ot.feeRange.min}–{ot.feeRange.max}</span>
+              <span className="text-xs text-text-muted">/ {t('feePerSession')}</span>
+            </div>
+          ) : (
+            <span className="text-xs text-text-muted">{t('noFeeInfo')}</span>
+          )}
+
           <div className="flex items-center gap-2">
-            <a href={`tel:${ot.contactPhone}`} className="flex items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#0c8f8a]">
+            {/* Call — mobile only */}
+            <a
+              href={`tel:${ot.contactPhone}`}
+              className="flex items-center gap-1.5 rounded-lg border border-border px-3.5 py-2 text-sm font-semibold text-text-secondary transition-colors hover:bg-bg md:hidden"
+            >
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.25h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.84A16 16 0 0 0 15.06 16l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
               </svg>
               {t('callButton')}
             </a>
-            <Link href={`/ot/${ot.slug}`} className="rounded-lg border border-primary px-3.5 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary-light">
+            {/* Contact — links to embedded form on profile page */}
+            <Link
+              href={`/ot/${ot.slug}#contact`}
+              className="flex items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#0c8f8a]"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+              {t('contactButton')}
+            </Link>
+            {/* View profile */}
+            <Link
+              href={`/ot/${ot.slug}`}
+              className="rounded-lg border border-primary px-3.5 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary-light"
+            >
               {t('viewProfile')}
             </Link>
           </div>

@@ -70,6 +70,7 @@
     },
     "otTitle": "Occupational Therapist",
     "callButton": "Call",
+    "contactButton": "Contact",
     "viewProfile": "View profile",
     "insuranceLabel": "Insurance:",
     "sessionLabel": "Session:",
@@ -232,5 +233,54 @@
       "saveError": "Error saving profile",
       "save": "Save changes"
     }
+  },
+  "reviews": {
+    "title": "Reviews",
+    "titleWithCount": "Reviews ({count})",
+    "noReviews": "No reviews yet",
+    "basedOn": "Based on {count} reviews",
+    "formTitle": "Leave a review",
+    "ratingLabel": "Your rating",
+    "ratingRequired": "Please select a rating",
+    "textLabel": "Your review",
+    "textPlaceholder": "Share your experience with this therapist...",
+    "textTooShort": "Review must be at least 20 characters",
+    "textTooLong": "Review must be no more than 1000 characters",
+    "submit": "Submit review",
+    "submitting": "Submitting...",
+    "submitSuccess": "Thank you! Your review has been submitted.",
+    "submitError": "Failed to submit review. Please try again.",
+    "alreadyReviewed": "You have already reviewed this therapist.",
+    "loginPrompt": "Want to share your experience?",
+    "loginLink": "Log in to leave a review",
+    "otCannotReview": "Therapists cannot leave reviews.",
+    "showMore": "Show more reviews"
+  },
+  "contact": {
+    "title": "Send a message",
+    "subtitle": "Get in touch with {name}",
+    "backToProfile": "Back to profile",
+    "mapTitle": "Location",
+    "nameLabel": "Full name",
+    "namePlaceholder": "Your name",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "your@email.com",
+    "phoneLabel": "Phone number",
+    "phonePlaceholder": "Optional",
+    "subjectLabel": "Subject",
+    "subjects": {
+      "newPatient": "New patient inquiry",
+      "appointment": "Appointment request",
+      "insurance": "Insurance / fees question",
+      "general": "General question",
+      "other": "Other"
+    },
+    "messageLabel": "Message",
+    "messagePlaceholder": "Hello, I would like to...",
+    "submit": "Send message",
+    "sending": "Sending...",
+    "success": "Message sent!",
+    "successDetail": "Your message has been sent to {name}. They will be in touch shortly.",
+    "error": "Failed to send your message. Please try again."
   }
 }

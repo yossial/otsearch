@@ -2,8 +2,12 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getTranslations, getLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
+import { auth } from '@/lib/auth/auth';
 import { getOTBySlug, incrementProfileViews } from '@/lib/db/ots';
 import { getMockOTBySlug } from '@/lib/mock-search';
+import ContactForm from '@/components/contact/ContactForm';
+import StarDisplay from '@/components/reviews/StarDisplay';
+import ReviewsSection from '@/components/reviews/ReviewsSection';
 
 interface OTProfilePageProps {
   params: Promise<{ locale: string; slug: string }>;
@@ -16,6 +20,7 @@ function stKey(st: string) {
 export default async function OTProfilePage({ params }: OTProfilePageProps) {
   const { slug } = await params;
   const locale = await getLocale();
+  const session = await auth();
 
   const ot = await getOTBySlug(slug).catch((err: unknown) => {
     console.warn('[OTProfilePage] DB unavailable, falling back to mock data:', (err as Error).message);
@@ -24,19 +29,23 @@ export default async function OTProfilePage({ params }: OTProfilePageProps) {
 
   if (!ot) notFound();
 
-  // Fire-and-forget view counter — don't await
   incrementProfileViews(slug);
 
   const t = await getTranslations('profile');
   const tSearch = await getTranslations('search');
+  const tContact = await getTranslations('contact');
+  const tReviews = await getTranslations('reviews');
 
   const name = ot.displayName[locale as keyof typeof ot.displayName] ?? ot.displayName.he;
   const bio = ot.bio[locale as keyof typeof ot.bio] ?? ot.bio.he;
 
+  const sessionUserId = (session?.user as { id?: string } | undefined)?.id ?? null;
+  const userRole = (session?.user as { role?: string } | undefined)?.role ?? null;
+
   return (
     <div className="min-h-screen bg-bg">
       <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
-        {/* Back link — home page is now the search page */}
+        {/* Back link */}
         <Link href="/" className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-secondary transition-colors hover:text-primary">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-directional" aria-hidden="true">
             <path d="m15 18-6-6 6-6" />
@@ -73,6 +82,11 @@ export default async function OTProfilePage({ params }: OTProfilePageProps) {
                 )}
               </div>
             </div>
+            {ot.ratingCount > 0 && (
+              <div className="flex items-center gap-2">
+                <StarDisplay rating={ot.ratingAvg} size="sm" showNumber count={ot.ratingCount} />
+              </div>
+            )}
             <div className="flex items-center gap-1.5 text-sm text-text-secondary">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" />
@@ -132,32 +146,61 @@ export default async function OTProfilePage({ params }: OTProfilePageProps) {
                 ))}
               </div>
             </section>
+
+            {/* Reviews */}
+            <ReviewsSection slug={slug} sessionUserId={sessionUserId} userRole={userRole} />
+
+            {/* Contact form */}
+            <section id="contact" className="rounded-lg bg-surface p-6 shadow-card">
+              <h2 className="mb-1 text-lg font-semibold text-text-primary">{tContact('title')}</h2>
+              <p className="mb-6 text-sm text-text-secondary">{tContact('subtitle', { name })}</p>
+              <ContactForm otSlug={slug} otName={name} otEmail={ot.contactEmail} />
+            </section>
           </div>
 
           {/* Sidebar */}
           <aside className="flex flex-col gap-4 md:w-72 md:flex-shrink-0">
             <div className="rounded-lg bg-surface p-5 shadow-card">
-              {/* Fee */}
-              {ot.feeRange && (
-                <div className="mb-4 flex items-baseline gap-1">
-                  <span className="text-2xl font-bold text-text-primary">
-                    ₪{ot.feeRange.min}–₪{ot.feeRange.max}
-                  </span>
-                  <span className="text-sm text-text-muted">{t('feePerSession')}</span>
+              {/* Rating */}
+              {ot.ratingCount > 0 && (
+                <div className="mb-4">
+                  <StarDisplay rating={ot.ratingAvg} size="md" showNumber count={ot.ratingCount} />
+                  <p className="mt-1 text-xs text-text-muted">
+                    {tReviews('basedOn', { count: ot.ratingCount })}
+                  </p>
                 </div>
               )}
 
-              {/* Phone button */}
+              {/* Fee */}
+              {ot.feeRange && (
+                <div className="mb-4 flex items-baseline gap-1">
+                  <span className="text-sm text-text-muted">₪</span>
+                  <span className="text-base text-text-primary">{ot.feeRange.min}–{ot.feeRange.max}</span>
+                  <span className="text-xs text-text-muted">/ {t('feePerSession')}</span>
+                </div>
+              )}
+
+              {/* Contact CTA */}
               <a
-                href={`tel:${ot.contactPhone}`}
+                href="#contact"
                 className="mb-3 flex w-full items-center justify-center gap-2 rounded-lg bg-accent py-3 text-sm font-semibold text-white transition-colors hover:bg-[#0c8f8a]"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                </svg>
+                {tContact('title')}
+              </a>
+
+              {/* Call — secondary */}
+              <a
+                href={`tel:${ot.contactPhone}`}
+                className="mb-1 flex w-full items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-text-secondary transition-colors hover:bg-bg"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.25h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.84A16 16 0 0 0 15.06 16l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                 </svg>
                 {t('contactPhone')}
               </a>
-
               <p className="mb-4 text-center text-xs text-text-muted">{ot.contactPhone}</p>
 
               <div className="h-px bg-border" />

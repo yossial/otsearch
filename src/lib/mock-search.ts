@@ -63,6 +63,8 @@ function toPublic(m: (typeof MOCK_OTS)[number]): OTProfilePublic {
     isFeatured: m.isPro,
     isAcceptingPatients: m.acceptingNewPatients,
     profileViews: 0,
+    ratingAvg: 0,
+    ratingCount: 0,
     createdAt: new Date(0).toISOString(),
   };
 }

@@ -70,6 +70,7 @@
     },
     "otTitle": "Occupational Therapist",
     "callButton": "Call",
+    "messageButton": "Message",
     "viewProfile": "View profile",
     "insuranceLabel": "Insurance:",
     "sessionLabel": "Session:",
@@ -232,5 +233,32 @@
       "saveError": "Error saving profile",
       "save": "Save changes"
     }
+  },
+  "contact": {
+    "title": "Send a message",
+    "subtitle": "Get in touch with {name}",
+    "backToProfile": "Back to profile",
+    "mapTitle": "Location",
+    "nameLabel": "Full name",
+    "namePlaceholder": "Your name",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "your@email.com",
+    "phoneLabel": "Phone number",
+    "phonePlaceholder": "Optional",
+    "subjectLabel": "Subject",
+    "subjects": {
+      "newPatient": "New patient inquiry",
+      "appointment": "Appointment request",
+      "insurance": "Insurance / fees question",
+      "general": "General question",
+      "other": "Other"
+    },
+    "messageLabel": "Message",
+    "messagePlaceholder": "Hello, I would like to...",
+    "submit": "Send message",
+    "sending": "Sending...",
+    "success": "Message sent!",
+    "successDetail": "Your message has been sent to {name}. They will be in touch shortly.",
+    "error": "Failed to send your message. Please try again."
   }
 }

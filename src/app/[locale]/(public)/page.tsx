@@ -1,4 +1,4 @@
-import { getTranslations, getLocale } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import { searchOTs } from '@/lib/db/ots';
 import { searchMockOTs } from '@/lib/mock-search';
 import SearchBar from '@/components/home/SearchBar';
@@ -24,7 +24,6 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const sp = await searchParams;
   const tHome = await getTranslations('home');
   const tSearch = await getTranslations('search');
-  const locale = await getLocale();
 
   const query: SearchParams = {
     q: sp.q,
@@ -99,7 +98,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             ) : (
               <div className="flex flex-col gap-4">
                 {profiles.map((ot) => (
-                  <OTCard key={ot.id} ot={ot} locale={locale} t={tSearch} />
+                  <OTCard key={ot.id} ot={ot} />
                 ))}
               </div>
             )}

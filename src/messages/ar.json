@@ -92,7 +92,8 @@
       "en": "الإنجليزية",
       "ru": "الروسية",
       "fr": "الفرنسية"
-    }
+    },
+    "messageButton": "أرسل رسالة"
   },
   "profile": {
     "contactPhone": "اتصال",
@@ -232,5 +233,32 @@
       "saveError": "خطأ في حفظ الملف الشخصي",
       "save": "حفظ التغييرات"
     }
+  },
+  "contact": {
+    "title": "أرسل رسالة",
+    "subtitle": "تواصل مع {name}",
+    "backToProfile": "العودة إلى الملف الشخصي",
+    "mapTitle": "الموقع",
+    "nameLabel": "الاسم الكامل",
+    "namePlaceholder": "اسمك",
+    "emailLabel": "البريد الإلكتروني",
+    "emailPlaceholder": "your@email.com",
+    "phoneLabel": "رقم الهاتف",
+    "phonePlaceholder": "اختياري",
+    "subjectLabel": "الموضوع",
+    "subjects": {
+      "newPatient": "استفسار مريض جديد",
+      "appointment": "طلب موعد",
+      "insurance": "سؤال عن التأمين / الرسوم",
+      "general": "سؤال عام",
+      "other": "أخرى"
+    },
+    "messageLabel": "الرسالة",
+    "messagePlaceholder": "مرحبًا، أود...",
+    "submit": "إرسال الرسالة",
+    "sending": "جارٍ الإرسال...",
+    "success": "تم إرسال الرسالة!",
+    "successDetail": "تم إرسال رسالتك إلى {name}. سيتواصلون معك قريبًا.",
+    "error": "فشل إرسال رسالتك. يرجى المحاولة مرة أخرى."
   }
 }

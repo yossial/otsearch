@@ -20,25 +20,58 @@ A two-sided marketplace connecting private occupational therapists in Israel wit
 ### Prerequisites
 
 - Node.js 20+
-- MongoDB Atlas account (or local MongoDB)
+- Docker (for local MongoDB)
 
 ### Setup
 
+**1. Pull latest code**
 ```bash
-# Install dependencies
+git pull origin main
+```
+
+**2. Install dependencies**
+```bash
 npm install
+```
 
-# Copy env vars
+**3. Set up environment variables**
+```bash
 cp .env.example .env.local
-# Fill in .env.local with your values
+```
 
-# Start dev server
+Then generate a value for `NEXTAUTH_SECRET` in `.env.local`:
+```bash
+openssl rand -base64 32
+```
+
+The other variables (AWS, Payments, Maps, Email) can be left blank for local dev unless you're testing those features.
+
+**4. Start MongoDB**
+```bash
+npm run db:up
+```
+
+**5. (Optional) Seed the database**
+```bash
+npm run seed
+```
+
+**6. Start the dev server**
+```bash
 npm run dev
 ```
 
 The app runs at [http://localhost:3000](http://localhost:3000).
 
 Navigating to `/` will redirect to `/he/` (Hebrew default).
+
+### Troubleshooting
+
+- **Turbopack panic on startup** — another `next dev` process is already running. Kill it and clear the cache:
+  ```bash
+  taskkill //F //IM node.exe && rm -rf .next && npm run dev
+  ```
+- **Module not found errors** — dependencies are out of sync, run `npm install`.
 
 ### Commands
 
@@ -93,10 +126,10 @@ src/
 ```
 main              ← Production (protected, PR + manual approval)
 dev               ← Staging (protected, PR only)
-dev/feat/<n>      ← Feature branches
-dev/fix/<n>       ← Bug fixes
-dev/hotfix/<n>    ← Critical fixes (branch from main)
-dev/infra/<desc>  ← Infrastructure changes
+feat/<n>          ← Feature branches
+fix/<n>           ← Bug fixes
+hotfix/<n>        ← Critical fixes (branch from main)
+infra/<desc>      ← Infrastructure changes
 ```
 
 ## Environment Variables

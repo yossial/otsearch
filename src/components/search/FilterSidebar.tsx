@@ -6,39 +6,6 @@ import { useRouter, usePathname } from '@/i18n/navigation';
 import { useSearchParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
-// Values must match the Specialisation enum in src/types/index.ts
-const SPECIALTIES = [
-  { value: 'paediatrics', label: 'ילדים ופיתוח' },
-  { value: 'neurological', label: 'שיקום נוירולוגי' },
-  { value: 'mental-health', label: 'בריאות הנפש' },
-  { value: 'hand-therapy', label: 'טיפול ביד' },
-  { value: 'geriatrics', label: 'גריאטריה' },
-  { value: 'sensory-processing', label: 'עיבוד חושי' },
-] as const;
-
-// Values must match the InsuranceType enum in src/types/index.ts
-const INSURANCE_OPTIONS = [
-  { value: 'clalit', label: 'כללית' },
-  { value: 'maccabi', label: 'מכבי' },
-  { value: 'meuhedet', label: 'מאוחדת' },
-  { value: 'leumit', label: 'לאומית' },
-  { value: 'private', label: 'פרטי בלבד' },
-] as const;
-
-// Values must match the SessionType enum in src/types/index.ts
-const SESSION_TYPE_OPTIONS = [
-  { value: 'in-person', label: 'פרונטלי' },
-  { value: 'telehealth', label: 'טלה-מדיסין' },
-  { value: 'home-visit', label: 'ביקור בית' },
-] as const;
-
-const LANGUAGE_OPTIONS = [
-  { value: 'he', label: 'עברית' },
-  { value: 'ar', label: 'ערבית' },
-  { value: 'en', label: 'אנגלית' },
-  { value: 'ru', label: 'רוסית' },
-] as const;
-
 // Inline chevron — rotates 180° when section is expanded
 function ChevronIcon({ open }: { open: boolean }) {
   return (
@@ -88,8 +55,6 @@ function FunnelIcon() {
  *
  * Uses the CSS grid trick (`grid-rows-[0fr]` ↔ `grid-rows-[1fr]`) for a
  * smooth height transition without needing to know the content height.
- * The inner wrapper must have `overflow-hidden` to clip the content
- * when the row is animating to zero height.
  */
 function FilterSection({
   title,
@@ -118,7 +83,6 @@ function FilterSection({
         <ChevronIcon open={open} />
       </button>
 
-      {/* Grid trick: animates between grid-rows-[0fr] and grid-rows-[1fr] */}
       <div
         id={panelId}
         className={cn(
@@ -160,6 +124,21 @@ function CheckboxItem({
   );
 }
 
+const SPECIALTY_VALUES = [
+  'paediatrics', 'neurological', 'mental-health', 'hand-therapy',
+  'geriatrics', 'sensory-processing',
+] as const;
+
+const INSURANCE_VALUES = ['clalit', 'maccabi', 'meuhedet', 'leumit', 'private'] as const;
+
+const SESSION_TYPE_VALUES = ['in-person', 'telehealth', 'home-visit'] as const;
+
+const LANGUAGE_VALUES = ['he', 'ar', 'en', 'ru'] as const;
+
+function stKey(st: string) {
+  return st === 'in-person' ? 'inPerson' : st === 'home-visit' ? 'homeVisit' : 'telehealth';
+}
+
 export default function FilterSidebar() {
   const tSearch = useTranslations('search');
 
@@ -174,6 +153,7 @@ export default function FilterSidebar() {
   const selectedSessionTypes = searchParams.getAll('sessionType');
   const selectedLanguages = searchParams.getAll('language');
   const acceptingOnly = searchParams.get('acceptingOnly') === 'true';
+  const selectedSort = searchParams.get('sort') ?? 'relevance';
 
   // Mobile: controls whether the entire panel is visible
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -185,7 +165,7 @@ export default function FilterSidebar() {
     selectedLanguages.length +
     (acceptingOnly ? 1 : 0);
 
-  const hasFilters = activeFilterCount > 0;
+  const hasFilters = activeFilterCount > 0 || selectedSort !== 'relevance';
 
   /** Rebuild the URL with an updated multi-value param and navigate. */
   function updateFilter(param: string, values: string[]) {
@@ -204,9 +184,21 @@ export default function FilterSidebar() {
     updateFilter(param, next);
   }
 
+  function setSort(value: string) {
+    const next = new URLSearchParams(searchParams.toString());
+    if (value === 'relevance') {
+      next.delete('sort');
+    } else {
+      next.set('sort', value);
+    }
+    next.delete('page');
+    const qs = next.toString();
+    router.replace(pathname + (qs ? `?${qs}` : ''));
+  }
+
   function clearAll() {
     const next = new URLSearchParams(searchParams.toString());
-    ['specialisation', 'insurance', 'sessionType', 'language', 'acceptingOnly', 'page'].forEach(
+    ['specialisation', 'insurance', 'sessionType', 'language', 'acceptingOnly', 'sort', 'page'].forEach(
       (p) => next.delete(p)
     );
     const qs = next.toString();
@@ -263,7 +255,7 @@ export default function FilterSidebar() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <h2 className="text-base font-semibold text-text-primary">
-            {tSearch('sortBy')}
+            {tSearch('filtersTitle')}
           </h2>
           {hasFilters && (
             <button
@@ -278,15 +270,39 @@ export default function FilterSidebar() {
 
         <div className="h-px bg-border" />
 
+        {/* Sort */}
+        <div className="flex flex-col gap-2">
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-text-secondary">
+            {tSearch('sortBy')}
+          </p>
+          <div className="flex flex-col gap-1.5">
+            {(['relevance', 'rating'] as const).map((opt) => (
+              <label key={opt} className="flex cursor-pointer items-center gap-2.5">
+                <input
+                  type="radio"
+                  name="sort"
+                  value={opt}
+                  checked={selectedSort === opt}
+                  onChange={() => setSort(opt)}
+                  className="h-4 w-4 cursor-pointer accent-primary"
+                />
+                <span className="text-sm text-text-primary">{tSearch(`sortOptions.${opt}`)}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div className="h-px bg-border" />
+
         {/* Specialisation */}
         <FilterSection title={tSearch('filters.specialisation')}>
-          {SPECIALTIES.map((s) => (
+          {SPECIALTY_VALUES.map((v) => (
             <CheckboxItem
-              key={s.value}
-              label={s.label}
-              checked={selectedSpecialties.includes(s.value)}
+              key={v}
+              label={tSearch(`specialisationLabels.${v}`)}
+              checked={selectedSpecialties.includes(v)}
               onChange={() =>
-                toggleItem('specialisation', s.value, selectedSpecialties)
+                toggleItem('specialisation', v, selectedSpecialties)
               }
             />
           ))}
@@ -296,13 +312,13 @@ export default function FilterSidebar() {
 
         {/* Insurance */}
         <FilterSection title={tSearch('filters.insurance')}>
-          {INSURANCE_OPTIONS.map((opt) => (
+          {INSURANCE_VALUES.map((v) => (
             <CheckboxItem
-              key={opt.value}
-              label={opt.label}
-              checked={selectedInsurance.includes(opt.value)}
+              key={v}
+              label={tSearch(`insurance.${v}`)}
+              checked={selectedInsurance.includes(v)}
               onChange={() =>
-                toggleItem('insurance', opt.value, selectedInsurance)
+                toggleItem('insurance', v, selectedInsurance)
               }
             />
           ))}
@@ -312,13 +328,13 @@ export default function FilterSidebar() {
 
         {/* Session type */}
         <FilterSection title={tSearch('filters.sessionType')}>
-          {SESSION_TYPE_OPTIONS.map((opt) => (
+          {SESSION_TYPE_VALUES.map((v) => (
             <CheckboxItem
-              key={opt.value}
-              label={opt.label}
-              checked={selectedSessionTypes.includes(opt.value)}
+              key={v}
+              label={tSearch(`sessionTypes.${stKey(v)}`)}
+              checked={selectedSessionTypes.includes(v)}
               onChange={() =>
-                toggleItem('sessionType', opt.value, selectedSessionTypes)
+                toggleItem('sessionType', v, selectedSessionTypes)
               }
             />
           ))}
@@ -328,13 +344,13 @@ export default function FilterSidebar() {
 
         {/* Language */}
         <FilterSection title={tSearch('filters.language')}>
-          {LANGUAGE_OPTIONS.map((opt) => (
+          {LANGUAGE_VALUES.map((v) => (
             <CheckboxItem
-              key={opt.value}
-              label={opt.label}
-              checked={selectedLanguages.includes(opt.value)}
+              key={v}
+              label={tSearch(`languageLabels.${v}`)}
+              checked={selectedLanguages.includes(v)}
               onChange={() =>
-                toggleItem('language', opt.value, selectedLanguages)
+                toggleItem('language', v, selectedLanguages)
               }
             />
           ))}

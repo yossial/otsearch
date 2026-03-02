@@ -74,7 +74,25 @@
     "insuranceLabel": "ביטוח:",
     "sessionLabel": "טיפול:",
     "feePerSession": "לטיפול",
-    "noFeeInfo": "מחיר לפי פניה"
+    "noFeeInfo": "מחיר לפי פניה",
+    "filtersTitle": "מסננים",
+    "specialisationLabels": {
+      "paediatrics": "ילדים ופיתוח",
+      "neurological": "שיקום נוירולוגי",
+      "mental-health": "בריאות הנפש",
+      "hand-therapy": "טיפול ביד",
+      "geriatrics": "גריאטריה",
+      "sensory-processing": "עיבוד חושי",
+      "vocational": "שיקום תעסוקתי",
+      "ergonomic": "ארגונומיה"
+    },
+    "languageLabels": {
+      "he": "עברית",
+      "ar": "ערבית",
+      "en": "אנגלית",
+      "ru": "רוסית",
+      "fr": "צרפתית"
+    }
   },
   "profile": {
     "contactPhone": "התקשר",
@@ -104,15 +122,27 @@
     },
     "register": {
       "title": "הרשמה",
-      "asOT": "אני מרפא בעיסוק",
-      "asPatient": "אני מטופל",
       "email": "אימייל",
       "password": "סיסמה",
       "confirmPassword": "אשר סיסמה",
       "name": "שם מלא",
-      "submit": "הרשמה",
+      "submit": "צור חשבון",
       "hasAccount": "כבר יש לך חשבון?",
       "login": "כניסה"
+    },
+    "social": {
+      "continueWithGoogle": "המשך עם Google",
+      "continueWithApple": "המשך עם Apple",
+      "orContinueWith": "או המשך עם",
+      "oauthError": "שגיאה בהתחברות, נסה שנית"
+    },
+    "roleSelect": {
+      "title": "ברוך/ה הבא/ה!",
+      "subtitle": "מה מביא אותך לכאן?",
+      "therapistCard": "אני מרפא/ת בעיסוק",
+      "therapistDesc": "אני רוצה להציג את המרפאה שלי ולהתחבר עם מטופלים",
+      "patientCard": "אני מחפש/ת מרפא בעיסוק",
+      "patientDesc": "אני רוצה למצוא מרפא בעיסוק לעצמי או לבן משפחה"
     },
     "errors": {
       "invalidCredentials": "אימייל או סיסמה שגויים",
@@ -121,6 +151,50 @@
       "invalidEmail": "כתובת אימייל לא תקינה",
       "passwordTooShort": "הסיסמה חייבת להכיל לפחות 8 תווים",
       "passwordMismatch": "הסיסמאות אינן תואמות"
+    }
+  },
+  "onboarding": {
+    "ot": {
+      "title": "בואו נקים את הפרופיל שלך",
+      "subtitle": "כמה פרטים ותופיע בתוצאות החיפוש",
+      "step": "שלב {current} מתוך {total}",
+      "step1Title": "פרטים בסיסיים",
+      "step2Title": "מיקום ותחומי התמחות",
+      "step3Title": "פרטי קשר ותנאים",
+      "next": "הבא",
+      "back": "חזור",
+      "finish": "סיים ועבור ללוח הבקרה",
+      "displayNameHe": "שם תצוגה (עברית) *",
+      "displayNameEn": "שם תצוגה (אנגלית)",
+      "displayNameAr": "שם תצוגה (ערבית)",
+      "languages": "שפות טיפול *",
+      "city": "עיר *",
+      "address": "כתובת",
+      "specialisations": "תחומי התמחות *",
+      "sessionTypes": "סוגי טיפול *",
+      "insurance": "קופות חולים",
+      "phone": "טלפון *",
+      "email": "אימייל ליצירת קשר",
+      "feeMin": "מחיר מינימום לטיפול (₪)",
+      "feeMax": "מחיר מקסימום לטיפול (₪)",
+      "mohNumber": "מספר רישיון משרד הבריאות",
+      "acceptingPatients": "מקבל/ת מטופלים חדשים",
+      "saveError": "שגיאה בשמירת הפרופיל"
+    },
+    "patient": {
+      "title": "נעשה לך חיפוש מותאם אישית",
+      "subtitle": "כמה שאלות כדי שנוכל למצוא את המרפא המתאים לך",
+      "skip": "דלג לחיפוש",
+      "findTherapists": "הצג מרפאים",
+      "whoLabel": "עבור מי מחפשים?",
+      "whoSelf": "עצמי",
+      "whoChild": "ילד/ה שלי",
+      "whoFamily": "בן/בת משפחה אחר/ת",
+      "specialisationsLabel": "מה תחום הקושי? (ניתן לבחור כמה)",
+      "cityLabel": "באיזו עיר/אזור?",
+      "cityPlaceholder": "לדוגמה: תל אביב, ירושלים...",
+      "sessionTypeLabel": "איך מעדיפים לקבל טיפול?",
+      "sessionTypeAny": "לא משנה"
     }
   },
   "dashboard": {

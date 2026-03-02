@@ -74,7 +74,25 @@
     "insuranceLabel": "Insurance:",
     "sessionLabel": "Session:",
     "feePerSession": "per session",
-    "noFeeInfo": "Price on request"
+    "noFeeInfo": "Price on request",
+    "filtersTitle": "Filters",
+    "specialisationLabels": {
+      "paediatrics": "Paediatrics",
+      "neurological": "Neurological rehab",
+      "mental-health": "Mental health",
+      "hand-therapy": "Hand therapy",
+      "geriatrics": "Geriatrics",
+      "sensory-processing": "Sensory processing",
+      "vocational": "Vocational rehab",
+      "ergonomic": "Ergonomics"
+    },
+    "languageLabels": {
+      "he": "Hebrew",
+      "ar": "Arabic",
+      "en": "English",
+      "ru": "Russian",
+      "fr": "French"
+    }
   },
   "profile": {
     "contactPhone": "Call",
@@ -104,15 +122,27 @@
     },
     "register": {
       "title": "Create an account",
-      "asOT": "I am an occupational therapist",
-      "asPatient": "I am a patient",
       "email": "Email",
       "password": "Password",
       "confirmPassword": "Confirm password",
       "name": "Full name",
-      "submit": "Register",
+      "submit": "Create account",
       "hasAccount": "Already have an account?",
       "login": "Log in"
+    },
+    "social": {
+      "continueWithGoogle": "Continue with Google",
+      "continueWithApple": "Continue with Apple",
+      "orContinueWith": "or continue with",
+      "oauthError": "Sign-in error, please try again"
+    },
+    "roleSelect": {
+      "title": "Welcome!",
+      "subtitle": "What brings you here?",
+      "therapistCard": "I'm an occupational therapist",
+      "therapistDesc": "I want to list my practice and connect with clients",
+      "patientCard": "I'm looking for a therapist",
+      "patientDesc": "I want to find an occupational therapist for myself or a family member"
     },
     "errors": {
       "invalidCredentials": "Invalid email or password",
@@ -121,6 +151,50 @@
       "invalidEmail": "Invalid email address",
       "passwordTooShort": "Password must be at least 8 characters",
       "passwordMismatch": "Passwords do not match"
+    }
+  },
+  "onboarding": {
+    "ot": {
+      "title": "Let's set up your profile",
+      "subtitle": "A few details and you'll appear in search results",
+      "step": "Step {current} of {total}",
+      "step1Title": "Basic information",
+      "step2Title": "Location & specialisations",
+      "step3Title": "Contact & fees",
+      "next": "Next",
+      "back": "Back",
+      "finish": "Finish and go to dashboard",
+      "displayNameHe": "Display name (Hebrew) *",
+      "displayNameEn": "Display name (English)",
+      "displayNameAr": "Display name (Arabic)",
+      "languages": "Treatment languages *",
+      "city": "City *",
+      "address": "Address",
+      "specialisations": "Specialisations *",
+      "sessionTypes": "Session types *",
+      "insurance": "Insurance accepted",
+      "phone": "Phone *",
+      "email": "Contact email",
+      "feeMin": "Min session fee (₪)",
+      "feeMax": "Max session fee (₪)",
+      "mohNumber": "Ministry of Health licence number",
+      "acceptingPatients": "Accepting new patients",
+      "saveError": "Error saving profile"
+    },
+    "patient": {
+      "title": "Let's personalise your search",
+      "subtitle": "A few questions to help find the right therapist for you",
+      "skip": "Skip to search",
+      "findTherapists": "Show therapists",
+      "whoLabel": "Who are you looking for?",
+      "whoSelf": "Myself",
+      "whoChild": "My child",
+      "whoFamily": "A family member",
+      "specialisationsLabel": "What kind of help are you looking for? (choose as many as you like)",
+      "cityLabel": "Which city or area?",
+      "cityPlaceholder": "e.g. Tel Aviv, Jerusalem...",
+      "sessionTypeLabel": "How would you prefer to receive therapy?",
+      "sessionTypeAny": "No preference"
     }
   },
   "dashboard": {

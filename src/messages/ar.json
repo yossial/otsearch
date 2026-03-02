@@ -74,7 +74,25 @@
     "insuranceLabel": "تأمين:",
     "sessionLabel": "نوع العلاج:",
     "feePerSession": "للجلسة",
-    "noFeeInfo": "السعر حسب الطلب"
+    "noFeeInfo": "السعر حسب الطلب",
+    "filtersTitle": "الفلاتر",
+    "specialisationLabels": {
+      "paediatrics": "طب الأطفال",
+      "neurological": "إعادة التأهيل العصبي",
+      "mental-health": "الصحة النفسية",
+      "hand-therapy": "علاج اليد",
+      "geriatrics": "طب الشيخوخة",
+      "sensory-processing": "معالجة حسية",
+      "vocational": "إعادة التأهيل المهني",
+      "ergonomic": "الإرغونوميا"
+    },
+    "languageLabels": {
+      "he": "العبرية",
+      "ar": "العربية",
+      "en": "الإنجليزية",
+      "ru": "الروسية",
+      "fr": "الفرنسية"
+    }
   },
   "profile": {
     "contactPhone": "اتصال",
@@ -104,15 +122,27 @@
     },
     "register": {
       "title": "إنشاء حساب",
-      "asOT": "أنا معالج وظيفي",
-      "asPatient": "أنا مريض",
       "email": "البريد الإلكتروني",
       "password": "كلمة المرور",
       "confirmPassword": "تأكيد كلمة المرور",
       "name": "الاسم الكامل",
-      "submit": "التسجيل",
+      "submit": "إنشاء حساب",
       "hasAccount": "لديك حساب بالفعل؟",
       "login": "تسجيل الدخول"
+    },
+    "social": {
+      "continueWithGoogle": "المتابعة مع Google",
+      "continueWithApple": "المتابعة مع Apple",
+      "orContinueWith": "أو المتابعة مع",
+      "oauthError": "حدث خطأ في تسجيل الدخول، حاول مرة أخرى"
+    },
+    "roleSelect": {
+      "title": "مرحباً بك!",
+      "subtitle": "ما الذي يجلبك إلى هنا؟",
+      "therapistCard": "أنا معالج/ة وظيفي/ة",
+      "therapistDesc": "أريد عرض عيادتي والتواصل مع المرضى",
+      "patientCard": "أبحث عن معالج وظيفي",
+      "patientDesc": "أريد إيجاد معالج وظيفي لنفسي أو لأحد أفراد أسرتي"
     },
     "errors": {
       "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
@@ -121,6 +151,50 @@
       "invalidEmail": "عنوان البريد الإلكتروني غير صالح",
       "passwordTooShort": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
       "passwordMismatch": "كلمتا المرور غير متطابقتين"
+    }
+  },
+  "onboarding": {
+    "ot": {
+      "title": "لنبني ملفك الشخصي",
+      "subtitle": "بعض التفاصيل وستظهر في نتائج البحث",
+      "step": "الخطوة {current} من {total}",
+      "step1Title": "المعلومات الأساسية",
+      "step2Title": "الموقع والتخصصات",
+      "step3Title": "بيانات الاتصال والشروط",
+      "next": "التالي",
+      "back": "رجوع",
+      "finish": "إنهاء والانتقال إلى لوحة التحكم",
+      "displayNameHe": "اسم العرض (عبري) *",
+      "displayNameEn": "اسم العرض (إنجليزي)",
+      "displayNameAr": "اسم العرض (عربي)",
+      "languages": "لغات العلاج *",
+      "city": "المدينة *",
+      "address": "العنوان",
+      "specialisations": "تخصصات العلاج *",
+      "sessionTypes": "أنواع الجلسات *",
+      "insurance": "صناديق المرضى المقبولة",
+      "phone": "رقم الهاتف *",
+      "email": "البريد الإلكتروني للتواصل",
+      "feeMin": "الحد الأدنى لرسوم الجلسة (₪)",
+      "feeMax": "الحد الأقصى لرسوم الجلسة (₪)",
+      "mohNumber": "رقم ترخيص وزارة الصحة",
+      "acceptingPatients": "أقبل مرضى جدد",
+      "saveError": "حدث خطأ في حفظ الملف الشخصي"
+    },
+    "patient": {
+      "title": "سنساعدك في العثور على المعالج المناسب",
+      "subtitle": "بعض الأسئلة لنجد أفضل معالج لك",
+      "skip": "تخطي إلى البحث",
+      "findTherapists": "عرض المعالجين",
+      "whoLabel": "من تبحث له/لها؟",
+      "whoSelf": "لنفسي",
+      "whoChild": "لطفلي",
+      "whoFamily": "لأحد أفراد العائلة",
+      "specialisationsLabel": "ما مجال الصعوبة؟ (يمكن اختيار أكثر من واحد)",
+      "cityLabel": "في أي مدينة أو منطقة؟",
+      "cityPlaceholder": "مثلاً: تل أبيب، حيفا...",
+      "sessionTypeLabel": "ما نوع الجلسة المفضل لديك؟",
+      "sessionTypeAny": "لا يهمني"
     }
   },
   "dashboard": {

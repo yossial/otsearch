@@ -3,30 +3,9 @@ import { Link } from '@/i18n/navigation';
 import type { OTProfilePublic } from '@/types';
 import { cn } from '@/lib/utils';
 
-const SPECIALTY_LABELS: Record<string, string> = {
-  paediatrics: 'ילדים ופיתוח',
-  neurological: 'שיקום נוירולוגי',
-  'mental-health': 'בריאות הנפש',
-  'hand-therapy': 'טיפול ביד',
-  geriatrics: 'גריאטריה',
-  'sensory-processing': 'עיבוד חושי',
-  vocational: 'שיקום תעסוקתי',
-  ergonomic: 'ארגונומיה',
-};
-
-const INSURANCE_LABELS: Record<string, string> = {
-  clalit: 'כללית',
-  maccabi: 'מכבי',
-  meuhedet: 'מאוחדת',
-  leumit: 'לאומית',
-  private: 'פרטי',
-};
-
-const SESSION_TYPE_LABELS: Record<string, string> = {
-  'in-person': 'פרונטלי',
-  telehealth: 'טלה-מדיסין',
-  'home-visit': 'ביקור בית',
-};
+function stKey(st: string) {
+  return st === 'in-person' ? 'inPerson' : st === 'home-visit' ? 'homeVisit' : 'telehealth';
+}
 
 interface OTCardProps {
   ot: OTProfilePublic;
@@ -89,7 +68,7 @@ export default function OTCard({ ot, locale, t }: OTCardProps) {
         <div className="flex flex-wrap gap-1.5">
           {ot.specialisations.slice(0, 3).map((spec) => (
             <span key={spec} className="rounded-full bg-primary-light px-2.5 py-0.5 text-xs font-medium text-primary">
-              {SPECIALTY_LABELS[spec] ?? spec}
+              {t(`specialisationLabels.${spec}`)}
             </span>
           ))}
         </div>
@@ -99,7 +78,7 @@ export default function OTCard({ ot, locale, t }: OTCardProps) {
             <span className="text-xs text-text-muted">{t('insuranceLabel')}</span>
             {ot.insuranceAccepted.map((ins) => (
               <span key={ins} className="rounded bg-bg-alt px-1.5 py-0.5 text-xs text-text-secondary">
-                {INSURANCE_LABELS[ins] ?? ins}
+                {t(`insurance.${ins}`)}
               </span>
             ))}
           </div>
@@ -107,7 +86,7 @@ export default function OTCard({ ot, locale, t }: OTCardProps) {
             <span className="text-xs text-text-muted">{t('sessionLabel')}</span>
             {ot.sessionTypes.map((st) => (
               <span key={st} className="rounded bg-bg-alt px-1.5 py-0.5 text-xs text-text-secondary">
-                {SESSION_TYPE_LABELS[st] ?? st}
+                {t(`sessionTypes.${stKey(st)}`)}
               </span>
             ))}
           </div>

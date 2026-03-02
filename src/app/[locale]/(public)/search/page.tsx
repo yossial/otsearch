@@ -15,6 +15,7 @@ interface SearchPageProps {
     language?: string | string[];
     city?: string;
     acceptingOnly?: string;
+    sort?: string;
     page?: string;
   }>;
 }
@@ -32,6 +33,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     language: sp.language,
     city: sp.city,
     acceptingOnly: sp.acceptingOnly === 'true',
+    sort: sp.sort as SearchParams['sort'],
     page: sp.page ? parseInt(sp.page, 10) : 1,
     limit: 20,
   };

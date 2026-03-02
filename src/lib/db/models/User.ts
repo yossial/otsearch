@@ -3,8 +3,8 @@ import type { UserRole } from '@/types';
 
 export interface UserDocument extends Document {
   email: string;
-  passwordHash: string;
-  role: UserRole;
+  passwordHash: string; // empty string for OAuth-only users
+  role: UserRole | null; // null until the user completes role selection
   name: string;
   emailVerified: boolean;
   emailVerifyToken: string | null;
@@ -19,8 +19,8 @@ export interface UserDocument extends Document {
 const UserSchema = new Schema<UserDocument>(
   {
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    passwordHash: { type: String, required: true },
-    role: { type: String, enum: ['ot', 'patient', 'admin'], required: true },
+    passwordHash: { type: String, default: '' },
+    role: { type: String, enum: ['ot', 'patient', 'admin', null], default: null },
     name: { type: String, required: true },
     emailVerified: { type: Boolean, default: false },
     emailVerifyToken: { type: String, default: null },

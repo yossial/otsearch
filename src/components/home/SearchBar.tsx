@@ -18,14 +18,14 @@ export default function SearchBar() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex w-full items-center gap-2 rounded-xl border border-border bg-surface px-4 py-3 shadow-[0_2px_8px_rgba(91,63,212,0.08)]"
+      className="flex w-full items-center gap-2 rounded-xl border border-border bg-surface px-4 py-3 shadow-[0_2px_8px_rgba(91,63,212,0.08)] transition-[border-color,box-shadow] duration-150 focus-within:border-primary focus-within:shadow-[0_0_0_3px_rgba(91,63,212,0.12),0_2px_8px_rgba(91,63,212,0.08)]"
     >
       <input
         type="search"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder={t('searchPlaceholder')}
-        className="flex-1 bg-transparent text-base text-text-primary outline-none placeholder:text-text-muted"
+        className="flex-1 border-0 bg-transparent text-base text-text-primary outline-none ring-0 focus:border-0 focus:outline-none focus:ring-0 placeholder:text-text-muted"
       />
       <button
         type="submit"

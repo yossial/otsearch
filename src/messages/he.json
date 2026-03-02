@@ -92,7 +92,8 @@
       "en": "אנגלית",
       "ru": "רוסית",
       "fr": "צרפתית"
-    }
+    },
+    "messageButton": "שלח הודעה"
   },
   "profile": {
     "contactPhone": "התקשר",
@@ -232,5 +233,32 @@
       "saveError": "שגיאה בשמירת הפרופיל",
       "save": "שמור שינויים"
     }
+  },
+  "contact": {
+    "title": "שלח הודעה",
+    "subtitle": "צור קשר עם {name}",
+    "backToProfile": "חזרה לפרופיל",
+    "mapTitle": "מיקום",
+    "nameLabel": "שם מלא",
+    "namePlaceholder": "השם שלך",
+    "emailLabel": "כתובת אימייל",
+    "emailPlaceholder": "your@email.com",
+    "phoneLabel": "מספר טלפון",
+    "phonePlaceholder": "אופציונלי",
+    "subjectLabel": "נושא",
+    "subjects": {
+      "newPatient": "פניית מטופל חדש",
+      "appointment": "בקשה לקביעת תור",
+      "insurance": "שאלה על קופות חולים / עלויות",
+      "general": "שאלה כללית",
+      "other": "אחר"
+    },
+    "messageLabel": "הודעה",
+    "messagePlaceholder": "שלום, הייתי רוצה...",
+    "submit": "שלח הודעה",
+    "sending": "שולח...",
+    "success": "ההודעה נשלחה!",
+    "successDetail": "הודעתך נשלחה לـ {name}. הם יחזרו אליך בהקדם.",
+    "error": "שגיאה בשליחת ההודעה. נסה שנית."
   }
 }

@@ -1,5 +1,4 @@
 import { getTranslations } from 'next-intl/server';
-import { getLocale } from 'next-intl/server';
 import { searchOTs } from '@/lib/db/ots';
 import { searchMockOTs } from '@/lib/mock-search';
 import OTCard from '@/components/search/OTCard';
@@ -23,7 +22,6 @@ interface SearchPageProps {
 export default async function SearchPage({ searchParams }: SearchPageProps) {
   const sp = await searchParams;
   const t = await getTranslations('search');
-  const locale = await getLocale();
 
   const query: SearchParams = {
     q: sp.q,
@@ -90,7 +88,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             ) : (
               <div className="flex flex-col gap-4">
                 {profiles.map((ot) => (
-                  <OTCard key={ot.id} ot={ot} locale={locale} t={t} />
+                  <OTCard key={ot.id} ot={ot} />
                 ))}
               </div>
             )}

@@ -15,6 +15,7 @@ vi.mock('@/i18n/navigation', () => ({
   Link: ({ href, children, ...props }: { href: string; children: React.ReactNode; [key: string]: unknown }) => (
     <a href={href} {...props}>{children}</a>
   ),
+  useRouter: () => ({ push: vi.fn() }),
 }));
 
 // Mock @/lib/utils
@@ -22,23 +23,25 @@ vi.mock('@/lib/utils', () => ({
   cn: (...args: unknown[]) => args.filter(Boolean).join(' '),
 }));
 
-import OTCard from '../OTCard';
+// Mock next-intl hooks
+vi.mock('next-intl', () => ({
+  useTranslations: (_ns: string) => (key: string) => {
+    const map: Record<string, string> = {
+      otTitle: 'מרפא/ה בעיסוק',
+      acceptingPatientsFilter: 'מקבל/ת מטופלים חדשים',
+      messageButton: 'הודעה',
+      viewProfile: 'צפה בפרופיל',
+      insuranceLabel: 'ביטוח:',
+      sessionLabel: 'טיפול:',
+      feePerSession: 'לטיפול',
+      noFeeInfo: 'מחיר לפי פניה',
+    };
+    return map[key] ?? key;
+  },
+  useLocale: () => 'he',
+}));
 
-/** Minimal translation stub for the 'search' namespace */
-const t = (key: string): string => {
-  const map: Record<string, string> = {
-    otTitle: 'מרפא/ה בעיסוק',
-    acceptingPatientsFilter: 'מקבל/ת מטופלים חדשים',
-    callButton: 'התקשר',
-    contactButton: 'צור קשר',
-    viewProfile: 'צפה בפרופיל',
-    insuranceLabel: 'ביטוח:',
-    sessionLabel: 'טיפול:',
-    feePerSession: 'לטיפול',
-    noFeeInfo: 'מחיר לפי פניה',
-  };
-  return map[key] ?? key;
-};
+import OTCard from '../OTCard';
 
 const mockProfile: OTProfilePublic = {
   id: '1',
@@ -65,46 +68,45 @@ const mockProfile: OTProfilePublic = {
 };
 
 describe('OTCard', () => {
-  it('renders the OT name in the given locale', () => {
-    render(<OTCard ot={mockProfile} locale="en" t={t} />);
-    expect(screen.getByText('Dr. Test')).toBeInTheDocument();
+  it('renders the OT name', () => {
+    render(<OTCard ot={mockProfile} />);
+    expect(screen.getByText('ד"ר בדיקה')).toBeInTheDocument();
   });
 
   it('falls back to Hebrew name when locale name is missing', () => {
-    const noFr = { ...mockProfile, displayName: { he: 'ד"ר בדיקה', ar: 'د. اختبار', en: '' } };
-    render(<OTCard ot={noFr} locale="fr" t={t} />);
-    // locale 'fr' not in displayName keys → fallback to .he
+    const noEn = { ...mockProfile, displayName: { he: 'ד"ר בדיקה', ar: 'د. اختبار', en: '' } };
+    render(<OTCard ot={noEn} />);
     expect(screen.getByText('ד"ר בדיקה')).toBeInTheDocument();
   });
 
   it('renders the city', () => {
-    render(<OTCard ot={mockProfile} locale="he" t={t} />);
+    render(<OTCard ot={mockProfile} />);
     expect(screen.getByText('תל אביב')).toBeInTheDocument();
   });
 
   it('renders fee range', () => {
-    render(<OTCard ot={mockProfile} locale="he" t={t} />);
+    render(<OTCard ot={mockProfile} />);
     expect(screen.getByText('250–400')).toBeInTheDocument();
   });
 
   it('shows accepting patients badge when isAcceptingPatients is true', () => {
-    render(<OTCard ot={mockProfile} locale="he" t={t} />);
+    render(<OTCard ot={mockProfile} />);
     expect(screen.getByText(/מקבל/)).toBeInTheDocument();
   });
 
   it('shows PRO badge for premium subscription', () => {
     const premium = { ...mockProfile, subscriptionTier: 'premium' as const };
-    render(<OTCard ot={premium} locale="he" t={t} />);
+    render(<OTCard ot={premium} />);
     expect(screen.getByText('PRO')).toBeInTheDocument();
   });
 
   it('does not show PRO badge for free subscription', () => {
-    render(<OTCard ot={mockProfile} locale="he" t={t} />);
+    render(<OTCard ot={mockProfile} />);
     expect(screen.queryByText('PRO')).not.toBeInTheDocument();
   });
 
   it('renders a link to the OT profile page', () => {
-    render(<OTCard ot={mockProfile} locale="he" t={t} />);
+    render(<OTCard ot={mockProfile} />);
     const link = screen.getByRole('link', { name: /פרופיל/i });
     expect(link).toHaveAttribute('href', '/ot/dr-test');
   });

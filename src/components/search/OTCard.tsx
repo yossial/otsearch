@@ -1,5 +1,9 @@
+'use client';
+
 import Image from 'next/image';
-import { Link } from '@/i18n/navigation';
+import { useRouter, Link } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import type { OTProfilePublic } from '@/types';
 import { cn } from '@/lib/utils';
 import StarDisplay from '@/components/reviews/StarDisplay';
@@ -8,33 +12,24 @@ function stKey(st: string) {
   return st === 'in-person' ? 'inPerson' : st === 'home-visit' ? 'homeVisit' : 'telehealth';
 }
 
-interface OTCardProps {
-  ot: OTProfilePublic;
-  locale: string;
-  /** Translation function for the 'search' namespace, passed by the parent Server Component */
-  t: (key: string) => string;
-}
+export default function OTCard({ ot }: { ot: OTProfilePublic }) {
+  const t = useTranslations('search');
+  const locale = useLocale();
+  const router = useRouter();
 
-export default function OTCard({ ot, locale, t }: OTCardProps) {
   const name =
-    ot.displayName[locale as keyof typeof ot.displayName] ??
-    ot.displayName.he;
+    ot.displayName[locale as keyof typeof ot.displayName] ?? ot.displayName.he;
 
   const isPremium = ot.subscriptionTier === 'premium';
 
   return (
     <article
+      onClick={() => router.push(`/ot/${ot.slug}`)}
       className={cn(
-        'relative flex flex-col gap-4 rounded-lg bg-surface p-5 shadow-card transition-shadow duration-200 hover:shadow-card-hover',
+        'flex cursor-pointer flex-col gap-4 rounded-lg bg-surface p-5 shadow-card transition-shadow duration-200 hover:shadow-card-hover',
         'sm:flex-row sm:items-start'
       )}
     >
-      {isPremium && (
-        <span className="absolute end-4 top-4 rounded-full bg-primary px-2.5 py-0.5 text-xs font-semibold text-white">
-          PRO
-        </span>
-      )}
-
       <div className="flex-shrink-0">
         <Image
           src={ot.photo ?? `https://i.pravatar.cc/150?u=${ot.slug}`}
@@ -51,12 +46,19 @@ export default function OTCard({ ot, locale, t }: OTCardProps) {
             <h3 className="text-base font-bold text-text-primary">{name}</h3>
             <p className="text-sm text-text-secondary">{t('otTitle')}</p>
           </div>
-          {ot.isAcceptingPatients && (
-            <span className="flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-700">
-              <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-              {t('acceptingPatientsFilter')}
-            </span>
-          )}
+          <div className="flex flex-wrap items-center gap-2">
+            {ot.isAcceptingPatients && (
+              <span className="flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-700">
+                <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+                {t('acceptingPatientsFilter')}
+              </span>
+            )}
+            {isPremium && (
+              <span className="rounded-full bg-primary px-2.5 py-0.5 text-xs font-semibold text-white">
+                PRO
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Star rating — only shown when there are reviews */}
@@ -112,29 +114,16 @@ export default function OTCard({ ot, locale, t }: OTCardProps) {
           ) : (
             <span className="text-xs text-text-muted">{t('noFeeInfo')}</span>
           )}
-
-          <div className="flex items-center gap-2">
-            {/* Call — mobile only */}
-            <a
-              href={`tel:${ot.contactPhone}`}
-              className="flex items-center gap-1.5 rounded-lg border border-border px-3.5 py-2 text-sm font-semibold text-text-secondary transition-colors hover:bg-bg md:hidden"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.25h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.84A16 16 0 0 0 15.06 16l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-              </svg>
-              {t('callButton')}
-            </a>
-            {/* Contact — links to embedded form on profile page */}
+          <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
             <Link
-              href={`/ot/${ot.slug}#contact`}
+              href={`/ot/${ot.slug}/contact`}
               className="flex items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#0c8f8a]"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
               </svg>
-              {t('contactButton')}
+              {t('messageButton')}
             </Link>
-            {/* View profile */}
             <Link
               href={`/ot/${ot.slug}`}
               className="rounded-lg border border-primary px-3.5 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary-light"

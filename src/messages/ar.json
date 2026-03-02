@@ -93,7 +93,8 @@
       "en": "الإنجليزية",
       "ru": "الروسية",
       "fr": "الفرنسية"
-    }
+    },
+    "messageButton": "أرسل رسالة"
   },
   "profile": {
     "contactPhone": "اتصال",
@@ -263,7 +264,7 @@
     "mapTitle": "الموقع",
     "nameLabel": "الاسم الكامل",
     "namePlaceholder": "اسمك",
-    "emailLabel": "عنوان البريد الإلكتروني",
+    "emailLabel": "البريد الإلكتروني",
     "emailPlaceholder": "your@email.com",
     "phoneLabel": "رقم الهاتف",
     "phonePlaceholder": "اختياري",
@@ -271,16 +272,16 @@
     "subjects": {
       "newPatient": "استفسار مريض جديد",
       "appointment": "طلب موعد",
-      "insurance": "سؤال حول التأمين / الرسوم",
+      "insurance": "سؤال عن التأمين / الرسوم",
       "general": "سؤال عام",
       "other": "أخرى"
     },
     "messageLabel": "الرسالة",
-    "messagePlaceholder": "مرحباً، أود...",
+    "messagePlaceholder": "مرحبًا، أود...",
     "submit": "إرسال الرسالة",
     "sending": "جارٍ الإرسال...",
     "success": "تم إرسال الرسالة!",
-    "successDetail": "تم إرسال رسالتك إلى {name}. سيتواصلون معك قريباً.",
+    "successDetail": "تم إرسال رسالتك إلى {name}. سيتواصلون معك قريبًا.",
     "error": "فشل إرسال رسالتك. يرجى المحاولة مرة أخرى."
   }
 }

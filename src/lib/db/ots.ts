@@ -2,7 +2,7 @@
  * Data access layer for OT profiles.
  * Used directly by Server Components and API route handlers.
  */
-import type { SortOrder } from 'mongoose';
+import type { SortOrder } from 'mongoose'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import { connectDB } from '@/lib/db';
 import { OTProfile } from '@/lib/db/models/OTProfile';
 import { Review } from '@/lib/db/models/Review';
@@ -70,9 +70,21 @@ export async function searchOTs(query: OTSearchQuery): Promise<SearchResult> {
 
   const filter: Record<string, unknown> = { isActive: true };
 
-  // Text search
+  // Search across all relevant fields using case-insensitive regex
   if (q?.trim()) {
-    filter.$text = { $search: q.trim() };
+    const regex = { $regex: q.trim(), $options: 'i' };
+    filter.$or = [
+      { 'displayName.he': regex },
+      { 'displayName.en': regex },
+      { 'displayName.ar': regex },
+      { 'bio.he': regex },
+      { 'bio.en': regex },
+      { 'location.city': regex },
+      { specialisations: regex },
+      { insuranceAccepted: regex },
+      { sessionTypes: regex },
+      { languages: regex },
+    ];
   }
 
   // City filter (case-insensitive)
@@ -105,12 +117,11 @@ export async function searchOTs(query: OTSearchQuery): Promise<SearchResult> {
   } else if (sortBy === 'rating') {
     sortOrder = { ratingAvg: -1, ratingCount: -1, isFeatured: -1 };
   } else {
-    // Default (relevance without query): featured, then premium tier, then newest
     sortOrder = { isFeatured: -1, subscriptionTier: -1, createdAt: -1 };
   }
 
   const [docs, total] = await Promise.all([
-    OTProfile.find(filter, q?.trim() ? { score: { $meta: 'textScore' } } : {})
+    OTProfile.find(filter)
       .sort(sortOrder)
       .skip(skip)
       .limit(limit)

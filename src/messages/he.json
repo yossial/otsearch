@@ -93,7 +93,8 @@
       "en": "אנגלית",
       "ru": "רוסית",
       "fr": "צרפתית"
-    }
+    },
+    "messageButton": "שלח הודעה"
   },
   "profile": {
     "contactPhone": "התקשר",
@@ -269,18 +270,18 @@
     "phonePlaceholder": "אופציונלי",
     "subjectLabel": "נושא",
     "subjects": {
-      "newPatient": "פנייה של מטופל חדש",
-      "appointment": "בקשה לתור",
-      "insurance": "שאלה על ביטוח / תשלום",
+      "newPatient": "פניית מטופל חדש",
+      "appointment": "בקשה לקביעת תור",
+      "insurance": "שאלה על קופות חולים / עלויות",
       "general": "שאלה כללית",
       "other": "אחר"
     },
     "messageLabel": "הודעה",
-    "messagePlaceholder": "שלום, אני מעוניין/ת...",
+    "messagePlaceholder": "שלום, הייתי רוצה...",
     "submit": "שלח הודעה",
     "sending": "שולח...",
     "success": "ההודעה נשלחה!",
-    "successDetail": "הודעתך נשלחה ל{name}. הם יחזרו אליך בקרוב.",
-    "error": "שגיאה בשליחת ההודעה. נסה שוב."
+    "successDetail": "הודעתך נשלחה לـ {name}. הם יחזרו אליך בהקדם.",
+    "error": "שגיאה בשליחת ההודעה. נסה שנית."
   }
 }

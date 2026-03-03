@@ -60,7 +60,6 @@ export default function ContactForm({ otSlug, otName, otEmail }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      {/* Name + Email */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="fromName" className={labelClass}>
@@ -92,7 +91,6 @@ export default function ContactForm({ otSlug, otName, otEmail }: Props) {
         </div>
       </div>
 
-      {/* Phone + Subject */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="fromPhone" className={labelClass}>
@@ -127,7 +125,6 @@ export default function ContactForm({ otSlug, otName, otEmail }: Props) {
         </div>
       </div>
 
-      {/* Message */}
       <div>
         <label htmlFor="message" className={labelClass}>
           {t('messageLabel')} <span className="text-red-500">*</span>

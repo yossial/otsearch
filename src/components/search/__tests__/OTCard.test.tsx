@@ -25,7 +25,7 @@ vi.mock('@/lib/utils', () => ({
 
 // Mock next-intl hooks
 vi.mock('next-intl', () => ({
-  useTranslations: (_ns: string) => (key: string) => {
+  useTranslations: () => (key: string) => {
     const map: Record<string, string> = {
       otTitle: 'מרפא/ה בעיסוק',
       acceptingPatientsFilter: 'מקבל/ת מטופלים חדשים',
@@ -62,6 +62,8 @@ const mockProfile: OTProfilePublic = {
   isFeatured: false,
   isAcceptingPatients: true,
   profileViews: 42,
+  ratingAvg: 0,
+  ratingCount: 0,
   createdAt: '2024-01-01T00:00:00.000Z',
 };
 

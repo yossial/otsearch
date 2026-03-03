@@ -8,6 +8,8 @@
 import 'dotenv/config';
 import mongoose from 'mongoose';
 import { OTProfile } from '../src/lib/db/models/OTProfile';
+import { Review } from '../src/lib/db/models/Review';
+import { User } from '../src/lib/db/models/User';
 
 const MONGODB_URI = process.env.MONGODB_URI ?? 'mongodb://localhost:27017/otsearch';
 
@@ -495,6 +497,86 @@ async function seed() {
   }
 
   console.log(`Seed complete: ${created} created, ${updated} updated, ${profiles.length} total.`);
+
+  // ── Seed patient users ────────────────────────────────────────────────────
+  console.log('\nSeeding patient users...');
+  const seedPatientDefs = [
+    { email: 'yael.cohen@seed.therapio.co.il', name: 'Yael Cohen' },
+    { email: 'roi.benmoshe@seed.therapio.co.il', name: 'Roi Ben-Moshe' },
+    { email: 'nadia.petrov@seed.therapio.co.il', name: 'Nadia Petrov' },
+  ];
+
+  const patientDocs = await Promise.all(
+    seedPatientDefs.map((p) =>
+      User.findOneAndUpdate(
+        { email: p.email },
+        { $setOnInsert: { ...p, passwordHash: '', role: 'patient', emailVerified: true } },
+        { upsert: true, new: true }
+      )
+    )
+  );
+  const [yael, roi, nadia] = patientDocs;
+  console.log(`  Patient users ready: ${patientDocs.map((u) => u!.name).join(', ')}`);
+
+  // ── Seed reviews ──────────────────────────────────────────────────────────
+  console.log('\nSeeding reviews...');
+
+  const reviewDefs = [
+    // michal-cohen — avg 4.5 (2 reviews)
+    { slug: 'michal-cohen', userId: yael!._id, rating: 5, text: 'מיכל מדהימה! הילד שלי עשה קפיצת מדרגה עצומה תוך חודשיים בלבד. הגישה המבוססת משחק שלה שמרה עליו מעוניין ומתקדם כל הזמן. ממליצה בחום לכל הורה שמחפש ריפוי בעיסוק לילדים.' },
+    { slug: 'michal-cohen', userId: roi!._id, rating: 4, text: 'מקצועית מאוד ויש לה ידע רב בעיבוד חושי. קצת קשה לקבל תורים בגלל הביקוש הגבוה, אבל שווה את ההמתנה. הבת שלי נהנית מהטיפולים וכבר רואים שיפור משמעותי.' },
+    // yosef-levi — avg 5.0 (2 reviews)
+    { slug: 'yosef-levi', userId: yael!._id, rating: 5, text: 'יוסף עזר לאמא שלי להתאושש מהר מהשבץ. הוא מסביר הכל בצורה ברורה, סבלני ומעודד. כבר לאחר שישה טיפולים היא יכולה לבצע פעולות יומיומיות שחשבנו שלא תחזור אליהן. מרפא מצוין בכל הקריטריונים.' },
+    { slug: 'yosef-levi', userId: nadia!._id, rating: 5, text: 'Professional and very attentive to my father\'s specific needs post-Parkinson\'s diagnosis. Yosef creates personalised exercises and follows up between sessions. We have seen remarkable improvement in fine motor skills and daily independence. Highly recommend.' },
+    // hana-shapira — avg 4.0 (2 reviews)
+    { slug: 'hana-shapira', userId: roi!._id, rating: 4, text: 'חנה מקצועית מאוד ויש לה ניסיון עשיר עם קשישים. הסבתא שלי מגיעה לטיפולים בשמחה, וזה אומר הכל. הייתי שמח אם שעות הקבלה היו גמישות יותר, אבל הטיפול עצמו מצוין.' },
+    { slug: 'hana-shapira', userId: nadia!._id, rating: 4, text: 'Excellent geriatric specialist. Hana helped my grandmother regain confidence after her hip replacement surgery. The home visit option was invaluable for us. Communication is clear and she always listens to family concerns.' },
+    // orna-friedman — avg 4.5 (2 reviews)
+    { slug: 'orna-friedman', userId: nadia!._id, rating: 5, text: 'אורנה היא מרפאה ברמה הגבוהה ביותר. עבדה עם בעלי לאחר תאונת דרכים עם פגיעת ראש, ותוצאות הטיפול חרגו מכל הציפיות שלנו. היא משלבת ניסיון עשיר עם שיטות מתקדמות וטכנולוגיה. בלתי ניתן לדמיין טוב ממנה.' },
+    { slug: 'orna-friedman', userId: yael!._id, rating: 4, text: 'Senior therapist with vast knowledge. My husband benefited greatly from her neurological rehabilitation programme. Very structured approach, great communication with the medical team. Slightly long waiting list but worth it.' },
+    // rachel-stern — avg 5.0 (2 reviews)
+    { slug: 'rachel-stern', userId: roi!._id, rating: 5, text: 'רחל מומחית ב-SI ברמה בינלאומית. הבן שלי עם SPD לא רצה לצאת מהטיפולים — זה סימן לאיכות של מרפא. תוך שלושה חודשים ראינו שינוי דרמטי בוויסות הרגשי ובהתנהגות שלו בגן.' },
+    { slug: 'rachel-stern', userId: yael!._id, rating: 5, text: 'Rachel is exceptional — her ASI certification really shows in practice. My daughter has autism spectrum and Rachel found exactly the right sensory diet for her. The clinic environment is thoughtfully designed. Best investment we made for our child.' },
+    // eli-ben-david — avg 5.0 (1 review)
+    { slug: 'eli-ben-david', userId: roi!._id, rating: 5, text: 'אלי עובד עם הבן שלי עם שיתוק מוחי כבר שנה וחצי. הוא מביא אנרגיה מדהימה, אבל גם ידע רציני ומחויבות אמיתית. גן הילדים שלנו ציין שיפור משמעותי בתפקוד, ואנחנו בטוחים שזה בזכות הטיפול אצל אלי.' },
+    // dan-zarchi — avg 4.0 (1 review)
+    { slug: 'dan-zarchi', userId: nadia!._id, rating: 4, text: 'Dan helped me significantly with cognitive rehabilitation following a workplace accident. His structured approach to memory and executive function training gave me practical tools I use daily. Professional, knowledgeable and encouraging throughout the process.' },
+  ];
+
+  // Group by slug to process OT by OT
+  const slugsWithReviews = [...new Set(reviewDefs.map((r) => r.slug))];
+
+  let reviewsCreated = 0;
+  let reviewsUpdated = 0;
+
+  for (const slug of slugsWithReviews) {
+    const profile = await OTProfile.findOne({ slug }).lean();
+    if (!profile) { console.warn(`  Profile not found: ${slug} — skipping`); continue; }
+
+    const defs = reviewDefs.filter((r) => r.slug === slug);
+
+    for (const def of defs) {
+      const res = await Review.updateOne(
+        { userId: def.userId, otProfileId: profile._id },
+        { $set: { rating: def.rating, text: def.text, isApproved: true } },
+        { upsert: true }
+      );
+      if (res.upsertedCount) reviewsCreated++;
+      else if (res.modifiedCount) reviewsUpdated++;
+    }
+
+    // Recalculate rating stats
+    const agg = await Review.aggregate<{ avg: number; count: number }>([
+      { $match: { otProfileId: profile._id, isApproved: true } },
+      { $group: { _id: null, avg: { $avg: '$rating' }, count: { $sum: 1 } } },
+    ]);
+    const ratingAvg = agg.length ? Math.round(agg[0].avg * 10) / 10 : 0;
+    const ratingCount = agg.length ? agg[0].count : 0;
+    await OTProfile.updateOne({ _id: profile._id }, { $set: { ratingAvg, ratingCount } });
+    console.log(`  ${slug}: ${ratingCount} reviews, avg ${ratingAvg}`);
+  }
+
+  console.log(`\nReviews: ${reviewsCreated} created, ${reviewsUpdated} updated.`);
   await mongoose.disconnect();
 }
 

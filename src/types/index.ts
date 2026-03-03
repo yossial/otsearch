@@ -62,7 +62,26 @@ export interface OTProfilePublic {
   isFeatured: boolean;
   isAcceptingPatients: boolean;
   profileViews: number;
+  ratingAvg: number;
+  ratingCount: number;
   createdAt: string;
+}
+
+export interface ReviewPublic {
+  id: string;
+  reviewerName: string;
+  rating: number;
+  text: string;
+  createdAt: string;
+}
+
+export interface ReviewsResult {
+  reviews: ReviewPublic[];
+  total: number;
+  page: number;
+  totalPages: number;
+  ratingAvg: number;
+  ratingCount: number;
 }
 
 export interface SearchParams {

@@ -234,6 +234,28 @@
       "save": "Save changes"
     }
   },
+  "reviews": {
+    "title": "Reviews",
+    "titleWithCount": "Reviews ({count})",
+    "noReviews": "No reviews yet",
+    "basedOn": "Based on {count} reviews",
+    "formTitle": "Leave a review",
+    "ratingLabel": "Your rating",
+    "ratingRequired": "Please select a rating",
+    "textLabel": "Your review",
+    "textPlaceholder": "Share your experience with this therapist...",
+    "textTooShort": "Review must be at least 20 characters",
+    "textTooLong": "Review must be no more than 1000 characters",
+    "submit": "Submit review",
+    "submitting": "Submitting...",
+    "submitSuccess": "Thank you! Your review has been submitted.",
+    "submitError": "Failed to submit review. Please try again.",
+    "alreadyReviewed": "You have already reviewed this therapist.",
+    "loginPrompt": "Want to share your experience?",
+    "loginLink": "Log in to leave a review",
+    "otCannotReview": "Therapists cannot leave reviews.",
+    "showMore": "Show more reviews"
+  },
   "contact": {
     "title": "Send a message",
     "subtitle": "Get in touch with {name}",

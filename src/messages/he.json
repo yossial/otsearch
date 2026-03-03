@@ -70,6 +70,7 @@
     },
     "otTitle": "מרפא/ה בעיסוק",
     "callButton": "התקשר",
+    "contactButton": "צור קשר",
     "viewProfile": "צפה בפרופיל",
     "insuranceLabel": "ביטוח:",
     "sessionLabel": "טיפול:",
@@ -233,6 +234,28 @@
       "saveError": "שגיאה בשמירת הפרופיל",
       "save": "שמור שינויים"
     }
+  },
+  "reviews": {
+    "title": "ביקורות",
+    "titleWithCount": "ביקורות ({count})",
+    "noReviews": "אין ביקורות עדיין",
+    "basedOn": "על בסיס {count} ביקורות",
+    "formTitle": "השאר ביקורת",
+    "ratingLabel": "הדירוג שלך",
+    "ratingRequired": "אנא בחר דירוג",
+    "textLabel": "הביקורת שלך",
+    "textPlaceholder": "שתף את החוויה שלך עם המרפא/ה...",
+    "textTooShort": "הביקורת חייבת להכיל לפחות 20 תווים",
+    "textTooLong": "הביקורת לא יכולה לעלות על 1000 תווים",
+    "submit": "שלח ביקורת",
+    "submitting": "שולח...",
+    "submitSuccess": "תודה! הביקורת שלך התקבלה.",
+    "submitError": "שגיאה בשליחת הביקורת. נסה שוב.",
+    "alreadyReviewed": "כבר כתבת ביקורת על מרפא/ה זה.",
+    "loginPrompt": "רוצה לשתף את החוויה שלך?",
+    "loginLink": "התחבר כדי לכתוב ביקורת",
+    "otCannotReview": "מרפאים בעיסוק אינם יכולים לכתוב ביקורות.",
+    "showMore": "הצג עוד ביקורות"
   },
   "contact": {
     "title": "שלח הודעה",

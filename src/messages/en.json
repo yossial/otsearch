@@ -23,8 +23,8 @@
   },
   "home": {
     "heroTitle": "Find the right occupational therapist for you",
-    "heroSubtitle": "Private OTs across Israel, searchable by specialisation, Kupat Holim and location",
-    "searchPlaceholder": "Specialisation or OT name...",
+    "heroSubtitle": "Private therapists across Israel, searchable by specialisation, Kupat Holim and location",
+    "searchPlaceholder": "Specialisation or therapist name...",
     "searchButton": "Search",
     "quickFilters": {
       "paediatrics": "Paediatrics",
@@ -68,7 +68,7 @@
       "leumit": "Leumit",
       "private": "Private pay"
     },
-    "otTitle": "Occupational Therapist",
+    "therapistTitle": "Occupational Therapist",
     "callButton": "Call",
     "messageButton": "Message",
     "viewProfile": "View profile",
@@ -108,7 +108,7 @@
     "fees": "Session fees",
     "acceptingPatients": "Accepting new patients",
     "backToSearch": "Back to search",
-    "otTitle": "Occupational Therapist",
+    "therapistTitle": "Occupational Therapist",
     "feePerSession": "per session"
   },
   "auth": {
@@ -137,14 +137,6 @@
       "orContinueWith": "or continue with",
       "oauthError": "Sign-in error, please try again"
     },
-    "roleSelect": {
-      "title": "Welcome!",
-      "subtitle": "What brings you here?",
-      "therapistCard": "I'm an occupational therapist",
-      "therapistDesc": "I want to list my practice and connect with clients",
-      "patientCard": "I'm looking for a therapist",
-      "patientDesc": "I want to find an occupational therapist for myself or a family member"
-    },
     "errors": {
       "invalidCredentials": "Invalid email or password",
       "emailExists": "This email is already registered",
@@ -155,7 +147,7 @@
     }
   },
   "onboarding": {
-    "ot": {
+    "therapist": {
       "title": "Let's set up your profile",
       "subtitle": "A few details and you'll appear in search results",
       "step": "Step {current} of {total}",
@@ -181,21 +173,6 @@
       "mohNumber": "Ministry of Health licence number",
       "acceptingPatients": "Accepting new patients",
       "saveError": "Error saving profile"
-    },
-    "patient": {
-      "title": "Let's personalise your search",
-      "subtitle": "A few questions to help find the right therapist for you",
-      "skip": "Skip to search",
-      "findTherapists": "Show therapists",
-      "whoLabel": "Who are you looking for?",
-      "whoSelf": "Myself",
-      "whoChild": "My child",
-      "whoFamily": "A family member",
-      "specialisationsLabel": "What kind of help are you looking for? (choose as many as you like)",
-      "cityLabel": "Which city or area?",
-      "cityPlaceholder": "e.g. Tel Aviv, Jerusalem...",
-      "sessionTypeLabel": "How would you prefer to receive therapy?",
-      "sessionTypeAny": "No preference"
     }
   },
   "dashboard": {
@@ -212,8 +189,6 @@
     "allTime": "All time",
     "incompleteProfile": "Your profile is not complete — add your details to appear in search results.",
     "completeProfile": "Complete your profile",
-    "patientAccountNotice": "This is a patient account. Find occupational therapists",
-    "searchPageLink": "on the search page",
     "edit": {
       "title": "Edit profile",
       "bio": "About (Hebrew)",

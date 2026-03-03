@@ -37,7 +37,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           email: string;
           name: string;
           role: string | null;
-          otProfileId: unknown;
+          therapistProfileId: unknown;
           passwordHash: string;
         };
 
@@ -55,7 +55,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           email: u.email,
           name: u.name,
           role: u.role,
-          otProfileId: u.otProfileId ? String(u.otProfileId) : null,
+          therapistProfileId: u.therapistProfileId ? String(u.therapistProfileId) : null,
         };
       },
     }),
@@ -70,7 +70,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           let dbUser = await User.findOne({ email: user.email?.toLowerCase() }).lean();
 
           if (!dbUser) {
-            // New OAuth user — create without a role (set in role-select step)
+            // New OAuth user — created without a role; onboarding sets it
             const created = await User.create({
               email: user.email?.toLowerCase(),
               name: user.name ?? user.email?.split('@')[0] ?? 'User',
@@ -83,15 +83,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           const u = dbUser as {
             _id: unknown;
             role: string | null;
-            otProfileId: unknown;
+            therapistProfileId: unknown;
           };
 
           // Attach DB identity to the NextAuth user object so jwt() can read it
           (user as unknown as Record<string, unknown>).id = String(u._id);
           (user as unknown as Record<string, unknown>).role = u.role ?? null;
-          (user as unknown as Record<string, unknown>).otProfileId = u.otProfileId
-            ? String(u.otProfileId)
-            : null;
+          (user as unknown as Record<string, unknown>).therapistProfileId =
+            u.therapistProfileId ? String(u.therapistProfileId) : null;
         } catch {
           return false;
         }

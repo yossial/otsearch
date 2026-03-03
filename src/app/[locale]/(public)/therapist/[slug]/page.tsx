@@ -3,13 +3,13 @@ import { notFound } from 'next/navigation';
 import { getTranslations, getLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { auth } from '@/lib/auth/auth';
-import { getOTBySlug, incrementProfileViews } from '@/lib/db/ots';
-import { getMockOTBySlug } from '@/lib/mock-search';
+import { getTherapistBySlug, incrementProfileViews } from '@/lib/db/therapists';
+import { getMockTherapistBySlug } from '@/lib/mock-search';
 import ContactForm from '@/components/contact/ContactForm';
 import StarDisplay from '@/components/reviews/StarDisplay';
 import ReviewsSection from '@/components/reviews/ReviewsSection';
 
-interface OTProfilePageProps {
+interface TherapistProfilePageProps {
   params: Promise<{ locale: string; slug: string }>;
 }
 
@@ -17,14 +17,14 @@ function stKey(st: string) {
   return st === 'in-person' ? 'inPerson' : st === 'home-visit' ? 'homeVisit' : 'telehealth';
 }
 
-export default async function OTProfilePage({ params }: OTProfilePageProps) {
+export default async function TherapistProfilePage({ params }: TherapistProfilePageProps) {
   const { slug } = await params;
   const locale = await getLocale();
   const session = await auth();
 
-  const ot = await getOTBySlug(slug).catch((err: unknown) => {
-    console.warn('[OTProfilePage] DB unavailable, falling back to mock data:', (err as Error).message);
-    return getMockOTBySlug(slug);
+  const ot = await getTherapistBySlug(slug).catch((err: unknown) => {
+    console.warn('[TherapistProfilePage] DB unavailable, falling back to mock data:', (err as Error).message);
+    return getMockTherapistBySlug(slug);
   });
 
   if (!ot) notFound();
@@ -68,7 +68,7 @@ export default async function OTProfilePage({ params }: OTProfilePageProps) {
             <div className="flex flex-wrap items-start gap-3">
               <div>
                 <h1 className="text-2xl font-bold text-text-primary">{name}</h1>
-                <p className="text-base text-text-secondary">{t('otTitle')}</p>
+                <p className="text-base text-text-secondary">{t('therapistTitle')}</p>
               </div>
               <div className="flex flex-wrap gap-2">
                 {ot.subscriptionTier === 'premium' && (

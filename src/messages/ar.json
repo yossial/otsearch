@@ -68,7 +68,7 @@
       "leumit": "لئومت",
       "private": "خاص فقط"
     },
-    "otTitle": "معالج/ة وظيفي",
+    "therapistTitle": "معالج/ة وظيفي",
     "callButton": "اتصل",
     "contactButton": "تواصل",
     "viewProfile": "عرض الملف الشخصي",
@@ -109,7 +109,7 @@
     "fees": "رسوم الجلسة",
     "acceptingPatients": "يقبل مرضى جدد",
     "backToSearch": "العودة للبحث",
-    "otTitle": "معالج/ة وظيفي",
+    "therapistTitle": "معالج/ة وظيفي",
     "feePerSession": "للجلسة"
   },
   "auth": {
@@ -138,14 +138,6 @@
       "orContinueWith": "أو المتابعة مع",
       "oauthError": "حدث خطأ في تسجيل الدخول، حاول مرة أخرى"
     },
-    "roleSelect": {
-      "title": "مرحباً بك!",
-      "subtitle": "ما الذي يجلبك إلى هنا؟",
-      "therapistCard": "أنا معالج/ة وظيفي/ة",
-      "therapistDesc": "أريد عرض عيادتي والتواصل مع المرضى",
-      "patientCard": "أبحث عن معالج وظيفي",
-      "patientDesc": "أريد إيجاد معالج وظيفي لنفسي أو لأحد أفراد أسرتي"
-    },
     "errors": {
       "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
       "emailExists": "هذا البريد الإلكتروني مسجل بالفعل",
@@ -156,7 +148,7 @@
     }
   },
   "onboarding": {
-    "ot": {
+    "therapist": {
       "title": "لنبني ملفك الشخصي",
       "subtitle": "بعض التفاصيل وستظهر في نتائج البحث",
       "step": "الخطوة {current} من {total}",
@@ -182,21 +174,6 @@
       "mohNumber": "رقم ترخيص وزارة الصحة",
       "acceptingPatients": "أقبل مرضى جدد",
       "saveError": "حدث خطأ في حفظ الملف الشخصي"
-    },
-    "patient": {
-      "title": "سنساعدك في العثور على المعالج المناسب",
-      "subtitle": "بعض الأسئلة لنجد أفضل معالج لك",
-      "skip": "تخطي إلى البحث",
-      "findTherapists": "عرض المعالجين",
-      "whoLabel": "من تبحث له/لها؟",
-      "whoSelf": "لنفسي",
-      "whoChild": "لطفلي",
-      "whoFamily": "لأحد أفراد العائلة",
-      "specialisationsLabel": "ما مجال الصعوبة؟ (يمكن اختيار أكثر من واحد)",
-      "cityLabel": "في أي مدينة أو منطقة؟",
-      "cityPlaceholder": "مثلاً: تل أبيب، حيفا...",
-      "sessionTypeLabel": "ما نوع الجلسة المفضل لديك؟",
-      "sessionTypeAny": "لا يهمني"
     }
   },
   "dashboard": {
@@ -213,8 +190,6 @@
     "allTime": "كل الأوقات",
     "incompleteProfile": "ملفك الشخصي غير مكتمل — أضف تفاصيلك لتظهر في نتائج البحث.",
     "completeProfile": "أكمل ملفك الشخصي",
-    "patientAccountNotice": "هذا حساب مريض. ابحث عن معالجين وظيفيين",
-    "searchPageLink": "في صفحة البحث",
     "edit": {
       "title": "تعديل الملف الشخصي",
       "bio": "نبذة (عبري)",

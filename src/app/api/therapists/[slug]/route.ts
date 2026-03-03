@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getOTBySlug, incrementProfileViews } from '@/lib/db/ots';
+import { getTherapistBySlug, incrementProfileViews } from '@/lib/db/therapists';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,7 +9,7 @@ export async function GET(
 ) {
   try {
     const { slug } = await params;
-    const profile = await getOTBySlug(slug);
+    const profile = await getTherapistBySlug(slug);
 
     if (!profile) {
       return NextResponse.json({ error: 'Not found' }, { status: 404 });
@@ -20,7 +20,7 @@ export async function GET(
 
     return NextResponse.json(profile);
   } catch (err) {
-    console.error('[GET /api/ots/[slug]]', err);
+    console.error('[GET /api/therapists/[slug]]', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

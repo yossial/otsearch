@@ -41,7 +41,7 @@ function AppleIcon() {
   );
 }
 
-export default function SocialAuthButtons({ callbackUrl = '/auth/role-select' }: SocialAuthButtonsProps) {
+export default function SocialAuthButtons({ callbackUrl = '/onboarding/therapist' }: SocialAuthButtonsProps) {
   const t = useTranslations('auth');
   const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState('');

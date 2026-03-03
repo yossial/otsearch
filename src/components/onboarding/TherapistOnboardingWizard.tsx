@@ -124,7 +124,7 @@ function TextInput({
 // ─── Progress bar ──────────────────────────────────────────────────────────
 
 function ProgressBar({ currentStep, totalSteps, stepTitle }: { currentStep: number; totalSteps: number; stepTitle: string }) {
-  const t = useTranslations('onboarding.ot');
+  const t = useTranslations('onboarding.therapist');
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between text-sm">
@@ -148,7 +148,7 @@ function ProgressBar({ currentStep, totalSteps, stepTitle }: { currentStep: numb
 function Step1({
   data, onChange,
 }: { data: Step1Data; onChange: (d: Partial<Step1Data>) => void }) {
-  const t = useTranslations('onboarding.ot');
+  const t = useTranslations('onboarding.therapist');
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-1.5">
@@ -207,7 +207,7 @@ function Step1({
 function Step2({
   data, onChange,
 }: { data: Step2Data; onChange: (d: Partial<Step2Data>) => void }) {
-  const t = useTranslations('onboarding.ot');
+  const t = useTranslations('onboarding.therapist');
   return (
     <div className="flex flex-col gap-5">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -280,7 +280,7 @@ function Step2({
 function Step3({
   data, onChange,
 }: { data: Step3Data; onChange: (d: Partial<Step3Data>) => void }) {
-  const t = useTranslations('onboarding.ot');
+  const t = useTranslations('onboarding.therapist');
   return (
     <div className="flex flex-col gap-5">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -387,8 +387,8 @@ function Step3({
 
 const TOTAL_STEPS = 3;
 
-export default function OTOnboardingWizard({ otProfileId }: { otProfileId: string }) {
-  const t = useTranslations('onboarding.ot');
+export default function TherapistOnboardingWizard({ therapistProfileId }: { therapistProfileId: string }) {
+  const t = useTranslations('onboarding.therapist');
   const router = useRouter();
 
   const [step, setStep] = useState(1);
@@ -487,8 +487,8 @@ export default function OTOnboardingWizard({ otProfileId }: { otProfileId: strin
       payload.mohRegistrationNumber = step3.mohNumber.trim();
     }
 
-    // Use _ to avoid unused var warning — otProfileId is passed but auth is session-based
-    void otProfileId;
+    // Use _ to avoid unused var warning — therapistProfileId is passed but auth is session-based
+    void therapistProfileId;
 
     try {
       const res = await fetch('/api/dashboard/profile', {

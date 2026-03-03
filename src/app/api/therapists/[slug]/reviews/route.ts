@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth/auth';
 import { connectDB } from '@/lib/db';
-import { OTProfile } from '@/lib/db/models/OTProfile';
+import { TherapistProfile } from '@/lib/db/models/TherapistProfile';
 import { Review } from '@/lib/db/models/Review';
-import { getOTReviews, recalculateRatingStats } from '@/lib/db/ots';
+import { getTherapistReviews, recalculateRatingStats } from '@/lib/db/therapists';
 
 interface RouteParams {
   params: Promise<{ slug: string }>;
@@ -15,7 +15,7 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
   const page = parseInt(searchParams.get('page') ?? '1', 10);
   const limit = parseInt(searchParams.get('limit') ?? '10', 10);
 
-  const result = await getOTReviews(slug, { page, limit });
+  const result = await getTherapistReviews(slug, { page, limit });
   if (!result) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
   return NextResponse.json(result);
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
   if (!session?.user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const userRole = (session.user as { role?: string }).role;
-  if (userRole === 'ot') {
+  if (userRole === 'therapist') {
     return NextResponse.json({ error: 'Therapists cannot leave reviews' }, { status: 403 });
   }
 
@@ -43,13 +43,13 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
   }
 
   await connectDB();
-  const profile = await OTProfile.findOne({ slug, isActive: true }).lean();
+  const profile = await TherapistProfile.findOne({ slug, isActive: true }).lean();
   if (!profile) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
   try {
     const review = await Review.create({
       userId: session.user.id,
-      otProfileId: profile._id,
+      therapistProfileId: profile._id,
       rating,
       text: text.trim(),
     });

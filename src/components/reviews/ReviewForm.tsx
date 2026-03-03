@@ -32,7 +32,7 @@ export default function ReviewForm({ slug, isLoggedIn, userRole }: Props) {
     );
   }
 
-  if (userRole === 'ot') {
+  if (userRole === 'therapist') {
     return <p className="text-sm text-text-muted">{t('otCannotReview')}</p>;
   }
 
@@ -49,7 +49,7 @@ export default function ReviewForm({ slug, isLoggedIn, userRole }: Props) {
     if (rating === 0) return;
     setStatus('loading');
     try {
-      const res = await fetch(`/api/ots/${slug}/reviews`, {
+      const res = await fetch(`/api/therapists/${slug}/reviews`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ rating, text }),

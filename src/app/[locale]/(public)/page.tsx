@@ -1,10 +1,10 @@
 import { getTranslations } from 'next-intl/server';
-import { searchOTs } from '@/lib/db/ots';
-import { searchMockOTs } from '@/lib/mock-search';
+import { searchTherapists } from '@/lib/db/therapists';
+import { searchMockTherapists } from '@/lib/mock-search';
 import SearchBar from '@/components/home/SearchBar';
 import FilterSidebar from '@/components/search/FilterSidebar';
-import OTCard from '@/components/search/OTCard';
-import type { OTProfilePublic, SearchParams } from '@/types';
+import TherapistCard from '@/components/search/TherapistCard';
+import type { TherapistProfilePublic, SearchParams } from '@/types';
 
 interface HomePageProps {
   searchParams: Promise<{
@@ -38,15 +38,15 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     limit: 20,
   };
 
-  let profiles: OTProfilePublic[] = [];
+  let profiles: TherapistProfilePublic[] = [];
   let total = 0;
   let usingMockData = false;
 
   try {
-    ({ profiles, total } = await searchOTs(query));
+    ({ profiles, total } = await searchTherapists(query));
   } catch (err) {
     console.warn('[HomePage] DB unavailable, falling back to mock data:', (err as Error).message);
-    ({ profiles, total } = searchMockOTs(query));
+    ({ profiles, total } = searchMockTherapists(query));
     usingMockData = true;
   }
 
@@ -97,8 +97,8 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               </div>
             ) : (
               <div className="flex flex-col gap-4">
-                {profiles.map((ot) => (
-                  <OTCard key={ot.id} ot={ot} />
+                {profiles.map((therapist) => (
+                  <TherapistCard key={therapist.id} therapist={therapist} />
                 ))}
               </div>
             )}

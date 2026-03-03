@@ -1,10 +1,10 @@
 /**
- * Adapts the legacy MOCK_OTS data to OTProfilePublic format and provides
+ * Adapts the legacy MOCK_OTS data to TherapistProfilePublic format and provides
  * a filterable search function used as a fallback when the database is unavailable.
  */
 import { MOCK_OTS } from './mock-data';
 import type {
-  OTProfilePublic,
+  TherapistProfilePublic,
   SearchResult,
   SearchParams,
   Specialisation,
@@ -30,7 +30,7 @@ const SESSION_MAP: Record<string, SessionType> = {
   homeVisit: 'home-visit',
 };
 
-function toPublic(m: (typeof MOCK_OTS)[number]): OTProfilePublic {
+function toPublic(m: (typeof MOCK_OTS)[number]): TherapistProfilePublic {
   const specs = m.specialties
     .map((s) => SPEC_MAP[s])
     .filter((s): s is Specialisation => !!s);
@@ -69,7 +69,7 @@ function toPublic(m: (typeof MOCK_OTS)[number]): OTProfilePublic {
   };
 }
 
-export function searchMockOTs(params: SearchParams): SearchResult {
+export function searchMockTherapists(params: SearchParams): SearchResult {
   let results = MOCK_OTS.map(toPublic);
 
   const q = params.q?.toLowerCase();
@@ -130,7 +130,7 @@ export function searchMockOTs(params: SearchParams): SearchResult {
   return { profiles: paged, total, page, totalPages: Math.ceil(total / limit) };
 }
 
-export function getMockOTBySlug(slug: string): OTProfilePublic | null {
+export function getMockTherapistBySlug(slug: string): TherapistProfilePublic | null {
   const m = MOCK_OTS.find((ot) => ot.slug === slug);
   return m ? toPublic(m) : null;
 }

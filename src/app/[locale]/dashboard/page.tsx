@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { getTranslations, getLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { auth } from '@/lib/auth/auth';
-import { getOTProfileById } from '@/lib/db/ots';
+import { getTherapistProfileById } from '@/lib/db/therapists';
 
 export async function generateMetadata() {
   const t = await getTranslations('dashboard');
@@ -16,8 +16,8 @@ export default async function DashboardPage() {
   const t = await getTranslations('dashboard');
   const locale = await getLocale();
 
-  const otProfileId = (session.user as { otProfileId?: string | null }).otProfileId;
-  const profile = otProfileId ? await getOTProfileById(otProfileId) : null;
+  const therapistProfileId = (session.user as { therapistProfileId?: string | null }).therapistProfileId;
+  const profile = therapistProfileId ? await getTherapistProfileById(therapistProfileId) : null;
 
   const name = session.user.name ?? session.user.email ?? '';
   const profileName = profile
@@ -59,7 +59,7 @@ export default async function DashboardPage() {
           </Link>
           {profile?.slug && (
             <Link
-              href={`/ot/${profile.slug}`}
+              href={`/therapist/${profile.slug}`}
               className="rounded-lg border border-primary px-5 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary-light"
             >
               {t('viewProfile')}
@@ -76,17 +76,6 @@ export default async function DashboardPage() {
             </Link>
           </div>
         )}
-
-        {/* No OT profile — patient account */}
-        {!profile && (
-          <div className="rounded-lg bg-surface p-6 shadow-card text-text-secondary text-sm">
-            {t('patientAccountNotice')}{' '}
-            <Link href="/search" className="font-semibold text-primary hover:underline">
-              {t('searchPageLink')}
-            </Link>
-            .
-          </div>
-        )}
       </div>
     </div>
   );
@@ -101,7 +90,7 @@ function StatCard({ label, value }: { label: string; value: string | number }) {
   );
 }
 
-function calcCompleteness(profile: Awaited<ReturnType<typeof getOTProfileById>>): number {
+function calcCompleteness(profile: Awaited<ReturnType<typeof getTherapistProfileById>>): number {
   if (!profile) return 0;
   const checks = [
     !!profile.location.city,

@@ -6,7 +6,7 @@ import type {
   SubscriptionTier,
 } from '@/types';
 
-export interface OTProfileDocument extends Document {
+export interface TherapistProfileDocument extends Document {
   slug: string;
   displayName: { he: string; ar: string; en: string };
   bio: { he: string; ar: string; en: string };
@@ -41,7 +41,7 @@ const MultilingualSchema = new Schema(
   { _id: false }
 );
 
-const OTProfileSchema = new Schema<OTProfileDocument>(
+const TherapistProfileSchema = new Schema<TherapistProfileDocument>(
   {
     slug: { type: String, required: true, unique: true, lowercase: true, trim: true },
     displayName: { type: MultilingualSchema, required: true },
@@ -91,11 +91,12 @@ const OTProfileSchema = new Schema<OTProfileDocument>(
     ratingAvg: { type: Number, default: 0, min: 0, max: 5 },
     ratingCount: { type: Number, default: 0, min: 0 },
   },
-  { timestamps: true }
+  // Keep collection name as 'otprofiles' to avoid a data migration
+  { timestamps: true, collection: 'otprofiles' }
 );
 
 // Text search index — covers name + bio in he and en
-OTProfileSchema.index(
+TherapistProfileSchema.index(
   {
     'displayName.he': 'text',
     'displayName.en': 'text',
@@ -107,11 +108,11 @@ OTProfileSchema.index(
 );
 
 // Geospatial index on location
-OTProfileSchema.index({ location: '2dsphere' });
+TherapistProfileSchema.index({ location: '2dsphere' });
 
 // Rating sort index
-OTProfileSchema.index({ ratingAvg: -1, ratingCount: -1 });
+TherapistProfileSchema.index({ ratingAvg: -1, ratingCount: -1 });
 
-export const OTProfile: Model<OTProfileDocument> =
-  mongoose.models.OTProfile ??
-  mongoose.model<OTProfileDocument>('OTProfile', OTProfileSchema);
+export const TherapistProfile: Model<TherapistProfileDocument> =
+  mongoose.models.TherapistProfile ??
+  mongoose.model<TherapistProfileDocument>('TherapistProfile', TherapistProfileSchema);

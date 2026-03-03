@@ -34,18 +34,17 @@ export const authConfig: NextAuthConfig = {
         }
       }
 
-      // Redirect logged-in users with no role to role-select — only when
-      // accessing the dashboard. Public pages (OT profiles, home, search) are
-      // freely accessible regardless of whether a role has been chosen yet.
+      // Redirect logged-in users with no role to onboarding (therapist setup)
+      // Only triggers on dashboard — public pages are freely accessible.
       if (isLoggedIn) {
         const role = (auth?.user as { role?: string | null } | undefined)?.role;
         const isDashboardPage = /^\/(he|ar|en)\/dashboard/.test(pathname);
-        const isRoleSelectPage = /^\/(he|ar|en)\/auth\/role-select/.test(pathname);
+        const isOnboardingPage = /^\/(he|ar|en)\/onboarding/.test(pathname);
 
-        if (!role && isDashboardPage && !isRoleSelectPage) {
+        if (!role && isDashboardPage && !isOnboardingPage) {
           const locale = pathname.split('/')[1] ?? 'he';
           return NextResponse.redirect(
-            new URL(`/${locale}/auth/role-select`, request.url)
+            new URL(`/${locale}/onboarding/therapist`, request.url)
           );
         }
       }
@@ -53,15 +52,16 @@ export const authConfig: NextAuthConfig = {
       return true;
     },
     jwt({ token, user, trigger, session }) {
-      // Update token from session.update() calls (used after role selection)
+      // Update token from session.update() calls (used after onboarding)
       if (trigger === 'update' && session) {
-        const s = session as { role?: string | null; otProfileId?: string | null };
+        const s = session as { role?: string | null; therapistProfileId?: string | null };
         if (s.role !== undefined) token.role = s.role;
-        if (s.otProfileId !== undefined) token.otProfileId = s.otProfileId;
+        if (s.therapistProfileId !== undefined) token.therapistProfileId = s.therapistProfileId;
       }
       if (user) {
         token.role = (user as { role?: string | null }).role ?? null;
-        token.otProfileId = (user as { otProfileId?: string | null }).otProfileId ?? null;
+        token.therapistProfileId =
+          (user as { therapistProfileId?: string | null }).therapistProfileId ?? null;
       }
       return token;
     },
@@ -69,7 +69,8 @@ export const authConfig: NextAuthConfig = {
       if (session.user) {
         session.user.id = token.sub!;
         (session.user as unknown as Record<string, unknown>).role = token.role ?? null;
-        (session.user as unknown as Record<string, unknown>).otProfileId = token.otProfileId;
+        (session.user as unknown as Record<string, unknown>).therapistProfileId =
+          token.therapistProfileId;
       }
       return session;
     },

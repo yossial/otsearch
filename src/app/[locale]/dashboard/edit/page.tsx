@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { auth } from '@/lib/auth/auth';
-import { getOTProfileById } from '@/lib/db/ots';
+import { getTherapistProfileById } from '@/lib/db/therapists';
 import ProfileEditForm from '@/components/dashboard/ProfileEditForm';
 
 export async function generateMetadata() {
@@ -14,11 +14,11 @@ export default async function DashboardEditPage() {
   const session = await auth();
   if (!session?.user) redirect('/auth/login');
 
-  const otProfileId = (session.user as { otProfileId?: string | null }).otProfileId;
-  if (!otProfileId) redirect('/dashboard');
+  const therapistProfileId = (session.user as { therapistProfileId?: string | null }).therapistProfileId;
+  if (!therapistProfileId) redirect('/dashboard');
 
   const t = await getTranslations('dashboard');
-  const profile = await getOTProfileById(otProfileId);
+  const profile = await getTherapistProfileById(therapistProfileId);
   if (!profile) redirect('/dashboard');
 
   return (

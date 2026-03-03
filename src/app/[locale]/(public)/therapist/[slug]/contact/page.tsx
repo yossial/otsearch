@@ -2,8 +2,8 @@ import { notFound } from 'next/navigation';
 import { getTranslations, getLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
-import { getOTBySlug } from '@/lib/db/ots';
-import { getMockOTBySlug } from '@/lib/mock-search';
+import { getTherapistBySlug } from '@/lib/db/therapists';
+import { getMockTherapistBySlug } from '@/lib/mock-search';
 import ContactForm from '@/components/contact/ContactForm';
 
 interface Props {
@@ -16,7 +16,7 @@ export default async function ContactPage({ params }: Props) {
   const t = await getTranslations('contact');
   const tSearch = await getTranslations('search');
 
-  const ot = await getOTBySlug(slug).catch(() => getMockOTBySlug(slug));
+  const ot = await getTherapistBySlug(slug).catch(() => getMockTherapistBySlug(slug));
   if (!ot) notFound();
 
   const name = ot.displayName[locale as keyof typeof ot.displayName] ?? ot.displayName.he;
@@ -30,7 +30,7 @@ export default async function ContactPage({ params }: Props) {
 
         {/* Back to profile */}
         <Link
-          href={`/ot/${slug}`}
+          href={`/therapist/${slug}`}
           className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-secondary transition-colors hover:text-primary"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-directional" aria-hidden="true">
@@ -50,7 +50,7 @@ export default async function ContactPage({ params }: Props) {
           />
           <div>
             <h1 className="text-lg font-bold text-text-primary">{name}</h1>
-            <p className="text-sm text-text-secondary">{tSearch('otTitle')} · {ot.location.city}</p>
+            <p className="text-sm text-text-secondary">{tSearch('therapistTitle')} · {ot.location.city}</p>
             <div className="mt-1 flex flex-wrap gap-1">
               {ot.specialisations.slice(0, 3).map((s) => (
                 <span key={s} className="rounded-full bg-primary-light px-2 py-0.5 text-xs font-medium text-primary">

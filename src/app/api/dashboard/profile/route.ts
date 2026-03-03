@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth/auth';
 import { connectDB } from '@/lib/db';
-import { OTProfile } from '@/lib/db/models/OTProfile';
+import { TherapistProfile } from '@/lib/db/models/TherapistProfile';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,9 +11,9 @@ export async function PATCH(req: NextRequest) {
     if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    const otProfileId = (session.user as { otProfileId?: string | null }).otProfileId;
-    if (!otProfileId) {
-      return NextResponse.json({ error: 'No OT profile linked to this account' }, { status: 403 });
+    const therapistProfileId = (session.user as { therapistProfileId?: string | null }).therapistProfileId;
+    if (!therapistProfileId) {
+      return NextResponse.json({ error: 'No therapist profile linked to this account' }, { status: 403 });
     }
 
     const body = await req.json() as Record<string, unknown>;
@@ -43,17 +43,15 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ error: 'No valid fields to update' }, { status: 400 });
     }
 
-    // Auto-activate the profile once the OT provides their city — the minimum
-    // required to appear in search results. Once active, manual deactivation
-    // must be done by an admin.
+    // Auto-activate the profile once the therapist provides their city
     const locationCity = (update.location as { city?: string } | undefined)?.city?.trim();
     if (locationCity) {
       update.isActive = true;
     }
 
     await connectDB();
-    const profile = await OTProfile.findByIdAndUpdate(
-      otProfileId,
+    const profile = await TherapistProfile.findByIdAndUpdate(
+      therapistProfileId,
       { $set: update },
       { new: true, runValidators: true }
     ).lean();

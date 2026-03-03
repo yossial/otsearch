@@ -1,31 +1,31 @@
 /**
- * Data access layer for OT profiles.
+ * Data access layer for therapist profiles.
  * Used directly by Server Components and API route handlers.
  */
 import type { SortOrder } from 'mongoose';
 import { connectDB } from '@/lib/db';
-import { OTProfile } from '@/lib/db/models/OTProfile';
+import { TherapistProfile } from '@/lib/db/models/TherapistProfile';
 import { Review } from '@/lib/db/models/Review';
 import { computeRatingStats } from '@/lib/ratingStats';
-import type { OTProfilePublic, SearchResult, ReviewsResult, ReviewPublic } from '@/types';
+import type { TherapistProfilePublic, SearchResult, ReviewsResult, ReviewPublic } from '@/types';
 
-function toPublic(doc: Record<string, unknown>): OTProfilePublic {
+function toPublic(doc: Record<string, unknown>): TherapistProfilePublic {
   return {
     id: String(doc._id),
     slug: doc.slug as string,
-    displayName: doc.displayName as OTProfilePublic['displayName'],
-    bio: doc.bio as OTProfilePublic['bio'],
+    displayName: doc.displayName as TherapistProfilePublic['displayName'],
+    bio: doc.bio as TherapistProfilePublic['bio'],
     photo: (doc.photo as string | null) ?? null,
     mohRegistrationNumber: doc.mohRegistrationNumber as string,
-    specialisations: doc.specialisations as OTProfilePublic['specialisations'],
+    specialisations: doc.specialisations as TherapistProfilePublic['specialisations'],
     languages: doc.languages as string[],
-    location: doc.location as OTProfilePublic['location'],
-    sessionTypes: doc.sessionTypes as OTProfilePublic['sessionTypes'],
-    insuranceAccepted: doc.insuranceAccepted as OTProfilePublic['insuranceAccepted'],
-    feeRange: (doc.feeRange as OTProfilePublic['feeRange']) ?? null,
+    location: doc.location as TherapistProfilePublic['location'],
+    sessionTypes: doc.sessionTypes as TherapistProfilePublic['sessionTypes'],
+    insuranceAccepted: doc.insuranceAccepted as TherapistProfilePublic['insuranceAccepted'],
+    feeRange: (doc.feeRange as TherapistProfilePublic['feeRange']) ?? null,
     contactEmail: doc.contactEmail as string,
     contactPhone: doc.contactPhone as string,
-    subscriptionTier: doc.subscriptionTier as OTProfilePublic['subscriptionTier'],
+    subscriptionTier: doc.subscriptionTier as TherapistProfilePublic['subscriptionTier'],
     isFeatured: doc.isFeatured as boolean,
     isAcceptingPatients: doc.isAcceptingPatients as boolean,
     profileViews: doc.profileViews as number,
@@ -35,14 +35,14 @@ function toPublic(doc: Record<string, unknown>): OTProfilePublic {
   };
 }
 
-export interface OTSearchQuery {
+export interface TherapistSearchQuery {
   q?: string;
   specialisation?: string | string[];
   insurance?: string | string[];
   sessionType?: string | string[];
   language?: string | string[];
   city?: string;
-  /** Geographic search — not yet implemented in searchOTs() */
+  /** Geographic search — not yet implemented */
   lat?: number;
   lng?: number;
   radius?: number;
@@ -52,7 +52,7 @@ export interface OTSearchQuery {
   limit?: number;
 }
 
-export async function searchOTs(query: OTSearchQuery): Promise<SearchResult> {
+export async function searchTherapists(query: TherapistSearchQuery): Promise<SearchResult> {
   await connectDB();
 
   const {
@@ -70,7 +70,6 @@ export async function searchOTs(query: OTSearchQuery): Promise<SearchResult> {
 
   const filter: Record<string, unknown> = { isActive: true };
 
-  // Search across all relevant fields using case-insensitive regex
   if (q?.trim()) {
     const regex = { $regex: q.trim(), $options: 'i' };
     filter.$or = [
@@ -87,12 +86,10 @@ export async function searchOTs(query: OTSearchQuery): Promise<SearchResult> {
     ];
   }
 
-  // City filter (case-insensitive)
   if (city?.trim()) {
     filter['location.city'] = { $regex: city.trim(), $options: 'i' };
   }
 
-  // Array filters — accept single value or array
   const asArray = (v: string | string[] | undefined) =>
     v === undefined ? undefined : Array.isArray(v) ? v : [v];
 
@@ -109,10 +106,8 @@ export async function searchOTs(query: OTSearchQuery): Promise<SearchResult> {
 
   const skip = (page - 1) * limit;
 
-  // Sort order — text search always uses relevance score; otherwise respects sortBy param
   let sortOrder: Record<string, SortOrder | { $meta: string }>;
   if (q?.trim()) {
-    // Text-search: rank by relevance score, featured first
     sortOrder = { score: { $meta: 'textScore' }, isFeatured: -1 };
   } else if (sortBy === 'rating') {
     sortOrder = { ratingAvg: -1, ratingCount: -1, isFeatured: -1 };
@@ -121,12 +116,8 @@ export async function searchOTs(query: OTSearchQuery): Promise<SearchResult> {
   }
 
   const [docs, total] = await Promise.all([
-    OTProfile.find(filter)
-      .sort(sortOrder)
-      .skip(skip)
-      .limit(limit)
-      .lean(),
-    OTProfile.countDocuments(filter),
+    TherapistProfile.find(filter).sort(sortOrder).skip(skip).limit(limit).lean(),
+    TherapistProfile.countDocuments(filter),
   ]);
 
   return {
@@ -137,17 +128,17 @@ export async function searchOTs(query: OTSearchQuery): Promise<SearchResult> {
   };
 }
 
-export async function getOTBySlug(slug: string): Promise<OTProfilePublic | null> {
+export async function getTherapistBySlug(slug: string): Promise<TherapistProfilePublic | null> {
   await connectDB();
-  const doc = await OTProfile.findOne({ slug, isActive: true }).lean();
+  const doc = await TherapistProfile.findOne({ slug, isActive: true }).lean();
   if (!doc) return null;
   return toPublic(doc as unknown as Record<string, unknown>);
 }
 
-/** Get OT profile by MongoDB ID — used by dashboard (includes inactive profiles) */
-export async function getOTProfileById(id: string): Promise<OTProfilePublic | null> {
+/** Get therapist profile by MongoDB ID — used by dashboard (includes inactive profiles) */
+export async function getTherapistProfileById(id: string): Promise<TherapistProfilePublic | null> {
   await connectDB();
-  const doc = await OTProfile.findById(id).lean();
+  const doc = await TherapistProfile.findById(id).lean();
   if (!doc) return null;
   return toPublic(doc as unknown as Record<string, unknown>);
 }
@@ -155,20 +146,20 @@ export async function getOTProfileById(id: string): Promise<OTProfilePublic | nu
 /** Fire-and-forget profile view counter increment */
 export function incrementProfileViews(slug: string): void {
   connectDB()
-    .then(() => OTProfile.updateOne({ slug }, { $inc: { profileViews: 1 } }))
+    .then(() => TherapistProfile.updateOne({ slug }, { $inc: { profileViews: 1 } }))
     .catch(() => {});
 }
 
-/** Get paginated approved reviews for an OT profile */
-export async function getOTReviews(
+/** Get paginated approved reviews for a therapist profile */
+export async function getTherapistReviews(
   slug: string,
   { page = 1, limit = 10 }: { page?: number; limit?: number } = {}
 ): Promise<ReviewsResult | null> {
   await connectDB();
-  const profile = await OTProfile.findOne({ slug, isActive: true }).lean();
+  const profile = await TherapistProfile.findOne({ slug, isActive: true }).lean();
   if (!profile) return null;
 
-  const filter = { otProfileId: profile._id, isApproved: true };
+  const filter = { therapistProfileId: profile._id, isApproved: true };
   const skip = (page - 1) * limit;
 
   const [docs, total] = await Promise.all([
@@ -199,16 +190,26 @@ export async function getOTReviews(
   };
 }
 
-/** Fire-and-forget: recalculate and persist ratingAvg + ratingCount on OTProfile */
-export function recalculateRatingStats(otProfileId: string): void {
+/** Fire-and-forget: recalculate and persist ratingAvg + ratingCount on TherapistProfile */
+export function recalculateRatingStats(therapistProfileId: string): void {
   connectDB()
     .then(async () => {
       const result = await Review.aggregate<{ avg: number; count: number }>([
-        { $match: { otProfileId: new (await import('mongoose')).default.Types.ObjectId(otProfileId), isApproved: true } },
+        {
+          $match: {
+            therapistProfileId: new (await import('mongoose')).default.Types.ObjectId(
+              therapistProfileId
+            ),
+            isApproved: true,
+          },
+        },
         { $group: { _id: null, avg: { $avg: '$rating' }, count: { $sum: 1 } } },
       ]);
       const { ratingAvg, ratingCount } = computeRatingStats(result);
-      await OTProfile.updateOne({ _id: otProfileId }, { $set: { ratingAvg, ratingCount } });
+      await TherapistProfile.updateOne(
+        { _id: therapistProfileId },
+        { $set: { ratingAvg, ratingCount } }
+      );
     })
     .catch(() => {});
 }

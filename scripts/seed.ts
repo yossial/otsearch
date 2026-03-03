@@ -1,5 +1,5 @@
 /**
- * Seed script — populates the database with sample OT profiles.
+ * Seed script — populates the database with sample therapist profiles.
  * Run: npx tsx scripts/seed.ts
  *
  * Idempotent: upserts by slug so it's safe to run multiple times.
@@ -7,7 +7,7 @@
 
 import 'dotenv/config';
 import mongoose from 'mongoose';
-import { OTProfile } from '../src/lib/db/models/OTProfile';
+import { TherapistProfile } from '../src/lib/db/models/TherapistProfile';
 import { Review } from '../src/lib/db/models/Review';
 import { User } from '../src/lib/db/models/User';
 
@@ -487,7 +487,7 @@ async function seed() {
   let updated = 0;
 
   for (const p of profiles) {
-    const result = await OTProfile.updateOne(
+    const result = await TherapistProfile.updateOne(
       { slug: p.slug },
       { $set: p },
       { upsert: true }
@@ -498,25 +498,25 @@ async function seed() {
 
   console.log(`Seed complete: ${created} created, ${updated} updated, ${profiles.length} total.`);
 
-  // ── Seed patient users ────────────────────────────────────────────────────
-  console.log('\nSeeding patient users...');
-  const seedPatientDefs = [
+  // ── Seed reviewer users (no role — anonymous reviewers for seeded reviews) ─
+  console.log('\nSeeding reviewer users...');
+  const seedReviewerDefs = [
     { email: 'yael.cohen@seed.therapio.co.il', name: 'Yael Cohen' },
     { email: 'roi.benmoshe@seed.therapio.co.il', name: 'Roi Ben-Moshe' },
     { email: 'nadia.petrov@seed.therapio.co.il', name: 'Nadia Petrov' },
   ];
 
-  const patientDocs = await Promise.all(
-    seedPatientDefs.map((p) =>
+  const reviewerDocs = await Promise.all(
+    seedReviewerDefs.map((p) =>
       User.findOneAndUpdate(
         { email: p.email },
-        { $setOnInsert: { ...p, passwordHash: '', role: 'patient', emailVerified: true } },
+        { $setOnInsert: { ...p, passwordHash: '', role: null, emailVerified: true } },
         { upsert: true, new: true }
       )
     )
   );
-  const [yael, roi, nadia] = patientDocs;
-  console.log(`  Patient users ready: ${patientDocs.map((u) => u!.name).join(', ')}`);
+  const [yael, roi, nadia] = reviewerDocs;
+  console.log(`  Reviewer users ready: ${reviewerDocs.map((u) => u!.name).join(', ')}`);
 
   // ── Seed reviews ──────────────────────────────────────────────────────────
   console.log('\nSeeding reviews...');
@@ -550,14 +550,14 @@ async function seed() {
   let reviewsUpdated = 0;
 
   for (const slug of slugsWithReviews) {
-    const profile = await OTProfile.findOne({ slug }).lean();
+    const profile = await TherapistProfile.findOne({ slug }).lean();
     if (!profile) { console.warn(`  Profile not found: ${slug} — skipping`); continue; }
 
     const defs = reviewDefs.filter((r) => r.slug === slug);
 
     for (const def of defs) {
       const res = await Review.updateOne(
-        { userId: def.userId, otProfileId: profile._id },
+        { userId: def.userId, therapistProfileId: profile._id },
         { $set: { rating: def.rating, text: def.text, isApproved: true } },
         { upsert: true }
       );
@@ -567,12 +567,12 @@ async function seed() {
 
     // Recalculate rating stats
     const agg = await Review.aggregate<{ avg: number; count: number }>([
-      { $match: { otProfileId: profile._id, isApproved: true } },
+      { $match: { therapistProfileId: profile._id, isApproved: true } },
       { $group: { _id: null, avg: { $avg: '$rating' }, count: { $sum: 1 } } },
     ]);
     const ratingAvg = agg.length ? Math.round(agg[0].avg * 10) / 10 : 0;
     const ratingCount = agg.length ? agg[0].count : 0;
-    await OTProfile.updateOne({ _id: profile._id }, { $set: { ratingAvg, ratingCount } });
+    await TherapistProfile.updateOne({ _id: profile._id }, { $set: { ratingAvg, ratingCount } });
     console.log(`  ${slug}: ${ratingCount} reviews, avg ${ratingAvg}`);
   }
 

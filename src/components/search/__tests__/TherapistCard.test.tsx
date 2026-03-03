@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
-import type { OTProfilePublic } from '@/types';
+import type { TherapistProfilePublic } from '@/types';
 
 // Mock next/image
 vi.mock('next/image', () => ({
@@ -27,7 +27,7 @@ vi.mock('@/lib/utils', () => ({
 vi.mock('next-intl', () => ({
   useTranslations: () => (key: string) => {
     const map: Record<string, string> = {
-      otTitle: 'מרפא/ה בעיסוק',
+      therapistTitle: 'מטפל/ת בעיסוק',
       acceptingPatientsFilter: 'מקבל/ת מטופלים חדשים',
       messageButton: 'הודעה',
       viewProfile: 'צפה בפרופיל',
@@ -41,9 +41,9 @@ vi.mock('next-intl', () => ({
   useLocale: () => 'he',
 }));
 
-import OTCard from '../OTCard';
+import TherapistCard from '../TherapistCard';
 
-const mockProfile: OTProfilePublic = {
+const mockProfile: TherapistProfilePublic = {
   id: '1',
   slug: 'dr-test',
   displayName: { he: 'ד"ר בדיקה', ar: 'د. اختبار', en: 'Dr. Test' },
@@ -67,47 +67,47 @@ const mockProfile: OTProfilePublic = {
   createdAt: '2024-01-01T00:00:00.000Z',
 };
 
-describe('OTCard', () => {
-  it('renders the OT name', () => {
-    render(<OTCard ot={mockProfile} />);
+describe('TherapistCard', () => {
+  it('renders the therapist name', () => {
+    render(<TherapistCard therapist={mockProfile} />);
     expect(screen.getByText('ד"ר בדיקה')).toBeInTheDocument();
   });
 
   it('falls back to Hebrew name when locale name is missing', () => {
     const noEn = { ...mockProfile, displayName: { he: 'ד"ר בדיקה', ar: 'د. اختبار', en: '' } };
-    render(<OTCard ot={noEn} />);
+    render(<TherapistCard therapist={noEn} />);
     expect(screen.getByText('ד"ר בדיקה')).toBeInTheDocument();
   });
 
   it('renders the city', () => {
-    render(<OTCard ot={mockProfile} />);
+    render(<TherapistCard therapist={mockProfile} />);
     expect(screen.getByText('תל אביב')).toBeInTheDocument();
   });
 
   it('renders fee range', () => {
-    render(<OTCard ot={mockProfile} />);
+    render(<TherapistCard therapist={mockProfile} />);
     expect(screen.getByText('250–400')).toBeInTheDocument();
   });
 
   it('shows accepting patients badge when isAcceptingPatients is true', () => {
-    render(<OTCard ot={mockProfile} />);
+    render(<TherapistCard therapist={mockProfile} />);
     expect(screen.getByText(/מקבל/)).toBeInTheDocument();
   });
 
   it('shows PRO badge for premium subscription', () => {
     const premium = { ...mockProfile, subscriptionTier: 'premium' as const };
-    render(<OTCard ot={premium} />);
+    render(<TherapistCard therapist={premium} />);
     expect(screen.getByText('PRO')).toBeInTheDocument();
   });
 
   it('does not show PRO badge for free subscription', () => {
-    render(<OTCard ot={mockProfile} />);
+    render(<TherapistCard therapist={mockProfile} />);
     expect(screen.queryByText('PRO')).not.toBeInTheDocument();
   });
 
-  it('renders a link to the OT profile page', () => {
-    render(<OTCard ot={mockProfile} />);
+  it('renders a link to the therapist profile page', () => {
+    render(<TherapistCard therapist={mockProfile} />);
     const link = screen.getByRole('link', { name: /פרופיל/i });
-    expect(link).toHaveAttribute('href', '/ot/dr-test');
+    expect(link).toHaveAttribute('href', '/therapist/dr-test');
   });
 });

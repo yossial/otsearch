@@ -73,7 +73,7 @@ export default function RegisterForm() {
         router.push('/auth/login');
         return;
       }
-      router.push('/auth/role-select');
+      router.push('/onboarding/therapist');
       router.refresh();
     } catch {
       setError(t('errors.required'));
@@ -84,7 +84,7 @@ export default function RegisterForm() {
   return (
     <div className="flex flex-col gap-5">
       {/* Social signup — primary CTAs */}
-      <SocialAuthButtons callbackUrl="/auth/role-select" />
+      <SocialAuthButtons callbackUrl="/onboarding/therapist" />
 
       {/* OR divider */}
       <div className="flex items-center gap-3">

@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { getOTReviews } from '@/lib/db/ots';
+import { getTherapistReviews } from '@/lib/db/therapists';
 import ReviewCard from './ReviewCard';
 import ReviewForm from './ReviewForm';
 
@@ -11,7 +11,7 @@ interface Props {
 
 export default async function ReviewsSection({ slug, sessionUserId, userRole }: Props) {
   const t = await getTranslations('reviews');
-  const result = await getOTReviews(slug).catch(() => null);
+  const result = await getTherapistReviews(slug).catch(() => null);
 
   const hasReviews = !!result && result.total > 0;
 

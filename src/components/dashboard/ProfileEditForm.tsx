@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import type { OTProfilePublic, Specialisation, SessionType, InsuranceType } from '@/types';
+import type { TherapistProfilePublic, Specialisation, SessionType, InsuranceType } from '@/types';
 
 const SPECIALISATIONS: Specialisation[] = [
   'paediatrics', 'neurological', 'mental-health', 'hand-therapy',
@@ -29,7 +29,7 @@ const LANG_LABELS: Record<string, string> = {
 };
 
 interface Props {
-  profile: OTProfilePublic;
+  profile: TherapistProfilePublic;
 }
 
 export default function ProfileEditForm({ profile }: Props) {

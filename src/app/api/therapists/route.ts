@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { searchOTs } from '@/lib/db/ots';
+import { searchTherapists } from '@/lib/db/therapists';
 
 export const dynamic = 'force-dynamic';
 
@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
   try {
     const sp = req.nextUrl.searchParams;
 
-    const result = await searchOTs({
+    const result = await searchTherapists({
       q: sp.get('q') ?? undefined,
       specialisation: sp.getAll('specialisation').filter(Boolean),
       insurance: sp.getAll('insurance').filter(Boolean),
@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(result);
   } catch (err) {
-    console.error('[GET /api/ots]', err);
+    console.error('[GET /api/therapists]', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

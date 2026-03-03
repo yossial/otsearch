@@ -1,6 +1,6 @@
 export type Locale = 'he' | 'ar' | 'en';
 
-export type UserRole = 'ot' | 'patient' | 'admin';
+export type UserRole = 'therapist' | 'admin';
 
 export type SubscriptionTier = 'free' | 'premium';
 
@@ -43,7 +43,7 @@ export interface FeeRange {
   currency: 'ILS';
 }
 
-export interface OTProfilePublic {
+export interface TherapistProfilePublic {
   id: string;
   slug: string;
   displayName: MultilingualText;
@@ -101,7 +101,7 @@ export interface SearchParams {
 }
 
 export interface SearchResult {
-  profiles: OTProfilePublic[];
+  profiles: TherapistProfilePublic[];
   total: number;
   page: number;
   totalPages: number;

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useRouter, Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { useLocale } from 'next-intl';
-import type { OTProfilePublic } from '@/types';
+import type { TherapistProfilePublic } from '@/types';
 import { cn } from '@/lib/utils';
 import StarDisplay from '@/components/reviews/StarDisplay';
 
@@ -12,7 +12,8 @@ function stKey(st: string) {
   return st === 'in-person' ? 'inPerson' : st === 'home-visit' ? 'homeVisit' : 'telehealth';
 }
 
-export default function OTCard({ ot }: { ot: OTProfilePublic }) {
+export default function TherapistCard({ therapist }: { therapist: TherapistProfilePublic }) {
+  const ot = therapist;
   const t = useTranslations('search');
   const locale = useLocale();
   const router = useRouter();
@@ -24,7 +25,7 @@ export default function OTCard({ ot }: { ot: OTProfilePublic }) {
 
   return (
     <article
-      onClick={() => router.push(`/ot/${ot.slug}`)}
+      onClick={() => router.push(`/therapist/${ot.slug}`)}
       className={cn(
         'flex cursor-pointer flex-col gap-4 rounded-lg bg-surface p-5 shadow-card transition-shadow duration-200 hover:shadow-card-hover',
         'sm:flex-row sm:items-start'
@@ -44,7 +45,7 @@ export default function OTCard({ ot }: { ot: OTProfilePublic }) {
         <div className="flex flex-wrap items-start justify-between gap-2">
           <div>
             <h3 className="text-base font-bold text-text-primary">{name}</h3>
-            <p className="text-sm text-text-secondary">{t('otTitle')}</p>
+            <p className="text-sm text-text-secondary">{t('therapistTitle')}</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             {ot.isAcceptingPatients && (
@@ -116,7 +117,7 @@ export default function OTCard({ ot }: { ot: OTProfilePublic }) {
           )}
           <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
             <Link
-              href={`/ot/${ot.slug}/contact`}
+              href={`/therapist/${ot.slug}/contact`}
               className="flex items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#0c8f8a]"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -125,7 +126,7 @@ export default function OTCard({ ot }: { ot: OTProfilePublic }) {
               {t('messageButton')}
             </Link>
             <Link
-              href={`/ot/${ot.slug}`}
+              href={`/therapist/${ot.slug}`}
               className="rounded-lg border border-primary px-3.5 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary-light"
             >
               {t('viewProfile')}

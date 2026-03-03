@@ -9,7 +9,7 @@
     "next": "הבא",
     "submit": "שלח",
     "search": "חיפוש",
-    "tagline": "מציאת מרפאים בעיסוק פרטיים בישראל"
+    "tagline": "מציאת מטפלים בעיסוק פרטיים בישראל"
   },
   "nav": {
     "home": "דף הבית",
@@ -22,9 +22,9 @@
     "logout": "יציאה"
   },
   "home": {
-    "heroTitle": "מצאו את המרפא בעיסוק המתאים לכם",
-    "heroSubtitle": "מרפאים בעיסוק פרטיים ברחבי ישראל, חיפוש לפי התמחות, קופת חולים ומיקום",
-    "searchPlaceholder": "התמחות או שם מרפא...",
+    "heroTitle": "מצאו את המטפל/ת בעיסוק המתאים/ת לכם",
+    "heroSubtitle": "מטפלים בעיסוק פרטיים ברחבי ישראל, חיפוש לפי התמחות, קופת חולים ומיקום",
+    "searchPlaceholder": "התמחות או שם מטפל/ת...",
     "searchButton": "חיפוש",
     "quickFilters": {
       "paediatrics": "ילדים ופיתוח",
@@ -34,9 +34,9 @@
     }
   },
   "search": {
-    "title": "חיפוש מרפאים בעיסוק",
-    "results": "{count} מרפאים נמצאו",
-    "noResults": "לא נמצאו מרפאים התואמים לחיפוש שלך",
+    "title": "חיפוש מטפלים בעיסוק",
+    "results": "{count} מטפלים נמצאו",
+    "noResults": "לא נמצאו מטפלים התואמים לחיפוש שלך",
     "showFilters": "הצג מסננים",
     "hideFilters": "הסתר מסננים",
     "activeFilters": "{count} מסננים פעילים",
@@ -68,7 +68,7 @@
       "leumit": "לאומית",
       "private": "פרטי בלבד"
     },
-    "otTitle": "מרפא/ה בעיסוק",
+    "therapistTitle": "מטפל/ת בעיסוק",
     "callButton": "התקשר",
     "contactButton": "צור קשר",
     "viewProfile": "צפה בפרופיל",
@@ -107,9 +107,9 @@
     "sessionTypes": "סוגי טיפול",
     "about": "אודות",
     "fees": "עלות טיפול",
-    "acceptingPatients": "מקבל מטופלים חדשים",
+    "acceptingPatients": "מקבל/ת מטופלים חדשים",
     "backToSearch": "חזרה לחיפוש",
-    "otTitle": "מרפא/ה בעיסוק",
+    "therapistTitle": "מטפל/ת בעיסוק",
     "feePerSession": "לטיפול"
   },
   "auth": {
@@ -138,14 +138,6 @@
       "orContinueWith": "או המשך עם",
       "oauthError": "שגיאה בהתחברות, נסה שנית"
     },
-    "roleSelect": {
-      "title": "ברוך/ה הבא/ה!",
-      "subtitle": "מה מביא אותך לכאן?",
-      "therapistCard": "אני מרפא/ת בעיסוק",
-      "therapistDesc": "אני רוצה להציג את המרפאה שלי ולהתחבר עם מטופלים",
-      "patientCard": "אני מחפש/ת מרפא בעיסוק",
-      "patientDesc": "אני רוצה למצוא מרפא בעיסוק לעצמי או לבן משפחה"
-    },
     "errors": {
       "invalidCredentials": "אימייל או סיסמה שגויים",
       "emailExists": "אימייל זה כבר רשום במערכת",
@@ -156,7 +148,7 @@
     }
   },
   "onboarding": {
-    "ot": {
+    "therapist": {
       "title": "בואו נקים את הפרופיל שלך",
       "subtitle": "כמה פרטים ותופיע בתוצאות החיפוש",
       "step": "שלב {current} מתוך {total}",
@@ -182,21 +174,6 @@
       "mohNumber": "מספר רישיון משרד הבריאות",
       "acceptingPatients": "מקבל/ת מטופלים חדשים",
       "saveError": "שגיאה בשמירת הפרופיל"
-    },
-    "patient": {
-      "title": "נעשה לך חיפוש מותאם אישית",
-      "subtitle": "כמה שאלות כדי שנוכל למצוא את המרפא המתאים לך",
-      "skip": "דלג לחיפוש",
-      "findTherapists": "הצג מרפאים",
-      "whoLabel": "עבור מי מחפשים?",
-      "whoSelf": "עצמי",
-      "whoChild": "ילד/ה שלי",
-      "whoFamily": "בן/בת משפחה אחר/ת",
-      "specialisationsLabel": "מה תחום הקושי? (ניתן לבחור כמה)",
-      "cityLabel": "באיזו עיר/אזור?",
-      "cityPlaceholder": "לדוגמה: תל אביב, ירושלים...",
-      "sessionTypeLabel": "איך מעדיפים לקבל טיפול?",
-      "sessionTypeAny": "לא משנה"
     }
   },
   "dashboard": {
@@ -213,8 +190,6 @@
     "allTime": "כל הזמן",
     "incompleteProfile": "הפרופיל שלך עוד לא מלא — מלא את הפרטים כדי להופיע בתוצאות החיפוש.",
     "completeProfile": "השלמת הפרופיל",
-    "patientAccountNotice": "חשבון זה הוא חשבון מטופל. חפש מרפאים בעיסוק",
-    "searchPageLink": "בעמוד החיפוש",
     "edit": {
       "title": "עריכת פרופיל",
       "bio": "אודות (עברית)",
@@ -244,17 +219,17 @@
     "ratingLabel": "הדירוג שלך",
     "ratingRequired": "אנא בחר דירוג",
     "textLabel": "הביקורת שלך",
-    "textPlaceholder": "שתף את החוויה שלך עם המרפא/ה...",
+    "textPlaceholder": "שתף/י את החוויה שלך עם המטפל/ת...",
     "textTooShort": "הביקורת חייבת להכיל לפחות 20 תווים",
     "textTooLong": "הביקורת לא יכולה לעלות על 1000 תווים",
     "submit": "שלח ביקורת",
     "submitting": "שולח...",
     "submitSuccess": "תודה! הביקורת שלך התקבלה.",
     "submitError": "שגיאה בשליחת הביקורת. נסה שוב.",
-    "alreadyReviewed": "כבר כתבת ביקורת על מרפא/ה זה.",
+    "alreadyReviewed": "כבר כתבת ביקורת על מטפל/ת זה/ה.",
     "loginPrompt": "רוצה לשתף את החוויה שלך?",
     "loginLink": "התחבר כדי לכתוב ביקורת",
-    "otCannotReview": "מרפאים בעיסוק אינם יכולים לכתוב ביקורות.",
+    "otCannotReview": "מטפלים בעיסוק אינם יכולים לכתוב ביקורות.",
     "showMore": "הצג עוד ביקורות"
   },
   "contact": {
@@ -270,7 +245,7 @@
     "phonePlaceholder": "אופציונלי",
     "subjectLabel": "נושא",
     "subjects": {
-      "newPatient": "פניית מטופל חדש",
+      "newPatient": "פנייה של מטופל/ת חדש/ה",
       "appointment": "בקשה לקביעת תור",
       "insurance": "שאלה על קופות חולים / עלויות",
       "general": "שאלה כללית",

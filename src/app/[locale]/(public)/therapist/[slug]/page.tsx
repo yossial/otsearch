@@ -159,7 +159,7 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
             <section id="contact" className="rounded-lg bg-surface p-6 shadow-card">
               <h2 className="mb-1 text-lg font-semibold text-text-primary">{tContact('title')}</h2>
               <p className="mb-6 text-sm text-text-secondary">{tContact('subtitle', { name })}</p>
-              <ContactForm otSlug={slug} otName={name} otEmail={ot.contactEmail} />
+              <ContactForm therapistSlug={slug} therapistName={name} therapistEmail={ot.contactEmail} />
             </section>
           </div>
 

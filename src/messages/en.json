@@ -22,15 +22,53 @@
     "logout": "Log out"
   },
   "home": {
+    "heroEyebrow": "Private occupational therapy in Israel",
     "heroTitle": "Looking for an occupational therapist?",
     "heroSubtitle": "Private therapists across Israel, searchable by specialisation, Kupat Holim and location",
+    "heroParagraph": "Occupational therapy helps people of all ages develop and maintain the skills needed for everyday life — from children with developmental delays to adults recovering from injury or managing mental health. Our therapists work with you directly, wherever and however you need.",
+    "searchHeading": "Find the right occupational therapist for you",
     "searchPlaceholder": "Specialisation, therapist name, city...",
     "searchButton": "Search",
     "quickFilters": {
       "paediatrics": "Paediatrics",
+      "paediatricsTagline": "Developmental delays, sensory processing, handwriting",
       "neuro": "Neurological Rehab",
-      "mentalHealth": "Mental Health",
-      "handTherapy": "Hand Therapy"
+      "neuroTagline": "Post-stroke, brain injury or surgery",
+      "mentalHealth": "Emotional Regulation",
+      "mentalHealthTagline": "Anxiety, ADHD, sensory regulation",
+      "handTherapy": "Hand Therapy",
+      "handTherapyTagline": "Nerves, tendons, movement recovery"
+    },
+    "howItWorks": {
+      "title": "How it works",
+      "step1Title": "Describe your need",
+      "step1Desc": "Search by specialisation, location, health fund and availability",
+      "step2Title": "Compare therapists",
+      "step2Desc": "Full profiles with bios, pricing and real reviews",
+      "step3Title": "Connect directly",
+      "step3Desc": "Message or call the therapist directly — no middlemen"
+    },
+    "stats": {
+      "therapists": "200+",
+      "therapistsLabel": "Therapists",
+      "cities": "42",
+      "citiesLabel": "Cities",
+      "specialisations": "8",
+      "specialisationsLabel": "Specialisations",
+      "funds": "4",
+      "fundsLabel": "Health funds"
+    },
+    "featuredTitle": "Featured therapists",
+    "contact": {
+      "title": "Get in touch",
+      "subtitle": "Have a question? We're here to help."
+    },
+    "resultsCount": "{count, plural, =0 {No therapists found} one {1 therapist found} other {{count} therapists found}}",
+    "therapistBanner": {
+      "title": "Are you an OT? Join us",
+      "subtitle": "Free profile, no commissions — just patients looking for exactly what you offer",
+      "cta": "Add your profile",
+      "free": "Always free"
     }
   },
   "search": {
@@ -42,6 +80,8 @@
     "activeFilters": "{count} active filters",
     "clearFilters": "Clear all",
     "acceptingPatientsFilter": "Accepting new patients",
+    "acceptingPatientsMale": "Accepting new patients",
+    "acceptingPatientsFemale": "Accepting new patients",
     "sortBy": "Sort by",
     "sortOptions": {
       "relevance": "Relevance",
@@ -89,6 +129,10 @@
       "vocational": "Vocational rehab",
       "ergonomic": "Ergonomics"
     },
+    "sortNewest": "Newest",
+    "sortPopular": "Most Popular",
+    "noMoreResults": "You've seen all therapists",
+    "loadingMore": "Loading more...",
     "languageLabels": {
       "he": "Hebrew",
       "ar": "Arabic",
@@ -96,6 +140,18 @@
       "ru": "Russian",
       "fr": "French"
     }
+  },
+  "footer": {
+    "forPatients": "For Patients",
+    "forTherapists": "For Therapists",
+    "company": "Company",
+    "searchTherapists": "Find a Therapist",
+    "contact": "Contact",
+    "joinAsTherapist": "Join as Therapist",
+    "about": "About",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "copyright": "© 2026 Therapio. All rights reserved."
   },
   "profile": {
     "contactPhone": "Call",

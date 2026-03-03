@@ -96,7 +96,7 @@ export interface SearchParams {
   lng?: number;
   radius?: number;
   acceptingOnly?: boolean;
-  sort?: 'relevance' | 'distance' | 'rating';
+  sort?: 'relevance' | 'distance' | 'rating' | 'newest' | 'popular';
   page?: number;
   limit?: number;
 }

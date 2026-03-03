@@ -9,11 +9,11 @@
     "next": "הבא",
     "submit": "שלח",
     "search": "חיפוש",
-    "tagline": "מציאת מטפלים בעיסוק פרטיים בישראל"
+    "tagline": "מציאת מרפאים בעיסוק פרטיים בישראל"
   },
   "nav": {
     "home": "דף הבית",
-    "search": "חיפוש מטפלים",
+    "search": "חיפוש מרפאים",
     "login": "כניסה",
     "register": "הרשמה",
     "dashboard": "לוח בקרה",
@@ -22,26 +22,66 @@
     "logout": "יציאה"
   },
   "home": {
-    "heroTitle": "מחפשים מטפל בעיסוק?",
-    "heroSubtitle": "מטפלים בעיסוק פרטיים ברחבי ישראל, חיפוש לפי התמחות, קופת חולים ומיקום",
-    "searchPlaceholder": "התמחות, שם מטפל, עיר...",
+    "heroEyebrow": "ריפוי בעיסוק פרטי בישראל",
+    "heroTitle": "מחפשים מרפא/ה בעיסוק?",
+    "heroSubtitle": "מרפאים בעיסוק פרטיים ברחבי ישראל, חיפוש לפי התמחות, קופת חולים ומיקום",
+    "heroParagraph": "ריפוי בעיסוק מסייע לאנשים בכל גיל לפתח ולשמר את המיומנויות הנדרשות לחיי היומיום — מילדים עם עיכוב התפתחותי ועד מבוגרים המתמודדים עם פציעה, שיקום נוירולוגי, בריאות הנפש וטיפול ביד. המרפאים שלנו עובדים אתכם ישירות, בדיוק כפי שאתם צריכים.",
+    "searchHeading": "מצאו את המרפא/ה בעיסוק המתאים/ה לכם",
+    "searchPlaceholder": "התמחות, שם מרפא, עיר...",
     "searchButton": "חיפוש",
     "quickFilters": {
       "paediatrics": "ילדים ופיתוח",
+      "paediatricsTagline": "שיהוי התפתחותי, עיבוד חושי, כתיבה",
       "neuro": "שיקום נוירולוגי",
-      "mentalHealth": "בריאות הנפש",
-      "handTherapy": "טיפול ביד"
+      "neuroTagline": "אחרי שבץ, פגיעת ראש או ניתוח",
+      "mentalHealth": "ויסות ורגש",
+      "mentalHealthTagline": "חרדה, ADHD, ויסות חושי",
+      "handTherapy": "טיפול ביד",
+      "handTherapyTagline": "עצבים, גידים, שחזור תנועה"
+    },
+    "howItWorks": {
+      "title": "איך זה עובד?",
+      "step1Title": "תארו את הצורך",
+      "step1Desc": "חפשו לפי התמחות, מיקום, קופת חולים וזמינות",
+      "step2Title": "השוו מרפאים",
+      "step2Desc": "פרופילים מלאים עם ביוגרפיה, תמחור וביקורות אמיתיות",
+      "step3Title": "צרו קשר ישיר",
+      "step3Desc": "שלחו הודעה או התקשרו למרפא ישירות — בלי מתווכים"
+    },
+    "stats": {
+      "therapists": "200+",
+      "therapistsLabel": "מרפאים ומרפאות",
+      "cities": "42",
+      "citiesLabel": "ערים",
+      "specialisations": "8",
+      "specialisationsLabel": "תחומי התמחות",
+      "funds": "4",
+      "fundsLabel": "קופות חולים"
+    },
+    "featuredTitle": "מרפאים מובילים",
+    "contact": {
+      "title": "צרו קשר",
+      "subtitle": "יש לכם שאלה? אנחנו כאן לעזור."
+    },
+    "resultsCount": "{count, plural, =0 {לא נמצאו מרפאים} one {נמצא מרפא אחד} other {{count} מרפאים נמצאו}}",
+    "therapistBanner": {
+      "title": "מרפאים בעיסוק? הצטרפו אלינו",
+      "subtitle": "פרופיל חינמי, ללא עמלות — רק מטופלים שמחפשים בדיוק אתכם",
+      "cta": "הוסיפו את הפרופיל שלכם",
+      "free": "חינם לתמיד"
     }
   },
   "search": {
-    "title": "חיפוש מטפלים בעיסוק",
-    "results": "{count} מטפלים נמצאו",
-    "noResults": "לא נמצאו מטפלים התואמים לחיפוש שלך",
+    "title": "חיפוש מרפאים בעיסוק",
+    "results": "{count} מרפאים נמצאו",
+    "noResults": "לא נמצאו מרפאים התואמים לחיפוש שלך",
     "showFilters": "הצג מסננים",
     "hideFilters": "הסתר מסננים",
     "activeFilters": "{count} מסננים פעילים",
     "clearFilters": "נקה הכל",
-    "acceptingPatientsFilter": "מקבלים מטופלים חדשים",
+    "acceptingPatientsFilter": "מקבל/ת מטופלים חדשים",
+    "acceptingPatientsMale": "מקבל מטופלים חדשים",
+    "acceptingPatientsFemale": "מקבלת מטופלים חדשים",
     "sortBy": "מיין לפי",
     "sortOptions": {
       "relevance": "רלוונטיות",
@@ -68,9 +108,9 @@
       "leumit": "לאומית",
       "private": "פרטי בלבד"
     },
-    "therapistTitle": "מטפלים בעיסוק",
-    "therapistTitleMale": "מטפל בעיסוק",
-    "therapistTitleFemale": "מטפלת בעיסוק",
+    "therapistTitle": "מרפא/ה בעיסוק",
+    "therapistTitleMale": "מרפא בעיסוק",
+    "therapistTitleFemale": "מרפאה בעיסוק",
     "callButton": "התקשר",
     "contactButton": "צור קשר",
     "viewProfile": "צפה בפרופיל",
@@ -82,13 +122,17 @@
     "specialisationLabels": {
       "paediatrics": "ילדים ופיתוח",
       "neurological": "שיקום נוירולוגי",
-      "mental-health": "בריאות הנפש",
+      "mental-health": "ויסות ורגש",
       "hand-therapy": "טיפול ביד",
       "geriatrics": "גריאטריה",
       "sensory-processing": "עיבוד חושי",
       "vocational": "שיקום תעסוקתי",
       "ergonomic": "ארגונומיה"
     },
+    "sortNewest": "החדשים ביותר",
+    "sortPopular": "הפופולריים ביותר",
+    "noMoreResults": "ראיתם את כל המרפאים",
+    "loadingMore": "טוען עוד...",
     "languageLabels": {
       "he": "עברית",
       "ar": "ערבית",
@@ -97,6 +141,18 @@
       "fr": "צרפתית"
     },
     "messageButton": "שלח הודעה"
+  },
+  "footer": {
+    "forPatients": "למטופלים",
+    "forTherapists": "למרפאים",
+    "company": "החברה",
+    "searchTherapists": "חיפוש מרפאים",
+    "contact": "צרו קשר",
+    "joinAsTherapist": "הצטרפו כמרפא",
+    "about": "אודות",
+    "privacy": "מדיניות פרטיות",
+    "terms": "תנאי שימוש",
+    "copyright": "© 2026 Therapio. כל הזכויות שמורות."
   },
   "profile": {
     "contactPhone": "התקשר",
@@ -111,9 +167,9 @@
     "fees": "עלות טיפול",
     "acceptingPatients": "מקבלים מטופלים חדשים",
     "backToSearch": "חזרה לחיפוש",
-    "therapistTitle": "מטפלים בעיסוק",
-    "therapistTitleMale": "מטפל בעיסוק",
-    "therapistTitleFemale": "מטפלת בעיסוק",
+    "therapistTitle": "מרפא/ה בעיסוק",
+    "therapistTitleMale": "מרפא בעיסוק",
+    "therapistTitleFemale": "מרפאה בעיסוק",
     "feePerSession": "לטיפול"
   },
   "auth": {
@@ -231,17 +287,17 @@
     "ratingLabel": "הדירוג שלך",
     "ratingRequired": "אנא בחר דירוג",
     "textLabel": "הביקורת שלך",
-    "textPlaceholder": "שתפו את החוויה שלכם עם המטפל...",
+    "textPlaceholder": "שתפו את החוויה שלכם עם המרפא...",
     "textTooShort": "הביקורת חייבת להכיל לפחות 20 תווים",
     "textTooLong": "הביקורת לא יכולה לעלות על 1000 תווים",
     "submit": "שלח ביקורת",
     "submitting": "שולח...",
     "submitSuccess": "תודה! הביקורת שלך התקבלה.",
     "submitError": "שגיאה בשליחת הביקורת. נסה שוב.",
-    "alreadyReviewed": "כבר כתבת ביקורת על מטפל זה.",
+    "alreadyReviewed": "כבר כתבת ביקורת על מרפא זה.",
     "loginPrompt": "רוצה לשתף את החוויה שלך?",
     "loginLink": "התחבר כדי לכתוב ביקורת",
-    "otCannotReview": "מטפלים בעיסוק אינם יכולים לכתוב ביקורות.",
+    "otCannotReview": "מרפאים בעיסוק אינם יכולים לכתוב ביקורות.",
     "showMore": "הצג עוד ביקורות"
   },
   "contact": {

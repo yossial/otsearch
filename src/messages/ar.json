@@ -22,15 +22,53 @@
     "logout": "تسجيل الخروج"
   },
   "home": {
+    "heroEyebrow": "العلاج الوظيفي الخاص في إسرائيل",
     "heroTitle": "تبحث عن معالج وظيفي؟",
     "heroSubtitle": "معالجون وظيفيون خاصون في جميع أنحاء إسرائيل، يمكن البحث حسب التخصص وصندوق المرضى والموقع",
+    "heroParagraph": "يساعد العلاج الوظيفي الأشخاص من جميع الأعمار على تطوير والحفاظ على المهارات اللازمة للحياة اليومية — من الأطفال ذوي التأخر في النمو إلى البالغين الذين يتعافون من الإصابات أو يتعاملون مع الصحة النفسية. معالجونا يعملون معك مباشرة، بالطريقة التي تناسبك.",
+    "searchHeading": "ابحث عن المعالج الوظيفي المناسب لك",
     "searchPlaceholder": "تخصص، اسم معالج، مدينة...",
     "searchButton": "بحث",
     "quickFilters": {
       "paediatrics": "طب الأطفال",
+      "paediatricsTagline": "تأخر النمو، المعالجة الحسية، الكتابة",
       "neuro": "إعادة التأهيل العصبي",
-      "mentalHealth": "الصحة النفسية",
-      "handTherapy": "علاج اليد"
+      "neuroTagline": "بعد السكتة الدماغية أو إصابة الرأس",
+      "mentalHealth": "التنظيم العاطفي",
+      "mentalHealthTagline": "القلق، فرط الحركة، التنظيم الحسي",
+      "handTherapy": "علاج اليد",
+      "handTherapyTagline": "الأعصاب، الأوتار، استعادة الحركة"
+    },
+    "howItWorks": {
+      "title": "كيف يعمل؟",
+      "step1Title": "صف احتياجك",
+      "step1Desc": "ابحث حسب التخصص والموقع وصندوق المرضى والإتاحة",
+      "step2Title": "قارن المعالجين",
+      "step2Desc": "ملفات شخصية كاملة مع سيرة ذاتية وأسعار وتقييمات حقيقية",
+      "step3Title": "تواصل مباشرة",
+      "step3Desc": "أرسل رسالة أو اتصل بالمعالج مباشرة — بدون وسطاء"
+    },
+    "stats": {
+      "therapists": "+200",
+      "therapistsLabel": "معالج ومعالجة",
+      "cities": "42",
+      "citiesLabel": "مدينة",
+      "specialisations": "8",
+      "specialisationsLabel": "تخصصات",
+      "funds": "4",
+      "fundsLabel": "صناديق صحية"
+    },
+    "featuredTitle": "معالجون مميزون",
+    "contact": {
+      "title": "تواصل معنا",
+      "subtitle": "هل لديك سؤال؟ نحن هنا للمساعدة."
+    },
+    "resultsCount": "{count, plural, =0 {لم يتم العثور على معالجين} one {تم العثور على معالج واحد} other {تم العثور على {count} معالجين}}",
+    "therapistBanner": {
+      "title": "أنت معالج وظيفي؟ انضم إلينا",
+      "subtitle": "ملف شخصي مجاني، بدون عمولات — فقط مرضى يبحثون عما تقدمه",
+      "cta": "أضف ملفك الشخصي",
+      "free": "مجاني دائمًا"
     }
   },
   "search": {
@@ -41,7 +79,9 @@
     "hideFilters": "إخفاء الفلاتر",
     "activeFilters": "{count} فلاتر نشطة",
     "clearFilters": "مسح الكل",
-    "acceptingPatientsFilter": "يقبلون مرضى جدد",
+    "acceptingPatientsFilter": "يقبل مرضى جدد",
+    "acceptingPatientsMale": "يقبل مرضى جدد",
+    "acceptingPatientsFemale": "تقبل مرضى جدد",
     "sortBy": "ترتيب حسب",
     "sortOptions": {
       "relevance": "الصلة",
@@ -82,13 +122,17 @@
     "specialisationLabels": {
       "paediatrics": "طب الأطفال",
       "neurological": "إعادة التأهيل العصبي",
-      "mental-health": "الصحة النفسية",
+      "mental-health": "التنظيم العاطفي",
       "hand-therapy": "علاج اليد",
       "geriatrics": "طب الشيخوخة",
       "sensory-processing": "معالجة حسية",
       "vocational": "إعادة التأهيل المهني",
       "ergonomic": "الإرغونوميا"
     },
+    "sortNewest": "الأحدث",
+    "sortPopular": "الأكثر شعبية",
+    "noMoreResults": "لقد رأيت جميع المعالجين",
+    "loadingMore": "جارٍ التحميل...",
     "languageLabels": {
       "he": "العبرية",
       "ar": "العربية",
@@ -97,6 +141,18 @@
       "fr": "الفرنسية"
     },
     "messageButton": "أرسل رسالة"
+  },
+  "footer": {
+    "forPatients": "للمرضى",
+    "forTherapists": "للمعالجين",
+    "company": "الشركة",
+    "searchTherapists": "البحث عن معالج",
+    "contact": "تواصل معنا",
+    "joinAsTherapist": "انضم كمعالج",
+    "about": "من نحن",
+    "privacy": "سياسة الخصوصية",
+    "terms": "شروط الخدمة",
+    "copyright": "© 2026 Therapio. جميع الحقوق محفوظة."
   },
   "profile": {
     "contactPhone": "اتصال",

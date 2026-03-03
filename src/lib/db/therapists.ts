@@ -48,7 +48,7 @@ export interface TherapistSearchQuery {
   lng?: number;
   radius?: number;
   acceptingOnly?: boolean;
-  sort?: 'relevance' | 'distance' | 'rating';
+  sort?: 'relevance' | 'distance' | 'rating' | 'newest' | 'popular';
   page?: number;
   limit?: number;
 }
@@ -112,6 +112,10 @@ export async function searchTherapists(query: TherapistSearchQuery): Promise<Sea
     sortOrder = { score: { $meta: 'textScore' }, isFeatured: -1 };
   } else if (sortBy === 'rating') {
     sortOrder = { ratingAvg: -1, ratingCount: -1, isFeatured: -1 };
+  } else if (sortBy === 'newest') {
+    sortOrder = { createdAt: -1, isFeatured: -1 };
+  } else if (sortBy === 'popular') {
+    sortOrder = { profileViews: -1, isFeatured: -1 };
   } else {
     sortOrder = { isFeatured: -1, subscriptionTier: -1, createdAt: -1 };
   }

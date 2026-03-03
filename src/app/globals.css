@@ -2,22 +2,24 @@
 
 /* ─── Design Tokens ──────────────────────────────────────────── */
 @theme {
-  /* Colours */
-  --color-primary:        #5B3FD4;
-  --color-primary-dark:   #3D28A0;
-  --color-primary-light:  #EDE9FC;
-  --color-accent:         #0EA5A0;
-  --color-accent-light:   #E0F7F6;
-  --color-surface:        #FFFFFF;
-  --color-bg:             #F7F6FB;
-  --color-bg-alt:         #F0EEF9;
-  --color-border:         #E4E0F0;
-  --color-text-primary:   #1A1035;
-  --color-text-secondary: #6B6480;
-  --color-text-muted:     #9D97B0;
-  --color-success:        #16A34A;
-  --color-warning:        #D97706;
-  --color-error:          #DC2626;
+ /* Colours — Clean, Elegant & Welcoming */
+ --color-primary:         #4A6670; /* Sophisticated Muted Slate */
+ --color-primary-dark:    #344952;
+ --color-primary-light:   #E8EDEF;
+ --color-accent:          #C2A87E; /* Soft Champagne Gold */
+ --color-accent-light:    #F4F0E8;
+ --color-peach:           #E9D7C3; /* Muted Sand */
+ --color-cream:           #F9F7F2; /* Off-white / Linen */
+ --color-surface:         #FFFFFF;
+ --color-bg:              #FBFBFA; /* Clean, airy background */
+ --color-bg-alt:          #F2F2EF; /* Subtle contrast for sections */
+ --color-border:          #E2E2DE;
+ --color-text-primary:    #2C2C2B; /* Soft black for readability */
+ --color-text-secondary:  #5E5E5A;
+ --color-text-muted:      #8C8C88;
+ --color-success:         #6B8E6B; /* Muted Sage Green */
+ --color-warning:         #C9A050; /* Ochre instead of bright amber */
+ --color-error:           #AF5B5B; /* Desaturated Terracotta Red */
 
   /* Typography */
   --font-sans: 'Inter', 'Noto Sans Hebrew', 'Noto Sans Arabic', sans-serif;
@@ -28,17 +30,17 @@
   --font-weight-extrabold: 800;
 
   /* Border radius */
-  --radius-sm:  8px;
-  --radius-md:  12px;
-  --radius-lg:  16px;
-  --radius-xl:  24px;
-  --radius-2xl: 32px;
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+  --radius-xl:  20px;
+  --radius-2xl: 28px;
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-card:       0 1px 3px 0 rgba(91,63,212,0.06), 0 4px 16px 0 rgba(91,63,212,0.08);
-  --shadow-card-hover: 0 4px 12px 0 rgba(91,63,212,0.10), 0 8px 32px 0 rgba(91,63,212,0.12);
-  --shadow-modal:      0 20px 60px 0 rgba(26,16,53,0.18);
+  /* Shadows — soft, neutral */
+  --shadow-card:       0 2px 12px rgba(0,0,0,0.08);
+  --shadow-card-hover: 0 4px 20px rgba(0,0,0,0.12);
+  --shadow-modal:      0 20px 60px rgba(0,0,0,0.15);
 
   /* Transitions */
   --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
@@ -72,4 +74,10 @@ body {
 :focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
+}
+
+/* ─── Landing hero dot grid ──────────────────────────────────── */
+.bg-dot-grid {
+  background-image: radial-gradient(circle, rgba(255,255,255,0.10) 1px, transparent 1px);
+  background-size: 28px 28px;
 }

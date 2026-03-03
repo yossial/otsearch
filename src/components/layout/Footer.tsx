@@ -6,51 +6,108 @@ import { Link } from '@/i18n/navigation';
 export default function Footer() {
   const tCommon = useTranslations('common');
   const tNav = useTranslations('nav');
+  const tFooter = useTranslations('footer');
 
   return (
-    <footer className="border-t border-border bg-bg-alt py-8">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Main footer row */}
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-          {/* Logo + tagline */}
-          <div className="flex flex-col gap-1">
-            <Link href="/" className="text-lg font-bold text-primary">
+    <footer className="border-t border-border bg-bg-alt">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        {/* Multi-column grid */}
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Col 1 — Brand */}
+          <div className="flex flex-col gap-3">
+            <Link href="/" className="text-xl font-bold text-primary">
               {tCommon('appName')}
             </Link>
-            <p className="text-sm text-text-muted">
+            <p className="max-w-[200px] text-sm leading-relaxed text-text-muted">
               {tCommon('tagline')}
             </p>
           </div>
 
-          {/* Nav links */}
-          <nav className="flex flex-wrap items-center gap-5">
-            <Link
-              href="/"
-              className="text-sm text-text-secondary transition-colors hover:text-primary"
-            >
-              {tNav('home')}
-            </Link>
-            <Link
-              href="/search"
-              className="text-sm text-text-secondary transition-colors hover:text-primary"
-            >
-              {tNav('search')}
-            </Link>
-            <Link
-              href="/auth/login"
-              className="text-sm text-text-secondary transition-colors hover:text-primary"
-            >
-              {tNav('login')}
-            </Link>
-            <Link
-              href="/auth/register"
-              className="text-sm text-text-secondary transition-colors hover:text-primary"
-            >
-              {tNav('register')}
-            </Link>
-          </nav>
+          {/* Col 2 — For Patients */}
+          <div className="flex flex-col gap-3">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-text-muted">
+              {tFooter('forPatients')}
+            </h3>
+            <nav className="flex flex-col gap-2">
+              <Link
+                href="/"
+                className="text-sm text-text-secondary transition-colors hover:text-primary"
+              >
+                {tNav('home')}
+              </Link>
+              <Link
+                href="/search"
+                className="text-sm text-text-secondary transition-colors hover:text-primary"
+              >
+                {tFooter('searchTherapists')}
+              </Link>
+              <Link
+                href="/#contact"
+                className="text-sm text-text-secondary transition-colors hover:text-primary"
+              >
+                {tFooter('contact')}
+              </Link>
+            </nav>
+          </div>
 
-          {/* Locale switcher */}
+          {/* Col 3 — For Therapists */}
+          <div className="flex flex-col gap-3">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-text-muted">
+              {tFooter('forTherapists')}
+            </h3>
+            <nav className="flex flex-col gap-2">
+              <Link
+                href="/auth/register"
+                className="text-sm text-text-secondary transition-colors hover:text-primary"
+              >
+                {tFooter('joinAsTherapist')}
+              </Link>
+              <Link
+                href="/auth/login"
+                className="text-sm text-text-secondary transition-colors hover:text-primary"
+              >
+                {tNav('login')}
+              </Link>
+              <Link
+                href="/dashboard"
+                className="text-sm text-text-secondary transition-colors hover:text-primary"
+              >
+                {tNav('dashboard')}
+              </Link>
+            </nav>
+          </div>
+
+          {/* Col 4 — Legal */}
+          <div className="flex flex-col gap-3">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-text-muted">
+              {tFooter('company')}
+            </h3>
+            <nav className="flex flex-col gap-2">
+              <Link
+                href="/about"
+                className="text-sm text-text-secondary transition-colors hover:text-primary"
+              >
+                {tFooter('about')}
+              </Link>
+              <Link
+                href="/privacy"
+                className="text-sm text-text-secondary transition-colors hover:text-primary"
+              >
+                {tFooter('privacy')}
+              </Link>
+              <Link
+                href="/terms"
+                className="text-sm text-text-secondary transition-colors hover:text-primary"
+              >
+                {tFooter('terms')}
+              </Link>
+            </nav>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 sm:flex-row">
+          {/* Language switcher */}
           <div className="flex items-center gap-3">
             <span className="text-xs font-medium uppercase tracking-wide text-text-muted">
               Lang
@@ -77,13 +134,8 @@ export default function Footer() {
               عر
             </Link>
           </div>
-        </div>
 
-        {/* Bottom row */}
-        <div className="mt-6 border-t border-border pt-4">
-          <p className="text-center text-xs text-text-muted">
-            &copy; 2025 Therapio. All rights reserved.
-          </p>
+          <p className="text-xs text-text-muted">{tFooter('copyright')}</p>
         </div>
       </div>
     </footer>

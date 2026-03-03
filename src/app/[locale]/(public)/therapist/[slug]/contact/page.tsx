@@ -16,12 +16,12 @@ export default async function ContactPage({ params }: Props) {
   const t = await getTranslations('contact');
   const tSearch = await getTranslations('search');
 
-  const ot = await getTherapistBySlug(slug).catch(() => getMockTherapistBySlug(slug));
-  if (!ot) notFound();
+  const therapist = await getTherapistBySlug(slug).catch(() => getMockTherapistBySlug(slug));
+  if (!therapist) notFound();
 
-  const name = ot.displayName[locale as keyof typeof ot.displayName] ?? ot.displayName.he;
+  const name = therapist.displayName[locale as keyof typeof therapist.displayName] ?? therapist.displayName.he;
 
-  const [lng, lat] = ot.location.coordinates;
+  const [lng, lat] = therapist.location.coordinates;
   const mapSrc = `https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed`;
 
   return (
@@ -39,10 +39,10 @@ export default async function ContactPage({ params }: Props) {
           {t('backToProfile')}
         </Link>
 
-        {/* OT mini-header */}
+        {/* Therapist mini-header */}
         <div className="mb-6 flex items-center gap-4 rounded-lg bg-surface p-5 shadow-card">
           <Image
-            src={ot.photo ?? `https://i.pravatar.cc/150?u=${ot.slug}`}
+            src={therapist.photo ?? `https://i.pravatar.cc/150?u=${therapist.slug}`}
             alt={name}
             width={56}
             height={56}
@@ -50,9 +50,9 @@ export default async function ContactPage({ params }: Props) {
           />
           <div>
             <h1 className="text-lg font-bold text-text-primary">{name}</h1>
-            <p className="text-sm text-text-secondary">{tSearch('therapistTitle')} · {ot.location.city}</p>
+            <p className="text-sm text-text-secondary">{tSearch('therapistTitle')} · {therapist.location.city}</p>
             <div className="mt-1 flex flex-wrap gap-1">
-              {ot.specialisations.slice(0, 3).map((s) => (
+              {therapist.specialisations.slice(0, 3).map((s) => (
                 <span key={s} className="rounded-full bg-primary-light px-2 py-0.5 text-xs font-medium text-primary">
                   {tSearch(`specialisationLabels.${s}`)}
                 </span>
@@ -69,7 +69,7 @@ export default async function ContactPage({ params }: Props) {
             <div className="rounded-lg bg-surface p-6 shadow-card">
               <h2 className="mb-1 text-xl font-bold text-text-primary">{t('title')}</h2>
               <p className="mb-6 text-sm text-text-secondary">{t('subtitle', { name })}</p>
-              <ContactForm otSlug={slug} otName={name} otEmail={ot.contactEmail} />
+              <ContactForm therapistSlug={slug} therapistName={name} therapistEmail={therapist.contactEmail} />
             </div>
           </div>
 
@@ -85,8 +85,8 @@ export default async function ContactPage({ params }: Props) {
               />
               <div className="p-4">
                 <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary">{t('mapTitle')}</p>
-                <p className="mt-1 text-sm text-text-primary">{ot.location.address}</p>
-                <p className="text-sm text-text-muted">{ot.location.city}</p>
+                <p className="mt-1 text-sm text-text-primary">{therapist.location.address}</p>
+                <p className="text-sm text-text-muted">{therapist.location.city}</p>
               </div>
             </div>
           </aside>

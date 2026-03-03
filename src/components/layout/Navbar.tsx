@@ -11,12 +11,12 @@ export default function Navbar() {
   const { data: session } = useSession();
   const isLoggedIn = !!session?.user;
   const role = (session?.user as { role?: string } | undefined)?.role;
-  const isOT = role === 'ot';
+  const isTherapist = role === 'therapist';
 
   const close = () => setMobileOpen(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-surface shadow-[0_1px_4px_rgba(91,63,212,0.06)]">
+    <header className="border-b border-border bg-surface shadow-[0_1px_4px_rgba(0,0,0,0.06)]">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
@@ -27,7 +27,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-3">
           {isLoggedIn ? (
             <>
-              {isOT && (
+              {isTherapist && (
                 <Link
                   href="/dashboard/edit"
                   className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-text-primary transition-colors hover:border-primary hover:text-primary"
@@ -93,7 +93,7 @@ export default function Navbar() {
           <div className="mt-3 flex flex-col gap-2">
             {isLoggedIn ? (
               <>
-                {isOT && (
+                {isTherapist && (
                   <Link
                     href="/dashboard/edit"
                     onClick={close}

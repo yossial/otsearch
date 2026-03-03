@@ -39,6 +39,11 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
   const name = ot.displayName[locale as keyof typeof ot.displayName] ?? ot.displayName.he;
   const bio = ot.bio[locale as keyof typeof ot.bio] ?? ot.bio.he;
 
+  const titleKey =
+    ot.gender === 'male' ? 'therapistTitleMale'
+    : ot.gender === 'female' ? 'therapistTitleFemale'
+    : 'therapistTitle';
+
   const sessionUserId = (session?.user as { id?: string } | undefined)?.id ?? null;
   const userRole = (session?.user as { role?: string } | undefined)?.role ?? null;
 
@@ -68,7 +73,7 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
             <div className="flex flex-wrap items-start gap-3">
               <div>
                 <h1 className="text-2xl font-bold text-text-primary">{name}</h1>
-                <p className="text-base text-text-secondary">{t('therapistTitle')}</p>
+                <p className="text-base text-text-secondary">{t(titleKey)}</p>
               </div>
               <div className="flex flex-wrap gap-2">
                 {ot.subscriptionTier === 'premium' && (

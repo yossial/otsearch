@@ -22,9 +22,9 @@
     "logout": "تسجيل الخروج"
   },
   "home": {
-    "heroTitle": "اعثر على المعالج الوظيفي المناسب لك",
+    "heroTitle": "تبحث عن معالج وظيفي؟",
     "heroSubtitle": "معالجون وظيفيون خاصون في جميع أنحاء إسرائيل، يمكن البحث حسب التخصص وصندوق المرضى والموقع",
-    "searchPlaceholder": "التخصص أو اسم المعالج...",
+    "searchPlaceholder": "تخصص، اسم معالج، مدينة...",
     "searchButton": "بحث",
     "quickFilters": {
       "paediatrics": "طب الأطفال",
@@ -41,7 +41,7 @@
     "hideFilters": "إخفاء الفلاتر",
     "activeFilters": "{count} فلاتر نشطة",
     "clearFilters": "مسح الكل",
-    "acceptingPatientsFilter": "يقبل مرضى جدد",
+    "acceptingPatientsFilter": "يقبلون مرضى جدد",
     "sortBy": "ترتيب حسب",
     "sortOptions": {
       "relevance": "الصلة",
@@ -68,7 +68,9 @@
       "leumit": "لئومت",
       "private": "خاص فقط"
     },
-    "therapistTitle": "معالج/ة وظيفي",
+    "therapistTitle": "معالجون وظيفيون",
+    "therapistTitleMale": "معالج وظيفي",
+    "therapistTitleFemale": "معالجة وظيفية",
     "callButton": "اتصل",
     "contactButton": "تواصل",
     "viewProfile": "عرض الملف الشخصي",
@@ -109,7 +111,9 @@
     "fees": "رسوم الجلسة",
     "acceptingPatients": "يقبل مرضى جدد",
     "backToSearch": "العودة للبحث",
-    "therapistTitle": "معالج/ة وظيفي",
+    "therapistTitle": "معالجون وظيفيون",
+    "therapistTitleMale": "معالج وظيفي",
+    "therapistTitleFemale": "معالجة وظيفية",
     "feePerSession": "للجلسة"
   },
   "auth": {
@@ -173,6 +177,10 @@
       "feeMax": "الحد الأقصى لرسوم الجلسة (₪)",
       "mohNumber": "رقم ترخيص وزارة الصحة",
       "acceptingPatients": "أقبل مرضى جدد",
+      "gender": "الجنس",
+      "genderMale": "ذكر",
+      "genderFemale": "أنثى",
+      "genderUnspecified": "أفضل عدم الإفصاح",
       "saveError": "حدث خطأ في حفظ الملف الشخصي"
     }
   },
@@ -205,6 +213,10 @@
       "feeMin": "الحد الأدنى لرسوم الجلسة (₪)",
       "feeMax": "الحد الأقصى لرسوم الجلسة (₪)",
       "acceptingPatients": "يقبل مرضى جدد",
+      "gender": "الجنس",
+      "genderMale": "ذكر",
+      "genderFemale": "أنثى",
+      "genderUnspecified": "أفضل عدم الإفصاح",
       "saveSuccess": "تم تحديث الملف الشخصي بنجاح",
       "saveError": "خطأ في حفظ الملف الشخصي",
       "save": "حفظ التغييرات"

@@ -23,6 +23,11 @@ export default function TherapistCard({ therapist }: { therapist: TherapistProfi
 
   const isPremium = ot.subscriptionTier === 'premium';
 
+  const titleKey =
+    ot.gender === 'male' ? 'therapistTitleMale'
+    : ot.gender === 'female' ? 'therapistTitleFemale'
+    : 'therapistTitle';
+
   return (
     <article
       onClick={() => router.push(`/therapist/${ot.slug}`)}
@@ -45,7 +50,7 @@ export default function TherapistCard({ therapist }: { therapist: TherapistProfi
         <div className="flex flex-wrap items-start justify-between gap-2">
           <div>
             <h3 className="text-base font-bold text-text-primary">{name}</h3>
-            <p className="text-sm text-text-secondary">{t('therapistTitle')}</p>
+            <p className="text-sm text-text-secondary">{t(titleKey)}</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             {ot.isAcceptingPatients && (

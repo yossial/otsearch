@@ -32,6 +32,7 @@ export async function PATCH(req: NextRequest) {
       'isAcceptingPatients',
       'location',
       'mohRegistrationNumber',
+      'gender',
     ];
 
     const update: Record<string, unknown> = {};

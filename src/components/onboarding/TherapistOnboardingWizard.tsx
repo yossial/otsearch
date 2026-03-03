@@ -12,6 +12,7 @@ interface Step1Data {
   displayNameEn: string;
   displayNameAr: string;
   languages: string[];
+  gender: 'male' | 'female' | null;
 }
 
 interface Step2Data {
@@ -178,6 +179,25 @@ function Step1({
           onChange={(v) => onChange({ displayNameAr: v })}
           dir="rtl"
         />
+      </div>
+      <div className="flex flex-col gap-2">
+        <FieldLabel>{t('gender')}</FieldLabel>
+        <div className="flex flex-wrap gap-2">
+          {([['male', t('genderMale')], ['female', t('genderFemale')], [null, t('genderUnspecified')]] as [('male' | 'female' | null), string][]).map(([val, label]) => (
+            <button
+              key={String(val)}
+              type="button"
+              onClick={() => onChange({ gender: val })}
+              className={`rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ${
+                data.gender === val
+                  ? 'border-primary bg-primary text-white'
+                  : 'border-border bg-bg text-text-secondary hover:border-primary/50'
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
       </div>
       <div className="flex flex-col gap-2">
         <FieldLabel>{t('languages')}</FieldLabel>
@@ -400,6 +420,7 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
     displayNameEn: '',
     displayNameAr: '',
     languages: ['he'],
+    gender: null,
   });
   const [step2, setStep2] = useState<Step2Data>({
     city: '',
@@ -477,6 +498,7 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
       contactEmail: step3.email || undefined,
       insuranceAccepted: step3.insuranceAccepted,
       isAcceptingPatients: step3.acceptingPatients,
+      gender: step1.gender,
     };
 
     if (!isNaN(feeMin) && !isNaN(feeMax) && feeMin > 0 && feeMax >= feeMin) {

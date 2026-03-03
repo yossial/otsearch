@@ -66,6 +66,7 @@ function toPublic(m: (typeof MOCK_OTS)[number]): TherapistProfilePublic {
     ratingAvg: 0,
     ratingCount: 0,
     createdAt: new Date(0).toISOString(),
+    gender: null,
   };
 }
 

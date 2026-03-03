@@ -35,6 +35,7 @@ const profiles = [
     subscriptionTier: 'premium' as const,
     isFeatured: true,
     isAcceptingPatients: true,
+    gender: 'female' as const,
   },
   {
     slug: 'yosef-levi',
@@ -57,6 +58,7 @@ const profiles = [
     subscriptionTier: 'premium' as const,
     isFeatured: true,
     isAcceptingPatients: true,
+    gender: 'male' as const,
   },
   {
     slug: 'sara-mizrahi',
@@ -79,6 +81,7 @@ const profiles = [
     subscriptionTier: 'premium' as const,
     isFeatured: false,
     isAcceptingPatients: false,
+    gender: 'female' as const,
   },
   {
     slug: 'david-peretz',
@@ -101,6 +104,7 @@ const profiles = [
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'male' as const,
   },
   {
     slug: 'hana-shapira',
@@ -123,6 +127,7 @@ const profiles = [
     subscriptionTier: 'premium' as const,
     isFeatured: true,
     isAcceptingPatients: true,
+    gender: 'female' as const,
   },
   {
     slug: 'amir-hassan',
@@ -145,6 +150,7 @@ const profiles = [
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'male' as const,
   },
   {
     slug: 'rivka-goldman',
@@ -167,6 +173,7 @@ const profiles = [
     subscriptionTier: 'premium' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'female' as const,
   },
   {
     slug: 'noa-katz',
@@ -189,6 +196,7 @@ const profiles = [
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'female' as const,
   },
   {
     slug: 'eli-ben-david',
@@ -211,6 +219,7 @@ const profiles = [
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'male' as const,
   },
   {
     slug: 'fatima-abu-ali',
@@ -233,6 +242,7 @@ const profiles = [
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'female' as const,
   },
   {
     slug: 'tamar-roi',
@@ -255,6 +265,7 @@ const profiles = [
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: false,
+    gender: 'female' as const,
   },
   {
     slug: 'ron-ofer',
@@ -277,6 +288,7 @@ const profiles = [
     subscriptionTier: 'premium' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'male' as const,
   },
   {
     slug: 'orna-friedman',
@@ -299,6 +311,7 @@ const profiles = [
     subscriptionTier: 'premium' as const,
     isFeatured: true,
     isAcceptingPatients: true,
+    gender: 'female' as const,
   },
   {
     slug: 'gal-bar-oz',
@@ -321,6 +334,7 @@ const profiles = [
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'female' as const,
   },
   {
     slug: 'moshe-dvir',
@@ -343,6 +357,7 @@ const profiles = [
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'male' as const,
   },
   {
     slug: 'shira-landau',
@@ -365,6 +380,7 @@ const profiles = [
     subscriptionTier: 'premium' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'female' as const,
   },
   {
     slug: 'avi-nachshon',
@@ -387,6 +403,7 @@ const profiles = [
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'male' as const,
   },
   {
     slug: 'maya-reuveni',
@@ -409,6 +426,7 @@ const profiles = [
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: false,
+    gender: 'female' as const,
   },
   {
     slug: 'dan-zarchi',
@@ -431,6 +449,7 @@ const profiles = [
     subscriptionTier: 'premium' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'male' as const,
   },
   {
     slug: 'rachel-stern',
@@ -453,6 +472,7 @@ const profiles = [
     subscriptionTier: 'premium' as const,
     isFeatured: true,
     isAcceptingPatients: true,
+    gender: 'female' as const,
   },
   {
     slug: 'tal-sela',
@@ -475,6 +495,7 @@ const profiles = [
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'female' as const,
   },
 ];
 

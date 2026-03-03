@@ -32,6 +32,7 @@ export interface TherapistProfileDocument extends Document {
   profileViews: number;
   ratingAvg: number;
   ratingCount: number;
+  gender: 'male' | 'female' | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -90,6 +91,7 @@ const TherapistProfileSchema = new Schema<TherapistProfileDocument>(
     profileViews: { type: Number, default: 0 },
     ratingAvg: { type: Number, default: 0, min: 0, max: 5 },
     ratingCount: { type: Number, default: 0, min: 0 },
+    gender: { type: String, enum: ['male', 'female', null], default: null },
   },
   // Keep collection name as 'otprofiles' to avoid a data migration
   { timestamps: true, collection: 'otprofiles' }

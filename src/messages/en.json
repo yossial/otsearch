@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "OT Connect",
+    "appName": "Therapio",
     "loading": "Loading...",
     "error": "Error",
     "save": "Save",
@@ -8,7 +8,8 @@
     "back": "Back",
     "next": "Next",
     "submit": "Submit",
-    "search": "Search"
+    "search": "Search",
+    "tagline": "Find private occupational therapists in Israel"
   },
   "nav": {
     "home": "Home",
@@ -17,12 +18,13 @@
     "register": "Register",
     "dashboard": "Dashboard",
     "profile": "Profile",
+    "editProfile": "Edit profile",
     "logout": "Log out"
   },
   "home": {
     "heroTitle": "Find the right occupational therapist for you",
-    "heroSubtitle": "Private OTs across Israel, searchable by specialisation, Kupat Holim and location",
-    "searchPlaceholder": "Specialisation or OT name...",
+    "heroSubtitle": "Private therapists across Israel, searchable by specialisation, Kupat Holim and location",
+    "searchPlaceholder": "Specialisation or therapist name...",
     "searchButton": "Search",
     "quickFilters": {
       "paediatrics": "Paediatrics",
@@ -35,6 +37,11 @@
     "title": "Find Occupational Therapists",
     "results": "{count} therapists found",
     "noResults": "No therapists found matching your search",
+    "showFilters": "Show filters",
+    "hideFilters": "Hide filters",
+    "activeFilters": "{count} active filters",
+    "clearFilters": "Clear all",
+    "acceptingPatientsFilter": "Accepting new patients",
     "sortBy": "Sort by",
     "sortOptions": {
       "relevance": "Relevance",
@@ -60,6 +67,32 @@
       "meuhedet": "Meuhedet",
       "leumit": "Leumit",
       "private": "Private pay"
+    },
+    "therapistTitle": "Occupational Therapist",
+    "callButton": "Call",
+    "messageButton": "Message",
+    "viewProfile": "View profile",
+    "insuranceLabel": "Insurance:",
+    "sessionLabel": "Session:",
+    "feePerSession": "per session",
+    "noFeeInfo": "Price on request",
+    "filtersTitle": "Filters",
+    "specialisationLabels": {
+      "paediatrics": "Paediatrics",
+      "neurological": "Neurological rehab",
+      "mental-health": "Mental health",
+      "hand-therapy": "Hand therapy",
+      "geriatrics": "Geriatrics",
+      "sensory-processing": "Sensory processing",
+      "vocational": "Vocational rehab",
+      "ergonomic": "Ergonomics"
+    },
+    "languageLabels": {
+      "he": "Hebrew",
+      "ar": "Arabic",
+      "en": "English",
+      "ru": "Russian",
+      "fr": "French"
     }
   },
   "profile": {
@@ -73,7 +106,10 @@
     "sessionTypes": "Session types",
     "about": "About",
     "fees": "Session fees",
-    "acceptingPatients": "Accepting new patients"
+    "acceptingPatients": "Accepting new patients",
+    "backToSearch": "Back to search",
+    "therapistTitle": "Occupational Therapist",
+    "feePerSession": "per session"
   },
   "auth": {
     "login": {
@@ -87,15 +123,19 @@
     },
     "register": {
       "title": "Create an account",
-      "asOT": "I am an occupational therapist",
-      "asPatient": "I am a patient",
       "email": "Email",
       "password": "Password",
       "confirmPassword": "Confirm password",
       "name": "Full name",
-      "submit": "Register",
+      "submit": "Create account",
       "hasAccount": "Already have an account?",
       "login": "Log in"
+    },
+    "social": {
+      "continueWithGoogle": "Continue with Google",
+      "continueWithApple": "Continue with Apple",
+      "orContinueWith": "or continue with",
+      "oauthError": "Sign-in error, please try again"
     },
     "errors": {
       "invalidCredentials": "Invalid email or password",
@@ -104,6 +144,35 @@
       "invalidEmail": "Invalid email address",
       "passwordTooShort": "Password must be at least 8 characters",
       "passwordMismatch": "Passwords do not match"
+    }
+  },
+  "onboarding": {
+    "therapist": {
+      "title": "Let's set up your profile",
+      "subtitle": "A few details and you'll appear in search results",
+      "step": "Step {current} of {total}",
+      "step1Title": "Basic information",
+      "step2Title": "Location & specialisations",
+      "step3Title": "Contact & fees",
+      "next": "Next",
+      "back": "Back",
+      "finish": "Finish and go to dashboard",
+      "displayNameHe": "Display name (Hebrew) *",
+      "displayNameEn": "Display name (English)",
+      "displayNameAr": "Display name (Arabic)",
+      "languages": "Treatment languages *",
+      "city": "City *",
+      "address": "Address",
+      "specialisations": "Specialisations *",
+      "sessionTypes": "Session types *",
+      "insurance": "Insurance accepted",
+      "phone": "Phone *",
+      "email": "Contact email",
+      "feeMin": "Min session fee (₪)",
+      "feeMax": "Max session fee (₪)",
+      "mohNumber": "Ministry of Health licence number",
+      "acceptingPatients": "Accepting new patients",
+      "saveError": "Error saving profile"
     }
   },
   "dashboard": {
@@ -117,6 +186,76 @@
     "viewProfile": "View profile",
     "last7days": "Last 7 days",
     "last30days": "Last 30 days",
-    "allTime": "All time"
+    "allTime": "All time",
+    "incompleteProfile": "Your profile is not complete — add your details to appear in search results.",
+    "completeProfile": "Complete your profile",
+    "edit": {
+      "title": "Edit profile",
+      "bio": "About (Hebrew)",
+      "bioAr": "About (Arabic)",
+      "bioEn": "About (English)",
+      "city": "City",
+      "address": "Address",
+      "phone": "Phone",
+      "specialisations": "Specialisations",
+      "languages": "Languages",
+      "sessionTypes": "Session types",
+      "insurance": "Insurance accepted",
+      "feeMin": "Min session fee (₪)",
+      "feeMax": "Max session fee (₪)",
+      "acceptingPatients": "Accepting new patients",
+      "saveSuccess": "Profile updated successfully",
+      "saveError": "Error saving profile",
+      "save": "Save changes"
+    }
+  },
+  "reviews": {
+    "title": "Reviews",
+    "titleWithCount": "Reviews ({count})",
+    "noReviews": "No reviews yet",
+    "basedOn": "Based on {count} reviews",
+    "formTitle": "Leave a review",
+    "ratingLabel": "Your rating",
+    "ratingRequired": "Please select a rating",
+    "textLabel": "Your review",
+    "textPlaceholder": "Share your experience with this therapist...",
+    "textTooShort": "Review must be at least 20 characters",
+    "textTooLong": "Review must be no more than 1000 characters",
+    "submit": "Submit review",
+    "submitting": "Submitting...",
+    "submitSuccess": "Thank you! Your review has been submitted.",
+    "submitError": "Failed to submit review. Please try again.",
+    "alreadyReviewed": "You have already reviewed this therapist.",
+    "loginPrompt": "Want to share your experience?",
+    "loginLink": "Log in to leave a review",
+    "otCannotReview": "Therapists cannot leave reviews.",
+    "showMore": "Show more reviews"
+  },
+  "contact": {
+    "title": "Send a message",
+    "subtitle": "Get in touch with {name}",
+    "backToProfile": "Back to profile",
+    "mapTitle": "Location",
+    "nameLabel": "Full name",
+    "namePlaceholder": "Your name",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "your@email.com",
+    "phoneLabel": "Phone number",
+    "phonePlaceholder": "Optional",
+    "subjectLabel": "Subject",
+    "subjects": {
+      "newPatient": "New patient inquiry",
+      "appointment": "Appointment request",
+      "insurance": "Insurance / fees question",
+      "general": "General question",
+      "other": "Other"
+    },
+    "messageLabel": "Message",
+    "messagePlaceholder": "Hello, I would like to...",
+    "submit": "Send message",
+    "sending": "Sending...",
+    "success": "Message sent!",
+    "successDetail": "Your message has been sent to {name}. They will be in touch shortly.",
+    "error": "Failed to send your message. Please try again."
   }
 }

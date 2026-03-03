@@ -1,26 +1,110 @@
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
+import { searchTherapists } from '@/lib/db/therapists';
+import { searchMockTherapists } from '@/lib/mock-search';
+import SearchBar from '@/components/home/SearchBar';
+import FilterSidebar from '@/components/search/FilterSidebar';
+import TherapistCard from '@/components/search/TherapistCard';
+import type { TherapistProfilePublic, SearchParams } from '@/types';
 
-export default function HomePage() {
-  const t = useTranslations('home');
+interface HomePageProps {
+  searchParams: Promise<{
+    q?: string;
+    specialisation?: string | string[];
+    insurance?: string | string[];
+    sessionType?: string | string[];
+    language?: string | string[];
+    city?: string;
+    acceptingOnly?: string;
+    sort?: string;
+    page?: string;
+  }>;
+}
+
+export default async function HomePage({ searchParams }: HomePageProps) {
+  const sp = await searchParams;
+  const tHome = await getTranslations('home');
+  const tSearch = await getTranslations('search');
+
+  const query: SearchParams = {
+    q: sp.q,
+    specialisation: sp.specialisation as SearchParams['specialisation'],
+    insurance: sp.insurance as SearchParams['insurance'],
+    sessionType: sp.sessionType as SearchParams['sessionType'],
+    language: sp.language,
+    city: sp.city,
+    acceptingOnly: sp.acceptingOnly === 'true',
+    sort: sp.sort as SearchParams['sort'],
+    page: sp.page ? parseInt(sp.page, 10) : 1,
+    limit: 20,
+  };
+
+  let profiles: TherapistProfilePublic[] = [];
+  let total = 0;
+  let usingMockData = false;
+
+  try {
+    ({ profiles, total } = await searchTherapists(query));
+  } catch (err) {
+    console.warn('[HomePage] DB unavailable, falling back to mock data:', (err as Error).message);
+    ({ profiles, total } = searchMockTherapists(query));
+    usingMockData = true;
+  }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-bg px-4">
-      <div className="w-full max-w-3xl text-center">
-        <h1 className="mb-4 text-4xl font-extrabold tracking-tight text-text-primary lg:text-5xl">
-          {t('heroTitle')}
-        </h1>
-        <p className="mb-8 text-lg text-text-secondary">{t('heroSubtitle')}</p>
-        <div className="flex w-full items-center gap-2 rounded-xl border border-border bg-surface px-4 py-3 shadow-[0_2px_8px_rgba(91,63,212,0.08)]">
-          <input
-            type="search"
-            placeholder={t('searchPlaceholder')}
-            className="flex-1 bg-transparent text-base text-text-primary outline-none placeholder:text-text-muted"
-          />
-          <button className="rounded-lg bg-primary px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-dark">
-            {t('searchButton')}
-          </button>
+    <div className="min-h-screen bg-bg">
+      {/* Compact hero */}
+      <div className="border-b border-border bg-surface">
+        <div className="mx-auto max-w-3xl px-4 py-10 text-center sm:px-6 lg:px-8">
+          <h1 className="mb-3 text-3xl font-extrabold tracking-tight text-text-primary sm:text-4xl">
+            {tHome('heroTitle')}
+          </h1>
+          <p className="mb-6 text-base text-text-secondary">{tHome('heroSubtitle')}</p>
+          <SearchBar />
         </div>
       </div>
-    </main>
+
+      {/* Results count bar */}
+      <div className="border-b border-border bg-bg">
+        <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
+          <p className="text-sm text-text-secondary">
+            {tSearch('results', { count: total })}
+            {sp.q && (
+              <span className="ms-1 font-medium text-primary">&ldquo;{sp.q}&rdquo;</span>
+            )}
+            {usingMockData && (
+              <span className="ms-2 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700">
+                demo data
+              </span>
+            )}
+          </p>
+        </div>
+      </div>
+
+      {/* Filters + results */}
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-6 md:flex-row md:items-start">
+          <FilterSidebar />
+
+          <div className="flex-1 min-w-0">
+            {profiles.length === 0 ? (
+              <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border bg-surface py-16 text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mb-3 text-text-muted" aria-hidden="true">
+                  <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+                </svg>
+                <p className="text-base font-medium text-text-secondary">
+                  {tSearch('noResults')}
+                </p>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-4">
+                {profiles.map((therapist) => (
+                  <TherapistCard key={therapist.id} therapist={therapist} />
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

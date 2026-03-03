@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "OT Connect",
+    "appName": "Therapio",
     "loading": "טוען...",
     "error": "שגיאה",
     "save": "שמור",
@@ -8,7 +8,8 @@
     "back": "חזור",
     "next": "הבא",
     "submit": "שלח",
-    "search": "חיפוש"
+    "search": "חיפוש",
+    "tagline": "מציאת מטפלים בעיסוק פרטיים בישראל"
   },
   "nav": {
     "home": "דף הבית",
@@ -17,12 +18,13 @@
     "register": "הרשמה",
     "dashboard": "לוח בקרה",
     "profile": "פרופיל",
+    "editProfile": "ערוך פרופיל",
     "logout": "יציאה"
   },
   "home": {
-    "heroTitle": "מצאו את המרפא בעיסוק המתאים לכם",
-    "heroSubtitle": "מרפאים בעיסוק פרטיים ברחבי ישראל, חיפוש לפי התמחות, קופת חולים ומיקום",
-    "searchPlaceholder": "התמחות או שם מרפא...",
+    "heroTitle": "מצאו את המטפל/ת בעיסוק המתאים/ת לכם",
+    "heroSubtitle": "מטפלים בעיסוק פרטיים ברחבי ישראל, חיפוש לפי התמחות, קופת חולים ומיקום",
+    "searchPlaceholder": "התמחות או שם מטפל/ת...",
     "searchButton": "חיפוש",
     "quickFilters": {
       "paediatrics": "ילדים ופיתוח",
@@ -32,9 +34,14 @@
     }
   },
   "search": {
-    "title": "חיפוש מרפאים בעיסוק",
-    "results": "{count} מרפאים נמצאו",
-    "noResults": "לא נמצאו מרפאים התואמים לחיפוש שלך",
+    "title": "חיפוש מטפלים בעיסוק",
+    "results": "{count} מטפלים נמצאו",
+    "noResults": "לא נמצאו מטפלים התואמים לחיפוש שלך",
+    "showFilters": "הצג מסננים",
+    "hideFilters": "הסתר מסננים",
+    "activeFilters": "{count} מסננים פעילים",
+    "clearFilters": "נקה הכל",
+    "acceptingPatientsFilter": "מקבל/ת מטופלים חדשים",
     "sortBy": "מיין לפי",
     "sortOptions": {
       "relevance": "רלוונטיות",
@@ -60,7 +67,34 @@
       "meuhedet": "מאוחדת",
       "leumit": "לאומית",
       "private": "פרטי בלבד"
-    }
+    },
+    "therapistTitle": "מטפל/ת בעיסוק",
+    "callButton": "התקשר",
+    "contactButton": "צור קשר",
+    "viewProfile": "צפה בפרופיל",
+    "insuranceLabel": "ביטוח:",
+    "sessionLabel": "טיפול:",
+    "feePerSession": "לטיפול",
+    "noFeeInfo": "מחיר לפי פניה",
+    "filtersTitle": "מסננים",
+    "specialisationLabels": {
+      "paediatrics": "ילדים ופיתוח",
+      "neurological": "שיקום נוירולוגי",
+      "mental-health": "בריאות הנפש",
+      "hand-therapy": "טיפול ביד",
+      "geriatrics": "גריאטריה",
+      "sensory-processing": "עיבוד חושי",
+      "vocational": "שיקום תעסוקתי",
+      "ergonomic": "ארגונומיה"
+    },
+    "languageLabels": {
+      "he": "עברית",
+      "ar": "ערבית",
+      "en": "אנגלית",
+      "ru": "רוסית",
+      "fr": "צרפתית"
+    },
+    "messageButton": "שלח הודעה"
   },
   "profile": {
     "contactPhone": "התקשר",
@@ -73,7 +107,10 @@
     "sessionTypes": "סוגי טיפול",
     "about": "אודות",
     "fees": "עלות טיפול",
-    "acceptingPatients": "מקבל מטופלים חדשים"
+    "acceptingPatients": "מקבל/ת מטופלים חדשים",
+    "backToSearch": "חזרה לחיפוש",
+    "therapistTitle": "מטפל/ת בעיסוק",
+    "feePerSession": "לטיפול"
   },
   "auth": {
     "login": {
@@ -87,15 +124,19 @@
     },
     "register": {
       "title": "הרשמה",
-      "asOT": "אני מרפא בעיסוק",
-      "asPatient": "אני מטופל",
       "email": "אימייל",
       "password": "סיסמה",
       "confirmPassword": "אשר סיסמה",
       "name": "שם מלא",
-      "submit": "הרשמה",
+      "submit": "צור חשבון",
       "hasAccount": "כבר יש לך חשבון?",
       "login": "כניסה"
+    },
+    "social": {
+      "continueWithGoogle": "המשך עם Google",
+      "continueWithApple": "המשך עם Apple",
+      "orContinueWith": "או המשך עם",
+      "oauthError": "שגיאה בהתחברות, נסה שנית"
     },
     "errors": {
       "invalidCredentials": "אימייל או סיסמה שגויים",
@@ -104,6 +145,35 @@
       "invalidEmail": "כתובת אימייל לא תקינה",
       "passwordTooShort": "הסיסמה חייבת להכיל לפחות 8 תווים",
       "passwordMismatch": "הסיסמאות אינן תואמות"
+    }
+  },
+  "onboarding": {
+    "therapist": {
+      "title": "בואו נקים את הפרופיל שלך",
+      "subtitle": "כמה פרטים ותופיע בתוצאות החיפוש",
+      "step": "שלב {current} מתוך {total}",
+      "step1Title": "פרטים בסיסיים",
+      "step2Title": "מיקום ותחומי התמחות",
+      "step3Title": "פרטי קשר ותנאים",
+      "next": "הבא",
+      "back": "חזור",
+      "finish": "סיים ועבור ללוח הבקרה",
+      "displayNameHe": "שם תצוגה (עברית) *",
+      "displayNameEn": "שם תצוגה (אנגלית)",
+      "displayNameAr": "שם תצוגה (ערבית)",
+      "languages": "שפות טיפול *",
+      "city": "עיר *",
+      "address": "כתובת",
+      "specialisations": "תחומי התמחות *",
+      "sessionTypes": "סוגי טיפול *",
+      "insurance": "קופות חולים",
+      "phone": "טלפון *",
+      "email": "אימייל ליצירת קשר",
+      "feeMin": "מחיר מינימום לטיפול (₪)",
+      "feeMax": "מחיר מקסימום לטיפול (₪)",
+      "mohNumber": "מספר רישיון משרד הבריאות",
+      "acceptingPatients": "מקבל/ת מטופלים חדשים",
+      "saveError": "שגיאה בשמירת הפרופיל"
     }
   },
   "dashboard": {
@@ -117,6 +187,76 @@
     "viewProfile": "צפה בפרופיל",
     "last7days": "7 ימים אחרונים",
     "last30days": "30 ימים אחרונים",
-    "allTime": "כל הזמן"
+    "allTime": "כל הזמן",
+    "incompleteProfile": "הפרופיל שלך עוד לא מלא — מלא את הפרטים כדי להופיע בתוצאות החיפוש.",
+    "completeProfile": "השלמת הפרופיל",
+    "edit": {
+      "title": "עריכת פרופיל",
+      "bio": "אודות (עברית)",
+      "bioAr": "אודות (ערבית)",
+      "bioEn": "אודות (אנגלית)",
+      "city": "עיר",
+      "address": "כתובת",
+      "phone": "טלפון",
+      "specialisations": "התמחויות",
+      "languages": "שפות",
+      "sessionTypes": "סוגי טיפול",
+      "insurance": "קופות חולים",
+      "feeMin": "מחיר מינימום לטיפול (₪)",
+      "feeMax": "מחיר מקסימום לטיפול (₪)",
+      "acceptingPatients": "מקבל/ת מטופלים חדשים",
+      "saveSuccess": "הפרופיל עודכן בהצלחה",
+      "saveError": "שגיאה בשמירת הפרופיל",
+      "save": "שמור שינויים"
+    }
+  },
+  "reviews": {
+    "title": "ביקורות",
+    "titleWithCount": "ביקורות ({count})",
+    "noReviews": "אין ביקורות עדיין",
+    "basedOn": "על בסיס {count} ביקורות",
+    "formTitle": "השאר ביקורת",
+    "ratingLabel": "הדירוג שלך",
+    "ratingRequired": "אנא בחר דירוג",
+    "textLabel": "הביקורת שלך",
+    "textPlaceholder": "שתף/י את החוויה שלך עם המטפל/ת...",
+    "textTooShort": "הביקורת חייבת להכיל לפחות 20 תווים",
+    "textTooLong": "הביקורת לא יכולה לעלות על 1000 תווים",
+    "submit": "שלח ביקורת",
+    "submitting": "שולח...",
+    "submitSuccess": "תודה! הביקורת שלך התקבלה.",
+    "submitError": "שגיאה בשליחת הביקורת. נסה שוב.",
+    "alreadyReviewed": "כבר כתבת ביקורת על מטפל/ת זה/ה.",
+    "loginPrompt": "רוצה לשתף את החוויה שלך?",
+    "loginLink": "התחבר כדי לכתוב ביקורת",
+    "otCannotReview": "מטפלים בעיסוק אינם יכולים לכתוב ביקורות.",
+    "showMore": "הצג עוד ביקורות"
+  },
+  "contact": {
+    "title": "שלח הודעה",
+    "subtitle": "צור קשר עם {name}",
+    "backToProfile": "חזרה לפרופיל",
+    "mapTitle": "מיקום",
+    "nameLabel": "שם מלא",
+    "namePlaceholder": "השם שלך",
+    "emailLabel": "כתובת אימייל",
+    "emailPlaceholder": "your@email.com",
+    "phoneLabel": "מספר טלפון",
+    "phonePlaceholder": "אופציונלי",
+    "subjectLabel": "נושא",
+    "subjects": {
+      "newPatient": "פנייה של מטופל/ת חדש/ה",
+      "appointment": "בקשה לקביעת תור",
+      "insurance": "שאלה על קופות חולים / עלויות",
+      "general": "שאלה כללית",
+      "other": "אחר"
+    },
+    "messageLabel": "הודעה",
+    "messagePlaceholder": "שלום, הייתי רוצה...",
+    "submit": "שלח הודעה",
+    "sending": "שולח...",
+    "success": "ההודעה נשלחה!",
+    "successDetail": "הודעתך נשלחה לـ {name}. הם יחזרו אליך בהקדם.",
+    "error": "שגיאה בשליחת ההודעה. נסה שנית."
   }
 }

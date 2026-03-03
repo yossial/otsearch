@@ -22,9 +22,9 @@
     "logout": "Log out"
   },
   "home": {
-    "heroTitle": "Find the right occupational therapist for you",
+    "heroTitle": "Looking for an occupational therapist?",
     "heroSubtitle": "Private therapists across Israel, searchable by specialisation, Kupat Holim and location",
-    "searchPlaceholder": "Specialisation or therapist name...",
+    "searchPlaceholder": "Specialisation, therapist name, city...",
     "searchButton": "Search",
     "quickFilters": {
       "paediatrics": "Paediatrics",
@@ -69,6 +69,8 @@
       "private": "Private pay"
     },
     "therapistTitle": "Occupational Therapist",
+    "therapistTitleMale": "Occupational Therapist",
+    "therapistTitleFemale": "Occupational Therapist",
     "callButton": "Call",
     "messageButton": "Message",
     "viewProfile": "View profile",
@@ -109,6 +111,8 @@
     "acceptingPatients": "Accepting new patients",
     "backToSearch": "Back to search",
     "therapistTitle": "Occupational Therapist",
+    "therapistTitleMale": "Occupational Therapist",
+    "therapistTitleFemale": "Occupational Therapist",
     "feePerSession": "per session"
   },
   "auth": {
@@ -172,6 +176,10 @@
       "feeMax": "Max session fee (₪)",
       "mohNumber": "Ministry of Health licence number",
       "acceptingPatients": "Accepting new patients",
+      "gender": "Gender",
+      "genderMale": "Male",
+      "genderFemale": "Female",
+      "genderUnspecified": "Prefer not to say",
       "saveError": "Error saving profile"
     }
   },
@@ -204,6 +212,10 @@
       "feeMin": "Min session fee (₪)",
       "feeMax": "Max session fee (₪)",
       "acceptingPatients": "Accepting new patients",
+      "gender": "Gender",
+      "genderMale": "Male",
+      "genderFemale": "Female",
+      "genderUnspecified": "Prefer not to say",
       "saveSuccess": "Profile updated successfully",
       "saveError": "Error saving profile",
       "save": "Save changes"

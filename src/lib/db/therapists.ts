@@ -32,6 +32,7 @@ function toPublic(doc: Record<string, unknown>): TherapistProfilePublic {
     ratingAvg: (doc.ratingAvg as number) ?? 0,
     ratingCount: (doc.ratingCount as number) ?? 0,
     createdAt: (doc.createdAt as Date).toISOString(),
+    gender: (doc.gender as 'male' | 'female' | null) ?? null,
   };
 }
 

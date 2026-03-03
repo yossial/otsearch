@@ -65,6 +65,7 @@ export interface TherapistProfilePublic {
   ratingAvg: number;
   ratingCount: number;
   createdAt: string;
+  gender: 'male' | 'female' | null;
 }
 
 export interface ReviewPublic {

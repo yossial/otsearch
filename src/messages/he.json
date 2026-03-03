@@ -22,9 +22,9 @@
     "logout": "יציאה"
   },
   "home": {
-    "heroTitle": "מצאו את המטפל/ת בעיסוק המתאים/ת לכם",
+    "heroTitle": "מחפשים מטפל בעיסוק?",
     "heroSubtitle": "מטפלים בעיסוק פרטיים ברחבי ישראל, חיפוש לפי התמחות, קופת חולים ומיקום",
-    "searchPlaceholder": "התמחות או שם מטפל/ת...",
+    "searchPlaceholder": "התמחות, שם מטפל, עיר...",
     "searchButton": "חיפוש",
     "quickFilters": {
       "paediatrics": "ילדים ופיתוח",
@@ -41,7 +41,7 @@
     "hideFilters": "הסתר מסננים",
     "activeFilters": "{count} מסננים פעילים",
     "clearFilters": "נקה הכל",
-    "acceptingPatientsFilter": "מקבל/ת מטופלים חדשים",
+    "acceptingPatientsFilter": "מקבלים מטופלים חדשים",
     "sortBy": "מיין לפי",
     "sortOptions": {
       "relevance": "רלוונטיות",
@@ -68,7 +68,9 @@
       "leumit": "לאומית",
       "private": "פרטי בלבד"
     },
-    "therapistTitle": "מטפל/ת בעיסוק",
+    "therapistTitle": "מטפלים בעיסוק",
+    "therapistTitleMale": "מטפל בעיסוק",
+    "therapistTitleFemale": "מטפלת בעיסוק",
     "callButton": "התקשר",
     "contactButton": "צור קשר",
     "viewProfile": "צפה בפרופיל",
@@ -107,9 +109,11 @@
     "sessionTypes": "סוגי טיפול",
     "about": "אודות",
     "fees": "עלות טיפול",
-    "acceptingPatients": "מקבל/ת מטופלים חדשים",
+    "acceptingPatients": "מקבלים מטופלים חדשים",
     "backToSearch": "חזרה לחיפוש",
-    "therapistTitle": "מטפל/ת בעיסוק",
+    "therapistTitle": "מטפלים בעיסוק",
+    "therapistTitleMale": "מטפל בעיסוק",
+    "therapistTitleFemale": "מטפלת בעיסוק",
     "feePerSession": "לטיפול"
   },
   "auth": {
@@ -172,7 +176,11 @@
       "feeMin": "מחיר מינימום לטיפול (₪)",
       "feeMax": "מחיר מקסימום לטיפול (₪)",
       "mohNumber": "מספר רישיון משרד הבריאות",
-      "acceptingPatients": "מקבל/ת מטופלים חדשים",
+      "acceptingPatients": "מקבל מטופלים חדשים",
+      "gender": "מגדר",
+      "genderMale": "זכר",
+      "genderFemale": "נקבה",
+      "genderUnspecified": "לא לציין",
       "saveError": "שגיאה בשמירת הפרופיל"
     }
   },
@@ -204,7 +212,11 @@
       "insurance": "קופות חולים",
       "feeMin": "מחיר מינימום לטיפול (₪)",
       "feeMax": "מחיר מקסימום לטיפול (₪)",
-      "acceptingPatients": "מקבל/ת מטופלים חדשים",
+      "acceptingPatients": "מקבל מטופלים חדשים",
+      "gender": "מגדר",
+      "genderMale": "זכר",
+      "genderFemale": "נקבה",
+      "genderUnspecified": "לא לציין",
       "saveSuccess": "הפרופיל עודכן בהצלחה",
       "saveError": "שגיאה בשמירת הפרופיל",
       "save": "שמור שינויים"
@@ -219,14 +231,14 @@
     "ratingLabel": "הדירוג שלך",
     "ratingRequired": "אנא בחר דירוג",
     "textLabel": "הביקורת שלך",
-    "textPlaceholder": "שתף/י את החוויה שלך עם המטפל/ת...",
+    "textPlaceholder": "שתפו את החוויה שלכם עם המטפל...",
     "textTooShort": "הביקורת חייבת להכיל לפחות 20 תווים",
     "textTooLong": "הביקורת לא יכולה לעלות על 1000 תווים",
     "submit": "שלח ביקורת",
     "submitting": "שולח...",
     "submitSuccess": "תודה! הביקורת שלך התקבלה.",
     "submitError": "שגיאה בשליחת הביקורת. נסה שוב.",
-    "alreadyReviewed": "כבר כתבת ביקורת על מטפל/ת זה/ה.",
+    "alreadyReviewed": "כבר כתבת ביקורת על מטפל זה.",
     "loginPrompt": "רוצה לשתף את החוויה שלך?",
     "loginLink": "התחבר כדי לכתוב ביקורת",
     "otCannotReview": "מטפלים בעיסוק אינם יכולים לכתוב ביקורות.",
@@ -245,7 +257,7 @@
     "phonePlaceholder": "אופציונלי",
     "subjectLabel": "נושא",
     "subjects": {
-      "newPatient": "פנייה של מטופל/ת חדש/ה",
+      "newPatient": "פנייה של מטופל חדש",
       "appointment": "בקשה לקביעת תור",
       "insurance": "שאלה על קופות חולים / עלויות",
       "general": "שאלה כללית",

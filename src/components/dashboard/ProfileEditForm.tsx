@@ -48,6 +48,7 @@ export default function ProfileEditForm({ profile }: Props) {
   const [feeMin, setFeeMin] = useState<string>(profile.feeRange ? String(profile.feeRange.min) : '');
   const [feeMax, setFeeMax] = useState<string>(profile.feeRange ? String(profile.feeRange.max) : '');
   const [acceptingPatients, setAcceptingPatients] = useState(profile.isAcceptingPatients);
+  const [gender, setGender] = useState<'male' | 'female' | null>(profile.gender);
 
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -72,6 +73,7 @@ export default function ProfileEditForm({ profile }: Props) {
       insuranceAccepted,
       languages,
       isAcceptingPatients: acceptingPatients,
+      gender,
     };
 
     if (feeMin && feeMax) {
@@ -122,6 +124,26 @@ export default function ProfileEditForm({ profile }: Props) {
           dir="ltr"
           className="mt-1.5 w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
         />
+      </Section>
+
+      {/* Gender */}
+      <Section title={t('gender')}>
+        <div className="flex flex-wrap gap-2">
+          {([['male', t('genderMale')], ['female', t('genderFemale')], [null, t('genderUnspecified')]] as [('male' | 'female' | null), string][]).map(([val, label]) => (
+            <button
+              key={String(val)}
+              type="button"
+              onClick={() => setGender(val)}
+              className={`rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ${
+                gender === val
+                  ? 'border-primary bg-primary text-white'
+                  : 'border-border bg-bg text-text-secondary hover:border-primary/50'
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
       </Section>
 
       {/* Location & contact */}

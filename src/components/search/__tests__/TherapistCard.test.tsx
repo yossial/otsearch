@@ -27,8 +27,10 @@ vi.mock('@/lib/utils', () => ({
 vi.mock('next-intl', () => ({
   useTranslations: () => (key: string) => {
     const map: Record<string, string> = {
-      therapistTitle: 'מטפל/ת בעיסוק',
-      acceptingPatientsFilter: 'מקבל/ת מטופלים חדשים',
+      therapistTitle: 'מטפלים בעיסוק',
+      therapistTitleMale: 'מטפל בעיסוק',
+      therapistTitleFemale: 'מטפלת בעיסוק',
+      acceptingPatientsFilter: 'מקבלים מטופלים חדשים',
       messageButton: 'הודעה',
       viewProfile: 'צפה בפרופיל',
       insuranceLabel: 'ביטוח:',
@@ -65,6 +67,7 @@ const mockProfile: TherapistProfilePublic = {
   ratingAvg: 0,
   ratingCount: 0,
   createdAt: '2024-01-01T00:00:00.000Z',
+  gender: null,
 };
 
 describe('TherapistCard', () => {
@@ -91,7 +94,7 @@ describe('TherapistCard', () => {
 
   it('shows accepting patients badge when isAcceptingPatients is true', () => {
     render(<TherapistCard therapist={mockProfile} />);
-    expect(screen.getByText(/מקבל/)).toBeInTheDocument();
+    expect(screen.getByText(/מקבלים/)).toBeInTheDocument();
   });
 
   it('shows PRO badge for premium subscription', () => {

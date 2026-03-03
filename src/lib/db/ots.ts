@@ -2,7 +2,7 @@
  * Data access layer for OT profiles.
  * Used directly by Server Components and API route handlers.
  */
-import type { SortOrder } from 'mongoose'; // eslint-disable-line @typescript-eslint/no-unused-vars
+import type { SortOrder } from 'mongoose';
 import { connectDB } from '@/lib/db';
 import { OTProfile } from '@/lib/db/models/OTProfile';
 import { Review } from '@/lib/db/models/Review';

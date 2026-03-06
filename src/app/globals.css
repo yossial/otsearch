@@ -42,6 +42,13 @@ button, [role="button"], select, label { cursor: pointer; }
   display: none;
 }
 
+/* ─── Filter bar loading animation ──────────────────────────────── */
+@keyframes loading {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+  100% { transform: translateX(200%); }
+}
+
 /* ─── Hide browser password reveal button ───────────────────────────────────── */
 input[type="password"]::-ms-reveal,
 input[type="password"]::-webkit-credentials-auto-fill-button { display: none; }

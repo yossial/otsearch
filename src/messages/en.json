@@ -22,10 +22,10 @@
     "logout": "Log out"
   },
   "home": {
-    "heroEyebrow": "Private occupational therapy in Israel",
-    "heroTitle": "Looking for an occupational therapist?",
-    "heroSubtitle": "Private therapists across Israel, searchable by specialisation, Kupat Holim and location",
-    "heroParagraph": "Occupational therapy helps people of all ages develop and maintain the skills needed for everyday life — from children with developmental delays to adults recovering from injury or managing mental health. Our therapists work with you directly, wherever and however you need.",
+    "heroEyebrow": "Skip the waiting list",
+    "heroTitle": "Help starts here — not in three months",
+    "heroSubtitle": "Private OTs across Israel, searchable by specialisation, health fund and location",
+    "heroParagraph": "Whether you're searching for your child or for yourself, finding the right occupational therapist is the hardest part. Therapio brings together 200+ licensed OTs across Israel — with full profiles, transparent fees, and direct contact. No referrals needed. No waiting rooms.",
     "searchHeading": "Find the right occupational therapist for you",
     "searchPlaceholder": "Specialisation, therapist name, city...",
     "searchButton": "Search",

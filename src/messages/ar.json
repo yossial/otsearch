@@ -16,7 +16,7 @@
     "search": "البحث عن معالجين",
     "login": "تسجيل الدخول",
     "register": "التسجيل",
-    "dashboard": "لوحة التحكم",
+    "dashboard": "منطقتي الشخصية",
     "profile": "الملف الشخصي",
     "editProfile": "تعديل الملف",
     "logout": "تسجيل الخروج"
@@ -30,13 +30,13 @@
     "searchPlaceholder": "تخصص، اسم معالج، مدينة...",
     "searchButton": "بحث",
     "quickFilters": {
-      "paediatrics": "طب الأطفال",
+      "paediatrics": "تطوير الطفل",
       "paediatricsTagline": "تأخر النمو، المعالجة الحسية، الكتابة",
       "neuro": "إعادة التأهيل العصبي",
       "neuroTagline": "بعد السكتة الدماغية أو إصابة الرأس",
       "mentalHealth": "التنظيم العاطفي",
       "mentalHealthTagline": "القلق، فرط الحركة، التنظيم الحسي",
-      "handTherapy": "علاج اليد",
+      "handTherapy": "إعادة تأهيل اليد",
       "handTherapyTagline": "الأعصاب، الأوتار، استعادة الحركة"
     },
     "howItWorks": {
@@ -64,6 +64,7 @@
       "subtitle": "هل لديك سؤال؟ نحن هنا للمساعدة."
     },
     "resultsCount": "{count, plural, =0 {لم يتم العثور على معالجين} one {تم العثور على معالج واحد} other {تم العثور على {count} معالجين}}",
+    "mapTitle": "معالجون في منطقتك",
     "therapistBanner": {
       "title": "أنت معالج وظيفي؟ انضم إلينا",
       "subtitle": "ملف شخصي مجاني، بدون عمولات — فقط مرضى يبحثون عما تقدمه",
@@ -90,7 +91,7 @@
     },
     "filters": {
       "specialisation": "التخصص",
-      "insurance": "صندوق المرضى",
+      "insurance": "صناديق المرضى المقبولة",
       "location": "الموقع",
       "sessionType": "نوع الجلسة",
       "language": "اللغة",
@@ -98,15 +99,14 @@
     },
     "sessionTypes": {
       "inPerson": "حضوري",
-      "telehealth": "عن بُعد",
+      "telehealth": "جلسة عن بُعد",
       "homeVisit": "زيارة منزلية"
     },
     "insurance": {
       "clalit": "كلاليت",
       "maccabi": "مكابي",
       "meuhedet": "مئوحيدت",
-      "leumit": "لئومت",
-      "private": "خاص فقط"
+      "leumit": "لئومت"
     },
     "therapistTitle": "معالجون وظيفيون",
     "therapistTitleMale": "معالج وظيفي",
@@ -118,12 +118,15 @@
     "sessionLabel": "نوع العلاج:",
     "feePerSession": "للجلسة",
     "noFeeInfo": "السعر حسب الطلب",
+    "feeFrom": "من ₪{min}",
+    "featuredLabel": "مميز",
+    "messageButton": "أرسل رسالة",
     "filtersTitle": "الفلاتر",
     "specialisationLabels": {
-      "paediatrics": "طب الأطفال",
+      "paediatrics": "تطوير الطفل",
       "neurological": "إعادة التأهيل العصبي",
       "mental-health": "التنظيم العاطفي",
-      "hand-therapy": "علاج اليد",
+      "hand-therapy": "إعادة تأهيل اليد",
       "geriatrics": "طب الشيخوخة",
       "sensory-processing": "معالجة حسية",
       "vocational": "إعادة التأهيل المهني",
@@ -133,12 +136,15 @@
     "sortPopular": "الأكثر شعبية",
     "noMoreResults": "لقد رأيت جميع المعالجين",
     "loadingMore": "جارٍ التحميل...",
+    "feeFrom": "من ₪{min}",
+    "featuredLabel": "مميز",
     "languageLabels": {
       "he": "العبرية",
       "ar": "العربية",
       "en": "الإنجليزية",
       "ru": "الروسية",
-      "fr": "الفرنسية"
+      "fr": "الفرنسية",
+      "es": "الإسبانية"
     },
     "messageButton": "أرسل رسالة"
   },
@@ -170,7 +176,9 @@
     "therapistTitle": "معالجون وظيفيون",
     "therapistTitleMale": "معالج وظيفي",
     "therapistTitleFemale": "معالجة وظيفية",
-    "feePerSession": "للجلسة"
+    "feePerSession": "للجلسة",
+    "mohNumber": "رخصة وزارة الصحة",
+    "verifyLicence": "تحقق في سجل وزارة الصحة"
   },
   "auth": {
     "login": {
@@ -204,6 +212,11 @@
       "required": "هذا الحقل مطلوب",
       "invalidEmail": "عنوان البريد الإلكتروني غير صالح",
       "passwordTooShort": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+      "passwordWeak": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل وتشمل حرفاً ورقماً",
+      "passwordRule_min8": "8 أحرف على الأقل",
+      "passwordRule_letter": "يحتوي على حرف",
+      "passwordRule_number": "يحتوي على رقم",
+      "invalidPhone": "يرجى إدخال رقم هاتف إسرائيلي صالح",
       "passwordMismatch": "كلمتا المرور غير متطابقتين"
     }
   },
@@ -217,7 +230,7 @@
       "step3Title": "بيانات الاتصال والشروط",
       "next": "التالي",
       "back": "رجوع",
-      "finish": "إنهاء والانتقال إلى لوحة التحكم",
+      "finish": "إنهاء والانتقال إلى منطقتي الشخصية",
       "displayNameHe": "اسم العرض (عبري) *",
       "displayNameEn": "اسم العرض (إنجليزي)",
       "displayNameAr": "اسم العرض (عربي)",
@@ -241,7 +254,7 @@
     }
   },
   "dashboard": {
-    "title": "لوحة التحكم",
+    "title": "منطقتي الشخصية",
     "profileViews": "مشاهدات الملف الشخصي",
     "enquiries": "الاستفسارات",
     "completeness": "اكتمال الملف الشخصي",

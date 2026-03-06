@@ -6,6 +6,7 @@ import SearchBar from '@/components/home/SearchBar';
 import FilterRow from '@/components/home/FilterRow';
 import TherapistGrid from '@/components/home/TherapistGrid';
 import ContactSection from '@/components/home/ContactSection';
+import TherapistMapWrapper from '@/components/home/TherapistMapWrapper';
 import type { SearchParams } from '@/types';
 import Image from 'next/image';
 
@@ -79,11 +80,11 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     <div className="min-h-screen bg-bg">
       {/* Hero section — 2-column: 70% text / 30% illustration */}
       <section className="border-b border-border bg-surface">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-          <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-16">
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+          <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:justify-center lg:gap-16">
 
             {/* Text column — 70% */}
-            <div className="flex-7 text-center lg:text-start">
+            <div className="max-w-lg w-full text-center lg:text-start">
               {/* Eyebrow */}
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary-light px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
                 <span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true" />
@@ -137,12 +138,13 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             </div>
 
             {/* Illustration column — 30% */}
-            <div className="flex-3 flex justify-center lg:justify-end">
+            <div className="flex justify-center">
               <Image
                 src="/hero.jpg"
                 alt=""
-                width={400}
-                height={400}
+                width={384}
+                height={384}
+                className="w-80 lg:w-96 h-auto"
                 aria-hidden="true"
               />
             </div>
@@ -173,6 +175,14 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           searchParamsStr={searchParamsStr}
         />
       </div>
+
+      {/* Map section */}
+      <section className="border-t border-border bg-bg-alt py-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h2 className="mb-4 text-lg font-semibold text-text-primary">{tHome('mapTitle')}</h2>
+          <TherapistMapWrapper profiles={profiles} activeCity={sp.city} />
+        </div>
+      </section>
 
       {/* Contact section */}
       <ContactSection />

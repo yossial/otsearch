@@ -16,7 +16,7 @@
     "search": "חיפוש מרפאים",
     "login": "כניסה",
     "register": "הרשמה",
-    "dashboard": "לוח בקרה",
+    "dashboard": "אזור אישי",
     "profile": "פרופיל",
     "editProfile": "ערוך פרופיל",
     "logout": "יציאה"
@@ -30,13 +30,13 @@
     "searchPlaceholder": "התמחות, שם מרפא, עיר...",
     "searchButton": "חיפוש",
     "quickFilters": {
-      "paediatrics": "ילדים ופיתוח",
+      "paediatrics": "התפתחות הילד",
       "paediatricsTagline": "שיהוי התפתחותי, עיבוד חושי, כתיבה",
       "neuro": "שיקום נוירולוגי",
       "neuroTagline": "אחרי שבץ, פגיעת ראש או ניתוח",
       "mentalHealth": "ויסות ורגש",
       "mentalHealthTagline": "חרדה, ADHD, ויסות חושי",
-      "handTherapy": "טיפול ביד",
+      "handTherapy": "שיקום כף יד",
       "handTherapyTagline": "עצבים, גידים, שחזור תנועה"
     },
     "howItWorks": {
@@ -64,6 +64,7 @@
       "subtitle": "יש לכם שאלה? אנחנו כאן לעזור."
     },
     "resultsCount": "{count, plural, =0 {לא נמצאו מרפאים} one {נמצא מרפא אחד} other {{count} מרפאים נמצאו}}",
+    "mapTitle": "מרפאים באזורך",
     "therapistBanner": {
       "title": "מרפאים בעיסוק? הצטרפו אלינו",
       "subtitle": "פרופיל חינמי, ללא עמלות — רק מטופלים שמחפשים בדיוק אתכם",
@@ -90,7 +91,7 @@
     },
     "filters": {
       "specialisation": "התמחות",
-      "insurance": "קופת חולים",
+      "insurance": "בהסדר עם קופות חולים",
       "location": "מיקום",
       "sessionType": "סוג טיפול",
       "language": "שפה",
@@ -98,15 +99,14 @@
     },
     "sessionTypes": {
       "inPerson": "פרונטלי",
-      "telehealth": "טלה-מדיסין",
+      "telehealth": "טיפול מרחוק",
       "homeVisit": "ביקור בית"
     },
     "insurance": {
       "clalit": "כללית",
       "maccabi": "מכבי",
       "meuhedet": "מאוחדת",
-      "leumit": "לאומית",
-      "private": "פרטי בלבד"
+      "leumit": "לאומית"
     },
     "therapistTitle": "מרפא/ה בעיסוק",
     "therapistTitleMale": "מרפא בעיסוק",
@@ -118,12 +118,15 @@
     "sessionLabel": "טיפול:",
     "feePerSession": "לטיפול",
     "noFeeInfo": "מחיר לפי פניה",
+    "feeFrom": "החל מ-₪{min}",
+    "featuredLabel": "מומלץ",
+    "messageButton": "שלח הודעה",
     "filtersTitle": "מסננים",
     "specialisationLabels": {
-      "paediatrics": "ילדים ופיתוח",
+      "paediatrics": "התפתחות הילד",
       "neurological": "שיקום נוירולוגי",
       "mental-health": "ויסות ורגש",
-      "hand-therapy": "טיפול ביד",
+      "hand-therapy": "שיקום כף יד",
       "geriatrics": "גריאטריה",
       "sensory-processing": "עיבוד חושי",
       "vocational": "שיקום תעסוקתי",
@@ -133,12 +136,15 @@
     "sortPopular": "הפופולריים ביותר",
     "noMoreResults": "ראיתם את כל המרפאים",
     "loadingMore": "טוען עוד...",
+    "feeFrom": "החל מ-₪{min}",
+    "featuredLabel": "מומלץ",
     "languageLabels": {
       "he": "עברית",
       "ar": "ערבית",
       "en": "אנגלית",
       "ru": "רוסית",
-      "fr": "צרפתית"
+      "fr": "צרפתית",
+      "es": "ספרדית"
     },
     "messageButton": "שלח הודעה"
   },
@@ -159,7 +165,7 @@
     "contactEmail": "שלח אימייל",
     "save": "שמור למועדפים",
     "specialisations": "התמחויות",
-    "insurance": "קופות חולים",
+    "insurance": "בהסדר עם קופות חולים",
     "languages": "שפות",
     "location": "מיקום",
     "sessionTypes": "סוגי טיפול",
@@ -170,7 +176,9 @@
     "therapistTitle": "מרפא/ה בעיסוק",
     "therapistTitleMale": "מרפא בעיסוק",
     "therapistTitleFemale": "מרפאה בעיסוק",
-    "feePerSession": "לטיפול"
+    "feePerSession": "לטיפול",
+    "mohNumber": "רישיון משרד הבריאות",
+    "verifyLicence": "בדוק ברשומות משרד הבריאות"
   },
   "auth": {
     "login": {
@@ -204,6 +212,11 @@
       "required": "שדה חובה",
       "invalidEmail": "כתובת אימייל לא תקינה",
       "passwordTooShort": "הסיסמה חייבת להכיל לפחות 8 תווים",
+      "passwordWeak": "הסיסמה חייבת לכלול לפחות 8 תווים, אות ומספר",
+      "passwordRule_min8": "לפחות 8 תווים",
+      "passwordRule_letter": "מכילה אות",
+      "passwordRule_number": "מכילה ספרה",
+      "invalidPhone": "אנא הכנס מספר טלפון ישראלי תקין",
       "passwordMismatch": "הסיסמאות אינן תואמות"
     }
   },
@@ -217,7 +230,7 @@
       "step3Title": "פרטי קשר ותנאים",
       "next": "הבא",
       "back": "חזור",
-      "finish": "סיים ועבור ללוח הבקרה",
+      "finish": "סיים ועבור לאזור האישי",
       "displayNameHe": "שם תצוגה (עברית) *",
       "displayNameEn": "שם תצוגה (אנגלית)",
       "displayNameAr": "שם תצוגה (ערבית)",
@@ -226,7 +239,7 @@
       "address": "כתובת",
       "specialisations": "תחומי התמחות *",
       "sessionTypes": "סוגי טיפול *",
-      "insurance": "קופות חולים",
+      "insurance": "בהסדר עם קופות חולים",
       "phone": "טלפון *",
       "email": "אימייל ליצירת קשר",
       "feeMin": "מחיר מינימום לטיפול (₪)",
@@ -241,7 +254,7 @@
     }
   },
   "dashboard": {
-    "title": "לוח בקרה",
+    "title": "אזור אישי",
     "profileViews": "צפיות בפרופיל",
     "enquiries": "פניות",
     "completeness": "שלמות הפרופיל",
@@ -265,7 +278,7 @@
       "specialisations": "התמחויות",
       "languages": "שפות",
       "sessionTypes": "סוגי טיפול",
-      "insurance": "קופות חולים",
+      "insurance": "בהסדר עם קופות חולים",
       "feeMin": "מחיר מינימום לטיפול (₪)",
       "feeMax": "מחיר מקסימום לטיפול (₪)",
       "acceptingPatients": "מקבל מטופלים חדשים",

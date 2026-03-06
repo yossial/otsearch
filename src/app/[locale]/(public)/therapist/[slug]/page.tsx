@@ -8,6 +8,7 @@ import { getMockTherapistBySlug } from '@/lib/mock-search';
 import ContactForm from '@/components/contact/ContactForm';
 import StarDisplay from '@/components/reviews/StarDisplay';
 import ReviewsSection from '@/components/reviews/ReviewsSection';
+import EditableProfile from '@/components/profile/EditableProfile';
 
 interface TherapistProfilePageProps {
   params: Promise<{ locale: string; slug: string }>;
@@ -47,9 +48,13 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
   const sessionUserId = (session?.user as { id?: string } | undefined)?.id ?? null;
   const userRole = (session?.user as { role?: string } | undefined)?.role ?? null;
 
+  const canEdit = !!session?.user &&
+    (session.user as { therapistProfileId?: string | null }).therapistProfileId === ot.id;
+
   return (
     <div className="min-h-screen bg-bg">
       <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
+        <EditableProfile profile={ot} canEdit={canEdit} />
         {/* Back link */}
         <Link href="/" className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-secondary transition-colors hover:text-primary">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-directional" aria-hidden="true">
@@ -59,7 +64,7 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
         </Link>
 
         {/* Profile header */}
-        <div className="mb-6 flex flex-col gap-4 rounded-lg bg-surface p-6 shadow-card sm:flex-row sm:items-start">
+        <div className="mb-6 flex flex-col gap-4 rounded-lg bg-surface p-6 border border-border sm:flex-row sm:items-start">
           <div className="flex-shrink-0">
             <Image
               src={ot.photo ?? `https://i.pravatar.cc/150?u=${ot.slug}`}
@@ -106,13 +111,13 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
           {/* Main content */}
           <div className="flex flex-1 flex-col gap-6">
             {/* About */}
-            <section className="rounded-lg bg-surface p-6 shadow-card">
+            <section className="rounded-lg bg-surface p-6 border border-border">
               <h2 className="mb-3 text-lg font-semibold text-text-primary">{t('about')}</h2>
               <p className="leading-relaxed text-text-secondary">{bio}</p>
             </section>
 
             {/* Specialisations */}
-            <section className="rounded-lg bg-surface p-6 shadow-card">
+            <section className="rounded-lg bg-surface p-6 border border-border">
               <h2 className="mb-3 text-lg font-semibold text-text-primary">{t('specialisations')}</h2>
               <div className="flex flex-wrap gap-2">
                 {ot.specialisations.map((spec) => (
@@ -124,7 +129,7 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
             </section>
 
             {/* Session types */}
-            <section className="rounded-lg bg-surface p-6 shadow-card">
+            <section className="rounded-lg bg-surface p-6 border border-border">
               <h2 className="mb-3 text-lg font-semibold text-text-primary">{t('sessionTypes')}</h2>
               <div className="flex flex-wrap gap-3">
                 {ot.sessionTypes.map((st) => (
@@ -156,7 +161,7 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
             <ReviewsSection slug={slug} sessionUserId={sessionUserId} userRole={userRole} />
 
             {/* Contact form */}
-            <section id="contact" className="rounded-lg bg-surface p-6 shadow-card">
+            <section id="contact" className="rounded-lg bg-surface p-6 border border-border">
               <h2 className="mb-1 text-lg font-semibold text-text-primary">{tContact('title')}</h2>
               <p className="mb-6 text-sm text-text-secondary">{tContact('subtitle', { name })}</p>
               <ContactForm therapistSlug={slug} therapistName={name} therapistEmail={ot.contactEmail} />
@@ -165,7 +170,7 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
 
           {/* Sidebar */}
           <aside className="flex flex-col gap-4 md:w-72 md:flex-shrink-0">
-            <div className="rounded-lg bg-surface p-5 shadow-card">
+            <div className="rounded-lg bg-surface p-5 border border-border">
               {/* Rating */}
               {ot.ratingCount > 0 && (
                 <div className="mb-4">
@@ -235,6 +240,29 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
                   ))}
                 </div>
               </div>
+
+              <div className="mt-4 h-px bg-border" />
+
+              {/* MOH Licence */}
+              {ot.mohRegistrationNumber && (
+                <div className="mt-4">
+                  <h3 className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-text-secondary">{t('mohNumber')}</h3>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-xs font-medium text-green-700">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                      {ot.mohRegistrationNumber}
+                    </span>
+                    <a
+                      href="https://practitioners.health.gov.il/Practitioners/14"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-primary hover:underline"
+                    >
+                      {t('verifyLicence')} →
+                    </a>
+                  </div>
+                </div>
+              )}
 
               <div className="mt-4 h-px bg-border" />
 

@@ -9,8 +9,8 @@ const SPECIALISATIONS: Specialisation[] = [
   'geriatrics', 'sensory-processing', 'vocational', 'ergonomic',
 ];
 const SESSION_TYPES: SessionType[] = ['in-person', 'telehealth', 'home-visit'];
-const INSURANCE_TYPES: InsuranceType[] = ['clalit', 'maccabi', 'meuhedet', 'leumit', 'private'];
-const LANGUAGES = ['he', 'ar', 'en', 'ru', 'fr', 'am'];
+const INSURANCE_TYPES: InsuranceType[] = ['clalit', 'maccabi', 'meuhedet', 'leumit'];
+const LANGUAGES = ['he', 'ar', 'en', 'ru', 'fr', 'es', 'am'];
 
 const SPEC_LABELS: Record<Specialisation, string> = {
   paediatrics: 'ילדים ופיתוח', neurological: 'שיקום נוירולוגי',
@@ -19,20 +19,21 @@ const SPEC_LABELS: Record<Specialisation, string> = {
   vocational: 'שיקום תעסוקתי', ergonomic: 'ארגונומיה',
 };
 const SESSION_LABELS: Record<SessionType, string> = {
-  'in-person': 'פרונטלי', telehealth: 'טלה-מדיסין', 'home-visit': 'ביקור בית',
+  'in-person': 'פרונטלי', telehealth: 'טיפול מרחוק', 'home-visit': 'ביקור בית',
 };
 const INSURANCE_LABELS: Record<InsuranceType, string> = {
-  clalit: 'כללית', maccabi: 'מכבי', meuhedet: 'מאוחדת', leumit: 'לאומית', private: 'פרטי בלבד',
+  clalit: 'כללית', maccabi: 'מכבי', meuhedet: 'מאוחדת', leumit: 'לאומית',
 };
 const LANG_LABELS: Record<string, string> = {
-  he: 'עברית', ar: 'ערבית', en: 'אנגלית', ru: 'רוסית', fr: 'צרפתית', am: 'אמהרית',
+  he: 'עברית', ar: 'ערבית', en: 'אנגלית', ru: 'רוסית', fr: 'צרפתית', es: 'ספרדית', am: 'אמהרית',
 };
 
 interface Props {
   profile: TherapistProfilePublic;
+  onSaved?: () => void;
 }
 
-export default function ProfileEditForm({ profile }: Props) {
+export default function ProfileEditForm({ profile, onSaved }: Props) {
   const t = useTranslations('dashboard.edit');
 
   const [bioHe, setBioHe] = useState(profile.bio.he);
@@ -49,6 +50,7 @@ export default function ProfileEditForm({ profile }: Props) {
   const [feeMax, setFeeMax] = useState<string>(profile.feeRange ? String(profile.feeRange.max) : '');
   const [acceptingPatients, setAcceptingPatients] = useState(profile.isAcceptingPatients);
   const [gender, setGender] = useState<'male' | 'female' | null>(profile.gender);
+  const [photo, setPhoto] = useState<string>(profile.photo ?? '');
 
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -76,6 +78,8 @@ export default function ProfileEditForm({ profile }: Props) {
       gender,
     };
 
+    if (photo) body.photo = photo;
+
     if (feeMin && feeMax) {
       body.feeRange = { min: Number(feeMin), max: Number(feeMax), currency: 'ILS' };
     } else {
@@ -90,6 +94,7 @@ export default function ProfileEditForm({ profile }: Props) {
       });
       if (!res.ok) throw new Error('save failed');
       setSuccess(true);
+      onSaved?.();
     } catch {
       setError(t('saveError'));
     } finally {
@@ -99,6 +104,47 @@ export default function ProfileEditForm({ profile }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+      {/* Photo upload */}
+      <div className="rounded-lg bg-surface p-6 border border-border">
+        <h2 className="mb-4 text-base font-semibold text-text-primary">Photo</h2>
+        <div className="flex items-center gap-4">
+          <div
+            className="relative h-20 w-20 cursor-pointer overflow-hidden rounded-full border-2 border-dashed border-border bg-bg-alt hover:border-primary transition-colors"
+            onClick={() => document.getElementById('profile-photo-upload')?.click()}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === 'Enter' && document.getElementById('profile-photo-upload')?.click()}
+            aria-label="Upload photo"
+          >
+            {photo ? (
+              <img src={photo} alt="Profile photo" className="h-full w-full object-cover" />
+            ) : (
+              <svg className="absolute inset-0 m-auto h-7 w-7 text-text-muted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+              </svg>
+            )}
+          </div>
+          <input
+            id="profile-photo-upload"
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={async (e) => {
+              const file = e.target.files?.[0];
+              if (!file) return;
+              const form = new FormData();
+              form.append('file', file);
+              const res = await fetch('/api/upload', { method: 'POST', body: form });
+              if (res.ok) {
+                const data = await res.json() as { url: string };
+                setPhoto(data.url);
+              }
+            }}
+          />
+          <p className="text-sm text-text-muted">Click the circle to upload a new photo</p>
+        </div>
+      </div>
+
       {/* Bio */}
       <Section title={t('bio')}>
         <textarea
@@ -261,7 +307,7 @@ const inputCls =
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-lg bg-surface p-6 shadow-card">
+    <div className="rounded-lg bg-surface p-6 border border-border">
       <h2 className="mb-4 text-base font-semibold text-text-primary">{title}</h2>
       {children}
     </div>
@@ -279,7 +325,7 @@ function CheckboxGroup<T extends string>({
   return (
     <div className="flex flex-wrap gap-2">
       {options.map((opt) => (
-        <label key={opt} className="flex cursor-pointer items-center gap-2">
+        <label key={opt} className="flex items-center gap-2">
           <input
             type="checkbox"
             checked={selected.includes(opt)}

@@ -16,7 +16,7 @@
     "search": "Find Therapists",
     "login": "Log in",
     "register": "Register",
-    "dashboard": "Dashboard",
+    "dashboard": "My Area",
     "profile": "Profile",
     "editProfile": "Edit profile",
     "logout": "Log out"
@@ -30,13 +30,13 @@
     "searchPlaceholder": "Specialisation, therapist name, city...",
     "searchButton": "Search",
     "quickFilters": {
-      "paediatrics": "Paediatrics",
+      "paediatrics": "Child Development",
       "paediatricsTagline": "Developmental delays, sensory processing, handwriting",
       "neuro": "Neurological Rehab",
       "neuroTagline": "Post-stroke, brain injury or surgery",
       "mentalHealth": "Emotional Regulation",
       "mentalHealthTagline": "Anxiety, ADHD, sensory regulation",
-      "handTherapy": "Hand Therapy",
+      "handTherapy": "Hand Rehabilitation",
       "handTherapyTagline": "Nerves, tendons, movement recovery"
     },
     "howItWorks": {
@@ -64,6 +64,7 @@
       "subtitle": "Have a question? We're here to help."
     },
     "resultsCount": "{count, plural, =0 {No therapists found} one {1 therapist found} other {{count} therapists found}}",
+    "mapTitle": "Therapists near you",
     "therapistBanner": {
       "title": "Are you an OT? Join us",
       "subtitle": "Free profile, no commissions — just patients looking for exactly what you offer",
@@ -90,7 +91,7 @@
     },
     "filters": {
       "specialisation": "Specialisation",
-      "insurance": "Insurance",
+      "insurance": "Accepted health funds",
       "location": "Location",
       "sessionType": "Session type",
       "language": "Language",
@@ -98,15 +99,14 @@
     },
     "sessionTypes": {
       "inPerson": "In-person",
-      "telehealth": "Telehealth",
+      "telehealth": "Remote session",
       "homeVisit": "Home visit"
     },
     "insurance": {
       "clalit": "Clalit",
       "maccabi": "Maccabi",
       "meuhedet": "Meuhedet",
-      "leumit": "Leumit",
-      "private": "Private pay"
+      "leumit": "Leumit"
     },
     "therapistTitle": "Occupational Therapist",
     "therapistTitleMale": "Occupational Therapist",
@@ -118,12 +118,14 @@
     "sessionLabel": "Session:",
     "feePerSession": "per session",
     "noFeeInfo": "Price on request",
+    "feeFrom": "From ₪{min}",
+    "featuredLabel": "Featured",
     "filtersTitle": "Filters",
     "specialisationLabels": {
-      "paediatrics": "Paediatrics",
+      "paediatrics": "Child Development",
       "neurological": "Neurological rehab",
       "mental-health": "Mental health",
-      "hand-therapy": "Hand therapy",
+      "hand-therapy": "Hand Rehabilitation",
       "geriatrics": "Geriatrics",
       "sensory-processing": "Sensory processing",
       "vocational": "Vocational rehab",
@@ -133,12 +135,15 @@
     "sortPopular": "Most Popular",
     "noMoreResults": "You've seen all therapists",
     "loadingMore": "Loading more...",
+    "feeFrom": "From ₪{min}",
+    "featuredLabel": "Featured",
     "languageLabels": {
       "he": "Hebrew",
       "ar": "Arabic",
       "en": "English",
       "ru": "Russian",
-      "fr": "French"
+      "fr": "French",
+      "es": "Spanish"
     }
   },
   "footer": {
@@ -158,7 +163,7 @@
     "contactEmail": "Email",
     "save": "Save to favourites",
     "specialisations": "Specialisations",
-    "insurance": "Insurance accepted",
+    "insurance": "Accepted health funds",
     "languages": "Languages",
     "location": "Location",
     "sessionTypes": "Session types",
@@ -169,7 +174,9 @@
     "therapistTitle": "Occupational Therapist",
     "therapistTitleMale": "Occupational Therapist",
     "therapistTitleFemale": "Occupational Therapist",
-    "feePerSession": "per session"
+    "feePerSession": "per session",
+    "mohNumber": "MOH Licence",
+    "verifyLicence": "Verify on MOH Registry"
   },
   "auth": {
     "login": {
@@ -203,6 +210,11 @@
       "required": "This field is required",
       "invalidEmail": "Invalid email address",
       "passwordTooShort": "Password must be at least 8 characters",
+      "passwordWeak": "Password must be at least 8 characters and include a letter and a number",
+      "passwordRule_min8": "At least 8 characters",
+      "passwordRule_letter": "Contains a letter",
+      "passwordRule_number": "Contains a number",
+      "invalidPhone": "Please enter a valid Israeli mobile or landline number",
       "passwordMismatch": "Passwords do not match"
     }
   },
@@ -216,7 +228,7 @@
       "step3Title": "Contact & fees",
       "next": "Next",
       "back": "Back",
-      "finish": "Finish and go to dashboard",
+      "finish": "Finish and go to My Area",
       "displayNameHe": "Display name (Hebrew) *",
       "displayNameEn": "Display name (English)",
       "displayNameAr": "Display name (Arabic)",
@@ -225,7 +237,7 @@
       "address": "Address",
       "specialisations": "Specialisations *",
       "sessionTypes": "Session types *",
-      "insurance": "Insurance accepted",
+      "insurance": "Accepted health funds",
       "phone": "Phone *",
       "email": "Contact email",
       "feeMin": "Min session fee (₪)",
@@ -240,7 +252,7 @@
     }
   },
   "dashboard": {
-    "title": "Dashboard",
+    "title": "My Area",
     "profileViews": "Profile views",
     "enquiries": "Enquiries",
     "completeness": "Profile completeness",
@@ -264,7 +276,7 @@
       "specialisations": "Specialisations",
       "languages": "Languages",
       "sessionTypes": "Session types",
-      "insurance": "Insurance accepted",
+      "insurance": "Accepted health funds",
       "feeMin": "Min session fee (₪)",
       "feeMax": "Max session fee (₪)",
       "acceptingPatients": "Accepting new patients",

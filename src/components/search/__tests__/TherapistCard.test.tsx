@@ -37,6 +37,7 @@ vi.mock('next-intl', () => ({
       sessionLabel: 'טיפול:',
       feePerSession: 'לטיפול',
       noFeeInfo: 'מחיר לפי פניה',
+      featuredLabel: 'Featured',
     };
     return map[key] ?? key;
   },
@@ -89,7 +90,7 @@ describe('TherapistCard', () => {
 
   it('renders fee range', () => {
     render(<TherapistCard therapist={mockProfile} />);
-    expect(screen.getByText('250–400')).toBeInTheDocument();
+    expect(screen.getByText(/250–400/)).toBeInTheDocument();
   });
 
   it('shows accepting patients badge when isAcceptingPatients is true', () => {
@@ -97,15 +98,15 @@ describe('TherapistCard', () => {
     expect(screen.getByText(/מקבלים/)).toBeInTheDocument();
   });
 
-  it('shows PRO badge for premium subscription', () => {
+  it('shows Featured badge for premium subscription', () => {
     const premium = { ...mockProfile, subscriptionTier: 'premium' as const };
     render(<TherapistCard therapist={premium} />);
-    expect(screen.getByText('PRO')).toBeInTheDocument();
+    expect(screen.getByText('Featured')).toBeInTheDocument();
   });
 
-  it('does not show PRO badge for free subscription', () => {
+  it('does not show Featured badge for free subscription', () => {
     render(<TherapistCard therapist={mockProfile} />);
-    expect(screen.queryByText('PRO')).not.toBeInTheDocument();
+    expect(screen.queryByText('Featured')).not.toBeInTheDocument();
   });
 
   it('renders a link to the therapist profile page', () => {

@@ -15,8 +15,8 @@ export async function POST(req: NextRequest) {
     if (!email || !password || !name) {
       return NextResponse.json({ error: 'required' }, { status: 400 });
     }
-    if (password.length < 8) {
-      return NextResponse.json({ error: 'passwordTooShort' }, { status: 400 });
+    if (password.length < 8 || !/[0-9]/.test(password) || !/[a-zA-Z]/.test(password)) {
+      return NextResponse.json({ error: 'passwordWeak' }, { status: 400 });
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return NextResponse.json({ error: 'invalidEmail' }, { status: 400 });

@@ -1,23 +1,28 @@
 'use client';
 
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import type { Specialisation, InsuranceType, SessionType } from '@/types';
+import CitySelect from '@/components/ui/CitySelect';
+import StreetSelect from '@/components/ui/StreetSelect';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface Step1Data {
   displayNameHe: string;
   displayNameEn: string;
-  displayNameAr: string;
   languages: string[];
   gender: 'male' | 'female' | null;
+  photo: string;
 }
 
 interface Step2Data {
   city: string;
-  address: string;
+  cityCode: number;
+  street: string;
+  buildingNumber: string;
   specialisations: Specialisation[];
   sessionTypes: SessionType[];
 }
@@ -34,12 +39,13 @@ interface Step3Data {
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const LANGUAGES = ['he', 'ar', 'en', 'ru', 'am'] as const;
+const LANGUAGES = ['he', 'en', 'ru', 'fr', 'es', 'am'] as const;
 const LANGUAGE_LABELS: Record<string, string> = {
   he: 'עברית / Hebrew',
-  ar: 'عربية / Arabic',
   en: 'English',
   ru: 'Русский / Russian',
+  fr: 'Français / French',
+  es: 'Español / Spanish',
   am: 'አማርኛ / Amharic',
 };
 
@@ -48,10 +54,10 @@ const SPECIALISATIONS: Specialisation[] = [
   'geriatrics', 'sensory-processing', 'vocational', 'ergonomic',
 ];
 const SPECIALISATION_LABELS: Record<Specialisation, string> = {
-  paediatrics: 'ילדים ופיתוח / Paediatrics',
+  paediatrics: 'התפתחות הילד / Child Development',
   neurological: 'שיקום נוירולוגי / Neurological',
   'mental-health': 'בריאות הנפש / Mental Health',
-  'hand-therapy': 'טיפול ביד / Hand Therapy',
+  'hand-therapy': 'שיקום כף יד / Hand Rehab',
   geriatrics: 'גריאטריה / Geriatrics',
   'sensory-processing': 'עיבוד חושי / Sensory Processing',
   vocational: 'שיקום תעסוקתי / Vocational',
@@ -61,17 +67,16 @@ const SPECIALISATION_LABELS: Record<Specialisation, string> = {
 const SESSION_TYPES: SessionType[] = ['in-person', 'telehealth', 'home-visit'];
 const SESSION_TYPE_LABELS: Record<SessionType, string> = {
   'in-person': 'פרונטלי / In-person',
-  telehealth: 'טלה-מדיסין / Telehealth',
+  telehealth: 'טיפול מרחוק / Remote session',
   'home-visit': 'ביקור בית / Home visit',
 };
 
-const INSURANCE_TYPES: InsuranceType[] = ['clalit', 'maccabi', 'meuhedet', 'leumit', 'private'];
+const INSURANCE_TYPES: InsuranceType[] = ['clalit', 'maccabi', 'meuhedet', 'leumit'];
 const INSURANCE_LABELS: Record<InsuranceType, string> = {
   clalit: 'כללית / Clalit',
   maccabi: 'מכבי / Maccabi',
   meuhedet: 'מאוחדת / Meuhedet',
   leumit: 'לאומית / Leumit',
-  private: 'פרטי / Private pay',
 };
 
 // ─── Small reusable components ─────────────────────────────────────────────
@@ -152,6 +157,43 @@ function Step1({
   const t = useTranslations('onboarding.therapist');
   return (
     <div className="flex flex-col gap-5">
+      {/* Avatar upload */}
+      <div className="flex flex-col items-center gap-3">
+        <div
+          className="relative h-24 w-24 cursor-pointer overflow-hidden rounded-full border-2 border-dashed border-border bg-bg-alt hover:border-primary transition-colors"
+          onClick={() => document.getElementById('avatar-upload')?.click()}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === 'Enter' && document.getElementById('avatar-upload')?.click()}
+          aria-label="Upload photo"
+        >
+          {data.photo ? (
+            <img src={data.photo} alt="Avatar" className="h-full w-full object-cover" />
+          ) : (
+            <svg className="absolute inset-0 m-auto h-8 w-8 text-text-muted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          )}
+        </div>
+        <input
+          id="avatar-upload"
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={async (e) => {
+            const file = e.target.files?.[0];
+            if (!file) return;
+            const form = new FormData();
+            form.append('file', file);
+            const res = await fetch('/api/upload', { method: 'POST', body: form });
+            if (res.ok) {
+              const data2 = await res.json() as { url: string };
+              onChange({ photo: data2.url });
+            }
+          }}
+        />
+        <p className="text-xs text-text-muted">Click to upload photo (optional)</p>
+      </div>
       <div className="flex flex-col gap-1.5">
         <FieldLabel>{t('displayNameHe')}</FieldLabel>
         <TextInput
@@ -169,15 +211,6 @@ function Step1({
           value={data.displayNameEn}
           onChange={(v) => onChange({ displayNameEn: v })}
           dir="ltr"
-        />
-      </div>
-      <div className="flex flex-col gap-1.5">
-        <FieldLabel>{t('displayNameAr')}</FieldLabel>
-        <TextInput
-          id="displayNameAr"
-          value={data.displayNameAr}
-          onChange={(v) => onChange({ displayNameAr: v })}
-          dir="rtl"
         />
       </div>
       <div className="flex flex-col gap-2">
@@ -230,27 +263,39 @@ function Step2({
   const t = useTranslations('onboarding.therapist');
   return (
     <div className="flex flex-col gap-5">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="flex flex-col gap-1.5">
-          <FieldLabel>{t('city')}</FieldLabel>
-          <TextInput
-            id="city"
-            value={data.city}
-            onChange={(v) => onChange({ city: v })}
-            dir="auto"
-            required
-          />
-        </div>
-        <div className="flex flex-col gap-1.5">
-          <FieldLabel>{t('address')}</FieldLabel>
-          <TextInput
-            id="address"
-            value={data.address}
-            onChange={(v) => onChange({ address: v })}
-            dir="auto"
-          />
-        </div>
+      <div className="flex flex-col gap-1.5">
+        <FieldLabel>{t('city')}</FieldLabel>
+        <CitySelect
+          value={data.city}
+          onChange={(name, code) => onChange({ city: name, cityCode: code, street: '', buildingNumber: '' })}
+          required
+        />
       </div>
+
+      {data.city && (
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-1.5">
+            <FieldLabel>{t('address')}</FieldLabel>
+            <StreetSelect
+              cityCode={data.cityCode}
+              value={data.street}
+              onChange={(v) => onChange({ street: v })}
+            />
+          </div>
+          {data.street && (
+            <div className="flex flex-col gap-1.5">
+              <FieldLabel>מספר בית</FieldLabel>
+              <TextInput
+                id="buildingNumber"
+                value={data.buildingNumber}
+                onChange={(v) => onChange({ buildingNumber: v })}
+                dir="ltr"
+                placeholder="12"
+              />
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="flex flex-col gap-2">
         <FieldLabel>{t('specialisations')}</FieldLabel>
@@ -381,16 +426,17 @@ function Step3({
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <FieldLabel>{t('mohNumber')}</FieldLabel>
+        <FieldLabel>{t('mohNumber')} *</FieldLabel>
         <TextInput
           id="mohNumber"
           value={data.mohNumber}
           onChange={(v) => onChange({ mohNumber: v })}
           dir="ltr"
+          required
         />
       </div>
 
-      <label className="flex cursor-pointer items-center gap-3">
+      <label className="flex items-center gap-3">
         <input
           type="checkbox"
           checked={data.acceptingPatients}
@@ -410,6 +456,7 @@ const TOTAL_STEPS = 3;
 export default function TherapistOnboardingWizard({ therapistProfileId }: { therapistProfileId: string }) {
   const t = useTranslations('onboarding.therapist');
   const router = useRouter();
+  const { update: updateSession } = useSession();
 
   const [step, setStep] = useState(1);
   const [saving, setSaving] = useState(false);
@@ -418,13 +465,15 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
   const [step1, setStep1] = useState<Step1Data>({
     displayNameHe: '',
     displayNameEn: '',
-    displayNameAr: '',
     languages: ['he'],
     gender: null,
+    photo: '',
   });
   const [step2, setStep2] = useState<Step2Data>({
     city: '',
-    address: '',
+    cityCode: 0,
+    street: '',
+    buildingNumber: '',
     specialisations: [],
     sessionTypes: [],
   });
@@ -438,6 +487,9 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
     acceptingPatients: true,
   });
 
+  // Use _ to avoid unused var warning — therapistProfileId is passed but auth is session-based
+  void therapistProfileId;
+
   function validateCurrent(): string | null {
     if (step === 1) {
       if (!step1.displayNameHe.trim()) return 'displayNameHe';
@@ -450,6 +502,8 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
     }
     if (step === 3) {
       if (!step3.phone.trim()) return 'phone';
+      if (!/^0(5[0-9]|[2-489])[0-9]{7}$/.test(step3.phone.trim())) return 'phone';
+      if (!step3.mohNumber.trim()) return 'mohNumber';
     }
     return null;
   }
@@ -479,18 +533,20 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
     const feeMin = parseFloat(step3.feeMin);
     const feeMax = parseFloat(step3.feeMax);
 
+    const addressParts = [step2.street, step2.buildingNumber].filter(Boolean).join(' ');
+
     const payload: Record<string, unknown> = {
       displayName: {
         he: step1.displayNameHe,
         en: step1.displayNameEn || step1.displayNameHe,
-        ar: step1.displayNameAr || step1.displayNameHe,
+        ar: step1.displayNameHe,
       },
       languages: step1.languages,
       location: {
         type: 'Point',
         coordinates: [34.7818, 32.0853],
         city: step2.city,
-        address: step2.address,
+        address: addressParts,
       },
       specialisations: step2.specialisations,
       sessionTypes: step2.sessionTypes,
@@ -499,22 +555,17 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
       insuranceAccepted: step3.insuranceAccepted,
       isAcceptingPatients: step3.acceptingPatients,
       gender: step1.gender,
+      mohRegistrationNumber: step3.mohNumber.trim(),
+      photo: step1.photo || undefined,
     };
 
     if (!isNaN(feeMin) && !isNaN(feeMax) && feeMin > 0 && feeMax >= feeMin) {
       payload.feeRange = { min: feeMin, max: feeMax, currency: 'ILS' };
     }
 
-    if (step3.mohNumber.trim()) {
-      payload.mohRegistrationNumber = step3.mohNumber.trim();
-    }
-
-    // Use _ to avoid unused var warning — therapistProfileId is passed but auth is session-based
-    void therapistProfileId;
-
     try {
-      const res = await fetch('/api/dashboard/profile', {
-        method: 'PATCH',
+      const res = await fetch('/api/onboarding/complete', {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
@@ -524,6 +575,11 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
         setSaving(false);
         return;
       }
+
+      const data = (await res.json()) as { role?: string; therapistProfileId?: string };
+
+      // Refresh JWT so session reflects new role + profileId
+      await updateSession({ role: data.role, therapistProfileId: data.therapistProfileId });
 
       router.push('/dashboard');
       router.refresh();
@@ -549,7 +605,7 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
       </div>
 
       {/* Step content */}
-      <div className="rounded-2xl bg-surface p-6 shadow-card sm:p-8">
+      <div className="rounded-2xl bg-surface p-6 border border-border sm:p-8">
         {step === 1 && (
           <Step1 data={step1} onChange={(d) => setStep1((s) => ({ ...s, ...d }))} />
         )}

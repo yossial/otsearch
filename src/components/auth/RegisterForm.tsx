@@ -33,8 +33,8 @@ export default function RegisterForm() {
       setError(t('errors.invalidEmail'));
       return;
     }
-    if (password.length < 8) {
-      setError(t('errors.passwordTooShort'));
+    if (password.length < 8 || !/[0-9]/.test(password) || !/[a-zA-Z]/.test(password)) {
+      setError(t('errors.passwordWeak'));
       return;
     }
     if (password !== confirmPassword) {
@@ -54,8 +54,8 @@ export default function RegisterForm() {
 
       if (!res.ok) {
         const key = data.error as string;
-        const msg = key in { emailExists: 1, passwordTooShort: 1, invalidEmail: 1, required: 1 }
-          ? t(`errors.${key as 'emailExists' | 'passwordTooShort' | 'invalidEmail' | 'required'}`)
+        const msg = key in { emailExists: 1, passwordWeak: 1, invalidEmail: 1, required: 1 }
+          ? t(`errors.${key as 'emailExists' | 'passwordWeak' | 'invalidEmail' | 'required'}`)
           : t('errors.required');
         setError(msg);
         setLoading(false);
@@ -138,8 +138,19 @@ export default function RegisterForm() {
             required
             className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
           />
-          {password.length > 0 && password.length < 8 && (
-            <p className="text-xs text-text-muted">{t('errors.passwordTooShort')}</p>
+          {password.length > 0 && (
+            <ul className="mt-1 flex flex-col gap-0.5">
+              {[
+                { met: password.length >= 8, key: 'min8' as const },
+                { met: /[a-zA-Z]/.test(password), key: 'letter' as const },
+                { met: /[0-9]/.test(password), key: 'number' as const },
+              ].map(({ met, key }) => (
+                <li key={key} className={`flex items-center gap-1.5 text-xs ${met ? 'text-green-600' : 'text-text-muted'}`}>
+                  <span aria-hidden="true">{met ? '✓' : '○'}</span>
+                  {t(`errors.passwordRule_${key}`)}
+                </li>
+              ))}
+            </ul>
           )}
         </div>
 
@@ -155,7 +166,7 @@ export default function RegisterForm() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
-              className={`w-full rounded-lg border px-3.5 py-2.5 pr-10 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 ${
+              className={`w-full rounded-lg border px-3.5 py-2.5 pe-10 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 ${
                 passwordMismatch
                   ? 'border-red-400 bg-red-50/40 focus:border-red-400 focus:ring-red-200'
                   : passwordsMatch

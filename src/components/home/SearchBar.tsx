@@ -1,14 +1,8 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
-
-interface Suggestion {
-  type: 'therapist' | 'city' | 'specialisation';
-  label: string;
-  value: string;
-}
 
 interface SearchBarProps {
   initialQuery?: string;
@@ -16,103 +10,82 @@ interface SearchBarProps {
   onDark?: boolean;
 }
 
-const TYPE_ICONS: Record<Suggestion['type'], React.ReactNode> = {
-  therapist: (
-    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-    </svg>
-  ),
-  city: (
-    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
-    </svg>
-  ),
-  specialisation: (
-    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/>
-    </svg>
-  ),
-};
-
-const POPULAR_SEARCHES = [
-  { label: 'Child Development', query: 'paediatrics' },
-  { label: 'Hand Rehabilitation', query: 'hand-therapy' },
-  { label: 'Neurological Rehab', query: 'neurological' },
-  { label: 'Mental Health', query: 'mental-health' },
+// Terms for instant inline autocomplete — no network round-trip
+const AUTOCOMPLETE_TERMS = [
+  'Child Development',
+  'Hand Rehabilitation',
+  'Neurological Rehab',
+  'Emotional Regulation',
+  'Sensory Processing',
+  'Geriatrics',
+  'Ergonomics',
+  'Vocational Rehab',
+  'התפתחות הילד',
+  'שיקום כף יד',
+  'שיקום נוירולוגי',
+  'ויסות רגשי',
+  'עיבוד חושי',
+  'גריאטריה',
+  'ארגונומיה',
 ];
+
+function getInlineSuggestion(q: string): string {
+  if (q.trim().length < 2) return '';
+  const lower = q.toLowerCase();
+  return (
+    AUTOCOMPLETE_TERMS.find(
+      (term) => term.toLowerCase().startsWith(lower) && term.toLowerCase() !== lower
+    ) ?? ''
+  );
+}
 
 export default function SearchBar({ initialQuery = '', size = 'default', onDark = false }: SearchBarProps) {
   const t = useTranslations('home');
   const router = useRouter();
   const [query, setQuery] = useState(initialQuery);
-  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [inlineSuggestion, setInlineSuggestion] = useState('');
   const [isFocused, setIsFocused] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(-1);
   const [isNavigating, setIsNavigating] = useState(false);
 
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Fetch autocomplete suggestions
-  const fetchSuggestions = useCallback(async (q: string) => {
-    if (q.trim().length < 2) {
-      setSuggestions([]);
-      return;
-    }
-    try {
-      const res = await fetch(`/api/search/suggestions?q=${encodeURIComponent(q.trim())}`);
-      if (res.ok) {
-        const data = await res.json() as { suggestions: Suggestion[] };
-        setSuggestions(data.suggestions);
-      }
-    } catch {
-      setSuggestions([]);
-    }
-  }, []);
-
-  // Debounced suggestion fetch (300ms)
-  useEffect(() => {
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => void fetchSuggestions(query), 300);
-    return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
-  }, [query, fetchSuggestions]);
-
-  // Debounced live search navigation (500ms) — navigate on keydown
+  // Debounced server navigation (500 ms)
   useEffect(() => {
     if (navDebounceRef.current) clearTimeout(navDebounceRef.current);
     navDebounceRef.current = setTimeout(() => {
-      // Only auto-navigate if focused (user is actively typing)
       if (!isFocused) return;
       const trimmed = query.trim();
-      // Navigate to filtered results (or clear query if empty)
       const params = trimmed.length >= 2 ? `?q=${encodeURIComponent(trimmed)}` : '';
       setIsNavigating(true);
-      router.push(`/${params}`);
+      router.push(`/${params}`, { scroll: false });
       setTimeout(() => setIsNavigating(false), 600);
     }, 500);
     return () => { if (navDebounceRef.current) clearTimeout(navDebounceRef.current); };
   }, [query, isFocused, router]);
 
-  // Close dropdown on outside click
-  useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        setShowDropdown(false);
-        setIsFocused(false);
-      }
+  function applyClientFilter(q: string) {
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-therapist-name]'));
+    const lower = q.toLowerCase().trim();
+    // Mirror the 2-char minimum used by the debounce — avoids hiding cards on single keystrokes
+    if (lower.length < 2) {
+      cards.forEach((card) => { card.style.display = ''; });
+      return;
     }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    const matches = (card: HTMLElement) => {
+      const name = (card.dataset.therapistName ?? '').toLowerCase();
+      const city = (card.dataset.therapistCity ?? '').toLowerCase();
+      const specs = (card.dataset.therapistSpecs ?? '').toLowerCase();
+      return name.includes(lower) || city.includes(lower) || specs.includes(lower);
+    };
+    // Only hide cards if at least one matches — prevents blank flash while server result loads
+    if (!cards.some(matches)) return;
+    cards.forEach((card) => { card.style.display = matches(card) ? '' : 'none'; });
+  }
 
   function navigate(q: string) {
-    setShowDropdown(false);
-    setIsFocused(false);
     const params = q.trim() ? `?q=${encodeURIComponent(q.trim())}` : '';
-    router.push(`/${params}`);
+    router.push(`/${params}`, { scroll: false });
   }
 
   function handleSubmit(e: React.FormEvent) {
@@ -123,220 +96,178 @@ export default function SearchBar({ initialQuery = '', size = 'default', onDark 
 
   function handleChange(value: string) {
     setQuery(value);
-    setActiveIndex(-1);
-    setShowDropdown(true);
-    // If cleared, navigate immediately back to all results
-    if (value === '') {
-      if (navDebounceRef.current) clearTimeout(navDebounceRef.current);
-      navigate('');
-    }
+    setInlineSuggestion(getInlineSuggestion(value));
+    applyClientFilter(value);
+    // Debounce handles navigation for all cases including clearing
   }
 
-  function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key === 'Escape') {
-      setShowDropdown(false);
-      setActiveIndex(-1);
-      return;
-    }
-    if (!showDropdown || suggestions.length === 0) return;
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      setActiveIndex((i) => Math.min(i + 1, suggestions.length - 1));
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setActiveIndex((i) => Math.max(i - 1, -1));
-    } else if (e.key === 'Enter' && activeIndex >= 0) {
-      e.preventDefault();
-      const s = suggestions[activeIndex];
-      if (navDebounceRef.current) clearTimeout(navDebounceRef.current);
-      setQuery(s.label);
-      navigate(s.label);
-    }
-  }
-
-  function selectSuggestion(s: Suggestion) {
+  function acceptSuggestion() {
+    if (!inlineSuggestion) return;
     if (navDebounceRef.current) clearTimeout(navDebounceRef.current);
-    setQuery(s.label);
-    navigate(s.label);
+    setQuery(inlineSuggestion);
+    setInlineSuggestion('');
+    applyClientFilter(inlineSuggestion);
+    navigate(inlineSuggestion);
   }
 
-  const showPopular = isFocused && query.trim().length === 0;
-  const showSuggestions = showDropdown && suggestions.length > 0 && query.trim().length >= 2;
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (!inlineSuggestion) return;
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      acceptSuggestion();
+    } else if (e.key === 'ArrowRight' && inputRef.current?.selectionStart === query.length) {
+      e.preventDefault();
+      acceptSuggestion();
+    } else if (e.key === 'Escape') {
+      setInlineSuggestion('');
+    }
+  }
 
-  const Dropdown = (showSuggestions || showPopular) ? (
-    <div
-      role="listbox"
-      className="absolute start-0 end-0 top-full z-50 mt-1.5 overflow-hidden rounded-xl border border-border bg-surface shadow-dropdown"
-    >
-      {showPopular && (
-        <>
-          <div className="px-4 pb-1 pt-3">
-            <p className="text-[11px] font-semibold uppercase tracking-wider text-text-muted">Popular searches</p>
-          </div>
-          <ul>
-            {POPULAR_SEARCHES.map((ps) => (
-              <li key={ps.query}>
-                <button
-                  type="button"
-                  onMouseDown={(e) => { e.preventDefault(); setQuery(ps.label); navigate(ps.label); }}
-                  className="flex w-full items-center gap-3 px-4 py-2.5 text-sm text-text-primary transition-colors hover:bg-bg-alt"
-                >
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary-light text-primary">
-                    {TYPE_ICONS.specialisation}
-                  </span>
-                  {ps.label}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+  function handleClear() {
+    setQuery('');
+    navigate('');
+    applyClientFilter('');
+    inputRef.current?.focus();
+  }
 
-      {showSuggestions && (
-        <ul>
-          {suggestions.map((s, i) => (
-            <li key={`${s.type}-${s.value}`}>
-              <button
-                type="button"
-                role="option"
-                aria-selected={i === activeIndex}
-                onMouseDown={(e) => { e.preventDefault(); selectSuggestion(s); }}
-                className={`flex w-full items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
-                  i === activeIndex
-                    ? 'bg-primary-light text-primary'
-                    : 'text-text-primary hover:bg-bg-alt'
-                }`}
-              >
-                <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${
-                  i === activeIndex ? 'bg-primary text-white' : 'bg-bg-alt text-text-muted'
-                }`}>
-                  {TYPE_ICONS[s.type]}
-                </span>
-                <span className="flex-1 text-start">{s.label}</span>
-                <span className="text-xs capitalize text-text-muted">{s.type}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  ) : null;
+  // The greyed-out completion that extends past the cursor
+  const ghostRemainder =
+    inlineSuggestion && inlineSuggestion.toLowerCase().startsWith(query.toLowerCase())
+      ? inlineSuggestion.slice(query.length)
+      : '';
 
-  // ── Hero variant ────────────────────────────────────────────────────────────
+  // ── Hero variant ─────────────────────────────────────────────────────────────
   if (size === 'hero') {
     const ringClass = onDark
       ? 'shadow-[0_8px_48px_rgba(0,0,0,0.5)]'
-      : 'border border-border shadow-sm focus-within:border-primary focus-within:shadow-[0_0_0_3px_rgba(255,195,0,0.15)]';
+      : 'border border-border shadow-sm focus-within:border-primary focus-within:shadow-[0_0_0_3px_rgba(0,29,61,0.10)]';
 
     return (
-      <div ref={containerRef} className="relative w-full">
-        <form
-          onSubmit={handleSubmit}
-          className={`flex w-full items-center overflow-hidden rounded-xl bg-surface transition-all duration-150 ${ringClass}`}
-        >
-          <div className="flex flex-1 items-center gap-3 ps-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="shrink-0 text-text-muted"
+      <form
+        onSubmit={handleSubmit}
+        className={`flex w-full items-center gap-3 overflow-hidden rounded-xl bg-surface px-4 transition-all duration-150 ${ringClass}`}
+      >
+        {/* Search / spinner icon */}
+        {isNavigating ? (
+          <svg className="h-[18px] w-[18px] shrink-0 animate-spin text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          </svg>
+        ) : (
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-text-muted" aria-hidden="true">
+            <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+          </svg>
+        )}
+
+        {/* Input + ghost overlay */}
+        <div className="relative flex-1 overflow-hidden">
+          {ghostRemainder && (
+            <div
               aria-hidden="true"
+              className="pointer-events-none absolute inset-0 flex items-center overflow-hidden whitespace-nowrap text-base"
             >
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.35-4.35" />
+              <span style={{ visibility: 'hidden' }}>{query}</span>
+              <span className="text-text-muted/55">{ghostRemainder}</span>
+            </div>
+          )}
+          <input
+            ref={inputRef}
+            type="search"
+            value={query}
+            onChange={(e) => handleChange(e.target.value)}
+            onFocus={() => { setIsFocused(true); setInlineSuggestion(getInlineSuggestion(query)); }}
+            onBlur={() => { setIsFocused(false); setInlineSuggestion(''); }}
+            onKeyDown={handleKeyDown}
+            placeholder={t('searchPlaceholder')}
+            autoComplete="off"
+            aria-label={t('searchPlaceholder')}
+            className="w-full border-0 bg-transparent py-4 text-base text-text-primary outline-none ring-0 placeholder:text-text-muted focus:border-0 focus:outline-none focus:ring-0"
+          />
+        </div>
+
+        {/* Tab hint (shows while ghost is visible) */}
+        {ghostRemainder && (
+          <span className="shrink-0 rounded border border-border px-1.5 py-0.5 text-[10px] font-medium leading-none text-text-muted">
+            Tab
+          </span>
+        )}
+
+        {/* Clear button (shows when text entered, no ghost showing) */}
+        {query.length > 0 && !ghostRemainder && (
+          <button
+            type="button"
+            onClick={handleClear}
+            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-bg-alt text-text-muted transition-colors hover:bg-border hover:text-text-primary"
+            aria-label="Clear search"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
             </svg>
-            <input
-              ref={inputRef}
-              type="search"
-              value={query}
-              onChange={(e) => handleChange(e.target.value)}
-              onFocus={() => { setIsFocused(true); setShowDropdown(true); }}
-              onKeyDown={handleKeyDown}
-              placeholder={t('searchPlaceholder')}
-              autoComplete="off"
-              aria-label={t('searchPlaceholder')}
-              className="flex-1 border-0 bg-transparent py-4 text-base text-text-primary outline-none ring-0 placeholder:text-text-muted focus:border-0 focus:outline-none focus:ring-0"
-            />
-            {/* Clear button */}
-            {query.length > 0 && (
-              <button
-                type="button"
-                onClick={() => { setQuery(''); navigate(''); inputRef.current?.focus(); }}
-                className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-bg-alt text-text-muted transition-colors hover:bg-border hover:text-text-primary"
-                aria-label="Clear search"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
-              </button>
-            )}
-          </div>
-          <div className="p-1.5">
-            <button
-              type="submit"
-              className={`rounded-lg bg-primary px-6 py-2.5 text-sm font-bold text-text-accent transition-all hover:bg-primary/90 ${isNavigating ? 'opacity-70' : ''}`}
-            >
-              {isNavigating ? (
-                <svg className="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
-                </svg>
-              ) : t('searchButton')}
-            </button>
-          </div>
-        </form>
-        {Dropdown}
-      </div>
+          </button>
+        )}
+      </form>
     );
   }
 
-  // ── Default (sticky bar) variant ────────────────────────────────────────────
+  // ── Default (compact / sticky-bar) variant ──────────────────────────────────
   return (
-    <div ref={containerRef} className="relative w-full">
-      <form
-        onSubmit={handleSubmit}
-        className="flex w-full items-center gap-2 rounded-lg border border-border bg-surface px-3 py-2 transition-[border-color,box-shadow] duration-150 focus-within:border-primary focus-within:shadow-[0_0_0_3px_rgba(255,195,0,0.15)]"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-text-muted" aria-hidden="true">
-          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+    <form
+      onSubmit={handleSubmit}
+      className="flex w-full items-center gap-2 rounded-lg border border-border bg-surface px-3 py-2 transition-[border-color,box-shadow] duration-150 focus-within:border-primary focus-within:shadow-[0_0_0_3px_rgba(0,29,61,0.10)]"
+    >
+      {isNavigating ? (
+        <svg className="h-4 w-4 shrink-0 animate-spin text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
         </svg>
+      ) : (
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-text-muted" aria-hidden="true">
+          <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+        </svg>
+      )}
+
+      <div className="relative flex-1 overflow-hidden">
+        {ghostRemainder && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 flex items-center overflow-hidden whitespace-nowrap text-sm"
+          >
+            <span style={{ visibility: 'hidden' }}>{query}</span>
+            <span className="text-text-muted/55">{ghostRemainder}</span>
+          </div>
+        )}
         <input
           ref={inputRef}
           type="search"
           value={query}
           onChange={(e) => handleChange(e.target.value)}
-          onFocus={() => { setIsFocused(true); setShowDropdown(true); }}
+          onFocus={() => { setIsFocused(true); setInlineSuggestion(getInlineSuggestion(query)); }}
+          onBlur={() => { setIsFocused(false); setInlineSuggestion(''); }}
           onKeyDown={handleKeyDown}
           placeholder={t('searchPlaceholder')}
           autoComplete="off"
-          className="flex-1 border-0 bg-transparent text-sm text-text-primary outline-none ring-0 focus:border-0 focus:outline-none focus:ring-0 placeholder:text-text-muted"
+          className="w-full border-0 bg-transparent text-sm text-text-primary outline-none ring-0 focus:border-0 focus:outline-none focus:ring-0 placeholder:text-text-muted"
         />
-        {query.length > 0 && (
-          <button
-            type="button"
-            onClick={() => { setQuery(''); navigate(''); inputRef.current?.focus(); }}
-            className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-bg-alt text-text-muted transition-colors hover:bg-border"
-            aria-label="Clear search"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-            </svg>
-          </button>
-        )}
+      </div>
+
+      {ghostRemainder && (
+        <span className="shrink-0 rounded border border-border px-1 py-0.5 text-[10px] font-medium leading-none text-text-muted">
+          Tab
+        </span>
+      )}
+
+      {query.length > 0 && !ghostRemainder && (
         <button
-          type="submit"
-          className="rounded-md bg-primary px-4 py-1.5 text-sm font-semibold text-text-accent transition-colors hover:bg-primary/90"
+          type="button"
+          onClick={handleClear}
+          className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-bg-alt text-text-muted transition-colors hover:bg-border hover:text-text-primary"
+          aria-label="Clear search"
         >
-          {t('searchButton')}
+          <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
         </button>
-      </form>
-      {Dropdown}
-    </div>
+      )}
+    </form>
   );
 }

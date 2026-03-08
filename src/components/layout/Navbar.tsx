@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import { useSession, signOut } from 'next-auth/react';
 import { Link, usePathname } from '@/i18n/navigation';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
@@ -17,90 +18,187 @@ function getInitials(name?: string | null): string {
     .join('');
 }
 
+// ── Icons ────────────────────────────────────────────────────────────────────
+function IconDashboard() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="3" y="3" width="7" height="9" /><rect x="14" y="3" width="7" height="5" /><rect x="14" y="12" width="7" height="9" /><rect x="3" y="16" width="7" height="5" />
+    </svg>
+  );
+}
+function IconEdit() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+    </svg>
+  );
+}
+function IconAdmin() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    </svg>
+  );
+}
+function IconLogout() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" />
+    </svg>
+  );
+}
+
 export default function Navbar() {
   const t = useTranslations('nav');
+  const locale = useLocale();
+  const dir = (locale === 'he' || locale === 'ar') ? 'rtl' : 'ltr';
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { data: session } = useSession();
   const pathname = usePathname();
   const isOnboarding = pathname.includes('/onboarding');
+  const isHomepage = pathname === '/';
   const isLoggedIn = !!session?.user;
   const role = (session?.user as { role?: string } | undefined)?.role;
   const isTherapist = role === 'therapist';
+  const isAdmin = role === 'admin';
   const userName = session?.user?.name;
+  const userEmail = session?.user?.email;
   const userImage = session?.user?.image;
 
+  // Transparent-until-scrolled on homepage
+  useEffect(() => {
+    if (!isHomepage) return;
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [isHomepage]);
+
   const close = () => setMobileOpen(false);
+  const transparent = isHomepage && !scrolled && !mobileOpen;
+
+  const sectionLinks = [
+    { href: '#search', label: t('navSearch') },
+    { href: '#how-it-works', label: t('navHowItWorks') },
+    { href: '#for-therapists', label: t('navForTherapists') },
+    { href: '#contact', label: t('navContact') },
+  ];
 
   return (
-    <header className="border-b border-border bg-surface shadow-[0_1px_4px_rgba(0,0,0,0.06)]">
+    <header
+      className={`fixed top-0 left-0 right-0 w-full z-40 border-b transition-all duration-300 ${
+        transparent
+          ? 'border-transparent bg-transparent'
+          : 'border-border bg-surface/95 shadow-[0_1px_4px_rgba(0,0,0,0.06)] backdrop-blur-sm'
+      }`}
+    >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-bold text-primary tracking-tight">Therapio</span>
+        <Link href="/" className="flex shrink-0 items-center gap-2">
+          <span className="text-xl font-bold tracking-tight text-primary">Therapio</span>
         </Link>
+
+        {/* Landing page section links — desktop center */}
+        {isHomepage && (
+          <nav className="hidden items-center gap-0.5 md:flex" aria-label="Page sections">
+            {sectionLinks.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="rounded-lg px-3 py-1.5 text-sm text-text-secondary transition-colors duration-150 hover:bg-bg-alt hover:text-text-primary"
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        )}
 
         {/* Desktop auth */}
         <div className="hidden md:flex items-center gap-3">
           {isLoggedIn ? (
-            <DropdownMenu.Root>
+            <DropdownMenu.Root dir={dir}>
               <DropdownMenu.Trigger asChild>
                 <button
                   type="button"
-                  className="flex h-10 w-10 items-center justify-center rounded-full overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  className="group flex items-center gap-1.5 rounded-full outline-none"
                   aria-label={userName ?? 'User menu'}
                 >
                   {userImage ? (
                     <Image
                       src={userImage}
                       alt={userName ?? ''}
-                      width={40}
-                      height={40}
-                      className="h-10 w-10 rounded-full object-cover"
+                      width={36}
+                      height={36}
+                      className="h-9 w-9 rounded-full object-cover ring-2 ring-transparent transition-all group-hover:ring-primary/30"
                     />
                   ) : (
-                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-text-inverse">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-sm font-bold text-text-inverse ring-2 ring-transparent transition-all group-hover:ring-primary/30">
                       {getInitials(userName)}
                     </span>
                   )}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-text-secondary transition-transform group-data-[state=open]:rotate-180" aria-hidden="true">
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
                 </button>
               </DropdownMenu.Trigger>
 
               <DropdownMenu.Portal>
                 <DropdownMenu.Content
                   align="end"
-                  sideOffset={8}
-                  className="z-50 min-w-[180px] rounded-lg border border-border bg-surface p-1 shadow-dropdown animate-in fade-in-0 zoom-in-95"
+                  sideOffset={10}
+                  className="z-50 min-w-[220px] rounded-xl border border-border bg-surface shadow-dropdown animate-in fade-in-0 zoom-in-95"
                 >
-                  {!isOnboarding && (
+                  {/* User info header */}
+                  <div className="px-4 py-3 border-b border-border">
+                    <p className="text-sm font-semibold text-text-primary truncate">{userName}</p>
+                    {userEmail && (
+                      <p className="text-xs text-text-secondary truncate mt-0.5">{userEmail}</p>
+                    )}
+                    {role && (
+                      <span className={`mt-1.5 inline-block rounded px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${isAdmin ? 'bg-accent text-text-inverse' : 'bg-primary-light text-primary'}`}>
+                        {isAdmin ? 'Admin' : 'Therapist'}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="p-1.5">
+                    {!isOnboarding && (
+                      <DropdownMenu.Item asChild>
+                        <Link href="/dashboard" className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-text-secondary outline-none transition-colors hover:bg-primary-light hover:text-primary">
+                          <IconDashboard />
+                          {t('dashboard')}
+                        </Link>
+                      </DropdownMenu.Item>
+                    )}
+                    {!isOnboarding && isTherapist && (
+                      <DropdownMenu.Item asChild>
+                        <Link href="/dashboard/edit" className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-text-secondary outline-none transition-colors hover:bg-primary-light hover:text-primary">
+                          <IconEdit />
+                          {t('editProfile')}
+                        </Link>
+                      </DropdownMenu.Item>
+                    )}
+                    {isAdmin && (
+                      <DropdownMenu.Item asChild>
+                        <Link href="/admin" className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-text-secondary outline-none transition-colors hover:bg-accent/10 hover:text-accent">
+                          <IconAdmin />
+                          {t('adminPanel')}
+                        </Link>
+                      </DropdownMenu.Item>
+                    )}
+                    <DropdownMenu.Separator className="my-1.5 h-px bg-border" />
                     <DropdownMenu.Item asChild>
-                      <Link
-                        href="/dashboard"
-                        className="flex rounded px-3 py-2 text-sm text-text-primary outline-none hover:bg-bg-alt focus:bg-bg-alt"
+                      <button
+                        type="button"
+                        onClick={() => signOut({ callbackUrl: '/' })}
+                        className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-text-secondary outline-none transition-colors hover:bg-red-50 hover:text-red-600"
                       >
-                        {t('dashboard')}
-                      </Link>
+                        <IconLogout />
+                        {t('logout')}
+                      </button>
                     </DropdownMenu.Item>
-                  )}
-                  {!isOnboarding && isTherapist && (
-                    <DropdownMenu.Item asChild>
-                      <Link
-                        href="/dashboard/edit"
-                        className="flex rounded px-3 py-2 text-sm text-text-primary outline-none hover:bg-bg-alt focus:bg-bg-alt"
-                      >
-                        {t('editProfile')}
-                      </Link>
-                    </DropdownMenu.Item>
-                  )}
-                  <DropdownMenu.Separator className="my-1 h-px bg-border" />
-                  <DropdownMenu.Item asChild>
-                    <button
-                      type="button"
-                      onClick={() => signOut({ callbackUrl: '/' })}
-                      className="flex w-full rounded px-3 py-2 text-sm text-text-primary outline-none hover:bg-bg-alt focus:bg-bg-alt"
-                    >
-                      {t('logout')}
-                    </button>
-                  </DropdownMenu.Item>
+                  </div>
                 </DropdownMenu.Content>
               </DropdownMenu.Portal>
             </DropdownMenu.Root>
@@ -108,7 +206,7 @@ export default function Navbar() {
             <>
               <Link
                 href="/auth/login"
-                className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-text-primary transition-colors hover:border-primary hover:text-primary"
+                className="rounded-lg px-4 py-2 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
               >
                 {t('login')}
               </Link>
@@ -145,32 +243,67 @@ export default function Navbar() {
       {/* Mobile menu */}
       {mobileOpen && (
         <div className="border-t border-border bg-surface px-4 pb-4 md:hidden">
-          <div className="mt-3 flex flex-col gap-2">
+          {/* Section links on homepage */}
+          {isHomepage && (
+            <div className="flex flex-col gap-0.5 py-2 border-b border-border mb-2">
+              {sectionLinks.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={close}
+                  className="rounded-lg px-3 py-2 text-sm text-text-secondary transition-colors hover:bg-bg-alt hover:text-text-primary"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          )}
+
+          {/* User info */}
+          {isLoggedIn && (
+            <div className="flex items-center gap-3 py-3 border-b border-border mb-2">
+              {userImage ? (
+                <Image src={userImage} alt={userName ?? ''} width={36} height={36} className="h-9 w-9 rounded-full object-cover" />
+              ) : (
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-bold text-text-inverse">
+                  {getInitials(userName)}
+                </span>
+              )}
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-text-primary truncate">{userName}</p>
+                {userEmail && <p className="text-xs text-text-secondary truncate">{userEmail}</p>}
+              </div>
+            </div>
+          )}
+
+          <div className="flex flex-col gap-1.5">
             {isLoggedIn ? (
               <>
                 {!isOnboarding && (
-                  <Link
-                    href="/dashboard"
-                    onClick={close}
-                    className="rounded-lg border border-border px-4 py-2 text-center text-sm font-medium text-text-primary transition-colors hover:border-primary hover:text-primary"
-                  >
+                  <Link href="/dashboard" onClick={close} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-text-secondary transition-colors hover:bg-primary-light hover:text-primary">
+                    <IconDashboard />
                     {t('dashboard')}
                   </Link>
                 )}
                 {!isOnboarding && isTherapist && (
-                  <Link
-                    href="/dashboard/edit"
-                    onClick={close}
-                    className="rounded-lg border border-border px-4 py-2 text-center text-sm font-medium text-text-primary transition-colors hover:border-primary hover:text-primary"
-                  >
+                  <Link href="/dashboard/edit" onClick={close} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-text-secondary transition-colors hover:bg-primary-light hover:text-primary">
+                    <IconEdit />
                     {t('editProfile')}
                   </Link>
                 )}
+                {isAdmin && (
+                  <Link href="/admin" onClick={close} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-text-secondary transition-colors hover:bg-accent/10 hover:text-accent">
+                    <IconAdmin />
+                    {t('adminPanel')}
+                  </Link>
+                )}
+                <div className="h-px bg-border my-1" />
                 <button
                   type="button"
                   onClick={() => { close(); signOut({ callbackUrl: '/' }); }}
-                  className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary/90"
+                  className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-text-secondary transition-colors hover:bg-red-50 hover:text-red-600"
                 >
+                  <IconLogout />
                   {t('logout')}
                 </button>
               </>

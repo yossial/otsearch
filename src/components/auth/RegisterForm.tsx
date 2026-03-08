@@ -106,7 +106,7 @@ export default function RegisterForm() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
           />
         </div>
 
@@ -121,7 +121,7 @@ export default function RegisterForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
           />
         </div>
 
@@ -136,7 +136,7 @@ export default function RegisterForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
           />
           {password.length > 0 && (
             <ul className="mt-1 flex flex-col gap-0.5">
@@ -168,10 +168,10 @@ export default function RegisterForm() {
               required
               className={`w-full rounded-lg border px-3.5 py-2.5 pe-10 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 ${
                 passwordMismatch
-                  ? 'border-red-400 bg-red-50/40 focus:border-red-400 focus:ring-red-200'
+                  ? 'border-red-400 bg-red-50/40'
                   : passwordsMatch
-                  ? 'border-green-500 bg-green-50/40 focus:border-green-500 focus:ring-green-200'
-                  : 'border-border bg-bg focus:border-primary focus:ring-primary/20'
+                  ? 'border-green-500 bg-green-50/40'
+                  : 'border-border bg-bg'
               }`}
             />
             {/* Match indicator */}
@@ -197,7 +197,7 @@ export default function RegisterForm() {
         <button
           type="submit"
           disabled={loading}
-          className="mt-1 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary/90 disabled:opacity-60"
+          className="mt-1 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark disabled:opacity-60"
         >
           {loading ? '...' : t('register.submit')}
         </button>

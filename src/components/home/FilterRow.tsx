@@ -1,12 +1,14 @@
 'use client';
 
-import { useState, useEffect, useTransition } from 'react';
+import { useTransition } from 'react';
 import { useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import { useRouter, usePathname } from '@/i18n/navigation';
 import { useSearchParams } from 'next/navigation';
 import * as Select from '@radix-ui/react-select';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { cn } from '@/lib/utils';
-import type { IsraelCity } from '@/lib/gov/govApi';
+import { ISRAEL_DISTRICTS } from '@/lib/gov/govApi';
 
 const SPECIALISATIONS = [
   'paediatrics', 'neurological', 'mental-health', 'hand-therapy',
@@ -17,7 +19,13 @@ const INSURANCES = ['clalit', 'maccabi', 'meuhedet', 'leumit'] as const;
 const SESSION_TYPES = ['in-person', 'telehealth', 'home-visit'] as const;
 const LANGUAGES = ['he', 'en', 'ru', 'fr', 'es'] as const;
 
-// ── Radix-based filter select ─────────────────────────────────────────────────
+const chevron = (
+  <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <polyline points="6 9 12 15 18 9" />
+  </svg>
+);
+
+// ── Single-select filter pill ─────────────────────────────────────────────────
 interface FilterSelectProps {
   value: string;
   onChange: (v: string) => void;
@@ -25,35 +33,32 @@ interface FilterSelectProps {
   options: { value: string; label: string }[];
   active: boolean;
   disabled?: boolean;
+  dir?: 'ltr' | 'rtl';
 }
 
-function FilterSelect({ value, onChange, placeholder, options, active, disabled }: FilterSelectProps) {
+function FilterSelect({ value, onChange, placeholder, options, active, disabled, dir = 'ltr' }: FilterSelectProps) {
   return (
-    <Select.Root value={value || '__all__'} onValueChange={(v) => onChange(v === '__all__' ? '' : v)} disabled={disabled}>
+    <Select.Root value={value || '__all__'} onValueChange={(v) => onChange(v === '__all__' ? '' : v)} disabled={disabled} dir={dir}>
       <Select.Trigger
         className={cn(
-          'flex h-9 shrink-0 items-center gap-1.5 rounded-lg border px-3 text-sm transition-all duration-150 outline-none',
-          'focus:ring-2 focus:ring-primary/20',
+          'flex h-9 shrink-0 items-center gap-1.5 rounded-lg px-3 text-sm transition-colors duration-150 outline-none',
           active
-            ? 'border-primary bg-primary-light font-medium text-primary'
-            : 'border-border bg-surface text-text-secondary hover:border-primary/40 hover:text-text-primary',
-          disabled && 'opacity-50'
+            ? 'bg-primary-light font-medium text-primary'
+            : 'bg-bg-alt text-text-secondary hover:bg-border/70 hover:text-text-primary',
+          disabled && 'opacity-50 pointer-events-none'
         )}
         aria-label={placeholder}
       >
         <Select.Value placeholder={placeholder} />
-        <Select.Icon className="ms-1 text-current opacity-60">
-          <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
-        </Select.Icon>
+        <Select.Icon className="ms-1 text-current opacity-60">{chevron}</Select.Icon>
       </Select.Trigger>
 
       <Select.Portal>
         <Select.Content
           position="popper"
           sideOffset={6}
-          className="z-50 max-h-72 min-w-[160px] overflow-y-auto rounded-xl border border-border bg-surface shadow-dropdown animate-in fade-in-0 zoom-in-95 slide-in-from-top-2"
+          align="start"
+          className="z-50 max-h-72 min-w-[--radix-select-trigger-width] overflow-y-auto rounded-xl border border-border bg-surface shadow-dropdown animate-in fade-in-0 zoom-in-95 slide-in-from-top-2"
         >
           <Select.Viewport className="p-1">
             <Select.Item
@@ -62,14 +67,12 @@ function FilterSelect({ value, onChange, placeholder, options, active, disabled 
             >
               <Select.ItemText>{placeholder}</Select.ItemText>
               <Select.ItemIndicator className="ms-auto">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <polyline points="20 6 9 17 4 12"/>
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
                 </svg>
               </Select.ItemIndicator>
             </Select.Item>
-
             <div className="my-1 h-px bg-border" />
-
             {options.map((opt) => (
               <Select.Item
                 key={opt.value}
@@ -78,8 +81,8 @@ function FilterSelect({ value, onChange, placeholder, options, active, disabled 
               >
                 <Select.ItemText>{opt.label}</Select.ItemText>
                 <Select.ItemIndicator className="ms-auto text-primary">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <polyline points="20 6 9 17 4 12"/>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
                   </svg>
                 </Select.ItemIndicator>
               </Select.Item>
@@ -91,37 +94,118 @@ function FilterSelect({ value, onChange, placeholder, options, active, disabled 
   );
 }
 
+// ── Multi-select filter pill (DropdownMenu with CheckboxItems) ────────────────
+interface FilterMultiSelectProps {
+  values: string[];
+  onChange: (values: string[]) => void;
+  placeholder: string;
+  options: { value: string; label: string }[];
+  disabled?: boolean;
+  dir?: 'ltr' | 'rtl';
+}
+
+function FilterMultiSelect({ values, onChange, placeholder, options, disabled, dir = 'ltr' }: FilterMultiSelectProps) {
+  const active = values.length > 0;
+
+  function toggle(value: string) {
+    if (values.includes(value)) {
+      onChange(values.filter((v) => v !== value));
+    } else {
+      onChange([...values, value]);
+    }
+  }
+
+  const triggerLabel =
+    values.length === 0
+      ? placeholder
+      : values.length === 1
+        ? (options.find((o) => o.value === values[0])?.label ?? placeholder)
+        : `${values.length} ×`;
+
+  return (
+    <DropdownMenu.Root dir={dir}>
+      <DropdownMenu.Trigger
+        disabled={disabled}
+        className={cn(
+          'flex h-9 shrink-0 items-center gap-1.5 rounded-lg px-3 text-sm transition-colors duration-150 outline-none',
+          active
+            ? 'bg-primary-light font-medium text-primary'
+            : 'bg-bg-alt text-text-secondary hover:bg-border/70 hover:text-text-primary',
+          disabled && 'opacity-50 pointer-events-none'
+        )}
+        aria-label={placeholder}
+      >
+        <span>{triggerLabel}</span>
+        <span className="ms-1 opacity-60">{chevron}</span>
+      </DropdownMenu.Trigger>
+
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
+          sideOffset={6}
+          align="start"
+          className="z-50 min-w-48 rounded-xl border border-border bg-surface p-1 shadow-dropdown animate-in fade-in-0 zoom-in-95"
+        >
+          {options.map((opt) => {
+            const checked = values.includes(opt.value);
+            return (
+              <DropdownMenu.CheckboxItem
+                key={opt.value}
+                checked={checked}
+                onCheckedChange={() => toggle(opt.value)}
+                onSelect={(e) => e.preventDefault()}
+                className={cn(
+                  'flex cursor-pointer select-none items-center gap-2.5 rounded-lg px-3 py-2 text-sm outline-none transition-colors',
+                  checked
+                    ? 'bg-primary-light text-primary font-medium'
+                    : 'text-text-primary data-[highlighted]:bg-primary-light data-[highlighted]:text-primary'
+                )}
+              >
+                <span className={cn(
+                  'flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors',
+                  checked ? 'border-primary bg-primary text-white' : 'border-border bg-surface'
+                )}>
+                  <DropdownMenu.ItemIndicator>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </DropdownMenu.ItemIndicator>
+                </span>
+                {opt.label}
+              </DropdownMenu.CheckboxItem>
+            );
+          })}
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
+  );
+}
+
 // ── Main FilterRow ────────────────────────────────────────────────────────────
 export default function FilterRow() {
   const t = useTranslations('search');
+  const locale = useLocale();
+  const dir = (locale === 'he' || locale === 'ar') ? 'rtl' : 'ltr';
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
 
   const currentSort = searchParams.get('sort') ?? '';
-  const currentSpecialisation = searchParams.get('specialisation') ?? '';
-  const currentInsurance = searchParams.get('insurance') ?? '';
-  const currentSessionType = searchParams.get('sessionType') ?? '';
-  const currentLanguage = searchParams.get('language') ?? '';
-  const currentCity = searchParams.get('city') ?? '';
+  const currentSpecialisations = searchParams.getAll('specialisation');
+  const currentInsurances = searchParams.getAll('insurance');
+  const currentSessionTypes = searchParams.getAll('sessionType');
+  const currentLanguages = searchParams.getAll('language');
+  const currentDistrict = searchParams.get('district') ?? '';
   const currentAcceptingOnly = searchParams.get('acceptingOnly') === 'true';
 
-  const [cities, setCities] = useState<IsraelCity[]>([]);
-
-  useEffect(() => {
-    fetch('/api/cities')
-      .then((r) => r.json())
-      .then((data: { cities?: IsraelCity[] } | IsraelCity[]) => {
-        const raw = Array.isArray(data) ? data : (data.cities ?? []);
-        setCities(Array.isArray(raw) ? raw : []);
-      })
-      .catch(() => setCities([]));
-  }, []);
-
   const activeFilterCount = [
-    currentSort, currentSpecialisation, currentInsurance,
-    currentSessionType, currentLanguage, currentCity, currentAcceptingOnly,
+    currentSort,
+    currentSpecialisations.length > 0,
+    currentInsurances.length > 0,
+    currentSessionTypes.length > 0,
+    currentLanguages.length > 0,
+    currentDistrict,
+    currentAcceptingOnly,
   ].filter(Boolean).length;
 
   function setParam(key: string, value: string | null) {
@@ -129,7 +213,16 @@ export default function FilterRow() {
     if (!value) params.delete(key); else params.set(key, value);
     params.delete('page');
     const url = (pathname + (params.toString() ? `?${params.toString()}` : '')) as '/';
-    startTransition(() => { router.push(url); });
+    startTransition(() => { router.push(url, { scroll: false }); });
+  }
+
+  function setMultiParam(key: string, values: string[]) {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete(key);
+    values.forEach((v) => params.append(key, v));
+    params.delete('page');
+    const url = (pathname + (params.toString() ? `?${params.toString()}` : '')) as '/';
+    startTransition(() => { router.push(url, { scroll: false }); });
   }
 
   function clearAll() {
@@ -137,7 +230,7 @@ export default function FilterRow() {
     const q = searchParams.get('q');
     if (q) params.set('q', q);
     startTransition(() => {
-      router.push((pathname + (params.toString() ? `?${params.toString()}` : '')) as '/');
+      router.push((pathname + (params.toString() ? `?${params.toString()}` : '')) as '/', { scroll: false });
     });
   }
 
@@ -160,7 +253,10 @@ export default function FilterRow() {
   const languageOptions = LANGUAGES.map((lang) => ({
     value: lang, label: t(`languageLabels.${lang}`),
   }));
-  const cityOptions = cities.map((c) => ({ value: c.name, label: c.name }));
+  const districtOptions = ISRAEL_DISTRICTS.map((d) => ({
+    value: d.id,
+    label: locale === 'he' ? d.nameHe : locale === 'ar' ? d.nameAr : locale === 'ru' ? d.nameRu : d.nameEn,
+  }));
 
   return (
     <div className={cn('border-t border-border bg-surface/95 transition-opacity duration-200', isPending && 'opacity-60')}>
@@ -182,61 +278,61 @@ export default function FilterRow() {
             options={sortOptions}
             active={!!currentSort}
             disabled={isPending}
+            dir={dir}
           />
 
           <div className="h-5 w-px shrink-0 bg-border" />
 
-          {/* Specialisation */}
-          <FilterSelect
-            value={currentSpecialisation}
-            onChange={(v) => setParam('specialisation', v || null)}
+          {/* Specialisation — multi */}
+          <FilterMultiSelect
+            values={currentSpecialisations}
+            onChange={(v) => setMultiParam('specialisation', v)}
             placeholder={t('filters.specialisation')}
             options={specialisationOptions}
-            active={!!currentSpecialisation}
             disabled={isPending}
+            dir={dir}
           />
 
-          {/* Insurance */}
-          <FilterSelect
-            value={currentInsurance}
-            onChange={(v) => setParam('insurance', v || null)}
+          {/* Insurance — multi */}
+          <FilterMultiSelect
+            values={currentInsurances}
+            onChange={(v) => setMultiParam('insurance', v)}
             placeholder={t('filters.insurance')}
             options={insuranceOptions}
-            active={!!currentInsurance}
             disabled={isPending}
+            dir={dir}
           />
 
-          {/* Session type */}
-          <FilterSelect
-            value={currentSessionType}
-            onChange={(v) => setParam('sessionType', v || null)}
+          {/* Session type — multi */}
+          <FilterMultiSelect
+            values={currentSessionTypes}
+            onChange={(v) => setMultiParam('sessionType', v)}
             placeholder={t('filters.sessionType')}
             options={sessionTypeOptions}
-            active={!!currentSessionType}
             disabled={isPending}
+            dir={dir}
           />
 
-          {/* Language */}
-          <FilterSelect
-            value={currentLanguage}
-            onChange={(v) => setParam('language', v || null)}
+          {/* Language — multi */}
+          <FilterMultiSelect
+            values={currentLanguages}
+            onChange={(v) => setMultiParam('language', v)}
             placeholder={t('filters.language')}
             options={languageOptions}
-            active={!!currentLanguage}
             disabled={isPending}
+            dir={dir}
           />
 
-          {/* City */}
-          {cities.length > 0 && (
-            <FilterSelect
-              value={currentCity}
-              onChange={(v) => setParam('city', v || null)}
-              placeholder={t('filters.location')}
-              options={cityOptions}
-              active={!!currentCity}
-              disabled={isPending}
-            />
-          )}
+          {/* District — single */}
+          <FilterSelect
+            value={currentDistrict}
+            onChange={(v) => setParam('district', v || null)}
+            placeholder={t('filters.district')}
+            options={districtOptions}
+            active={!!currentDistrict}
+            disabled={isPending}
+            dir={dir}
+          />
 
           <div className="h-5 w-px shrink-0 bg-border" />
 
@@ -246,10 +342,10 @@ export default function FilterRow() {
             onClick={() => setParam('acceptingOnly', currentAcceptingOnly ? null : 'true')}
             disabled={isPending}
             className={cn(
-              'flex h-9 shrink-0 items-center gap-1.5 rounded-lg border px-3 text-sm transition-colors',
+              'flex h-9 shrink-0 items-center gap-1.5 rounded-lg px-3 text-sm transition-colors',
               currentAcceptingOnly
-                ? 'border-primary bg-primary-light font-medium text-primary'
-                : 'border-border bg-surface text-text-secondary hover:border-primary/40 hover:text-text-primary',
+                ? 'bg-primary-light font-medium text-primary'
+                : 'bg-bg-alt text-text-secondary hover:bg-border/70 hover:text-text-primary',
               isPending && 'pointer-events-none'
             )}
           >
@@ -263,7 +359,7 @@ export default function FilterRow() {
               type="button"
               onClick={clearAll}
               disabled={isPending}
-              className="ms-auto flex h-9 shrink-0 items-center gap-1.5 rounded-lg border border-border bg-surface px-3 text-sm text-text-secondary transition-colors hover:border-primary/40 hover:text-primary"
+              className="ms-auto flex h-9 shrink-0 items-center gap-1.5 rounded-lg bg-bg-alt px-3 text-sm text-text-secondary transition-colors hover:bg-border/70 hover:text-primary"
             >
               <span className="flex h-4.5 w-4.5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-text-accent">
                 {activeFilterCount}

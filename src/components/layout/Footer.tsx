@@ -133,6 +133,13 @@ export default function Footer() {
             >
               عر
             </Link>
+            <Link
+              href="/"
+              locale="ru"
+              className="rounded px-2 py-1 text-xs font-medium text-text-secondary transition-colors hover:bg-primary-light hover:text-primary"
+            >
+              РУ
+            </Link>
           </div>
 
           <p className="text-xs text-text-muted">{tFooter('copyright')}</p>

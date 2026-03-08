@@ -108,13 +108,13 @@ function CheckboxItem({
   onChange: (checked: boolean) => void;
 }) {
   return (
-    <label className="flex cursor-pointer items-center gap-2.5">
+    <label className="flex items-center gap-2.5">
       <input
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
         className={cn(
-          'h-4 w-4 cursor-pointer appearance-none rounded border-2 border-border transition-colors',
+          'h-4 w-4 appearance-none rounded border-2 border-border transition-colors',
           'checked:border-primary checked:bg-primary',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1'
         )}
@@ -129,11 +129,11 @@ const SPECIALTY_VALUES = [
   'geriatrics', 'sensory-processing',
 ] as const;
 
-const INSURANCE_VALUES = ['clalit', 'maccabi', 'meuhedet', 'leumit', 'private'] as const;
+const INSURANCE_VALUES = ['clalit', 'maccabi', 'meuhedet', 'leumit'] as const;
 
 const SESSION_TYPE_VALUES = ['in-person', 'telehealth', 'home-visit'] as const;
 
-const LANGUAGE_VALUES = ['he', 'ar', 'en', 'ru'] as const;
+const LANGUAGE_VALUES = ['he', 'en', 'ru', 'fr', 'es'] as const;
 
 function stKey(st: string) {
   return st === 'in-person' ? 'inPerson' : st === 'home-visit' ? 'homeVisit' : 'telehealth';
@@ -277,14 +277,14 @@ export default function FilterSidebar() {
           </p>
           <div className="flex flex-col gap-1.5">
             {(['relevance', 'rating'] as const).map((opt) => (
-              <label key={opt} className="flex cursor-pointer items-center gap-2.5">
+              <label key={opt} className="flex items-center gap-2.5">
                 <input
                   type="radio"
                   name="sort"
                   value={opt}
                   checked={selectedSort === opt}
                   onChange={() => setSort(opt)}
-                  className="h-4 w-4 cursor-pointer accent-primary"
+                  className="h-4 w-4 accent-primary"
                 />
                 <span className="text-sm text-text-primary">{tSearch(`sortOptions.${opt}`)}</span>
               </label>
@@ -359,7 +359,7 @@ export default function FilterSidebar() {
         <div className="h-px bg-border" />
 
         {/* Accepting patients toggle */}
-        <label className="flex cursor-pointer items-center justify-between gap-3">
+        <label className="flex items-center justify-between gap-3">
           <span className="text-sm font-medium text-text-primary">
             {tSearch('acceptingPatientsFilter')}
           </span>
@@ -369,7 +369,7 @@ export default function FilterSidebar() {
             aria-checked={acceptingOnly}
             onClick={toggleAcceptingOnly}
             className={cn(
-              'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
+              'relative inline-flex h-5 w-9 flex-shrink-0 rounded-full border-2 border-transparent transition-colors duration-200',
               acceptingOnly ? 'bg-primary' : 'bg-border'
             )}
           >

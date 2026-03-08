@@ -40,7 +40,7 @@ export default async function ContactPage({ params }: Props) {
         </Link>
 
         {/* Therapist mini-header */}
-        <div className="mb-6 flex items-center gap-4 rounded-lg bg-surface p-5 shadow-card">
+        <div className="mb-6 flex items-center gap-4 rounded-lg bg-surface p-5 border border-border">
           <Image
             src={therapist.photo ?? `https://i.pravatar.cc/150?u=${therapist.slug}`}
             alt={name}
@@ -66,7 +66,7 @@ export default async function ContactPage({ params }: Props) {
 
           {/* Contact form */}
           <div className="flex-1">
-            <div className="rounded-lg bg-surface p-6 shadow-card">
+            <div className="rounded-lg bg-surface p-6 border border-border">
               <h2 className="mb-1 text-xl font-bold text-text-primary">{t('title')}</h2>
               <p className="mb-6 text-sm text-text-secondary">{t('subtitle', { name })}</p>
               <ContactForm therapistSlug={slug} therapistName={name} therapistEmail={therapist.contactEmail} />
@@ -75,7 +75,7 @@ export default async function ContactPage({ params }: Props) {
 
           {/* Map + address */}
           <aside className="md:w-72 md:flex-shrink-0">
-            <div className="overflow-hidden rounded-lg bg-surface shadow-card">
+            <div className="overflow-hidden rounded-lg bg-surface border border-border">
               <iframe
                 title={t('mapTitle')}
                 src={mapSrc}

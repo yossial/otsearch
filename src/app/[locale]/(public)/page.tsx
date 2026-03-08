@@ -97,7 +97,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                 {tHome('heroEyebrow')}
               </div>
 
-              <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-text-primary sm:text-4xl lg:text-5xl">
+              <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-text-primary sm:text-3xl lg:text-4xl">
                 {tHome('heroTitle')}
               </h1>
 

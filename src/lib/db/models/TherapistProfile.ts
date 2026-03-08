@@ -12,6 +12,7 @@ export interface TherapistProfileDocument extends Document {
   bio: { he: string; ar: string; en: string };
   photo: string | null;
   mohRegistrationNumber: string;
+  mohStatus?: string;
   specialisations: Specialisation[];
   languages: string[];
   location: {
@@ -37,18 +38,25 @@ export interface TherapistProfileDocument extends Document {
   updatedAt: Date;
 }
 
-const MultilingualSchema = new Schema(
+// displayName.he is required; bio fields are filled in later from the dashboard
+const MultilingualRequiredSchema = new Schema(
   { he: { type: String, required: true }, ar: String, en: String },
+  { _id: false }
+);
+
+const MultilingualOptionalSchema = new Schema(
+  { he: { type: String, default: '' }, ar: { type: String, default: '' }, en: { type: String, default: '' } },
   { _id: false }
 );
 
 const TherapistProfileSchema = new Schema<TherapistProfileDocument>(
   {
     slug: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    displayName: { type: MultilingualSchema, required: true },
-    bio: { type: MultilingualSchema, required: true },
+    displayName: { type: MultilingualRequiredSchema, required: true },
+    bio: { type: MultilingualOptionalSchema, default: () => ({ he: '', ar: '', en: '' }) },
     photo: { type: String, default: null },
     mohRegistrationNumber: { type: String, required: true },
+    mohStatus: { type: String },
     specialisations: {
       type: [String],
       enum: [
@@ -73,7 +81,7 @@ const TherapistProfileSchema = new Schema<TherapistProfileDocument>(
     },
     insuranceAccepted: {
       type: [String],
-      enum: ['clalit', 'maccabi', 'meuhedet', 'leumit', 'private'],
+      enum: ['clalit', 'maccabi', 'meuhedet', 'leumit'],
     },
     feeRange: {
       type: new Schema(
@@ -115,6 +123,9 @@ TherapistProfileSchema.index({ location: '2dsphere' });
 // Rating sort index
 TherapistProfileSchema.index({ ratingAvg: -1, ratingCount: -1 });
 
+// Clear the cached model so schema changes take effect after hot-module replacement in dev.
+// In production this is a no-op because modules are only evaluated once.
+delete (mongoose.models as Record<string, unknown>)['TherapistProfile'];
+
 export const TherapistProfile: Model<TherapistProfileDocument> =
-  mongoose.models.TherapistProfile ??
   mongoose.model<TherapistProfileDocument>('TherapistProfile', TherapistProfileSchema);

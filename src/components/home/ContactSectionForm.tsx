@@ -61,7 +61,7 @@ export default function ContactSectionForm() {
   }
 
   const inputClass =
-    'w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors';
+    'w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none transition-colors';
   const labelClass = 'mb-1.5 block text-sm font-medium text-text-primary';
 
   return (
@@ -119,7 +119,7 @@ export default function ContactSectionForm() {
       <button
         type="submit"
         disabled={status === 'loading'}
-        className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-3 text-sm font-semibold text-white transition-colors hover:bg-primary/90 disabled:opacity-60"
+        className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark disabled:opacity-60"
       >
         {status === 'loading' ? (
           <svg

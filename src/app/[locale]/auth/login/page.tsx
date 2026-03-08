@@ -16,7 +16,7 @@ export default async function LoginPage() {
         <div className="mb-8 text-center">
           <h1 className="text-2xl font-bold text-text-primary">{t('title')}</h1>
         </div>
-        <div className="rounded-xl bg-surface p-8 shadow-card">
+        <div className="rounded-xl bg-surface p-8 border border-border">
           <Suspense>
             <LoginForm />
           </Suspense>

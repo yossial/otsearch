@@ -57,7 +57,7 @@ export default async function HowItWorks() {
 
   return (
     /* Warm primary-light background — the HubSpot "salmon section" equivalent */
-    <section className="bg-primary-light py-20">
+    <section id="how-it-works" className="bg-primary-light py-20">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <div className="mb-14 text-center">
           <h2 className="text-2xl font-bold text-text-primary sm:text-3xl">
@@ -69,7 +69,7 @@ export default async function HowItWorks() {
           {STEPS.map((step) => (
             <div
               key={step.number}
-              className="group flex flex-col gap-5 rounded-2xl border border-primary/10 bg-surface p-8 shadow-sm transition-all duration-200 hover:border-primary/30 hover:shadow-[0_8px_32px_rgba(245,119,153,0.12)]"
+              className="group flex flex-col gap-5 rounded-2xl border border-primary/10 bg-surface p-8 shadow-sm transition-all duration-200 hover:border-primary/30 hover:shadow-[0_8px_32px_rgba(42,127,98,0.12)]"
             >
               <div className="flex items-start justify-between">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-light text-primary transition-all duration-200 group-hover:bg-primary group-hover:text-white">

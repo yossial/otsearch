@@ -18,7 +18,7 @@ export default async function ReviewsSection({ slug, sessionUserId, userRole }: 
   const locale = 'en'; // server-side locale for date formatting
 
   return (
-    <section id="reviews" className="rounded-lg bg-surface p-6 shadow-card">
+    <section id="reviews" className="rounded-lg bg-surface p-6 border border-border">
       <h2 className="mb-4 text-lg font-semibold text-text-primary">
         {result && result.total > 0
           ? t('titleWithCount', { count: result.total })

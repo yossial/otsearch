@@ -36,12 +36,16 @@ export async function POST() {
     const name = user.name;
     const baseSlug = name
       .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/[^\w\s-]/g, '')
       .trim()
-      .replace(/\s+/g, '-');
-    const slug = `${baseSlug}-${String(user._id).slice(-4)}`;
+      .replace(/\s+/g, '-') // Spaces to hyphens
+      // This regex keeps Hebrew characters (\u0590-\u05FF), English (\w), and hyphens
+      .replace(/[^\u0590-\u05FF\w-]/g, ''); 
+
+    // 2. Add a unique suffix (Short UUID style)
+    // If you don't want to install nanoid, use this crypto-based one-liner:
+    const uniqueSuffix = Math.random().toString(36); 
+
+    const slug = `${baseSlug || 'profile'}-${uniqueSuffix}`;
 
     const profile = await TherapistProfile.create({
       slug,

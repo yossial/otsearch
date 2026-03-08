@@ -1,0 +1,204 @@
+/* ═══════════════════════════════════════════════════════════════════
+   THERAPIO — Design System Tokens
+   src/styles/tokens.css
+
+   Single source of truth for all visual design decisions.
+   Consumed by Tailwind CSS v4 via @theme {}.
+   Every token here automatically becomes a Tailwind utility class:
+     --color-primary    →  bg-primary / text-primary / border-primary
+     --shadow-card      →  shadow-card
+     --radius-lg        →  rounded-lg
+     --font-sans        →  font-sans
+     etc.
+   ═══════════════════════════════════════════════════════════════════ */
+
+@theme {
+
+  /* ─────────────────────────────────────────────────────────────
+     1. BRAND COLOURS — Navy & Yellow palette
+     ───────────────────────────────────────────────────────────── */
+
+  /* Primary — prussian blue
+     Use for: main buttons, links, active states, focus rings     */
+  --color-primary:         #001d3d;
+  --color-primary-dark:    #002d5a;   /* hover / pressed — lighter */
+  --color-primary-mid:     #003566;   /* regal navy               */
+  --color-primary-light:   #e8eef7;   /* chip bg, badge bg        */
+  --color-primary-xlight:  #f0f4fb;   /* very subtle tints        */
+
+  /* Accent — school-bus yellow
+     Use for: secondary CTAs, highlights, tags                    */
+  --color-accent:          #ffc300;
+  --color-accent-dark:     #e6a800;   /* hover                    */
+  --color-accent-light:    #fff8e1;   /* tint backgrounds         */
+
+  /* Navy & gold decorative tones                                  */
+  --color-sand:            #ffd60a;   /* gold                     */
+  --color-sand-light:      #eef2f8;   /* light navy tint          */
+  --color-cream:           #f8f9fb;   /* near-white               */
+
+  /* ─────────────────────────────────────────────────────────────
+     2. NEUTRAL SURFACES
+     ───────────────────────────────────────────────────────────── */
+
+  --color-surface:         #ffffff;   /* cards, modals, inputs    */
+  --color-surface-raised:  #f8f9fb;   /* slightly elevated        */
+  --color-bg:              #ffffff;   /* page background          */
+  --color-bg-alt:          #f3f6fc;   /* alternate sections       */
+  --color-bg-dark:         #001d3d;   /* inverse surface (footer) */
+  --color-bg-darker:       #000814;   /* deeper inverse           */
+
+  /* Borders */
+  --color-border:          #e2e8f0;   /* default border           */
+  --color-border-strong:   #cbd5e1;   /* emphasis border          */
+  --color-border-subtle:   #f1f5f9;   /* very light separator     */
+
+  /* ─────────────────────────────────────────────────────────────
+     3. TEXT
+     ───────────────────────────────────────────────────────────── */
+
+  --color-text-primary:    #000814;   /* headings, body           */
+  --color-text-secondary:  #334155;   /* labels, captions         */
+  --color-text-muted:      #64748b;   /* placeholders, hints      */
+  --color-text-disabled:   #94a3b8;   /* disabled state           */
+  --color-text-inverse:    #ffffff;   /* on dark/navy backgrounds */
+  --color-text-accent:     #000814;   /* text on yellow elements  */
+  --color-text-link:       #001d3d;   /* inline links             */
+  --color-text-link-hover: #000814;   /* link hover               */
+
+  /* ─────────────────────────────────────────────────────────────
+     4. SEMANTIC COLOURS
+     ───────────────────────────────────────────────────────────── */
+
+  --color-success:         #16A34A;
+  --color-success-light:   #DCFCE7;
+  --color-success-dark:    #15803D;
+  --color-warning:         #D97706;
+  --color-warning-light:   #FEF3C7;
+  --color-warning-dark:    #B45309;
+  --color-error:           #DC2626;
+  --color-error-light:     #FEE2E2;
+  --color-error-dark:      #B91C1C;
+  --color-info:            #003566;
+  --color-info-light:      #e8eef7;
+
+  /* ─────────────────────────────────────────────────────────────
+     5. TYPOGRAPHY
+     ───────────────────────────────────────────────────────────── */
+
+  /* Font families
+     Inter is loaded via next/font in layout.tsx and injected as
+     --font-inter CSS var; here we wire it into Tailwind utilities  */
+  --font-sans:   var(--font-inter, 'Inter'), 'Noto Sans Hebrew',
+                 'Noto Sans Arabic', system-ui, sans-serif;
+  --font-mono:   'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+
+  /* Font weights
+     Maps to: font-light, font-normal, font-medium, font-semibold,
+              font-bold, font-extrabold, font-black                 */
+  --font-weight-light:     300;
+  --font-weight-normal:    400;
+  --font-weight-medium:    500;
+  --font-weight-semibold:  600;
+  --font-weight-bold:      700;
+  --font-weight-extrabold: 800;
+  --font-weight-black:     900;
+
+  /* Custom text sizes (Tailwind defaults cover xs→9xl; add 2xs)
+     Maps to: text-2xs                                              */
+  --text-2xs: 0.625rem;   /* 10px — micro labels, badges          */
+
+  /* Line heights — maps to: leading-tight, leading-snug, etc.    */
+  --leading-tight:    1.25;
+  --leading-snug:     1.375;
+  --leading-normal:   1.5;
+  --leading-relaxed:  1.625;
+  --leading-loose:    2;
+
+  /* Letter spacing — maps to: tracking-tight, tracking-normal, etc. */
+  --tracking-tight:   -0.025em;
+  --tracking-normal:   0em;
+  --tracking-wide:     0.025em;
+  --tracking-wider:    0.05em;
+  --tracking-widest:   0.1em;
+
+  /* ─────────────────────────────────────────────────────────────
+     6. BORDER RADIUS
+     Maps to: rounded-none, rounded-xs, rounded-sm, rounded-md,
+              rounded-lg, rounded-xl, rounded-2xl, rounded-3xl,
+              rounded-full
+     ───────────────────────────────────────────────────────────── */
+
+  --radius-none:  0px;
+  --radius-xs:    2px;    /* tight: status dots, tiny badges      */
+  --radius-sm:    3px;    /* small chips, tags                    */
+  --radius-md:    4px;    /* inputs, selects, small cards         */
+  --radius-lg:    5px;    /* buttons, filter pills                */
+  --radius-xl:    6px;    /* cards, panels                        */
+  --radius-2xl:   8px;    /* large cards, modals                  */
+  --radius-3xl:   10px;   /* hero elements                        */
+  --radius-full:  9999px; /* avatars, pill badges                 */
+
+  /* ─────────────────────────────────────────────────────────────
+     7. SHADOWS
+     Maps to: shadow-xs, shadow-sm, shadow-card, shadow-card-hover,
+              shadow-dropdown, shadow-modal, shadow-button,
+              shadow-button-hover, shadow-focus
+     ───────────────────────────────────────────────────────────── */
+
+  --shadow-xs:           none;
+  --shadow-sm:           none;
+  --shadow-card:         none;                                  /* use border border-border on cards */
+  --shadow-card-hover:   0 2px 8px rgba(0,0,0,0.08);           /* only on hover */
+  --shadow-dropdown:     0 4px 12px rgba(0,0,0,0.10);          /* keep for floating dropdowns */
+  --shadow-modal:        0 8px 32px rgba(0,0,0,0.15);          /* keep for modals */
+  --shadow-button:       none;
+  --shadow-button-hover: none;
+  --shadow-focus:        0 0 0 2px rgba(0,29,61,0.35);
+  --shadow-inner:        none;
+
+  /* ─────────────────────────────────────────────────────────────
+     8. SPACING (extensions — default Tailwind scale 0→96 still applies)
+     Maps to: p-18, m-22, gap-26, etc.
+     ───────────────────────────────────────────────────────────── */
+
+  --spacing-18:   4.5rem;   /* 72px  */
+  --spacing-22:   5.5rem;   /* 88px  */
+  --spacing-26:   6.5rem;   /* 104px */
+  --spacing-30:   7.5rem;   /* 120px */
+  --spacing-34:   8.5rem;   /* 136px */
+
+  /* ─────────────────────────────────────────────────────────────
+     9. Z-INDEX SCALE
+     Maps to: z-base, z-raised, z-dropdown, z-sticky, z-overlay,
+              z-modal, z-toast, z-tooltip
+     ───────────────────────────────────────────────────────────── */
+
+  --z-base:       0;
+  --z-raised:     10;
+  --z-dropdown:   20;
+  --z-sticky:     30;
+  --z-overlay:    40;
+  --z-modal:      50;
+  --z-toast:      60;
+  --z-tooltip:    70;
+
+  /* ─────────────────────────────────────────────────────────────
+     10. ANIMATION
+     ───────────────────────────────────────────────────────────── */
+
+  /* Easing curves — maps to: ease-default, ease-in, ease-out, etc. */
+  --ease-default:  cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in:       cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:      cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out:   cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-spring:   cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  /* Durations — maps to: duration-fast, duration-normal, etc.    */
+  --duration-fast:    100ms;
+  --duration-normal:  200ms;
+  --duration-slow:    300ms;
+  --duration-slower:  500ms;
+
+}

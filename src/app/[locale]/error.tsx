@@ -42,7 +42,7 @@ export default function Error({ error, reset }: ErrorProps) {
       </p>
       <button
         onClick={reset}
-        className="rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary/90"
+        className="rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
       >
         Try again
       </button>

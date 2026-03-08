@@ -7,6 +7,7 @@ import { getTherapistBySlug, incrementProfileViews } from '@/lib/db/therapists';
 import { getMockTherapistBySlug } from '@/lib/mock-search';
 import ContactForm from '@/components/contact/ContactForm';
 import StarDisplay from '@/components/reviews/StarDisplay';
+import { FEATURES } from '@/lib/config/features';
 import ReviewsSection from '@/components/reviews/ReviewsSection';
 import EditableProfile from '@/components/profile/EditableProfile';
 
@@ -92,7 +93,7 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
                 )}
               </div>
             </div>
-            {ot.ratingCount > 0 && (
+            {FEATURES.showTherapistRating && ot.ratingCount > 0 && (
               <div className="flex items-center gap-2">
                 <StarDisplay rating={ot.ratingAvg} size="sm" showNumber count={ot.ratingCount} />
               </div>
@@ -172,7 +173,7 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
           <aside className="flex flex-col gap-4 md:w-72 md:flex-shrink-0">
             <div className="rounded-lg bg-surface p-5 border border-border">
               {/* Rating */}
-              {ot.ratingCount > 0 && (
+              {FEATURES.showTherapistRating && ot.ratingCount > 0 && (
                 <div className="mb-4">
                   <StarDisplay rating={ot.ratingAvg} size="md" showNumber count={ot.ratingCount} />
                   <p className="mt-1 text-xs text-text-muted">
@@ -182,7 +183,7 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
               )}
 
               {/* Fee */}
-              {ot.feeRange && (
+              {FEATURES.showTherapistFee && ot.feeRange && (
                 <div className="mb-4 flex items-baseline gap-1">
                   <span className="text-sm text-text-muted">₪</span>
                   <span className="text-base text-text-primary">{ot.feeRange.min}–{ot.feeRange.max}</span>

@@ -126,9 +126,9 @@ export default function ReviewForm({ slug, isLoggedIn, userRole }: Props) {
           placeholder={t('textPlaceholder')}
           minLength={20}
           maxLength={1000}
-          className="w-full resize-none rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
+          className="w-full resize-none rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none transition-colors"
         />
-        <p className="mt-1 text-right text-xs text-text-muted">{text.length}/1000</p>
+        <p className="mt-1 text-end text-xs text-text-muted">{text.length}/1000</p>
       </div>
 
       {status === 'duplicate' && (
@@ -142,7 +142,7 @@ export default function ReviewForm({ slug, isLoggedIn, userRole }: Props) {
         type="submit"
         disabled={status === 'loading' || rating === 0}
         className={cn(
-          'flex w-full items-center justify-center rounded-lg bg-primary py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary/90 disabled:opacity-60'
+          'flex w-full items-center justify-center rounded-lg bg-primary py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark disabled:opacity-60'
         )}
       >
         {status === 'loading' ? t('submitting') : t('submit')}

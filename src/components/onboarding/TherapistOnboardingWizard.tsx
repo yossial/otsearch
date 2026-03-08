@@ -122,7 +122,7 @@ function TextInput({
       placeholder={placeholder}
       required={required}
       dir={dir}
-      className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+      className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
     />
   );
 }
@@ -359,7 +359,7 @@ function Step3({
             onChange={(e) => onChange({ phone: e.target.value })}
             dir="ltr"
             required
-            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
           />
         </div>
         <div className="flex flex-col gap-1.5">
@@ -371,7 +371,7 @@ function Step3({
             value={data.email}
             onChange={(e) => onChange({ email: e.target.value })}
             dir="ltr"
-            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
           />
         </div>
       </div>
@@ -387,7 +387,7 @@ function Step3({
             value={data.feeMin}
             onChange={(e) => onChange({ feeMin: e.target.value })}
             dir="ltr"
-            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:outline-none"
           />
         </div>
         <div className="flex flex-col gap-1.5">
@@ -400,7 +400,7 @@ function Step3({
             value={data.feeMax}
             onChange={(e) => onChange({ feeMax: e.target.value })}
             dir="ltr"
-            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:outline-none"
           />
         </div>
       </div>
@@ -441,7 +441,7 @@ function Step3({
           type="checkbox"
           checked={data.acceptingPatients}
           onChange={(e) => onChange({ acceptingPatients: e.target.checked })}
-          className="h-4 w-4 rounded border-border text-primary focus:ring-primary/20"
+          className="h-4 w-4 rounded border-border text-primary"
         />
         <span className="text-sm text-text-primary">{t('acceptingPatients')}</span>
       </label>
@@ -640,7 +640,7 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
             <button
               type="button"
               onClick={handleNext}
-              className="rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary/90"
+              className="rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
             >
               {t('next')}
             </button>
@@ -649,7 +649,7 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
               type="button"
               onClick={() => void handleFinish()}
               disabled={saving}
-              className="rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary/90 disabled:opacity-60"
+              className="rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark disabled:opacity-60"
             >
               {saving ? '...' : t('finish')}
             </button>

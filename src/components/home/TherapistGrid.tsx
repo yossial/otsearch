@@ -38,7 +38,6 @@ export default function TherapistGrid({
   // Sync state when search/filter changes without remounting (avoids blank-screen flash).
   // Only searchParamsStr triggers the reset — the other props are read at effect-run time
   // (same RSC render), so they're always current without needing to be dependencies.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (prevSearchParamsRef.current === searchParamsStr) return;
     prevSearchParamsRef.current = searchParamsStr;

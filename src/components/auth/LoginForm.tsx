@@ -50,7 +50,7 @@ export default function LoginForm() {
   return (
     <div className="flex flex-col gap-5">
       {/* Social login — primary CTAs */}
-      <SocialAuthButtons callbackUrl={callbackUrl} />
+      <SocialAuthButtons callbackUrl={callbackUrl ?? undefined} />
 
       {/* OR divider */}
       <div className="flex items-center gap-3">

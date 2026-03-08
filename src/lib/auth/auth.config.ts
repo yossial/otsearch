@@ -15,8 +15,23 @@ export const authConfig: NextAuthConfig = {
       const isLoggedIn = !!auth?.user;
       const pathname = request.nextUrl.pathname;
 
+      // Protect /[locale]/admin — must be logged in AND role === 'admin'
+      if (/^\/(he|ar|en|ru)\/admin/.test(pathname)) {
+        if (!isLoggedIn) {
+          const locale = pathname.split('/')[1] ?? 'he';
+          const loginUrl = new URL(`/${locale}/auth/login`, request.url);
+          loginUrl.searchParams.set('callbackUrl', request.url);
+          return NextResponse.redirect(loginUrl);
+        }
+        const role = (auth?.user as { role?: string | null } | undefined)?.role;
+        if (role !== 'admin') {
+          const locale = pathname.split('/')[1] ?? 'he';
+          return NextResponse.redirect(new URL(`/${locale}`, request.url));
+        }
+      }
+
       // Protect /[locale]/dashboard and all sub-paths
-      if (/^\/(he|ar|en)\/dashboard/.test(pathname)) {
+      if (/^\/(he|ar|en|ru)\/dashboard/.test(pathname)) {
         if (!isLoggedIn) {
           const locale = pathname.split('/')[1] ?? 'he';
           const loginUrl = new URL(`/${locale}/auth/login`, request.url);
@@ -26,7 +41,7 @@ export const authConfig: NextAuthConfig = {
       }
 
       // Protect /[locale]/onboarding — must be logged in
-      if (/^\/(he|ar|en)\/onboarding/.test(pathname)) {
+      if (/^\/(he|ar|en|ru)\/onboarding/.test(pathname)) {
         if (!isLoggedIn) {
           const locale = pathname.split('/')[1] ?? 'he';
           const loginUrl = new URL(`/${locale}/auth/login`, request.url);
@@ -34,15 +49,20 @@ export const authConfig: NextAuthConfig = {
         }
       }
 
-      // Redirect logged-in users with no role to onboarding (therapist setup)
-      // Only triggers on dashboard — public pages are freely accessible.
+      // Role-based redirects for logged-in users on dashboard/onboarding paths
       if (isLoggedIn) {
         const role = (auth?.user as { role?: string | null } | undefined)?.role;
-        const isDashboardPage = /^\/(he|ar|en)\/dashboard/.test(pathname);
-        const isOnboardingPage = /^\/(he|ar|en)\/onboarding/.test(pathname);
+        const isDashboardPage = /^\/(he|ar|en|ru)\/dashboard/.test(pathname);
+        const isOnboardingPage = /^\/(he|ar|en|ru)\/onboarding/.test(pathname);
+        const locale = pathname.split('/')[1] ?? 'he';
 
+        // Admins landing on dashboard/onboarding → send to admin panel
+        if (role === 'admin' && (isDashboardPage || isOnboardingPage)) {
+          return NextResponse.redirect(new URL(`/${locale}/admin`, request.url));
+        }
+
+        // Users with no role on dashboard → send to onboarding
         if (!role && isDashboardPage && !isOnboardingPage) {
-          const locale = pathname.split('/')[1] ?? 'he';
           return NextResponse.redirect(
             new URL(`/${locale}/onboarding/therapist`, request.url)
           );

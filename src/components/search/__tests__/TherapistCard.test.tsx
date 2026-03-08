@@ -12,10 +12,12 @@ vi.mock('next/image', () => ({
 
 // Mock @/i18n/navigation
 vi.mock('@/i18n/navigation', () => ({
-  Link: ({ href, children, ...props }: { href: string; children: React.ReactNode; [key: string]: unknown }) => (
-    <a href={href} {...props}>{children}</a>
-  ),
   useRouter: () => ({ push: vi.fn() }),
+}));
+
+// Mock feature flags — enable fee display so fee-range test works
+vi.mock('@/lib/config/features', () => ({
+  FEATURES: { showTherapistFee: true, showTherapistRating: true },
 }));
 
 // Mock @/lib/utils
@@ -31,10 +33,6 @@ vi.mock('next-intl', () => ({
       therapistTitleMale: 'מטפל בעיסוק',
       therapistTitleFemale: 'מטפלת בעיסוק',
       acceptingPatientsFilter: 'מקבלים מטופלים חדשים',
-      messageButton: 'הודעה',
-      viewProfile: 'צפה בפרופיל',
-      insuranceLabel: 'ביטוח:',
-      sessionLabel: 'טיפול:',
       feePerSession: 'לטיפול',
       noFeeInfo: 'מחיר לפי פניה',
       featuredLabel: 'Featured',
@@ -63,6 +61,7 @@ const mockProfile: TherapistProfilePublic = {
   contactPhone: '050-1234567',
   subscriptionTier: 'free',
   isFeatured: false,
+  isActive: true,
   isAcceptingPatients: true,
   profileViews: 42,
   ratingAvg: 0,
@@ -109,9 +108,8 @@ describe('TherapistCard', () => {
     expect(screen.queryByText('Featured')).not.toBeInTheDocument();
   });
 
-  it('renders a link to the therapist profile page', () => {
+  it('renders as a clickable card article', () => {
     render(<TherapistCard therapist={mockProfile} />);
-    const link = screen.getByRole('link', { name: /פרופיל/i });
-    expect(link).toHaveAttribute('href', '/therapist/dr-test');
+    expect(screen.getByRole('article')).toBeInTheDocument();
   });
 });

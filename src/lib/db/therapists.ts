@@ -5,6 +5,7 @@
 import type { SortOrder } from 'mongoose';
 import { connectDB } from '@/lib/db';
 import { TherapistProfile } from '@/lib/db/models/TherapistProfile';
+import { getCityNamesByDistrict } from '@/lib/gov/govApi';
 import { Review } from '@/lib/db/models/Review';
 import { computeRatingStats } from '@/lib/ratingStats';
 import type { TherapistProfilePublic, SearchResult, ReviewsResult, ReviewPublic } from '@/types';
@@ -27,6 +28,7 @@ function toPublic(doc: Record<string, unknown>): TherapistProfilePublic {
     contactPhone: doc.contactPhone as string,
     subscriptionTier: doc.subscriptionTier as TherapistProfilePublic['subscriptionTier'],
     isFeatured: doc.isFeatured as boolean,
+    isActive: (doc.isActive as boolean) ?? true,
     isAcceptingPatients: doc.isAcceptingPatients as boolean,
     profileViews: doc.profileViews as number,
     ratingAvg: (doc.ratingAvg as number) ?? 0,
@@ -43,6 +45,7 @@ export interface TherapistSearchQuery {
   sessionType?: string | string[];
   language?: string | string[];
   city?: string;
+  district?: string;
   /** Geographic search — not yet implemented */
   lat?: number;
   lng?: number;
@@ -63,6 +66,7 @@ export async function searchTherapists(query: TherapistSearchQuery): Promise<Sea
     sessionType,
     language,
     city,
+    district,
     acceptingOnly,
     sort: sortBy,
     page = 1,
@@ -89,6 +93,11 @@ export async function searchTherapists(query: TherapistSearchQuery): Promise<Sea
 
   if (city?.trim()) {
     filter['location.city'] = { $regex: city.trim(), $options: 'i' };
+  } else if (district?.trim()) {
+    const districtCities = await getCityNamesByDistrict(district.trim());
+    if (districtCities.length > 0) {
+      filter['location.city'] = { $in: districtCities };
+    }
   }
 
   const asArray = (v: string | string[] | undefined) =>
@@ -107,10 +116,8 @@ export async function searchTherapists(query: TherapistSearchQuery): Promise<Sea
 
   const skip = (page - 1) * limit;
 
-  let sortOrder: Record<string, SortOrder | { $meta: string }>;
-  if (q?.trim()) {
-    sortOrder = { score: { $meta: 'textScore' }, isFeatured: -1 };
-  } else if (sortBy === 'rating') {
+  let sortOrder: Record<string, SortOrder>;
+  if (sortBy === 'rating') {
     sortOrder = { ratingAvg: -1, ratingCount: -1, isFeatured: -1 };
   } else if (sortBy === 'newest') {
     sortOrder = { createdAt: -1, isFeatured: -1 };

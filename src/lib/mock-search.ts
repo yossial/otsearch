@@ -61,6 +61,7 @@ function toPublic(m: (typeof MOCK_OTS)[number]): TherapistProfilePublic {
     contactPhone: m.phone,
     subscriptionTier: m.isPro ? 'premium' : 'free',
     isFeatured: m.isPro,
+    isActive: true,
     isAcceptingPatients: m.acceptingNewPatients,
     profileViews: 0,
     ratingAvg: 0,

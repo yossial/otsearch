@@ -1,6 +1,8 @@
-export type Locale = 'he' | 'ar' | 'en';
+export type Locale = 'he' | 'ar' | 'en' | 'ru';
 
 export type UserRole = 'therapist' | 'admin';
+
+export type UserStatus = 'active' | 'suspended';
 
 export type SubscriptionTier = 'free' | 'premium';
 
@@ -8,7 +10,7 @@ export type SubscriptionStatus = 'active' | 'cancelled' | 'past_due';
 
 export type SubscriptionPlan = 'monthly' | 'annual';
 
-export type InsuranceType = 'clalit' | 'maccabi' | 'meuhedet' | 'leumit' | 'private';
+export type InsuranceType = 'clalit' | 'maccabi' | 'meuhedet' | 'leumit';
 
 export type SessionType = 'in-person' | 'telehealth' | 'home-visit';
 
@@ -60,6 +62,7 @@ export interface TherapistProfilePublic {
   contactPhone: string;
   subscriptionTier: SubscriptionTier;
   isFeatured: boolean;
+  isActive: boolean;
   isAcceptingPatients: boolean;
   profileViews: number;
   ratingAvg: number;
@@ -92,6 +95,7 @@ export interface SearchParams {
   sessionType?: SessionType | SessionType[];
   language?: string | string[];
   city?: string;
+  district?: string;
   lat?: number;
   lng?: number;
   radius?: number;

@@ -19,16 +19,22 @@
     "dashboard": "My Area",
     "profile": "Profile",
     "editProfile": "Edit profile",
+    "adminPanel": "Admin Panel",
+    "navSearch": "Find Therapists",
+    "navHowItWorks": "How It Works",
+    "navForTherapists": "For Therapists",
+    "navContact": "Contact",
     "logout": "Log out"
   },
   "home": {
     "heroEyebrow": "Skip the waiting list",
-    "heroTitle": "Help starts here — not in three months",
+    "heroTitle": "The Home of Occupational Therapists in Israel: Where Function Becomes Success",
     "heroSubtitle": "Private OTs across Israel, searchable by specialisation, health fund and location",
-    "heroParagraph": "Whether you're searching for your child or for yourself, finding the right occupational therapist is the hardest part. Therapio brings together 200+ licensed OTs across Israel — with full profiles, transparent fees, and direct contact. No referrals needed. No waiting rooms.",
+    "heroParagraph": "Occupational therapy is the key to a full and independent life. Our platform connects your unique needs with Israel's leading certified therapists—filtered by specialization, location, and therapeutic approach. For Therapists: Join our professional community and reach the right patients for your clinic.",
     "searchHeading": "Find the right occupational therapist for you",
     "searchPlaceholder": "Specialisation, therapist name, city...",
-    "searchButton": "Search",
+    "searchButton": "Find Your Therapist",
+    "heroTherapistCta": "Join the Professional Network",
     "quickFilters": {
       "paediatrics": "Child Development",
       "paediatricsTagline": "Developmental delays, sensory processing, handwriting",
@@ -59,6 +65,26 @@
       "fundsLabel": "Health funds"
     },
     "featuredTitle": "Featured therapists",
+    "whyJoinUs": {
+      "seekers": {
+        "heading": "Why find a therapist through us?",
+        "point1Title": "Professional Accuracy",
+        "point1Desc": "Targeted search by specialization, age group, and location.",
+        "point2Title": "Safety & Transparency",
+        "point2Desc": "Only certified therapists with Ministry of Health licenses.",
+        "point3Title": "Immediate Availability",
+        "point3Desc": "Find the right solution for you without unnecessary waiting."
+      },
+      "therapists": {
+        "heading": "Why join our professional network?",
+        "point1Title": "Targeted Exposure",
+        "point1Desc": "Reach patients specifically looking for your expertise.",
+        "point2Title": "Digital Presence",
+        "point2Desc": "A professional, designed profile that saves on marketing costs.",
+        "point3Title": "Professional Home",
+        "point3Desc": "Be part of the largest and leading OT community in Israel."
+      }
+    },
     "contact": {
       "title": "Get in touch",
       "subtitle": "Have a question? We're here to help."
@@ -66,10 +92,32 @@
     "resultsCount": "{count, plural, =0 {No therapists found} one {1 therapist found} other {{count} therapists found}}",
     "mapTitle": "Therapists near you",
     "therapistBanner": {
-      "title": "Are you an OT? Join us",
+      "title": "Are you a therapist? Join us",
       "subtitle": "Free profile, no commissions — just patients looking for exactly what you offer",
       "cta": "Add your profile",
       "free": "Always free"
+    },
+    "whatIsOT": {
+      "eyebrow": "What is Occupational Therapy?",
+      "title": "Help with the everyday things that matter most",
+      "intro": "Occupational therapists help people of all ages participate in the activities that give life meaning — from a child learning to write to an adult regaining independence after a stroke.",
+      "children": {
+        "title": "Children & Development",
+        "desc": "Developmental delays, sensory processing difficulties, handwriting, school readiness and social skills."
+      },
+      "neuro": {
+        "title": "Neurological Rehab",
+        "desc": "Recovery after stroke, brain injury or surgery — rebuilding movement, coordination and independence."
+      },
+      "mentalHealth": {
+        "title": "Mental Health",
+        "desc": "ADHD, anxiety, emotional regulation and executive functioning strategies for daily life."
+      },
+      "handTherapy": {
+        "title": "Hand & Upper Limb",
+        "desc": "Post-surgical rehab, nerve or tendon injury, pain management and restoring hand function."
+      },
+      "footnote": "Occupational therapists in Israel are licensed by the Ministry of Health and trained to support every stage of life."
     }
   },
   "search": {
@@ -92,7 +140,8 @@
     "filters": {
       "specialisation": "Specialisation",
       "insurance": "Accepted health funds",
-      "location": "Location",
+      "location": "City",
+      "district": "Area",
       "sessionType": "Session type",
       "language": "Language",
       "availability": "Availability"
@@ -337,5 +386,140 @@
     "success": "Message sent!",
     "successDetail": "Your message has been sent to {name}. They will be in touch shortly.",
     "error": "Failed to send your message. Please try again."
+  },
+  "admin": {
+    "title": "Admin",
+    "nav": {
+      "dashboard": "Dashboard",
+      "users": "Users",
+      "therapists": "Therapists",
+      "billing": "Billing",
+      "settings": "Settings"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "stats": {
+        "totalUsers": "Total Users",
+        "totalTherapists": "Total Therapists",
+        "activeTherapists": "Active Therapists",
+        "premiumSubscribers": "Premium Subscribers",
+        "featuredTherapists": "Featured Therapists",
+        "newRegistrations": "New Registrations (Month)",
+        "totalProfileViews": "Total Profile Views"
+      }
+    },
+    "users": {
+      "title": "Users",
+      "searchPlaceholder": "Search name or email…",
+      "total": "{count} total",
+      "noResults": "No users found.",
+      "filterRoles": {
+        "all": "All roles",
+        "therapist": "Therapist",
+        "admin": "Admin",
+        "unregistered": "Unregistered"
+      },
+      "filterStatuses": {
+        "all": "All statuses",
+        "active": "Active",
+        "suspended": "Suspended"
+      },
+      "table": {
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "status": "Status",
+        "joined": "Joined",
+        "actions": "Actions"
+      },
+      "actions": {
+        "suspend": "Suspend",
+        "reactivate": "Reactivate"
+      }
+    },
+    "therapists": {
+      "title": "Therapists",
+      "searchPlaceholder": "Search name or city…",
+      "total": "{count} total",
+      "noResults": "No therapists found.",
+      "filterTiers": {
+        "all": "All tiers",
+        "free": "Free",
+        "premium": "Premium"
+      },
+      "filterFeatured": {
+        "all": "Featured: all",
+        "yes": "Featured only",
+        "no": "Not featured"
+      },
+      "filterStatuses": {
+        "all": "All statuses",
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "table": {
+        "name": "Name",
+        "city": "City",
+        "tier": "Tier",
+        "featured": "Featured",
+        "active": "Active",
+        "views": "Views",
+        "actions": "Actions"
+      },
+      "status": {
+        "yes": "Yes",
+        "no": "No",
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "actions": {
+        "feature": "Feature",
+        "unfeature": "Unfeature",
+        "activate": "Activate",
+        "deactivate": "Deactivate",
+        "upgrade": "Upgrade",
+        "downgrade": "Downgrade"
+      }
+    },
+    "billing": {
+      "title": "Billing",
+      "premium": "Premium",
+      "monthlyPrice": "Monthly price",
+      "annualPrice": "Annual price"
+    },
+    "settings": {
+      "title": "Settings",
+      "sections": {
+        "featureFlags": "Feature Flags",
+        "registration": "Registration",
+        "platform": "Platform",
+        "pricing": "Subscription Pricing (ILS)"
+      },
+      "flags": {
+        "showFee": "Show therapist fee on cards/profiles",
+        "showRating": "Show therapist rating",
+        "showMap": "Show map on homepage",
+        "featuredSection": "Show featured section",
+        "newRegistrations": "New registrations enabled",
+        "requireApproval": "Require admin approval for new profiles"
+      },
+      "fields": {
+        "contactEmail": "Contact email",
+        "defaultSort": "Default search sort",
+        "monthlyPrice": "Monthly price",
+        "annualPrice": "Annual price"
+      },
+      "sortOptions": {
+        "relevance": "Relevance",
+        "rating": "Rating",
+        "newest": "Newest"
+      }
+    },
+    "common": {
+      "filter": "Filter",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {page} of {total}"
+    }
   }
 }

@@ -5,6 +5,9 @@ import { searchMockTherapists } from '@/lib/mock-search';
 import SearchBar from '@/components/home/SearchBar';
 import FilterRow from '@/components/home/FilterRow';
 import TherapistGrid from '@/components/home/TherapistGrid';
+import HowItWorks from '@/components/home/HowItWorks';
+import WhatIsOT from '@/components/home/WhatIsOT';
+import WhyJoinUs from '@/components/home/WhyJoinUs';
 import ContactSection from '@/components/home/ContactSection';
 import TherapistMapWrapper from '@/components/home/TherapistMapWrapper';
 import type { SearchParams } from '@/types';
@@ -18,6 +21,7 @@ interface HomePageProps {
     sessionType?: string | string[];
     language?: string | string[];
     city?: string;
+    district?: string;
     acceptingOnly?: string;
     sort?: string;
     page?: string;
@@ -35,10 +39,11 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     sessionType: sp.sessionType as SearchParams['sessionType'],
     language: sp.language,
     city: sp.city,
+    district: sp.district,
     acceptingOnly: sp.acceptingOnly === 'true',
     sort: (sp.sort as SearchParams['sort']) ?? 'rating',
     page: 1,
-    limit: 20,
+    limit: 10,
   };
 
   let profiles = [] as Awaited<ReturnType<typeof searchTherapists>>['profiles'];
@@ -73,18 +78,19 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     langs.forEach((l) => spEntries.push(`language=${encodeURIComponent(l)}`));
   }
   if (sp.city) spEntries.push(`city=${encodeURIComponent(sp.city)}`);
+  if (sp.district) spEntries.push(`district=${encodeURIComponent(sp.district)}`);
   if (sp.acceptingOnly === 'true') spEntries.push('acceptingOnly=true');
   const searchParamsStr = spEntries.join('&');
 
   return (
     <div className="min-h-screen bg-bg">
       {/* Hero section — 2-column: 70% text / 30% illustration */}
-      <section className="border-b border-border bg-surface">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
-          <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:justify-center lg:gap-16">
+      <section id="hero" className="border-b border-border bg-surface">
+        <div className="mx-auto max-w-7xl px-4 pb-10 pt-6 sm:px-6 sm:pb-14 sm:pt-8 lg:px-8">
+          <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-12">
 
-            {/* Text column — 70% */}
-            <div className="max-w-lg w-full text-center lg:text-start">
+            {/* Text column */}
+            <div className="w-full flex-1 text-center lg:text-start">
               {/* Eyebrow */}
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary-light px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
                 <span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true" />
@@ -128,23 +134,23 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                   </svg>
                   {tHome('searchButton')}
                 </a>
-                <Link
-                  href="/auth/register"
+                <a
+                  href="#for-therapists"
                   className="inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-6 py-3 text-sm font-semibold text-text-primary transition-colors hover:border-primary hover:text-primary"
                 >
-                  {tHome('therapistBanner.cta')}
-                </Link>
+                  {tHome('heroTherapistCta')}
+                </a>
               </div>
             </div>
 
-            {/* Illustration column — 30% */}
-            <div className="flex justify-center">
+            {/* Illustration column */}
+            <div className="flex shrink-0 justify-center lg:w-[45%]">
               <Image
-                src="/hero.jpg"
+                src="/hero-1.png"
                 alt=""
-                width={384}
-                height={384}
-                className="w-80 lg:w-96 h-auto"
+                width={520}
+                height={520}
+                className="w-72 sm:w-80 lg:w-full h-auto"
                 aria-hidden="true"
               />
             </div>
@@ -153,8 +159,8 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         </div>
       </section>
 
-      {/* Sticky search + filter header */}
-      <div id="search" className="sticky top-0 z-20 border-b border-border bg-surface/95 shadow-sm backdrop-blur-sm">
+      {/* Search + filter header */}
+      <div id="search" className="border-b border-border bg-surface">
         <div className="mx-auto max-w-7xl px-4 pb-3 pt-4 sm:px-6 lg:px-8">
           <p className="mb-2.5 text-sm font-semibold text-text-secondary">
             {tHome('searchHeading')}
@@ -165,22 +171,58 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       </div>
 
       {/* Results grid */}
+      <div className="bg-bg-alt">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <TherapistGrid
-          key={searchParamsStr}
           initialProfiles={profiles}
           initialTotal={total}
           initialPage={1}
           totalPages={totalPages}
           searchParamsStr={searchParamsStr}
+          previewMode
         />
       </div>
+      </div>
+
+      {/* Why join us — dual-audience value props */}
+      <WhyJoinUs />
+
+      {/* How it works */}
+      <HowItWorks />
+
+      {/* What is occupational therapy? */}
+      <WhatIsOT />
 
       {/* Map section */}
-      <section className="border-t border-border bg-bg-alt py-8">
+      <section id="map" className="border-t border-border bg-bg-alt py-8">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="mb-4 text-lg font-semibold text-text-primary">{tHome('mapTitle')}</h2>
           <TherapistMapWrapper profiles={profiles} activeCity={sp.city} />
+        </div>
+      </section>
+
+      {/* For therapists CTA */}
+      <section id="for-therapists" className="border-t border-border bg-accent py-16">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center gap-6 text-center sm:flex-row sm:justify-between sm:text-start">
+            <div>
+              <div className="mb-1 text-xs font-semibold uppercase tracking-widest text-primary">
+                {tHome('therapistBanner.free')}
+              </div>
+              <h2 className="text-2xl font-bold text-text-inverse sm:text-3xl">
+                {tHome('therapistBanner.title')}
+              </h2>
+              <p className="mt-2 max-w-lg text-base text-text-inverse/80">
+                {tHome('therapistBanner.subtitle')}
+              </p>
+            </div>
+            <Link
+              href="/auth/register"
+              className="shrink-0 rounded-xl bg-primary px-8 py-3.5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-primary-dark"
+            >
+              {tHome('therapistBanner.cta')}
+            </Link>
+          </div>
         </div>
       </section>
 

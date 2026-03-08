@@ -2,8 +2,13 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 import TherapistCard from '@/components/search/TherapistCard';
 import type { TherapistProfilePublic, SearchResult } from '@/types';
+
+const PREVIEW_ROWS = 2;
+const PREVIEW_COLS = 5;
+const PREVIEW_MAX = PREVIEW_ROWS * PREVIEW_COLS;
 
 interface Props {
   initialProfiles: TherapistProfilePublic[];
@@ -11,6 +16,7 @@ interface Props {
   initialPage: number;
   totalPages: number;
   searchParamsStr: string;
+  previewMode?: boolean;
 }
 
 export default function TherapistGrid({
@@ -19,6 +25,7 @@ export default function TherapistGrid({
   initialPage,
   totalPages,
   searchParamsStr,
+  previewMode = false,
 }: Props) {
   const t = useTranslations('search');
   const [profiles, setProfiles] = useState(initialProfiles);
@@ -26,6 +33,20 @@ export default function TherapistGrid({
   const [loading, setLoading] = useState(false);
   const [exhausted, setExhausted] = useState(initialPage >= totalPages);
   const sentinelRef = useRef<HTMLDivElement>(null);
+  const prevSearchParamsRef = useRef(searchParamsStr);
+
+  // Sync state when search/filter changes without remounting (avoids blank-screen flash).
+  // Only searchParamsStr triggers the reset — the other props are read at effect-run time
+  // (same RSC render), so they're always current without needing to be dependencies.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (prevSearchParamsRef.current === searchParamsStr) return;
+    prevSearchParamsRef.current = searchParamsStr;
+    setProfiles(initialProfiles);
+    setCurrentPage(initialPage);
+    setExhausted(initialPage >= totalPages);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParamsStr]);
 
   // Keep a ref to the latest fetchMore to avoid stale closure in IntersectionObserver
   const fetchMoreRef = useRef<() => void>(() => {});
@@ -92,44 +113,62 @@ export default function TherapistGrid({
     );
   }
 
+  const displayProfiles = previewMode ? profiles.slice(0, PREVIEW_MAX) : profiles;
+
   return (
     <div>
       <p className="mb-4 text-sm text-text-secondary">
         {t('results', { count: initialTotal })}
       </p>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {profiles.map((therapist) => (
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        {displayProfiles.map((therapist) => (
           <TherapistCard key={therapist.id} therapist={therapist} />
         ))}
       </div>
 
-      {/* Infinite scroll sentinel */}
-      <div ref={sentinelRef} className="h-24" aria-hidden="true" />
-
-      {loading && (
-        <div className="flex items-center justify-center gap-2 py-6 text-sm text-text-secondary">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="animate-spin"
-            aria-hidden="true"
+      {previewMode ? (
+        <div className="mt-8 flex justify-center">
+          <Link
+            href="/search"
+            className="inline-flex items-center gap-2 rounded-xl border-2 border-primary px-8 py-3 text-sm font-bold text-primary transition-colors hover:bg-primary hover:text-white"
           >
-            <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-          </svg>
-          {t('loadingMore')}
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            {t('viewAllTherapists')}
+          </Link>
         </div>
-      )}
+      ) : (
+        <>
+          {/* Infinite scroll sentinel */}
+          <div ref={sentinelRef} className="h-24" aria-hidden="true" />
 
-      {exhausted && profiles.length > 0 && (
-        <p className="py-6 text-center text-sm text-text-muted">{t('noMoreResults')}</p>
+          {loading && (
+            <div className="flex items-center justify-center gap-2 py-6 text-sm text-text-secondary">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="animate-spin"
+                aria-hidden="true"
+              >
+                <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+              </svg>
+              {t('loadingMore')}
+            </div>
+          )}
+
+          {exhausted && profiles.length > 0 && (
+            <p className="py-6 text-center text-sm text-text-muted">{t('noMoreResults')}</p>
+          )}
+        </>
       )}
     </div>
   );

@@ -36,12 +36,12 @@ interface Props {
 export default function ProfileEditForm({ profile, onSaved }: Props) {
   const t = useTranslations('dashboard.edit');
 
-  const [bioHe, setBioHe] = useState(profile.bio.he);
-  const [bioAr, setBioAr] = useState(profile.bio.ar);
-  const [bioEn, setBioEn] = useState(profile.bio.en);
-  const [city, setCity] = useState(profile.location.city);
-  const [address, setAddress] = useState(profile.location.address);
-  const [phone, setPhone] = useState(profile.contactPhone);
+  const [bioHe, setBioHe] = useState(profile.bio.he ?? '');
+  const [bioAr, setBioAr] = useState(profile.bio.ar ?? '');
+  const [bioEn, setBioEn] = useState(profile.bio.en ?? '');
+  const [city, setCity] = useState(profile.location.city ?? '');
+  const [address, setAddress] = useState(profile.location.address ?? '');
+  const [phone, setPhone] = useState(profile.contactPhone ?? '');
   const [specialisations, setSpecialisations] = useState<Specialisation[]>(profile.specialisations);
   const [sessionTypes, setSessionTypes] = useState<SessionType[]>(profile.sessionTypes);
   const [insuranceAccepted, setInsuranceAccepted] = useState<InsuranceType[]>(profile.insuranceAccepted);
@@ -152,7 +152,7 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
           onChange={(e) => setBioHe(e.target.value)}
           rows={4}
           dir="rtl"
-          className="w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+          className="w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:outline-none"
         />
         <label className="mt-3 block text-sm font-medium text-text-primary">{t('bioAr')}</label>
         <textarea
@@ -160,7 +160,7 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
           onChange={(e) => setBioAr(e.target.value)}
           rows={4}
           dir="rtl"
-          className="mt-1.5 w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+          className="mt-1.5 w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:outline-none"
         />
         <label className="mt-3 block text-sm font-medium text-text-primary">{t('bioEn')}</label>
         <textarea
@@ -168,7 +168,7 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
           onChange={(e) => setBioEn(e.target.value)}
           rows={4}
           dir="ltr"
-          className="mt-1.5 w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+          className="mt-1.5 w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:outline-none"
         />
       </Section>
 
@@ -293,7 +293,7 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
         <button
           type="submit"
           disabled={saving}
-          className="rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary/90 disabled:opacity-60"
+          className="rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark disabled:opacity-60"
         >
           {saving ? '...' : t('save')}
         </button>
@@ -303,7 +303,7 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
 }
 
 const inputCls =
-  'w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20';
+  'w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:outline-none';
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (

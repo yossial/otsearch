@@ -11,21 +11,37 @@ import { computeRatingStats } from '@/lib/ratingStats';
 import type { TherapistProfilePublic, SearchResult, ReviewsResult, ReviewPublic } from '@/types';
 
 function toPublic(doc: Record<string, unknown>): TherapistProfilePublic {
+  const rawBio = doc.bio as Record<string, string> | undefined;
+  const rawName = doc.displayName as Record<string, string> | undefined;
+  const rawLoc = doc.location as Record<string, unknown> | undefined;
   return {
     id: String(doc._id),
     slug: doc.slug as string,
-    displayName: doc.displayName as TherapistProfilePublic['displayName'],
-    bio: doc.bio as TherapistProfilePublic['bio'],
+    displayName: {
+      he: rawName?.he ?? '',
+      ar: rawName?.ar ?? '',
+      en: rawName?.en ?? '',
+    },
+    bio: {
+      he: rawBio?.he ?? '',
+      ar: rawBio?.ar ?? '',
+      en: rawBio?.en ?? '',
+    },
     photo: (doc.photo as string | null) ?? null,
-    mohRegistrationNumber: doc.mohRegistrationNumber as string,
-    specialisations: doc.specialisations as TherapistProfilePublic['specialisations'],
-    languages: doc.languages as string[],
-    location: doc.location as TherapistProfilePublic['location'],
-    sessionTypes: doc.sessionTypes as TherapistProfilePublic['sessionTypes'],
-    insuranceAccepted: doc.insuranceAccepted as TherapistProfilePublic['insuranceAccepted'],
+    mohRegistrationNumber: (doc.mohRegistrationNumber as string) ?? '',
+    specialisations: (doc.specialisations as TherapistProfilePublic['specialisations']) ?? [],
+    languages: (doc.languages as string[]) ?? [],
+    location: {
+      type: 'Point',
+      coordinates: (rawLoc?.coordinates as [number, number]) ?? [0, 0],
+      city: (rawLoc?.city as string) ?? '',
+      address: (rawLoc?.address as string) ?? '',
+    },
+    sessionTypes: (doc.sessionTypes as TherapistProfilePublic['sessionTypes']) ?? [],
+    insuranceAccepted: (doc.insuranceAccepted as TherapistProfilePublic['insuranceAccepted']) ?? [],
     feeRange: (doc.feeRange as TherapistProfilePublic['feeRange']) ?? null,
-    contactEmail: doc.contactEmail as string,
-    contactPhone: doc.contactPhone as string,
+    contactEmail: (doc.contactEmail as string) ?? '',
+    contactPhone: (doc.contactPhone as string) ?? '',
     subscriptionTier: doc.subscriptionTier as TherapistProfilePublic['subscriptionTier'],
     isFeatured: doc.isFeatured as boolean,
     isActive: (doc.isActive as boolean) ?? true,

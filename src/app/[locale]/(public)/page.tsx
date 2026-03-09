@@ -11,7 +11,6 @@ import WhyJoinUs from '@/components/home/WhyJoinUs';
 import ContactSection from '@/components/home/ContactSection';
 import TherapistMapWrapper from '@/components/home/TherapistMapWrapper';
 import HeroGraphic from '@/components/home/HeroGraphic';
-import StatsBar from '@/components/home/StatsBar';
 import Testimonials from '@/components/home/Testimonials';
 import Pricing from '@/components/home/Pricing';
 import FAQ from '@/components/home/FAQ';

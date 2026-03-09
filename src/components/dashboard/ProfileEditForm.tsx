@@ -128,6 +128,7 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
               </svg>
             ) : photo ? (
+              // eslint-disable-next-line @next/next/no-img-element
               <img src={photo} alt="Profile photo" className="h-full w-full object-cover" />
             ) : (
               <svg className="absolute inset-0 m-auto h-7 w-7 text-text-muted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

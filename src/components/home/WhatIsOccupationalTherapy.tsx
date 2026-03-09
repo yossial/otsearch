@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 
-export default async function WhatIsOT() {
+export default async function WhatIsOccupationalTherapy() {
   const t = await getTranslations('home.whatIsOT');
 
   const cards = [
@@ -49,10 +49,17 @@ export default async function WhatIsOT() {
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-12 text-center">
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-border px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-text-secondary">
-            {t('eyebrow')}
+          <div className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5">
+            <span
+              className="h-1.5 w-1.5 rounded-full bg-primary"
+              style={{ animation: 'pulse-dot 2s ease-in-out infinite' }}
+              aria-hidden="true"
+            />
+            <span className="text-xs font-medium uppercase tracking-[0.15em] text-primary">
+              {t('eyebrow')}
+            </span>
           </div>
-          <h2 className="text-2xl font-bold text-text-primary sm:text-3xl">
+          <h2 className="font-display text-2xl font-normal text-text-primary sm:text-3xl">
             {t('title')}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-text-secondary">

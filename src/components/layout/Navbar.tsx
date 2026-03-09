@@ -66,7 +66,6 @@ export default function Navbar() {
   const userEmail = session?.user?.email;
   const userImage = session?.user?.image;
 
-  // Transparent-until-scrolled on homepage
   useEffect(() => {
     if (!isHomepage) return;
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -79,24 +78,30 @@ export default function Navbar() {
   const transparent = isHomepage && !scrolled && !mobileOpen;
 
   const sectionLinks = [
-    { href: '#search', label: t('navSearch') },
-    { href: '#how-it-works', label: t('navHowItWorks') },
+    { href: '#search',        label: t('navSearch') },
+    { href: '#how-it-works',  label: t('navHowItWorks') },
     { href: '#for-therapists', label: t('navForTherapists') },
-    { href: '#contact', label: t('navContact') },
+    { href: '#contact',       label: t('navContact') },
   ];
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 w-full z-40 border-b transition-all duration-300 ${
+      className={`fixed inset-s-0 inset-e-0 top-0 z-40 w-full border-b transition-all duration-300 ${
         transparent
           ? 'border-transparent bg-transparent'
-          : 'border-border bg-surface/95 shadow-[0_1px_4px_rgba(0,0,0,0.06)] backdrop-blur-sm'
+          : 'border-border bg-surface/95 shadow-[0_1px_4px_rgba(0,0,0,0.06)] backdrop-blur-md'
       }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+
         {/* Logo */}
-        <Link href="/" className="flex shrink-0 items-center gap-2">
-          <span className="text-xl font-bold tracking-tight text-primary">Therapio</span>
+        <Link href="/" className="group flex shrink-0 items-center gap-2">
+          {/* Accent dot */}
+          <span
+            className="h-2 w-2 rounded-full bg-accent shadow-accent transition-transform duration-200 group-hover:scale-125"
+            aria-hidden="true"
+          />
+          <span className="text-xl font-extrabold tracking-tight text-primary">Therapio</span>
         </Link>
 
         {/* Landing page section links — desktop center */}
@@ -106,7 +111,7 @@ export default function Navbar() {
               <a
                 key={item.href}
                 href={item.href}
-                className="rounded-lg px-3 py-1.5 text-sm text-text-secondary transition-colors duration-150 hover:bg-bg-alt hover:text-text-primary"
+                className="rounded-lg px-3 py-1.5 text-sm text-text-secondary transition-colors duration-150 hover:bg-primary-xlight hover:text-primary"
               >
                 {item.label}
               </a>
@@ -115,7 +120,7 @@ export default function Navbar() {
         )}
 
         {/* Desktop auth */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden items-center gap-3 md:flex">
           {isLoggedIn ? (
             <DropdownMenu.Root dir={dir}>
               <DropdownMenu.Trigger asChild>
@@ -130,16 +135,13 @@ export default function Navbar() {
                       alt={userName ?? ''}
                       width={36}
                       height={36}
-                      className="h-9 w-9 rounded-full object-cover ring-2 ring-transparent transition-all group-hover:ring-primary/30"
+                      className="h-9 w-9 rounded-full object-cover ring-2 ring-transparent transition-all group-hover:ring-accent/40"
                     />
                   ) : (
-                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-sm font-bold text-text-inverse ring-2 ring-transparent transition-all group-hover:ring-primary/30">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-sm font-bold text-text-inverse ring-2 ring-transparent transition-all group-hover:ring-accent/40">
                       {getInitials(userName)}
                     </span>
                   )}
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-text-secondary transition-transform group-data-[state=open]:rotate-180" aria-hidden="true">
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
                 </button>
               </DropdownMenu.Trigger>
 
@@ -147,16 +149,16 @@ export default function Navbar() {
                 <DropdownMenu.Content
                   align="end"
                   sideOffset={10}
-                  className="z-50 min-w-[220px] rounded-xl border border-border bg-surface shadow-dropdown animate-in fade-in-0 zoom-in-95"
+                  className="z-50 min-w-55 rounded-xl border border-border bg-surface shadow-dropdown animate-in fade-in-0 zoom-in-95"
                 >
                   {/* User info header */}
-                  <div className="px-4 py-3 border-b border-border">
-                    <p className="text-sm font-semibold text-text-primary truncate">{userName}</p>
+                  <div className="border-b border-border px-4 py-3">
+                    <p className="truncate text-sm font-semibold text-text-primary">{userName}</p>
                     {userEmail && (
-                      <p className="text-xs text-text-secondary truncate mt-0.5">{userEmail}</p>
+                      <p className="mt-0.5 truncate text-xs text-text-secondary">{userEmail}</p>
                     )}
                     {role && (
-                      <span className={`mt-1.5 inline-block rounded px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${isAdmin ? 'bg-accent text-text-inverse' : 'bg-primary-light text-primary'}`}>
+                      <span className={`mt-1.5 inline-block rounded px-1.5 py-0.5 text-2xs font-semibold uppercase tracking-wide ${isAdmin ? 'bg-accent text-text-inverse' : 'bg-primary-light text-primary'}`}>
                         {isAdmin ? 'Admin' : 'Therapist'}
                       </span>
                     )}
@@ -212,7 +214,7 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/auth/register"
-                className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
+                className="group relative overflow-hidden rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-mid hover:shadow-[0_4px_12px_rgba(0,29,61,0.25)]"
               >
                 {t('register')}
               </Link>
@@ -224,7 +226,7 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setMobileOpen((prev) => !prev)}
-          className="flex md:hidden items-center justify-center rounded-lg p-2 text-text-secondary hover:bg-bg-alt hover:text-primary transition-colors"
+          className="flex items-center justify-center rounded-lg p-2 text-text-secondary transition-colors hover:bg-bg-alt hover:text-primary md:hidden"
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
         >
@@ -243,9 +245,8 @@ export default function Navbar() {
       {/* Mobile menu */}
       {mobileOpen && (
         <div className="border-t border-border bg-surface px-4 pb-4 md:hidden">
-          {/* Section links on homepage */}
           {isHomepage && (
-            <div className="flex flex-col gap-0.5 py-2 border-b border-border mb-2">
+            <div className="mb-2 flex flex-col gap-0.5 border-b border-border py-2">
               {sectionLinks.map((item) => (
                 <a
                   key={item.href}
@@ -259,9 +260,8 @@ export default function Navbar() {
             </div>
           )}
 
-          {/* User info */}
           {isLoggedIn && (
-            <div className="flex items-center gap-3 py-3 border-b border-border mb-2">
+            <div className="mb-2 flex items-center gap-3 border-b border-border py-3">
               {userImage ? (
                 <Image src={userImage} alt={userName ?? ''} width={36} height={36} className="h-9 w-9 rounded-full object-cover" />
               ) : (
@@ -270,8 +270,8 @@ export default function Navbar() {
                 </span>
               )}
               <div className="min-w-0">
-                <p className="text-sm font-semibold text-text-primary truncate">{userName}</p>
-                {userEmail && <p className="text-xs text-text-secondary truncate">{userEmail}</p>}
+                <p className="truncate text-sm font-semibold text-text-primary">{userName}</p>
+                {userEmail && <p className="truncate text-xs text-text-secondary">{userEmail}</p>}
               </div>
             </div>
           )}
@@ -297,7 +297,7 @@ export default function Navbar() {
                     {t('adminPanel')}
                   </Link>
                 )}
-                <div className="h-px bg-border my-1" />
+                <div className="my-1 h-px bg-border" />
                 <button
                   type="button"
                   onClick={() => { close(); signOut({ callbackUrl: '/' }); }}
@@ -312,7 +312,7 @@ export default function Navbar() {
                 <Link href="/auth/login" onClick={close} className="rounded-lg border border-border px-4 py-2 text-center text-sm font-medium text-text-primary transition-colors hover:border-primary hover:text-primary">
                   {t('login')}
                 </Link>
-                <Link href="/auth/register" onClick={close} className="rounded-lg bg-primary px-4 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-primary-dark">
+                <Link href="/auth/register" onClick={close} className="rounded-lg bg-primary px-4 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-primary-mid">
                   {t('register')}
                 </Link>
               </>

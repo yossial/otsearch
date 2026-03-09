@@ -10,57 +10,57 @@ import { FEATURES } from '@/lib/config/features';
 const MAX_TAGS = 3;
 
 export default function TherapistCard({ therapist }: { therapist: TherapistProfilePublic }) {
-  const ot = therapist;
+  const profile = therapist;
   const t = useTranslations('search');
   const locale = useLocale();
   const router = useRouter();
 
   const name =
-    ot.displayName[locale as keyof typeof ot.displayName] ?? ot.displayName.he;
+    profile.displayName[locale as keyof typeof profile.displayName] ?? profile.displayName.he;
 
-  const isPremium = ot.subscriptionTier === 'premium';
+  const isPremium = profile.subscriptionTier === 'premium';
 
   const titleKey =
-    ot.gender === 'male'
+    profile.gender === 'male'
       ? 'therapistTitleMale'
-      : ot.gender === 'female'
+      : profile.gender === 'female'
         ? 'therapistTitleFemale'
         : 'therapistTitle';
 
-  const bio = ot.bio[locale as keyof typeof ot.bio] ?? ot.bio.he;
+  const bio = profile.bio[locale as keyof typeof profile.bio] ?? profile.bio.he;
 
-  const visibleSpecs = ot.specialisations.slice(0, MAX_TAGS);
-  const extraSpecCount = ot.specialisations.length - MAX_TAGS;
+  const visibleSpecs = profile.specialisations.slice(0, MAX_TAGS);
+  const extraSpecCount = profile.specialisations.length - MAX_TAGS;
 
   // Include both slugs and translated labels so client-side filter matches either
   const specSearchData = [
-    ...ot.specialisations,
-    ...ot.specialisations.map((s) => t(`specialisationLabels.${s}`)),
+    ...profile.specialisations,
+    ...profile.specialisations.map((s) => t(`specialisationLabels.${s}`)),
   ].join(' ');
 
   const feeLabel = FEATURES.showTherapistFee
-    ? ot.feeRange && ot.feeRange.min > 0 && ot.feeRange.max >= ot.feeRange.min
-      ? `₪${ot.feeRange.min}–${ot.feeRange.max}`
-      : ot.feeRange && ot.feeRange.min > 0
-        ? t('feeFrom', { min: ot.feeRange.min })
+    ? profile.feeRange && profile.feeRange.min > 0 && profile.feeRange.max >= profile.feeRange.min
+      ? `₪${profile.feeRange.min}–${profile.feeRange.max}`
+      : profile.feeRange && profile.feeRange.min > 0
+        ? t('feeFrom', { min: profile.feeRange.min })
         : null
     : null;
 
   return (
     <article
-      onClick={() => router.push(`/therapist/${ot.slug}`)}
-      data-therapist-name={`${ot.displayName.he ?? ''} ${ot.displayName.en ?? ''} ${ot.displayName.ar ?? ''}`}
-      data-therapist-city={ot.location?.city ?? ''}
+      onClick={() => router.push(`/therapist/${profile.slug}`)}
+      data-therapist-name={`${profile.displayName.he ?? ''} ${profile.displayName.en ?? ''} ${profile.displayName.ar ?? ''}`}
+      data-therapist-city={profile.location?.city ?? ''}
       data-therapist-specs={specSearchData}
-      className="group relative flex cursor-pointer flex-col rounded-[16px] bg-surface
-                 shadow-[0_2px_16px_rgba(0,0,0,0.07)]
-                 transition-[transform,box-shadow] duration-300 ease-spring
-                 hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(0,0,0,0.13)]
-                 active:translate-y-0 active:shadow-[0_2px_16px_rgba(0,0,0,0.07)]"
+      className="group relative flex cursor-pointer flex-col rounded-[16px] border border-border bg-surface
+                 shadow-[0_2px_16px_rgba(0,0,0,0.06)]
+                 transition-[transform,box-shadow,border-color] duration-300 ease-spring
+                 hover:-translate-y-1 hover:border-primary/20 hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]
+                 active:translate-y-0 active:shadow-[0_2px_16px_rgba(0,0,0,0.06)]"
     >
       {/* Top row: accepting status (left) + fee (right) */}
       <div className="flex min-h-[1.75rem] items-center justify-between px-4 pt-3">
-        {ot.isAcceptingPatients ? (
+        {profile.isAcceptingPatients ? (
           <span className="rounded-full bg-success/10 px-2.5 py-1 text-[11px] font-semibold leading-none text-success">
             {t('acceptingPatientsFilter')}
           </span>
@@ -76,7 +76,7 @@ export default function TherapistCard({ therapist }: { therapist: TherapistProfi
       <div className="mt-3 flex justify-center">
         <div className="relative">
           <Image
-            src={ot.photo ?? `https://i.pravatar.cc/150?u=${ot.slug}`}
+            src={profile.photo ?? `https://i.pravatar.cc/150?u=${profile.slug}`}
             alt={name}
             width={80}
             height={80}
@@ -100,15 +100,15 @@ export default function TherapistCard({ therapist }: { therapist: TherapistProfi
           <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="flex-shrink-0">
             <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
           </svg>
-          {ot.location.city}
+          {profile.location.city}
         </p>
 
         {/* Rating (compact, only if has reviews and feature enabled) */}
-        {FEATURES.showTherapistRating && ot.ratingCount > 0 && (
+        {FEATURES.showTherapistRating && profile.ratingCount > 0 && (
           <div className="mt-1 flex items-center justify-center gap-1">
-            <StarDisplay rating={ot.ratingAvg} size="sm" />
-            <span className="text-xs font-semibold text-text-primary">{ot.ratingAvg.toFixed(1)}</span>
-            <span className="text-xs text-text-muted">({ot.ratingCount})</span>
+            <StarDisplay rating={profile.ratingAvg} size="sm" />
+            <span className="text-xs font-semibold text-text-primary">{profile.ratingAvg.toFixed(1)}</span>
+            <span className="text-xs text-text-muted">({profile.ratingCount})</span>
           </div>
         )}
       </div>
@@ -145,7 +145,7 @@ export default function TherapistCard({ therapist }: { therapist: TherapistProfi
         <div className="border-t border-border pt-2.5">
           <button
             type="button"
-            className="w-full rounded-lg border border-border py-1.5 text-[11px] font-bold uppercase tracking-widest text-text-secondary transition-colors hover:border-primary hover:text-primary"
+            className="w-full rounded-lg bg-primary py-2 text-[11px] font-bold uppercase tracking-widest text-white transition-colors hover:bg-primary-mid"
           >
             {t('viewProfile')}
           </button>

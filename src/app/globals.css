@@ -51,3 +51,27 @@ button, [role="button"], select, label { cursor: pointer; }
 /* ─── Hide browser password reveal button ───────────────────────────────────── */
 input[type="password"]::-ms-reveal,
 input[type="password"]::-webkit-credentials-auto-fill-button { display: none; }
+
+/* ─── Display font (Calistoga) — Latin only, fall back to Inter for RTL ─────── */
+:lang(he) .font-display,
+:lang(ar) .font-display {
+  font-family: var(--font-sans);
+}
+
+/* ─── Design system animations ───────────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes float-alt {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(10px); }
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1;   transform: scale(1);   }
+  50%       { opacity: 0.5; transform: scale(1.4); }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}

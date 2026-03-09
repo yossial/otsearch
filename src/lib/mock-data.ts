@@ -1,4 +1,4 @@
-export interface OTProfile {
+export interface MockTherapistProfile {
   id: string;
   slug: string;
   name: string;
@@ -16,7 +16,7 @@ export interface OTProfile {
   isPro: boolean;
 }
 
-export const MOCK_OTS: OTProfile[] = [
+export const MOCK_THERAPISTS: MockTherapistProfile[] = [
   {
     id: '1',
     slug: 'michal-cohen',
@@ -223,6 +223,6 @@ export const MOCK_OTS: OTProfile[] = [
   },
 ];
 
-export function getOTBySlug(slug: string): OTProfile | undefined {
-  return MOCK_OTS.find((ot) => ot.slug === slug);
+export function getTherapistBySlugMock(slug: string): MockTherapistProfile | undefined {
+  return MOCK_THERAPISTS.find((t) => t.slug === slug);
 }

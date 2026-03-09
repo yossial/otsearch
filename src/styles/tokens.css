@@ -89,9 +89,10 @@
   /* Font families
      Inter is loaded via next/font in layout.tsx and injected as
      --font-inter CSS var; here we wire it into Tailwind utilities  */
-  --font-sans:   var(--font-inter, 'Inter'), 'Noto Sans Hebrew',
-                 'Noto Sans Arabic', system-ui, sans-serif;
-  --font-mono:   'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  --font-sans:    var(--font-inter, 'Inter'), 'Noto Sans Hebrew',
+                  'Noto Sans Arabic', system-ui, sans-serif;
+  --font-display: var(--font-calistoga, 'Calistoga'), Georgia, serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
 
   /* Font weights
      Maps to: font-light, font-normal, font-medium, font-semibold,
@@ -156,6 +157,8 @@
   --shadow-button-hover: none;
   --shadow-focus:        0 0 0 2px rgba(0,29,61,0.35);
   --shadow-inner:        none;
+  --shadow-accent:       0 4px 14px rgba(255,195,0,0.25);      /* yellow-tinted lift */
+  --shadow-accent-lg:    0 8px 24px rgba(255,195,0,0.35);      /* featured / hero elements */
 
   /* ─────────────────────────────────────────────────────────────
      8. SPACING (extensions — default Tailwind scale 0→96 still applies)

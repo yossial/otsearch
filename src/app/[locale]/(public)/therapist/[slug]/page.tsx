@@ -24,12 +24,12 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
   const locale = await getLocale();
   const session = await auth();
 
-  const ot = await getTherapistBySlug(slug).catch((err: unknown) => {
+  const therapist = await getTherapistBySlug(slug).catch((err: unknown) => {
     console.warn('[TherapistProfilePage] DB unavailable, falling back to mock data:', (err as Error).message);
     return getMockTherapistBySlug(slug);
   });
 
-  if (!ot) notFound();
+  if (!therapist) notFound();
 
   incrementProfileViews(slug);
 
@@ -38,24 +38,24 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
   const tContact = await getTranslations('contact');
   const tReviews = await getTranslations('reviews');
 
-  const name = ot.displayName[locale as keyof typeof ot.displayName] ?? ot.displayName.he;
-  const bio = ot.bio[locale as keyof typeof ot.bio] ?? ot.bio.he;
+  const name = therapist.displayName[locale as keyof typeof therapist.displayName] ?? therapist.displayName.he;
+  const bio = therapist.bio[locale as keyof typeof therapist.bio] ?? therapist.bio.he;
 
   const titleKey =
-    ot.gender === 'male' ? 'therapistTitleMale'
-    : ot.gender === 'female' ? 'therapistTitleFemale'
+    therapist.gender === 'male' ? 'therapistTitleMale'
+    : therapist.gender === 'female' ? 'therapistTitleFemale'
     : 'therapistTitle';
 
   const sessionUserId = (session?.user as { id?: string } | undefined)?.id ?? null;
   const userRole = (session?.user as { role?: string } | undefined)?.role ?? null;
 
   const canEdit = !!session?.user &&
-    (session.user as { therapistProfileId?: string | null }).therapistProfileId === ot.id;
+    (session.user as { therapistProfileId?: string | null }).therapistProfileId === therapist.id;
 
   return (
     <div className="min-h-screen bg-bg">
       <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
-        <EditableProfile profile={ot} canEdit={canEdit} />
+        <EditableProfile profile={therapist} canEdit={canEdit} />
         {/* Back link */}
         <Link href="/" className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-secondary transition-colors hover:text-primary">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-directional" aria-hidden="true">
@@ -68,7 +68,7 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
         <div className="mb-6 flex flex-col gap-4 rounded-lg bg-surface p-6 border border-border sm:flex-row sm:items-start">
           <div className="flex-shrink-0">
             <Image
-              src={ot.photo ?? `https://i.pravatar.cc/150?u=${ot.slug}`}
+              src={therapist.photo ?? `https://i.pravatar.cc/150?u=${therapist.slug}`}
               alt={name}
               width={96}
               height={96}
@@ -82,10 +82,10 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
                 <p className="text-base text-text-secondary">{t(titleKey)}</p>
               </div>
               <div className="flex flex-wrap gap-2">
-                {ot.subscriptionTier === 'premium' && (
+                {therapist.subscriptionTier === 'premium' && (
                   <span className="rounded-full bg-primary px-3 py-1 text-xs font-semibold text-white">PRO</span>
                 )}
-                {ot.isAcceptingPatients && (
+                {therapist.isAcceptingPatients && (
                   <span className="flex items-center gap-1.5 rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-700">
                     <span className="h-2 w-2 rounded-full bg-green-500" />
                     {t('acceptingPatients')}
@@ -93,16 +93,16 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
                 )}
               </div>
             </div>
-            {FEATURES.showTherapistRating && ot.ratingCount > 0 && (
+            {FEATURES.showTherapistRating && therapist.ratingCount > 0 && (
               <div className="flex items-center gap-2">
-                <StarDisplay rating={ot.ratingAvg} size="sm" showNumber count={ot.ratingCount} />
+                <StarDisplay rating={therapist.ratingAvg} size="sm" showNumber count={therapist.ratingCount} />
               </div>
             )}
             <div className="flex items-center gap-1.5 text-sm text-text-secondary">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" />
               </svg>
-              <span>{ot.location.city}</span>
+              <span>{therapist.location.city}</span>
             </div>
           </div>
         </div>
@@ -121,7 +121,7 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
             <section className="rounded-lg bg-surface p-6 border border-border">
               <h2 className="mb-3 text-lg font-semibold text-text-primary">{t('specialisations')}</h2>
               <div className="flex flex-wrap gap-2">
-                {ot.specialisations.map((spec) => (
+                {therapist.specialisations.map((spec) => (
                   <span key={spec} className="rounded-full bg-primary-light px-3 py-1.5 text-sm font-medium text-primary">
                     {tSearch(`specialisationLabels.${spec}`)}
                   </span>
@@ -133,7 +133,7 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
             <section className="rounded-lg bg-surface p-6 border border-border">
               <h2 className="mb-3 text-lg font-semibold text-text-primary">{t('sessionTypes')}</h2>
               <div className="flex flex-wrap gap-3">
-                {ot.sessionTypes.map((st) => (
+                {therapist.sessionTypes.map((st) => (
                   <div key={st} className="flex items-center gap-2 rounded-lg border border-border px-4 py-2.5">
                     {st === 'in-person' && (
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -165,7 +165,7 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
             <section id="contact" className="rounded-lg bg-surface p-6 border border-border">
               <h2 className="mb-1 text-lg font-semibold text-text-primary">{tContact('title')}</h2>
               <p className="mb-6 text-sm text-text-secondary">{tContact('subtitle', { name })}</p>
-              <ContactForm therapistSlug={slug} therapistName={name} therapistEmail={ot.contactEmail} />
+              <ContactForm therapistSlug={slug} therapistName={name} therapistEmail={therapist.contactEmail} />
             </section>
           </div>
 
@@ -173,20 +173,20 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
           <aside className="flex flex-col gap-4 md:w-72 md:flex-shrink-0">
             <div className="rounded-lg bg-surface p-5 border border-border">
               {/* Rating */}
-              {FEATURES.showTherapistRating && ot.ratingCount > 0 && (
+              {FEATURES.showTherapistRating && therapist.ratingCount > 0 && (
                 <div className="mb-4">
-                  <StarDisplay rating={ot.ratingAvg} size="md" showNumber count={ot.ratingCount} />
+                  <StarDisplay rating={therapist.ratingAvg} size="md" showNumber count={therapist.ratingCount} />
                   <p className="mt-1 text-xs text-text-muted">
-                    {tReviews('basedOn', { count: ot.ratingCount })}
+                    {tReviews('basedOn', { count: therapist.ratingCount })}
                   </p>
                 </div>
               )}
 
               {/* Fee */}
-              {FEATURES.showTherapistFee && ot.feeRange && (
+              {FEATURES.showTherapistFee && therapist.feeRange && (
                 <div className="mb-4 flex items-baseline gap-1">
                   <span className="text-sm text-text-muted">₪</span>
-                  <span className="text-base text-text-primary">{ot.feeRange.min}–{ot.feeRange.max}</span>
+                  <span className="text-base text-text-primary">{therapist.feeRange.min}–{therapist.feeRange.max}</span>
                   <span className="text-xs text-text-muted">/ {t('feePerSession')}</span>
                 </div>
               )}
@@ -204,7 +204,7 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
 
               {/* Call — secondary */}
               <a
-                href={`tel:${ot.contactPhone}`}
+                href={`tel:${therapist.contactPhone}`}
                 className="mb-1 flex w-full items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-text-secondary transition-colors hover:bg-bg"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -212,7 +212,7 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
                 </svg>
                 {t('contactPhone')}
               </a>
-              <p className="mb-4 text-center text-xs text-text-muted">{ot.contactPhone}</p>
+              <p className="mb-4 text-center text-xs text-text-muted">{therapist.contactPhone}</p>
 
               <div className="h-px bg-border" />
 
@@ -220,7 +220,7 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
               <div className="mt-4">
                 <h3 className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-text-secondary">{t('insurance')}</h3>
                 <div className="flex flex-wrap gap-1.5">
-                  {ot.insuranceAccepted.map((ins) => (
+                  {therapist.insuranceAccepted.map((ins) => (
                     <span key={ins} className="rounded-full bg-bg-alt px-2.5 py-1 text-xs font-medium text-text-secondary">
                       {tSearch(`insurance.${ins}`)}
                     </span>
@@ -234,7 +234,7 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
               <div className="mt-4">
                 <h3 className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-text-secondary">{t('languages')}</h3>
                 <div className="flex flex-wrap gap-1.5">
-                  {ot.languages.map((lang) => (
+                  {therapist.languages.map((lang) => (
                     <span key={lang} className="rounded-full bg-bg-alt px-2.5 py-1 text-xs font-medium text-text-secondary">
                       {tSearch(`languageLabels.${lang}`)}
                     </span>
@@ -245,13 +245,13 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
               <div className="mt-4 h-px bg-border" />
 
               {/* MOH Licence */}
-              {ot.mohRegistrationNumber && (
+              {therapist.mohRegistrationNumber && (
                 <div className="mt-4">
                   <h3 className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-text-secondary">{t('mohNumber')}</h3>
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-xs font-medium text-green-700">
                       <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                      {ot.mohRegistrationNumber}
+                      {therapist.mohRegistrationNumber}
                     </span>
                     <a
                       href="https://practitioners.health.gov.il/Practitioners/14"
@@ -274,7 +274,7 @@ export default async function TherapistProfilePage({ params }: TherapistProfileP
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" />
                   </svg>
-                  <span>{ot.location.city}</span>
+                  <span>{therapist.location.city}</span>
                 </div>
               </div>
             </div>

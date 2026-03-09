@@ -82,30 +82,30 @@ export default async function AdminDashboardPage() {
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Registration trend chart */}
         <div className="rounded-lg border border-border bg-surface p-5">
-          <h2 className="mb-4 text-sm font-semibold text-text-primary">New registrations — last 6 months</h2>
+          <h2 className="mb-4 text-sm font-semibold text-text-primary">{t('dashboard.registrationsChart')}</h2>
           <BarChart months={chartMonths} />
         </div>
 
         {/* Platform health */}
         <div className="rounded-lg border border-border bg-surface p-5">
-          <h2 className="mb-4 text-sm font-semibold text-text-primary">Platform health</h2>
+          <h2 className="mb-4 text-sm font-semibold text-text-primary">{t('dashboard.platformHealth')}</h2>
           <div className="space-y-4">
             <RatioBar
-              label="Active therapists"
+              label={t('dashboard.health.activeTherapists')}
               value={activeTherapists}
               total={totalTherapists}
               rate={activeRate}
               color="bg-green-500"
             />
             <RatioBar
-              label="Premium subscribers"
+              label={t('dashboard.health.premiumSubscribers')}
               value={premiumTherapists}
               total={totalTherapists}
               rate={premiumRate}
               color="bg-primary"
             />
             <RatioBar
-              label="Featured"
+              label={t('dashboard.health.featured')}
               value={featuredTherapists}
               total={totalTherapists}
               rate={totalTherapists > 0 ? Math.round((featuredTherapists / totalTherapists) * 100) : 0}

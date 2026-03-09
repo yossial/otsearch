@@ -23,9 +23,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   ];
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] bg-bg-alt">
+    <div className="flex h-[calc(100vh-4rem)] bg-bg-alt">
       {/* Sidebar */}
-      <aside className="hidden w-56 shrink-0 self-stretch border-e border-border bg-surface lg:flex lg:flex-col">
+      <aside className="hidden h-full w-56 shrink-0 overflow-y-auto border-e border-border bg-surface lg:flex lg:flex-col">
         <div className="border-b border-border px-5 py-4">
           <span className="text-sm font-bold text-text-primary uppercase tracking-widest">{t('title')}</span>
         </div>

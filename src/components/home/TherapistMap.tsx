@@ -59,16 +59,37 @@ export default function TherapistMap({ profiles, activeCity }: TherapistMapProps
         maxZoom: 18,
       }).addTo(map);
 
-      // Custom navy pin icon
+      // Custom teardrop pin icon
+      const pinHtml = `
+        <div style="position:relative;width:28px;height:36px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.25))">
+          <svg width="28" height="36" viewBox="0 0 28 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 0C6.268 0 0 6.268 0 14c0 9.333 14 22 14 22S28 23.333 28 14C28 6.268 21.732 0 14 0z" fill="#001d3d"/>
+            <circle cx="14" cy="13" r="6" fill="#ffc300"/>
+          </svg>
+        </div>`;
       const pinIcon = L.divIcon({
         className: '',
-        html: `<div style="width:14px;height:14px;background:#001d3d;border:2px solid #ffc300;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,0.2)"></div>`,
-        iconSize: [14, 14],
-        iconAnchor: [7, 7],
+        html: pinHtml,
+        iconSize: [28, 36],
+        iconAnchor: [14, 36],
+        popupAnchor: [0, -38],
       });
 
       // Add markers for profiles with known city coords
       const locale = document.documentElement.lang?.split('-')[0] ?? 'he';
+
+      const viewProfileLabel: Record<string, string> = {
+        he: 'לפרופיל המלא ←',
+        ar: 'عرض الملف الكامل ←',
+        en: 'View full profile →',
+        ru: 'Открыть профиль →',
+      };
+      const acceptingLabel: Record<string, string> = {
+        he: 'מקבל/ת מטופלים',
+        ar: 'يقبل مرضى جدد',
+        en: 'Accepting patients',
+        ru: 'Принимает пациентов',
+      };
 
       profiles.forEach((profile) => {
         const coords = CITY_COORDS[profile.location.city];
@@ -84,23 +105,38 @@ export default function TherapistMap({ profiles, activeCity }: TherapistMapProps
 
         const specs = profile.specialisations
           .slice(0, 2)
-          .map((s) => `<span style="background:#fff8e1;color:#000814;padding:1px 6px;border-radius:3px;font-size:11px">${s}</span>`)
+          .map((s) => `<span style="background:#f0f4ff;color:#001d3d;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:500">${s}</span>`)
           .join(' ');
 
+        const feeStr = profile.feeRange?.min
+          ? `<span style="color:#001d3d;font-size:11px">₪${profile.feeRange.min}+</span>`
+          : '';
+
+        const acceptingStr = profile.isAcceptingPatients
+          ? `<span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#16a34a"><span style="width:6px;height:6px;border-radius:50%;background:#16a34a;display:inline-block"></span>${acceptingLabel[locale] ?? acceptingLabel.en}</span>`
+          : '';
+
         const popup = `
-          <div style="min-width:160px;font-family:system-ui,sans-serif">
-            <p style="font-weight:600;margin:0 0 4px;font-size:13px;color:#000814">${name}</p>
-            <p style="color:#001d3d;margin:0 0 6px;font-size:12px">${profile.location.city}</p>
-            <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px">${specs}</div>
+          <div style="min-width:180px;max-width:220px;font-family:system-ui,sans-serif;padding:2px">
+            <p style="font-weight:700;margin:0 0 2px;font-size:13px;color:#000814">${name}</p>
+            <p style="color:#64748b;margin:0 0 8px;font-size:12px;display:flex;align-items:center;gap:4px">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              ${profile.location.city}
+            </p>
+            ${specs ? `<div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px">${specs}</div>` : ''}
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+              ${acceptingStr}
+              ${feeStr}
+            </div>
             <a href="/${locale}/therapist/${profile.slug}"
-               style="display:block;text-align:center;background:#ffc300;color:#000814;padding:5px 8px;border-radius:4px;font-size:12px;font-weight:600;text-decoration:none">
-              View Profile →
+               style="display:block;text-align:center;background:#001d3d;color:#ffc300;padding:7px 10px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none">
+              ${viewProfileLabel[locale] ?? viewProfileLabel.en}
             </a>
           </div>
         `;
 
         L.marker(markerCoords, { icon: pinIcon })
-          .bindPopup(popup)
+          .bindPopup(popup, { maxWidth: 240 })
           .addTo(map);
       });
 

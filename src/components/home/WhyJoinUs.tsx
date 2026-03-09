@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
+import { FadeInUp, StaggerList, StaggerItem } from '@/components/ui/motion';
 
 // ── Icons ─────────────────────────────────────────────────────────────────────
 
@@ -80,65 +81,106 @@ export default async function WhyJoinUs() {
     <section id="why-join-us" className="border-t border-border">
       <div className="grid grid-cols-1 lg:grid-cols-2">
 
-        {/* Left / Start column — Seekers (white bg) */}
-        <div className="bg-surface px-6 py-14 sm:px-10 lg:px-14">
-          <h2 className="mb-8 text-xl font-bold text-text-primary sm:text-2xl">
-            {t('seekers.heading')}
-          </h2>
-          <ul className="flex flex-col gap-6">
+        {/* ── Seekers column (light) ─────────────────────────────────────── */}
+        <div className="bg-surface px-6 py-16 sm:px-10 lg:px-14">
+          <FadeInUp>
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3.5 py-1">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true" />
+              <span className="text-xs font-medium uppercase tracking-[0.12em] text-primary">
+                {t('seekers.eyebrow')}
+              </span>
+            </div>
+            <h2 className="mt-3 font-display text-2xl font-normal text-text-primary sm:text-3xl">
+              {t('seekers.heading')}
+            </h2>
+          </FadeInUp>
+
+          <StaggerList className="mt-8 flex flex-col gap-6">
             {seekerPoints.map(({ titleKey, descKey, icon }) => (
-              <li key={titleKey} className="flex items-start gap-4">
-                <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-light text-primary">
+              <StaggerItem key={titleKey} className="flex items-start gap-4">
+                <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-light text-primary transition-colors duration-200 hover:bg-primary hover:text-white">
                   {icon}
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-text-primary">{t(titleKey)}</p>
                   <p className="mt-0.5 text-sm leading-relaxed text-text-secondary">{t(descKey)}</p>
                 </div>
-              </li>
+              </StaggerItem>
             ))}
-          </ul>
-          <div className="mt-10">
-            <a
-              href="#search"
-              className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-primary-dark"
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
-              </svg>
-              {tHome('searchButton')}
-            </a>
-          </div>
+          </StaggerList>
+
+          <FadeInUp delay={0.3}>
+            <div className="mt-10">
+              <a
+                href="#search"
+                className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-bold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-mid hover:shadow-[0_6px_16px_rgba(0,29,61,0.2)]"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+                </svg>
+                {tHome('searchButton')}
+              </a>
+            </div>
+          </FadeInUp>
         </div>
 
-        {/* Right / End column — Therapists (light navy tint) */}
-        <div className="bg-[#edf4fd] px-6 py-14 sm:px-10 lg:px-14">
-          <h2 className="mb-8 text-xl font-bold text-text-primary sm:text-2xl">
-            {t('therapists.heading')}
-          </h2>
-          <ul className="flex flex-col gap-6">
-            {therapistPoints.map(({ titleKey, descKey, icon }) => (
-              <li key={titleKey} className="flex items-start gap-4">
-                <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
-                  {icon}
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-text-primary">{t(titleKey)}</p>
-                  <p className="mt-0.5 text-sm leading-relaxed text-text-secondary">{t(descKey)}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-10">
-            <Link
-              href="/auth/register"
-              className="inline-flex items-center gap-2 rounded-xl border border-accent bg-accent px-6 py-3 text-sm font-bold text-text-inverse transition-colors hover:bg-accent/90"
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><line x1="19" y1="8" x2="19" y2="14" /><line x1="22" y1="11" x2="16" y2="11" />
-              </svg>
-              {tHome('heroTherapistCta')}
-            </Link>
+        {/* ── Therapists column (inverted dark) ─────────────────────────── */}
+        <div className="relative overflow-hidden bg-bg-dark px-6 py-16 sm:px-10 lg:px-14">
+          {/* Dot texture */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 opacity-[0.04]"
+            style={{
+              backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+              backgroundSize: '24px 24px',
+            }}
+          />
+          {/* Ambient accent glow */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -end-10 -top-10 h-[200px] w-[200px] rounded-full bg-accent opacity-[0.07] blur-[60px]"
+          />
+
+          <div className="relative">
+            <FadeInUp>
+              <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3.5 py-1">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+                <span className="text-xs font-medium uppercase tracking-[0.12em] text-accent">
+                  {t('therapists.eyebrow')}
+                </span>
+              </div>
+              <h2 className="mt-3 font-display text-2xl font-normal text-white sm:text-3xl">
+                {t('therapists.heading')}
+              </h2>
+            </FadeInUp>
+
+            <StaggerList className="mt-8 flex flex-col gap-6">
+              {therapistPoints.map(({ titleKey, descKey, icon }) => (
+                <StaggerItem key={titleKey} className="flex items-start gap-4">
+                  <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent/15 text-accent">
+                    {icon}
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-white">{t(titleKey)}</p>
+                    <p className="mt-0.5 text-sm leading-relaxed text-white/60">{t(descKey)}</p>
+                  </div>
+                </StaggerItem>
+              ))}
+            </StaggerList>
+
+            <FadeInUp delay={0.3}>
+              <div className="mt-10">
+                <Link
+                  href="/auth/register"
+                  className="inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-bold text-text-accent shadow-accent transition-all duration-200 hover:-translate-y-0.5 hover:bg-sand hover:shadow-accent-lg"
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><line x1="19" y1="8" x2="19" y2="14" /><line x1="22" y1="11" x2="16" y2="11" />
+                  </svg>
+                  {tHome('heroTherapistCta')}
+                </Link>
+              </div>
+            </FadeInUp>
           </div>
         </div>
 

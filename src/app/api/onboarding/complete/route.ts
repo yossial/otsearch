@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
         .replace(/[^\u0590-\u05FF\w-]/g, ''); 
 
       // 2. Add a unique suffix (Short UUID style)
-      const uniqueSuffix = Math.random().toString(36); 
+      const uniqueSuffix = Math.random().toString(36).slice(2);
 
       const slug = `${baseSlug || 'profile'}-${uniqueSuffix}`;
 

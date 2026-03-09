@@ -43,7 +43,7 @@ export async function POST() {
 
     // 2. Add a unique suffix (Short UUID style)
     // If you don't want to install nanoid, use this crypto-based one-liner:
-    const uniqueSuffix = Math.random().toString(36); 
+    const uniqueSuffix = Math.random().toString(36).slice(2);
 
     const slug = `${baseSlug || 'profile'}-${uniqueSuffix}`;
 

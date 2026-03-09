@@ -46,6 +46,7 @@
       "handTherapyTagline": "Nerves, tendons, movement recovery"
     },
     "howItWorks": {
+      "eyebrow": "Three simple steps",
       "title": "How it works",
       "step1Title": "Describe your need",
       "step1Desc": "Search by specialisation, location, health fund and availability",
@@ -67,6 +68,7 @@
     "featuredTitle": "Featured therapists",
     "whyJoinUs": {
       "seekers": {
+        "eyebrow": "For patients",
         "heading": "Why find a therapist through us?",
         "point1Title": "Professional Accuracy",
         "point1Desc": "Targeted search by specialization, age group, and location.",
@@ -76,13 +78,14 @@
         "point3Desc": "Find the right solution for you without unnecessary waiting."
       },
       "therapists": {
+        "eyebrow": "For therapists",
         "heading": "Why join our professional network?",
         "point1Title": "Targeted Exposure",
         "point1Desc": "Reach patients specifically looking for your expertise.",
         "point2Title": "Digital Presence",
         "point2Desc": "A professional, designed profile that saves on marketing costs.",
         "point3Title": "Professional Home",
-        "point3Desc": "Be part of the largest and leading OT community in Israel."
+        "point3Desc": "Be part of the largest and leading occupational therapy community in Israel."
       }
     },
     "contact": {
@@ -118,6 +121,58 @@
         "desc": "Post-surgical rehab, nerve or tendon injury, pain management and restoring hand function."
       },
       "footnote": "Occupational therapists in Israel are licensed by the Ministry of Health and trained to support every stage of life."
+    },
+    "testimonials": {
+      "eyebrow": "What people say",
+      "title": "Patients and therapists who trust us",
+      "t1Quote": "The therapist we found through Therapio changed my daughter's life. She struggled with writing and focus at school — now she's thriving.",
+      "t1Name": "Sarah K.",
+      "t1Role": "Mother of an 8-year-old, Tel Aviv",
+      "t2Quote": "I regained full independence after a stroke in under six months. Found my therapist in two minutes — detailed profile, direct contact.",
+      "t2Name": "David M.",
+      "t2Role": "Rehabilitation patient, Haifa",
+      "t3Quote": "I joined a year ago — today my clinic is full with patients who are a perfect fit. Therapio brings me exactly who I can help.",
+      "t3Name": "Dr. Michal R.",
+      "t3Role": "Occupational Therapist, Jerusalem"
+    },
+    "pricing": {
+      "eyebrow": "Pricing",
+      "title": "Simple and transparent — for therapists",
+      "subtitle": "Search is always free for patients",
+      "freeName": "Always Free",
+      "freePrice": "₪0",
+      "freePeriod": "per month",
+      "freeDesc": "Everything you need to get started",
+      "freeFeature1": "Full profile in search results",
+      "freeFeature2": "Personal profile page",
+      "freeFeature3": "Direct contact link",
+      "freeFeature4": "Map listing",
+      "freeFeature5": "Up to 4 specialisations",
+      "freeCta": "Join for free",
+      "premiumName": "Premium",
+      "premiumPrice": "Coming soon",
+      "premiumBadge": "Coming soon",
+      "premiumDesc": "For therapists who want to lead",
+      "premiumFeature1": "Everything in Free",
+      "premiumFeature2": "Featured placement at the top",
+      "premiumFeature3": "Leading therapist badge",
+      "premiumFeature4": "Analytics dashboard",
+      "premiumFeature5": "Priority support",
+      "premiumCta": "Get notified"
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Everything you wanted to know",
+      "q1": "Is search free for patients?",
+      "a1": "Yes, completely free. No registration needed to browse and search for therapists.",
+      "q2": "Are the therapists verified?",
+      "a2": "All listed therapists are certified and registered with the Israeli Ministry of Health. We verify licenses before approving profiles.",
+      "q3": "How do I contact a therapist?",
+      "a3": "Click any profile for full contact details — phone, email, or direct message.",
+      "q4": "Can I filter by health fund?",
+      "a4": "Yes — filter by Clalit, Maccabi, Meuhedet, or Leumit.",
+      "q5": "How do therapists join the platform?",
+      "a5": "Free registration and profile completion in a few minutes. Click 'Join the Professional Network' at the top of the page."
     }
   },
   "search": {
@@ -185,8 +240,6 @@
     "noMoreResults": "You've seen all therapists",
     "viewAllTherapists": "View all therapists",
     "loadingMore": "Loading more...",
-    "feeFrom": "From ₪{min}",
-    "featuredLabel": "Featured",
     "languageLabels": {
       "he": "Hebrew",
       "ar": "Arabic",
@@ -283,6 +336,7 @@
       "displayNameEn": "Display name (English)",
       "displayNameAr": "Display name (Arabic)",
       "languages": "Treatment languages *",
+      "country": "Country",
       "city": "City *",
       "address": "Address",
       "specialisations": "Specialisations *",
@@ -293,12 +347,21 @@
       "feeMin": "Min session fee (₪)",
       "feeMax": "Max session fee (₪)",
       "mohNumber": "Ministry of Health licence number",
+      "mohNumberHint": "Your MOH licence number (5–6 digits)",
+      "mohInvalidFormat": "Invalid licence number — must be 5–6 digits",
+      "mohNotFound": "Licence number not found in Ministry of Health records",
+      "mohExpired": "Your licence is not active. Please contact the Ministry of Health.",
       "acceptingPatients": "Accepting new patients",
       "gender": "Gender",
       "genderMale": "Male",
       "genderFemale": "Female",
       "genderUnspecified": "Prefer not to say",
-      "saveError": "Error saving profile"
+      "saveError": "Error saving profile",
+      "photoLabel": "Profile photo",
+      "photoHint": "Click the circle to upload a photo (optional)",
+      "photoUploading": "Uploading...",
+      "photoError": "Upload failed. Please try again.",
+      "otherPlaceholder": "Other — describe freely (e.g. oncology, feeding therapy, trauma)"
     }
   },
   "dashboard": {
@@ -325,6 +388,12 @@
     "upgradeTitle": "Upgrade to Premium",
     "upgradeDesc": "Get featured placement, priority ranking, and advanced analytics.",
     "upgradeCta": "Upgrade now",
+    "subscriptionFree": "Free",
+    "subscriptionPremium": "Premium",
+    "profileStrength": "Profile strength",
+    "specialisationsLabel": "Specialisations",
+    "sessionTypesLabel": "Session types",
+    "insuranceLabel": "Health funds",
     "completenessTitle": "Complete your profile",
     "completenessItems": {
       "city": "Add your city",
@@ -356,7 +425,12 @@
       "genderUnspecified": "Prefer not to say",
       "saveSuccess": "Profile updated successfully",
       "saveError": "Error saving profile",
-      "save": "Save changes"
+      "save": "Save changes",
+      "photoLabel": "Profile photo",
+      "photoHint": "Click the circle to change your photo",
+      "photoUploading": "Uploading...",
+      "photoError": "Upload failed. Please try again.",
+      "otherPlaceholder": "Other — describe freely (e.g. oncology, feeding therapy, trauma)"
     }
   },
   "reviews": {
@@ -427,6 +501,13 @@
         "featuredTherapists": "Featured Therapists",
         "newRegistrations": "New Registrations (Month)",
         "totalProfileViews": "Total Profile Views"
+      },
+      "registrationsChart": "New registrations — last 6 months",
+      "platformHealth": "Platform health",
+      "health": {
+        "activeTherapists": "Active therapists",
+        "premiumSubscribers": "Premium subscribers",
+        "featured": "Featured"
       }
     },
     "users": {

@@ -82,6 +82,7 @@ export default function StreetSelect({ cityCode, value, onChange, placeholder = 
       {open && filtered.length > 0 && (
         <ul
           role="listbox"
+          dir="rtl"
           className="absolute z-dropdown mt-1 max-h-52 w-full overflow-y-auto rounded-lg border border-border bg-surface py-1 shadow-dropdown"
         >
           {filtered.map((street) => (

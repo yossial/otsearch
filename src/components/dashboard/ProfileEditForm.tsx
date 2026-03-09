@@ -43,6 +43,8 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
   const [address, setAddress] = useState(profile.location.address ?? '');
   const [phone, setPhone] = useState(profile.contactPhone ?? '');
   const [specialisations, setSpecialisations] = useState<Specialisation[]>(profile.specialisations);
+  const [specialisationsOther, setSpecialisationsOther] = useState(profile.specialisationsOther ?? '');
+  const [sessionTypesOther, setSessionTypesOther] = useState(profile.sessionTypesOther ?? '');
   const [sessionTypes, setSessionTypes] = useState<SessionType[]>(profile.sessionTypes);
   const [insuranceAccepted, setInsuranceAccepted] = useState<InsuranceType[]>(profile.insuranceAccepted);
   const [languages, setLanguages] = useState<string[]>(profile.languages);
@@ -55,6 +57,8 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
 
   function toggle<T extends string>(arr: T[], val: T, setArr: (v: T[]) => void) {
     setArr(arr.includes(val) ? arr.filter((x) => x !== val) : [...arr, val]);
@@ -71,6 +75,8 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
       location: { ...profile.location, city: city.trim(), address: address.trim() },
       contactPhone: phone.trim(),
       specialisations,
+      specialisationsOther: specialisationsOther.trim() || undefined,
+      sessionTypesOther: sessionTypesOther.trim() || undefined,
       sessionTypes,
       insuranceAccepted,
       languages,
@@ -106,17 +112,22 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
     <form onSubmit={handleSubmit} className="flex flex-col gap-8">
       {/* Photo upload */}
       <div className="rounded-lg bg-surface p-6 border border-border">
-        <h2 className="mb-4 text-base font-semibold text-text-primary">Photo</h2>
+        <h2 className="mb-4 text-base font-semibold text-text-primary">{t('photoLabel')}</h2>
         <div className="flex items-center gap-4">
           <div
-            className="relative h-20 w-20 cursor-pointer overflow-hidden rounded-full border-2 border-dashed border-border bg-bg-alt hover:border-primary transition-colors"
-            onClick={() => document.getElementById('profile-photo-upload')?.click()}
+            className={`relative h-20 w-20 cursor-pointer overflow-hidden rounded-full border-2 border-dashed bg-bg-alt transition-colors ${uploading ? 'border-primary opacity-70' : 'border-border hover:border-primary'}`}
+            onClick={() => !uploading && document.getElementById('profile-photo-upload')?.click()}
             role="button"
             tabIndex={0}
-            onKeyDown={(e) => e.key === 'Enter' && document.getElementById('profile-photo-upload')?.click()}
-            aria-label="Upload photo"
+            onKeyDown={(e) => e.key === 'Enter' && !uploading && document.getElementById('profile-photo-upload')?.click()}
+            aria-label={t('photoLabel')}
           >
-            {photo ? (
+            {uploading ? (
+              <svg className="absolute inset-0 m-auto h-5 w-5 animate-spin text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+              </svg>
+            ) : photo ? (
               <img src={photo} alt="Profile photo" className="h-full w-full object-cover" />
             ) : (
               <svg className="absolute inset-0 m-auto h-7 w-7 text-text-muted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -132,16 +143,31 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
             onChange={async (e) => {
               const file = e.target.files?.[0];
               if (!file) return;
-              const form = new FormData();
-              form.append('file', file);
-              const res = await fetch('/api/upload', { method: 'POST', body: form });
-              if (res.ok) {
-                const data = await res.json() as { url: string };
-                setPhoto(data.url);
+              setUploadError('');
+              setUploading(true);
+              try {
+                const form = new FormData();
+                form.append('file', file);
+                const res = await fetch('/api/upload', { method: 'POST', body: form });
+                if (res.ok) {
+                  const data = await res.json() as { url: string };
+                  setPhoto(data.url);
+                } else {
+                  setUploadError(t('photoError'));
+                }
+              } catch {
+                setUploadError(t('photoError'));
+              } finally {
+                setUploading(false);
               }
             }}
           />
-          <p className="text-sm text-text-muted">Click the circle to upload a new photo</p>
+          <div>
+            <p className="text-sm text-text-muted">
+              {uploading ? t('photoUploading') : t('photoHint')}
+            </p>
+            {uploadError && <p className="mt-1 text-xs text-red-600">{uploadError}</p>}
+          </div>
         </div>
       </div>
 
@@ -232,6 +258,12 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
           labels={SPEC_LABELS}
           onToggle={(v) => toggle(specialisations, v as Specialisation, setSpecialisations)}
         />
+        <input
+          value={specialisationsOther}
+          onChange={(e) => setSpecialisationsOther(e.target.value)}
+          placeholder={t('otherPlaceholder')}
+          className={`mt-3 ${inputCls}`}
+        />
       </Section>
 
       {/* Session types */}
@@ -241,6 +273,12 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
           selected={sessionTypes}
           labels={SESSION_LABELS}
           onToggle={(v) => toggle(sessionTypes, v as SessionType, setSessionTypes)}
+        />
+        <input
+          value={sessionTypesOther}
+          onChange={(e) => setSessionTypesOther(e.target.value)}
+          placeholder={t('otherPlaceholder')}
+          className={`mt-3 ${inputCls}`}
         />
       </Section>
 

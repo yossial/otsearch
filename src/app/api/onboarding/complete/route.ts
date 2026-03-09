@@ -4,6 +4,8 @@ import { connectDB } from '@/lib/db';
 import { User } from '@/lib/db/models/User';
 import { TherapistProfile } from '@/lib/db/models/TherapistProfile';
 import { verifyTherapist } from '@/lib/gov/govApi';
+import { sendEmail } from '@/lib/email/send';
+import { welcomeTherapistHtml } from '@/lib/email/templates/welcomeTherapist';
 
 export const dynamic = 'force-dynamic';
 
@@ -91,6 +93,8 @@ export async function POST(req: NextRequest) {
         mohRegistrationNumber: mohNumber,
         mohStatus: verification.status, // Good idea to store the verified status
         specialisations: (body.specialisations as string[] | undefined) ?? [],
+        specialisationsOther: (body.specialisationsOther as string | undefined)?.trim() ?? '',
+        sessionTypesOther: (body.sessionTypesOther as string | undefined)?.trim() ?? '',
         languages: (body.languages as string[] | undefined) ?? ['he'],
         location: {
           type: 'Point',
@@ -116,14 +120,27 @@ export async function POST(req: NextRequest) {
       user.role = 'therapist';
       user.therapistProfileId = profileDoc._id;
       await user.save();
+
+      // Send welcome email (fire-and-forget — don't block the response)
+      const baseUrl = process.env.NEXTAUTH_URL ?? 'https://ot-connect.co.il';
+      const therapistDisplayName = displayName.he?.trim() || verification.fullName || name;
+      void sendEmail({
+        to: user.email as string,
+        subject: `ברוך הבא ל-Therapio, ${therapistDisplayName}! 🎉`,
+        html: welcomeTherapistHtml({
+          name: therapistDisplayName,
+          dashboardUrl: `${baseUrl}/he/dashboard`,
+          profileUrl: `${baseUrl}/he/profile/${slug}`,
+        }),
+      });
     }
 
     // Update existing profile logic
     if (existingProfileId) {
       const allowed = [
-        'bio', 'displayName', 'specialisations', 'languages', 'sessionTypes',
-        'insuranceAccepted', 'feeRange', 'contactPhone', 'contactEmail',
-        'isAcceptingPatients', 'location', 'mohRegistrationNumber', 'gender', 'photo',
+        'bio', 'displayName', 'specialisations', 'specialisationsOther', 'sessionTypesOther',
+        'languages', 'sessionTypes', 'insuranceAccepted', 'feeRange', 'contactPhone',
+        'contactEmail', 'isAcceptingPatients', 'location', 'mohRegistrationNumber', 'gender', 'photo',
       ];
 
       const update: Record<string, unknown> = {};

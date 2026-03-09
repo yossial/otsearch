@@ -37,6 +37,7 @@ export interface GeoLocation {
   coordinates: [number, number]; // [lng, lat]
   city: string;
   address: string;
+  country?: string;
 }
 
 export interface FeeRange {
@@ -53,6 +54,8 @@ export interface TherapistProfilePublic {
   photo: string | null;
   mohRegistrationNumber: string;
   specialisations: Specialisation[];
+  specialisationsOther?: string;
+  sessionTypesOther?: string;
   languages: string[];
   location: GeoLocation;
   sessionTypes: SessionType[];

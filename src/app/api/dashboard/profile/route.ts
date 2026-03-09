@@ -23,6 +23,8 @@ export async function PATCH(req: NextRequest) {
       'bio',
       'displayName',
       'specialisations',
+      'specialisationsOther',
+      'sessionTypesOther',
       'languages',
       'sessionTypes',
       'insuranceAccepted',

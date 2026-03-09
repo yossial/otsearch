@@ -19,12 +19,15 @@ interface Step1Data {
 }
 
 interface Step2Data {
+  country: string;
   city: string;
   cityCode: number;
   street: string;
   buildingNumber: string;
   specialisations: Specialisation[];
+  specialisationsOther: string;
   sessionTypes: SessionType[];
+  sessionTypesOther: string;
 }
 
 interface Step3Data {
@@ -72,6 +75,19 @@ const SESSION_TYPE_LABELS: Record<SessionType, string> = {
 };
 
 const INSURANCE_TYPES: InsuranceType[] = ['clalit', 'maccabi', 'meuhedet', 'leumit'];
+
+const COUNTRIES: { code: string; label: string }[] = [
+  { code: 'IL', label: '🇮🇱 ישראל / Israel' },
+  { code: 'US', label: '🇺🇸 United States' },
+  { code: 'GB', label: '🇬🇧 United Kingdom' },
+  { code: 'DE', label: '🇩🇪 Germany / Deutschland' },
+  { code: 'FR', label: '🇫🇷 France' },
+  { code: 'CA', label: '🇨🇦 Canada' },
+  { code: 'AU', label: '🇦🇺 Australia' },
+  { code: 'NL', label: '🇳🇱 Netherlands' },
+  { code: 'CH', label: '🇨🇭 Switzerland' },
+  { code: 'other', label: 'Other' },
+];
 const INSURANCE_LABELS: Record<InsuranceType, string> = {
   clalit: 'כללית / Clalit',
   maccabi: 'מכבי / Maccabi',
@@ -104,7 +120,7 @@ function FieldLabel({ children }: { children: React.ReactNode }) {
 }
 
 function TextInput({
-  id, value, onChange, placeholder, required, dir,
+  id, value, onChange, placeholder, required, dir, inputMode, maxLength,
 }: {
   id: string;
   value: string;
@@ -112,6 +128,8 @@ function TextInput({
   placeholder?: string;
   required?: boolean;
   dir?: 'rtl' | 'ltr' | 'auto';
+  inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
+  maxLength?: number;
 }) {
   return (
     <input
@@ -122,6 +140,8 @@ function TextInput({
       placeholder={placeholder}
       required={required}
       dir={dir}
+      inputMode={inputMode}
+      maxLength={maxLength}
       className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
     />
   );
@@ -155,19 +175,26 @@ function Step1({
   data, onChange,
 }: { data: Step1Data; onChange: (d: Partial<Step1Data>) => void }) {
   const t = useTranslations('onboarding.therapist');
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
   return (
     <div className="flex flex-col gap-5">
       {/* Avatar upload */}
       <div className="flex flex-col items-center gap-3">
         <div
-          className="relative h-24 w-24 cursor-pointer overflow-hidden rounded-full border-2 border-dashed border-border bg-bg-alt hover:border-primary transition-colors"
-          onClick={() => document.getElementById('avatar-upload')?.click()}
+          className={`relative h-24 w-24 cursor-pointer overflow-hidden rounded-full border-2 border-dashed bg-bg-alt transition-colors ${uploading ? 'border-primary opacity-70' : 'border-border hover:border-primary'}`}
+          onClick={() => !uploading && document.getElementById('avatar-upload')?.click()}
           role="button"
           tabIndex={0}
-          onKeyDown={(e) => e.key === 'Enter' && document.getElementById('avatar-upload')?.click()}
-          aria-label="Upload photo"
+          onKeyDown={(e) => e.key === 'Enter' && !uploading && document.getElementById('avatar-upload')?.click()}
+          aria-label={t('photoLabel')}
         >
-          {data.photo ? (
+          {uploading ? (
+            <svg className="absolute inset-0 m-auto h-6 w-6 animate-spin text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+            </svg>
+          ) : data.photo ? (
             <img src={data.photo} alt="Avatar" className="h-full w-full object-cover" />
           ) : (
             <svg className="absolute inset-0 m-auto h-8 w-8 text-text-muted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -183,16 +210,29 @@ function Step1({
           onChange={async (e) => {
             const file = e.target.files?.[0];
             if (!file) return;
-            const form = new FormData();
-            form.append('file', file);
-            const res = await fetch('/api/upload', { method: 'POST', body: form });
-            if (res.ok) {
-              const data2 = await res.json() as { url: string };
-              onChange({ photo: data2.url });
+            setUploadError('');
+            setUploading(true);
+            try {
+              const form = new FormData();
+              form.append('file', file);
+              const res = await fetch('/api/upload', { method: 'POST', body: form });
+              if (res.ok) {
+                const data2 = await res.json() as { url: string };
+                onChange({ photo: data2.url });
+              } else {
+                setUploadError(t('photoError'));
+              }
+            } catch {
+              setUploadError(t('photoError'));
+            } finally {
+              setUploading(false);
             }
           }}
         />
-        <p className="text-xs text-text-muted">Click to upload photo (optional)</p>
+        <p className="text-xs text-text-muted">
+          {uploading ? t('photoUploading') : t('photoHint')}
+        </p>
+        {uploadError && <p className="text-xs text-red-600">{uploadError}</p>}
       </div>
       <div className="flex flex-col gap-1.5">
         <FieldLabel>{t('displayNameHe')}</FieldLabel>
@@ -264,15 +304,38 @@ function Step2({
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-1.5">
-        <FieldLabel>{t('city')}</FieldLabel>
-        <CitySelect
-          value={data.city}
-          onChange={(name, code) => onChange({ city: name, cityCode: code, street: '', buildingNumber: '' })}
-          required
-        />
+        <FieldLabel>{t('country')}</FieldLabel>
+        <select
+          value={data.country}
+          onChange={(e) => onChange({ country: e.target.value, city: '', cityCode: 0, street: '', buildingNumber: '' })}
+          className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:border-primary focus:outline-none"
+        >
+          {COUNTRIES.map((c) => (
+            <option key={c.code} value={c.code}>{c.label}</option>
+          ))}
+        </select>
       </div>
 
-      {data.city && (
+      <div className="flex flex-col gap-1.5">
+        <FieldLabel>{t('city')}</FieldLabel>
+        {data.country === 'IL' ? (
+          <CitySelect
+            value={data.city}
+            onChange={(name, code) => onChange({ city: name, cityCode: code, street: '', buildingNumber: '' })}
+            required
+          />
+        ) : (
+          <TextInput
+            id="city"
+            value={data.city}
+            onChange={(v) => onChange({ city: v })}
+            dir="auto"
+            required
+          />
+        )}
+      </div>
+
+      {data.city && data.country === 'IL' && (
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <FieldLabel>{t('address')}</FieldLabel>
@@ -315,6 +378,13 @@ function Step2({
             />
           ))}
         </div>
+        <TextInput
+          id="specialisationsOther"
+          value={data.specialisationsOther}
+          onChange={(v) => onChange({ specialisationsOther: v })}
+          placeholder={t('otherPlaceholder')}
+          dir="auto"
+        />
       </div>
 
       <div className="flex flex-col gap-2">
@@ -335,6 +405,13 @@ function Step2({
             />
           ))}
         </div>
+        <TextInput
+          id="sessionTypesOther"
+          value={data.sessionTypesOther}
+          onChange={(v) => onChange({ sessionTypesOther: v })}
+          placeholder={t('otherPlaceholder')}
+          dir="auto"
+        />
       </div>
     </div>
   );
@@ -430,10 +507,13 @@ function Step3({
         <TextInput
           id="mohNumber"
           value={data.mohNumber}
-          onChange={(v) => onChange({ mohNumber: v })}
+          onChange={(v) => onChange({ mohNumber: v.replace(/\D/g, '') })}
           dir="ltr"
           required
+          inputMode="numeric"
+          maxLength={6}
         />
+        <p className="text-xs text-text-muted">{t('mohNumberHint')}</p>
       </div>
 
       <label className="flex items-center gap-3">
@@ -470,12 +550,15 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
     photo: '',
   });
   const [step2, setStep2] = useState<Step2Data>({
+    country: 'IL',
     city: '',
     cityCode: 0,
     street: '',
     buildingNumber: '',
     specialisations: [],
+    specialisationsOther: '',
     sessionTypes: [],
+    sessionTypesOther: '',
   });
   const [step3, setStep3] = useState<Step3Data>({
     phone: '',
@@ -504,6 +587,7 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
       if (!step3.phone.trim()) return 'phone';
       if (!/^0(5[0-9]|[2-489])[0-9]{7}$/.test(step3.phone.trim())) return 'phone';
       if (!step3.mohNumber.trim()) return 'mohNumber';
+      if (!/^\d{5,6}$/.test(step3.mohNumber.trim())) return 'mohNumber';
     }
     return null;
   }
@@ -547,9 +631,12 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
         coordinates: [34.7818, 32.0853],
         city: step2.city,
         address: addressParts,
+        country: step2.country,
       },
       specialisations: step2.specialisations,
+      specialisationsOther: step2.specialisationsOther.trim() || undefined,
       sessionTypes: step2.sessionTypes,
+      sessionTypesOther: step2.sessionTypesOther.trim() || undefined,
       contactPhone: step3.phone,
       contactEmail: step3.email || undefined,
       insuranceAccepted: step3.insuranceAccepted,
@@ -571,7 +658,15 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
       });
 
       if (!res.ok) {
-        setError(t('saveError'));
+        const body = await res.json().catch(() => ({})) as { error?: string };
+        const errMsg = body.error ?? '';
+        if (errMsg.toLowerCase().includes('not found') || errMsg.toLowerCase().includes('not found in')) {
+          setError(t('mohNotFound'));
+        } else if (errMsg.toLowerCase().includes('status') || errMsg.toLowerCase().includes('licence status')) {
+          setError(t('mohExpired'));
+        } else {
+          setError(t('saveError'));
+        }
         setSaving(false);
         return;
       }

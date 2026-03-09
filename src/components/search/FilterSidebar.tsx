@@ -376,7 +376,7 @@ export default function FilterSidebar() {
             <span
               className={cn(
                 'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200',
-                acceptingOnly ? 'translate-x-4' : 'translate-x-0'
+                acceptingOnly ? 'ltr:translate-x-4 rtl:-translate-x-4' : 'translate-x-0'
               )}
             />
           </button>

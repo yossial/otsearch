@@ -534,11 +534,11 @@ function Step3({
         <TextInput
           id="mohNumber"
           value={data.mohNumber}
-          onChange={(v) => onChange({ mohNumber: v.replace(/\D/g, '') })}
+          onChange={(v) => onChange({ mohNumber: v.replace(/[^\d-]/g, '') })}
           dir="ltr"
           required
-          inputMode="numeric"
-          maxLength={6}
+          inputMode="text"
+          maxLength={9}
         />
         <p className="text-xs text-text-muted">{t('mohNumberHint')}</p>
       </div>
@@ -614,7 +614,7 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
       if (!step3.phone.trim()) return 'phone';
       if (!/^0(5[0-9]|[2-489])[0-9]{7}$/.test(step3.phone.trim())) return 'phone';
       if (!step3.mohNumber.trim()) return 'mohNumber';
-      if (!/^\d{5,6}$/.test(step3.mohNumber.trim())) return 'mohNumber';
+      if (!/^\d{2}-\d{6}$|^\d{5,6}$/.test(step3.mohNumber.trim())) return 'mohNumber';
     }
     return null;
   }

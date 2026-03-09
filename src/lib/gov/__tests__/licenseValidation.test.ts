@@ -1,13 +1,13 @@
 /**
  * Tests for Israeli MOH licence number validation logic.
- * Covers both the client-side format check (5–6 digits) and
- * the verifyTherapist function edge cases.
+ * Covers both the client-side format check and the verifyTherapist function.
+ * Accepted formats: 5–6 digits (e.g. "12345") or XX-XXXXXX (e.g. "14-142767")
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { verifyTherapist } from '../govApi';
 
 // ── Format validation (mirrors wizard client-side regex) ───────────────────
-const MOH_FORMAT = /^\d{5,6}$/;
+const MOH_FORMAT = /^\d{2}-\d{6}$|^\d{5,6}$/;
 
 describe('MOH licence format validation', () => {
   it('accepts 5-digit number', () => {
@@ -16,6 +16,10 @@ describe('MOH licence format validation', () => {
 
   it('accepts 6-digit number', () => {
     expect(MOH_FORMAT.test('123456')).toBe(true);
+  });
+
+  it('accepts XX-XXXXXX format', () => {
+    expect(MOH_FORMAT.test('14-142767')).toBe(true);
   });
 
   it('rejects 4-digit number', () => {

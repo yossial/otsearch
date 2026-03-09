@@ -59,31 +59,31 @@ export async function POST(req: NextRequest) {
     if (existingProfileId) {
       profileId = existingProfileId;
     } else {
-      // Build slug
-      const name = user.name;
-      const baseSlug = name
+      // Build full name from first + last name submitted during onboarding
+      const firstName = (body.firstName as string | undefined)?.trim() ?? '';
+      const lastName = (body.lastName as string | undefined)?.trim() ?? '';
+      const fullName = [firstName, lastName].filter(Boolean).join(' ') || verification.fullName || user.name || 'profile';
+
+      // Build slug from full name
+      const baseSlug = fullName
         .toLowerCase()
         .trim()
-        .replace(/\s+/g, '-') // Spaces to hyphens
-        // This regex keeps Hebrew characters (\u0590-\u05FF), English (\w), and hyphens
-        .replace(/[^\u0590-\u05FF\w-]/g, ''); 
+        .replace(/\s+/g, '-')
+        .replace(/[^\u0590-\u05FF\w-]/g, '');
 
-      // 2. Add a unique suffix (Short UUID style)
       const uniqueSuffix = Math.random().toString(36).slice(2);
-
       const slug = `${baseSlug || 'profile'}-${uniqueSuffix}`;
 
       const bioData = (body.bio as { he?: string; ar?: string; en?: string } | undefined) ?? {};
       const locationData = (body.location as { city?: string; address?: string, coordinates?: [number, number] } | undefined) ?? {};
       const phone = (body.contactPhone as string | undefined)?.trim() ?? '';
-      const displayName = (body.displayName as Record<string, string> | undefined) ?? {};
 
       const profileDoc = new TherapistProfile({
         slug,
         displayName: {
-          he: displayName.he?.trim() ?? (verification.fullName || name), // Fallback to MOH name if available
-          ar: displayName.ar?.trim() ?? name,
-          en: displayName.en?.trim() ?? name,
+          he: fullName,
+          ar: fullName,
+          en: fullName,
         },
         bio: {
           he: bioData.he?.trim() ?? '',
@@ -118,12 +118,13 @@ export async function POST(req: NextRequest) {
 
       profileId = String(profileDoc._id);
       user.role = 'therapist';
+      user.name = fullName;
       user.therapistProfileId = profileDoc._id;
       await user.save();
 
       // Send welcome email (fire-and-forget — don't block the response)
       const baseUrl = process.env.NEXTAUTH_URL ?? 'https://ot-connect.co.il';
-      const therapistDisplayName = displayName.he?.trim() || verification.fullName || name;
+      const therapistDisplayName = fullName;
       void sendEmail({
         to: user.email as string,
         subject: `ברוך הבא ל-Therapio, ${therapistDisplayName}! 🎉`,

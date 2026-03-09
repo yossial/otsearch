@@ -296,7 +296,6 @@
       "email": "Email",
       "password": "Password",
       "confirmPassword": "Confirm password",
-      "name": "Full name",
       "submit": "Create account",
       "hasAccount": "Already have an account?",
       "login": "Log in"
@@ -334,8 +333,6 @@
       "next": "Next",
       "back": "Back",
       "finish": "Finish and go to My Area",
-      "displayNameHe": "Display name (Hebrew) *",
-      "displayNameEn": "Display name (English)",
       "displayNameAr": "Display name (Arabic)",
       "languages": "Treatment languages *",
       "country": "Country",
@@ -363,7 +360,9 @@
       "photoHint": "Click the circle to upload a photo (optional)",
       "photoUploading": "Uploading...",
       "photoError": "Upload failed. Please try again.",
-      "otherPlaceholder": "Other — describe freely (e.g. oncology, feeding therapy, trauma)"
+      "otherPlaceholder": "Other — describe freely (e.g. oncology, feeding therapy, trauma)",
+      "firstName": "First name",
+      "lastName": "Last name"
     }
   },
   "dashboard": {

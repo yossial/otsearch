@@ -11,7 +11,6 @@ export default function RegisterForm() {
   const t = useTranslations('auth');
   const router = useRouter();
 
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -25,7 +24,7 @@ export default function RegisterForm() {
     e.preventDefault();
     setError('');
 
-    if (!name.trim() || !email.trim() || !password) {
+    if (!email.trim() || !password) {
       setError(t('errors.required'));
       return;
     }
@@ -47,7 +46,7 @@ export default function RegisterForm() {
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name.trim(), email: email.trim().toLowerCase(), password }),
+        body: JSON.stringify({ email: email.trim().toLowerCase(), password }),
       });
 
       const data = await res.json() as { error?: string };
@@ -62,7 +61,7 @@ export default function RegisterForm() {
         return;
       }
 
-      // Auto-login, then go to role selection
+      // Auto-login, then go to onboarding
       const result = await signIn('credentials', {
         email: email.trim().toLowerCase(),
         password,
@@ -95,21 +94,6 @@ export default function RegisterForm() {
 
       {/* Email / password form */}
       <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="name" className="text-sm font-medium text-text-primary">
-            {t('register.name')}
-          </label>
-          <input
-            id="name"
-            type="text"
-            autoComplete="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
-          />
-        </div>
-
         <div className="flex flex-col gap-1.5">
           <label htmlFor="reg-email" className="text-sm font-medium text-text-primary">
             {t('register.email')}
@@ -174,7 +158,6 @@ export default function RegisterForm() {
                   : 'border-border bg-bg'
               }`}
             />
-            {/* Match indicator */}
             {passwordsMatch && (
               <span className="pointer-events-none absolute end-3 top-1/2 -translate-y-1/2 text-green-600">
                 ✓

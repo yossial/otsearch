@@ -12,8 +12,8 @@ import StreetSelect from '@/components/ui/StreetSelect';
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface Step1Data {
-  displayNameHe: string;
-  displayNameEn: string;
+  firstName: string;
+  lastName: string;
   languages: string[];
   gender: 'male' | 'female' | null;
   photo: string;
@@ -235,24 +235,27 @@ function Step1({
         </p>
         {uploadError && <p className="text-xs text-red-600">{uploadError}</p>}
       </div>
-      <div className="flex flex-col gap-1.5">
-        <FieldLabel>{t('displayNameHe')}</FieldLabel>
-        <TextInput
-          id="displayNameHe"
-          value={data.displayNameHe}
-          onChange={(v) => onChange({ displayNameHe: v })}
-          dir="rtl"
-          required
-        />
-      </div>
-      <div className="flex flex-col gap-1.5">
-        <FieldLabel>{t('displayNameEn')}</FieldLabel>
-        <TextInput
-          id="displayNameEn"
-          value={data.displayNameEn}
-          onChange={(v) => onChange({ displayNameEn: v })}
-          dir="ltr"
-        />
+      <div className="grid grid-cols-2 gap-3">
+        <div className="flex flex-col gap-1.5">
+          <FieldLabel>{t('firstName')} *</FieldLabel>
+          <TextInput
+            id="firstName"
+            value={data.firstName}
+            onChange={(v) => onChange({ firstName: v })}
+            dir="auto"
+            required
+          />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <FieldLabel>{t('lastName')} *</FieldLabel>
+          <TextInput
+            id="lastName"
+            value={data.lastName}
+            onChange={(v) => onChange({ lastName: v })}
+            dir="auto"
+            required
+          />
+        </div>
       </div>
       <div className="flex flex-col gap-2">
         <FieldLabel>{t('gender')}</FieldLabel>
@@ -544,8 +547,8 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
   const [error, setError] = useState('');
 
   const [step1, setStep1] = useState<Step1Data>({
-    displayNameHe: '',
-    displayNameEn: '',
+    firstName: '',
+    lastName: '',
     languages: ['he'],
     gender: null,
     photo: '',
@@ -576,7 +579,8 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
 
   function validateCurrent(): string | null {
     if (step === 1) {
-      if (!step1.displayNameHe.trim()) return 'displayNameHe';
+      if (!step1.firstName.trim()) return 'firstName';
+      if (!step1.lastName.trim()) return 'lastName';
       if (step1.languages.length === 0) return 'languages';
     }
     if (step === 2) {
@@ -620,11 +624,15 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
 
     const addressParts = [step2.street, step2.buildingNumber].filter(Boolean).join(' ');
 
+    const fullName = `${step1.firstName.trim()} ${step1.lastName.trim()}`.trim();
+
     const payload: Record<string, unknown> = {
+      firstName: step1.firstName.trim(),
+      lastName: step1.lastName.trim(),
       displayName: {
-        he: step1.displayNameHe,
-        en: step1.displayNameEn || step1.displayNameHe,
-        ar: step1.displayNameHe,
+        he: fullName,
+        en: fullName,
+        ar: fullName,
       },
       languages: step1.languages,
       location: {

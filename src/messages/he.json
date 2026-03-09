@@ -297,7 +297,6 @@
       "email": "אימייל",
       "password": "סיסמה",
       "confirmPassword": "אשר סיסמה",
-      "name": "שם מלא",
       "submit": "צור חשבון",
       "hasAccount": "כבר יש לך חשבון?",
       "login": "כניסה"
@@ -335,8 +334,6 @@
       "next": "הבא",
       "back": "חזור",
       "finish": "סיים ועבור לאזור האישי",
-      "displayNameHe": "שם תצוגה (עברית) *",
-      "displayNameEn": "שם תצוגה (אנגלית)",
       "displayNameAr": "שם תצוגה (ערבית)",
       "languages": "שפות טיפול *",
       "country": "מדינה",
@@ -364,7 +361,9 @@
       "photoHint": "לחצו על העיגול להעלאת תמונה (אופציונלי)",
       "photoUploading": "מעלה...",
       "photoError": "שגיאה בהעלאת התמונה",
-      "otherPlaceholder": "אחר — תאר/י בחופשיות (לדוג': אונקולוגיה, הזנה, טראומה)"
+      "otherPlaceholder": "אחר — תאר/י בחופשיות (לדוג': אונקולוגיה, הזנה, טראומה)",
+      "firstName": "שם פרטי",
+      "lastName": "שם משפחה"
     }
   },
   "dashboard": {

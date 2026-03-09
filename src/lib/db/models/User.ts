@@ -23,7 +23,7 @@ const UserSchema = new Schema<UserDocument>(
     passwordHash: { type: String, default: '' },
     role: { type: String, enum: ['therapist', 'admin', null], default: null },
     status: { type: String, enum: ['active', 'suspended'], default: 'active' },
-    name: { type: String, required: true },
+    name: { type: String, default: '' },
     emailVerified: { type: Boolean, default: false },
     emailVerifyToken: { type: String, default: null },
     emailVerifyTokenExpiry: { type: Date, default: null },

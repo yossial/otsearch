@@ -8,11 +8,10 @@ export async function POST(req: NextRequest) {
     const body = await req.json() as {
       email?: string;
       password?: string;
-      name?: string;
     };
-    const { email, password, name } = body;
+    const { email, password } = body;
 
-    if (!email || !password || !name) {
+    if (!email || !password) {
       return NextResponse.json({ error: 'required' }, { status: 400 });
     }
     if (password.length < 8 || !/[0-9]/.test(password) || !/[a-zA-Z]/.test(password)) {
@@ -35,7 +34,7 @@ export async function POST(req: NextRequest) {
     await User.create({
       email: email.toLowerCase(),
       passwordHash,
-      name,
+      name: '',
       role: null,
     });
 

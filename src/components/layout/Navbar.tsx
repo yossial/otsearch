@@ -208,7 +208,7 @@ export default function Navbar() {
             <>
               <Link
                 href="/auth/login"
-                className="rounded-lg px-4 py-2 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
+                className="rounded-lg px-4 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-bg-alt hover:text-primary"
               >
                 {t('login')}
               </Link>

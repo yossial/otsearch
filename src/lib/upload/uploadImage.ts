@@ -10,19 +10,23 @@ export async function uploadImage(
   const region = process.env.S3_REGION ?? 'eu-west-1';
 
   if (bucket) {
-    const key = `${folder}/${randomUUID()}.${mimeType.split('/')[1] ?? 'jpg'}`;
-    const client = new S3Client({ region });
-    await client.send(
-      new PutObjectCommand({
-        Bucket: bucket,
-        Key: key,
-        Body: buffer,
-        ContentType: mimeType,
-      })
-    );
-    return `https://${bucket}.s3.${region}.amazonaws.com/${key}`;
+    try {
+      const key = `${folder}/${randomUUID()}.${mimeType.split('/')[1] ?? 'jpg'}`;
+      const client = new S3Client({ region });
+      await client.send(
+        new PutObjectCommand({
+          Bucket: bucket,
+          Key: key,
+          Body: buffer,
+          ContentType: mimeType,
+        })
+      );
+      return `https://${bucket}.s3.${region}.amazonaws.com/${key}`;
+    } catch (err) {
+      console.error('[uploadImage] S3 upload failed, falling back to base64:', err);
+    }
   }
 
-  // Fallback: base64 data URL
+  // Fallback: base64 data URL (dev / no S3 config)
   return `data:${mimeType};base64,${buffer.toString('base64')}`;
 }

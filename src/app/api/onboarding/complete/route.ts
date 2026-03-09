@@ -18,8 +18,8 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json() as Record<string, unknown>;
 
-    const PHONE_RE = /^0(5[0-9]|[2-489])[0-9]{7}$/;
-    if (body.contactPhone && !PHONE_RE.test(String(body.contactPhone).trim())) {
+    const PHONE_RE = /^05[0-9]\d{7}$/;
+    if (body.contactPhone && !PHONE_RE.test(String(body.contactPhone).replace(/\D/g, ''))) {
       return NextResponse.json({ error: 'invalidPhone' }, { status: 400 });
     }
 

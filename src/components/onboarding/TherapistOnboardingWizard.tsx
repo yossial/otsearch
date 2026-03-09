@@ -446,25 +446,50 @@ function Step2({
 
 // ─── Step 3: Contact + fees ─────────────────────────────────────────────────
 
+const PHONE_PREFIXES = ['050','051','052','053','054','055','056','057','058','059'];
+
 function Step3({
   data, onChange,
 }: { data: Step3Data; onChange: (d: Partial<Step3Data>) => void }) {
   const t = useTranslations('onboarding.therapist');
+
+  // Derive prefix/suffix from data.phone; default prefix 050
+  const prefix = data.phone.length >= 3 && PHONE_PREFIXES.includes(data.phone.slice(0, 3))
+    ? data.phone.slice(0, 3) : '050';
+  const suffix = data.phone.length >= 3 ? data.phone.slice(3) : data.phone;
+
+  function setPrefix(p: string) { onChange({ phone: p + suffix }); }
+  function setSuffix(s: string) { onChange({ phone: prefix + s.replace(/\D/g, '').slice(0, 7) }); }
+
   return (
     <div className="flex flex-col gap-5">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
           <FieldLabel>{t('phone')}</FieldLabel>
-          <input
-            id="phone"
-            type="tel"
-            autoComplete="tel"
-            value={data.phone}
-            onChange={(e) => onChange({ phone: e.target.value })}
-            dir="ltr"
-            required
-            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
-          />
+          <div className="flex gap-2" dir="ltr">
+            <select
+              value={prefix}
+              onChange={(e) => setPrefix(e.target.value)}
+              className="w-24 rounded-lg border border-border bg-bg px-2 py-2.5 text-sm text-text-primary focus:outline-none"
+            >
+              {PHONE_PREFIXES.map((p) => (
+                <option key={p} value={p}>{p}</option>
+              ))}
+            </select>
+            <input
+              id="phone"
+              type="tel"
+              inputMode="numeric"
+              autoComplete="tel"
+              value={suffix}
+              onChange={(e) => setSuffix(e.target.value)}
+              placeholder="1234567"
+              maxLength={7}
+              dir="ltr"
+              required
+              className="flex-1 rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
+            />
+          </div>
         </div>
         <div className="flex flex-col gap-1.5">
           <FieldLabel>{t('email')}</FieldLabel>
@@ -611,8 +636,7 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
       if (step2.sessionTypes.length === 0) return 'sessionTypes';
     }
     if (step === 3) {
-      if (!step3.phone.trim()) return 'phone';
-      if (!/^0(5[0-9]|[2-489])[0-9]{7}$/.test(step3.phone.trim())) return 'phone';
+      if (step3.phone.replace(/\D/g, '').length < 10) return 'phone';
       if (!step3.mohNumber.trim()) return 'mohNumber';
       if (!/^\d{2}-\d{6}$|^\d{5,6}$/.test(step3.mohNumber.trim())) return 'mohNumber';
     }
@@ -704,12 +728,13 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
 
       const data = (await res.json()) as { role?: string; therapistProfileId?: string };
 
-      // Refresh JWT so session reflects new role + profileId
-      await updateSession({ role: data.role, therapistProfileId: data.therapistProfileId });
-
+      // Fire session update (non-blocking) then navigate; dashboard will read
+      // the fresh session from the server after router.refresh()
+      void updateSession({ role: data.role, therapistProfileId: data.therapistProfileId });
       router.push('/dashboard');
       router.refresh();
-    } catch {
+    } catch (err) {
+      console.error('[handleFinish]', err);
       setError(t('saveError'));
       setSaving(false);
     }

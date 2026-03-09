@@ -366,26 +366,28 @@ function Step2({
         />
       </div>
 
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-1.5">
-          <FieldLabel>{t('address')} <span className="text-text-muted font-normal">({t('optional')})</span></FieldLabel>
-          <StreetSelect
-            cityCode={data.cityCode}
-            value={data.street}
-            onChange={(v) => onChange({ street: v })}
-          />
+      {data.city && (
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-1.5">
+            <FieldLabel>{t('address')} <span className="font-normal text-text-muted">({t('optional')})</span></FieldLabel>
+            <StreetSelect
+              cityCode={data.cityCode}
+              value={data.street}
+              onChange={(v) => onChange({ street: v })}
+            />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <FieldLabel>מספר בית <span className="font-normal text-text-muted">({t('optional')})</span></FieldLabel>
+            <TextInput
+              id="buildingNumber"
+              value={data.buildingNumber}
+              onChange={(v) => onChange({ buildingNumber: v })}
+              dir="ltr"
+              placeholder="12"
+            />
+          </div>
         </div>
-        <div className="flex flex-col gap-1.5">
-          <FieldLabel>מספר בית <span className="text-text-muted font-normal">({t('optional')})</span></FieldLabel>
-          <TextInput
-            id="buildingNumber"
-            value={data.buildingNumber}
-            onChange={(v) => onChange({ buildingNumber: v })}
-            dir="ltr"
-            placeholder="12"
-          />
-        </div>
-      </div>
+      )}
 
       <div className="flex flex-col gap-2">
         <FieldLabel>{t('specialisations')}</FieldLabel>

@@ -60,24 +60,23 @@ export default function StreetSelect({ cityCode, value, onChange, placeholder = 
     setOpen(false);
   }
 
-  if (!cityCode) return null;
-
   return (
     <div ref={containerRef} className="relative">
       <input
         id="street"
         type="text"
         value={query}
+        disabled={!cityCode}
         onChange={(e) => {
           setQuery(e.target.value);
           onChange(e.target.value);
           setOpen(true);
         }}
         onFocus={() => query.length >= 1 && setOpen(true)}
-        placeholder={streets.length === 0 ? 'טוען רחובות...' : placeholder}
+        placeholder={!cityCode ? 'בחר עיר תחילה' : streets.length === 0 && cityCode ? 'טוען רחובות...' : placeholder}
         dir="rtl"
         autoComplete="off"
-        className="w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+        className="w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50"
       />
       {open && filtered.length > 0 && (
         <ul

@@ -9,6 +9,7 @@ export async function generateMetadata() {
 
 export default async function LoginPage() {
   const t = await getTranslations('auth.login');
+  const googleEnabled = !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET);
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12">
@@ -18,7 +19,7 @@ export default async function LoginPage() {
         </div>
         <div className="rounded-xl bg-surface p-8 border border-border">
           <Suspense>
-            <LoginForm />
+            <LoginForm googleEnabled={googleEnabled} />
           </Suspense>
         </div>
       </div>

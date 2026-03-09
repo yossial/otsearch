@@ -7,7 +7,7 @@ import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import SocialAuthButtons from './SocialAuthButtons';
 
-export default function LoginForm() {
+export default function LoginForm({ googleEnabled = true }: { googleEnabled?: boolean }) {
   const t = useTranslations('auth');
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -50,7 +50,7 @@ export default function LoginForm() {
   return (
     <div className="flex flex-col gap-5">
       {/* Social login — primary CTAs */}
-      <SocialAuthButtons callbackUrl={callbackUrl ?? undefined} />
+      <SocialAuthButtons callbackUrl={callbackUrl ?? undefined} googleEnabled={googleEnabled} />
 
       {/* OR divider */}
       <div className="flex items-center gap-3">

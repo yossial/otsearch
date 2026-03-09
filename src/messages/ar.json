@@ -319,7 +319,9 @@
       "passwordRule_letter": "يحتوي على حرف",
       "passwordRule_number": "يحتوي على رقم",
       "invalidPhone": "يرجى إدخال رقم هاتف إسرائيلي صالح",
-      "passwordMismatch": "كلمتا المرور غير متطابقتين"
+      "passwordMismatch": "كلمتا المرور غير متطابقتين",
+      "authError": "خطأ في المصادقة",
+      "backToLogin": "العودة إلى تسجيل الدخول"
     }
   },
   "onboarding": {

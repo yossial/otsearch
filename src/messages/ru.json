@@ -318,7 +318,9 @@
       "passwordRule_letter": "Содержит букву",
       "passwordRule_number": "Содержит цифру",
       "invalidPhone": "Пожалуйста, введите действительный израильский номер телефона",
-      "passwordMismatch": "Пароли не совпадают"
+      "passwordMismatch": "Пароли не совпадают",
+      "authError": "Ошибка аутентификации",
+      "backToLogin": "Вернуться к входу"
     }
   },
   "onboarding": {

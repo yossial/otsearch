@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 
 interface SocialAuthButtonsProps {
   callbackUrl?: string;
+  googleEnabled?: boolean;
 }
 
 // Google SVG icon
@@ -41,7 +42,7 @@ function AppleIcon() {
   );
 }
 
-export default function SocialAuthButtons({ callbackUrl = '/onboarding/therapist' }: SocialAuthButtonsProps) {
+export default function SocialAuthButtons({ callbackUrl = '/onboarding/therapist', googleEnabled = true }: SocialAuthButtonsProps) {
   const t = useTranslations('auth');
   const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState('');
@@ -67,15 +68,17 @@ export default function SocialAuthButtons({ callbackUrl = '/onboarding/therapist
 
   return (
     <div className="flex flex-col gap-3">
-      <button
-        type="button"
-        onClick={handleGoogle}
-        disabled={googleLoading}
-        className="flex w-full items-center justify-center gap-3 rounded-lg border border-border bg-white px-4 py-2.5 text-sm font-medium text-text-primary shadow-sm transition-colors hover:bg-gray-50 disabled:opacity-60"
-      >
-        <GoogleIcon />
-        <span>{googleLoading ? '...' : t('social.continueWithGoogle')}</span>
-      </button>
+      {googleEnabled && (
+        <button
+          type="button"
+          onClick={handleGoogle}
+          disabled={googleLoading}
+          className="flex w-full items-center justify-center gap-3 rounded-lg border border-border bg-white px-4 py-2.5 text-sm font-medium text-text-primary shadow-sm transition-colors hover:bg-gray-50 disabled:opacity-60"
+        >
+          <GoogleIcon />
+          <span>{googleLoading ? '...' : t('social.continueWithGoogle')}</span>
+        </button>
+      )}
 
       <button
         type="button"

@@ -318,7 +318,9 @@
       "passwordRule_letter": "Contains a letter",
       "passwordRule_number": "Contains a number",
       "invalidPhone": "Please enter a valid Israeli mobile or landline number",
-      "passwordMismatch": "Passwords do not match"
+      "passwordMismatch": "Passwords do not match",
+      "authError": "Authentication error",
+      "backToLogin": "Back to sign in"
     }
   },
   "onboarding": {

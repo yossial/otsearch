@@ -319,7 +319,9 @@
       "passwordRule_letter": "מכילה אות",
       "passwordRule_number": "מכילה ספרה",
       "invalidPhone": "אנא הכנס מספר טלפון ישראלי תקין",
-      "passwordMismatch": "הסיסמאות אינן תואמות"
+      "passwordMismatch": "הסיסמאות אינן תואמות",
+      "authError": "שגיאת התחברות",
+      "backToLogin": "חזרה לדף הכניסה"
     }
   },
   "onboarding": {

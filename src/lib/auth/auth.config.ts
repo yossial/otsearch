@@ -8,6 +8,7 @@ import { NextResponse } from 'next/server';
 export const authConfig: NextAuthConfig = {
   pages: {
     signIn: '/auth/login',
+    error: '/auth/error',
   },
   session: { strategy: 'jwt' },
   callbacks: {

@@ -363,7 +363,8 @@
       "photoError": "שגיאה בהעלאת התמונה",
       "otherPlaceholder": "אחר — תאר/י בחופשיות (לדוג': אונקולוגיה, הזנה, טראומה)",
       "firstName": "שם פרטי",
-      "lastName": "שם משפחה"
+      "lastName": "שם משפחה",
+      "optional": "אופציונלי"
     }
   },
   "dashboard": {

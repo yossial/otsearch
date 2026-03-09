@@ -54,8 +54,8 @@ export interface TherapistProfilePublic {
   photo: string | null;
   mohRegistrationNumber: string;
   specialisations: Specialisation[];
-  specialisationsOther?: string;
-  sessionTypesOther?: string;
+  specialisationsOther?: string[];
+  sessionTypesOther?: string[];
   languages: string[];
   location: GeoLocation;
   sessionTypes: SessionType[];

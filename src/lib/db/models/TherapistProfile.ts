@@ -14,8 +14,8 @@ export interface TherapistProfileDocument extends Document {
   mohRegistrationNumber: string;
   mohStatus?: string;
   specialisations: Specialisation[];
-  specialisationsOther?: string;
-  sessionTypesOther?: string;
+  specialisationsOther?: string[];
+  sessionTypesOther?: string[];
   languages: string[];
   location: {
     type: 'Point';
@@ -78,8 +78,8 @@ const TherapistProfileSchema = new Schema<TherapistProfileDocument>(
       address: String,
       country: { type: String, default: 'IL' },
     },
-    specialisationsOther: { type: String, default: '' },
-    sessionTypesOther: { type: String, default: '' },
+    specialisationsOther: { type: [String], default: [] },
+    sessionTypesOther: { type: [String], default: [] },
     sessionTypes: {
       type: [String],
       enum: ['in-person', 'telehealth', 'home-visit'],

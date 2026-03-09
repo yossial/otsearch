@@ -10,6 +10,12 @@ import { Review } from '@/lib/db/models/Review';
 import { computeRatingStats } from '@/lib/ratingStats';
 import type { TherapistProfilePublic, SearchResult, ReviewsResult, ReviewPublic } from '@/types';
 
+function toStringArray(val: unknown): string[] {
+  if (Array.isArray(val)) return val.filter((v): v is string => typeof v === 'string' && v.length > 0);
+  if (typeof val === 'string' && val) return val.split(',').map((s) => s.trim()).filter(Boolean);
+  return [];
+}
+
 function toPublic(doc: Record<string, unknown>): TherapistProfilePublic {
   const rawBio = doc.bio as Record<string, string> | undefined;
   const rawName = doc.displayName as Record<string, string> | undefined;
@@ -38,8 +44,8 @@ function toPublic(doc: Record<string, unknown>): TherapistProfilePublic {
       address: (rawLoc?.address as string) ?? '',
       country: (rawLoc?.country as string) ?? 'IL',
     },
-    specialisationsOther: (doc.specialisationsOther as string | undefined) ?? '',
-    sessionTypesOther: (doc.sessionTypesOther as string | undefined) ?? '',
+    specialisationsOther: toStringArray(doc.specialisationsOther),
+    sessionTypesOther: toStringArray(doc.sessionTypesOther),
     sessionTypes: (doc.sessionTypes as TherapistProfilePublic['sessionTypes']) ?? [],
     insuranceAccepted: (doc.insuranceAccepted as TherapistProfilePublic['insuranceAccepted']) ?? [],
     feeRange: (doc.feeRange as TherapistProfilePublic['feeRange']) ?? null,

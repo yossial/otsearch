@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import type { TherapistProfilePublic, Specialisation, SessionType, InsuranceType } from '@/types';
@@ -44,8 +44,8 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
   const [address, setAddress] = useState(profile.location.address ?? '');
   const [phone, setPhone] = useState(profile.contactPhone ?? '');
   const [specialisations, setSpecialisations] = useState<Specialisation[]>(profile.specialisations);
-  const [specialisationsOther, setSpecialisationsOther] = useState(profile.specialisationsOther ?? '');
-  const [sessionTypesOther, setSessionTypesOther] = useState(profile.sessionTypesOther ?? '');
+  const [specialisationsOther, setSpecialisationsOther] = useState<string[]>(profile.specialisationsOther ?? []);
+  const [sessionTypesOther, setSessionTypesOther] = useState<string[]>(profile.sessionTypesOther ?? []);
   const [sessionTypes, setSessionTypes] = useState<SessionType[]>(profile.sessionTypes);
   const [insuranceAccepted, setInsuranceAccepted] = useState<InsuranceType[]>(profile.insuranceAccepted);
   const [languages, setLanguages] = useState<string[]>(profile.languages);
@@ -76,8 +76,8 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
       location: { ...profile.location, city: city.trim(), address: address.trim() },
       contactPhone: phone.trim(),
       specialisations,
-      specialisationsOther: specialisationsOther.trim() || undefined,
-      sessionTypesOther: sessionTypesOther.trim() || undefined,
+      specialisationsOther: specialisationsOther.length ? specialisationsOther : undefined,
+      sessionTypesOther: sessionTypesOther.length ? sessionTypesOther : undefined,
       sessionTypes,
       insuranceAccepted,
       languages,
@@ -259,12 +259,14 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
           labels={SPEC_LABELS}
           onToggle={(v) => toggle(specialisations, v as Specialisation, setSpecialisations)}
         />
-        <input
-          value={specialisationsOther}
-          onChange={(e) => setSpecialisationsOther(e.target.value)}
-          placeholder={t('otherPlaceholder')}
-          className={`mt-3 ${inputCls}`}
-        />
+        <div className="mt-3">
+          <OtherTagInput
+            tags={specialisationsOther}
+            onAdd={(v) => setSpecialisationsOther((prev) => [...prev, v])}
+            onRemove={(v) => setSpecialisationsOther((prev) => prev.filter((t) => t !== v))}
+            placeholder={t('otherPlaceholder')}
+          />
+        </div>
       </Section>
 
       {/* Session types */}
@@ -275,12 +277,14 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
           labels={SESSION_LABELS}
           onToggle={(v) => toggle(sessionTypes, v as SessionType, setSessionTypes)}
         />
-        <input
-          value={sessionTypesOther}
-          onChange={(e) => setSessionTypesOther(e.target.value)}
-          placeholder={t('otherPlaceholder')}
-          className={`mt-3 ${inputCls}`}
-        />
+        <div className="mt-3">
+          <OtherTagInput
+            tags={sessionTypesOther}
+            onAdd={(v) => setSessionTypesOther((prev) => [...prev, v])}
+            onRemove={(v) => setSessionTypesOther((prev) => prev.filter((t) => t !== v))}
+            placeholder={t('otherPlaceholder')}
+          />
+        </div>
       </Section>
 
       {/* Insurance */}
@@ -343,6 +347,67 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
 
 const inputCls =
   'w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:outline-none';
+
+function OtherTagInput({
+  tags, onAdd, onRemove, placeholder,
+}: {
+  tags: string[];
+  onAdd: (v: string) => void;
+  onRemove: (v: string) => void;
+  placeholder?: string;
+}) {
+  const ref = useRef<HTMLInputElement>(null);
+
+  function add() {
+    const val = ref.current?.value.trim() ?? '';
+    if (val && !tags.includes(val)) {
+      onAdd(val);
+      if (ref.current) ref.current.value = '';
+    }
+  }
+
+  return (
+    <div className="flex flex-col gap-2">
+      {tags.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <span
+              key={tag}
+              className="flex items-center gap-1.5 rounded-full border border-primary bg-primary/10 px-3 py-1 text-sm font-medium text-primary"
+            >
+              {tag}
+              <button
+                type="button"
+                onClick={() => onRemove(tag)}
+                className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-primary/20"
+                aria-label={`Remove ${tag}`}
+              >
+                ×
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
+      <div className="flex gap-2">
+        <input
+          ref={ref}
+          type="text"
+          onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); add(); } }}
+          placeholder={placeholder}
+          dir="auto"
+          className={inputCls}
+        />
+        <button
+          type="button"
+          onClick={add}
+          className="rounded-lg border border-primary px-3.5 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-white"
+        >
+          +
+        </button>
+      </div>
+    </div>
+  );
+}
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (

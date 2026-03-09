@@ -20,15 +20,14 @@ interface Step1Data {
 }
 
 interface Step2Data {
-  country: string;
   city: string;
   cityCode: number;
   street: string;
   buildingNumber: string;
   specialisations: Specialisation[];
-  specialisationsOther: string;
+  specialisationsOther: string[];
   sessionTypes: SessionType[];
-  sessionTypesOther: string;
+  sessionTypesOther: string[];
 }
 
 interface Step3Data {
@@ -77,18 +76,6 @@ const SESSION_TYPE_LABELS: Record<SessionType, string> = {
 
 const INSURANCE_TYPES: InsuranceType[] = ['clalit', 'maccabi', 'meuhedet', 'leumit'];
 
-const COUNTRIES: { code: string; label: string }[] = [
-  { code: 'IL', label: '🇮🇱 ישראל / Israel' },
-  { code: 'US', label: '🇺🇸 United States' },
-  { code: 'GB', label: '🇬🇧 United Kingdom' },
-  { code: 'DE', label: '🇩🇪 Germany / Deutschland' },
-  { code: 'FR', label: '🇫🇷 France' },
-  { code: 'CA', label: '🇨🇦 Canada' },
-  { code: 'AU', label: '🇦🇺 Australia' },
-  { code: 'NL', label: '🇳🇱 Netherlands' },
-  { code: 'CH', label: '🇨🇭 Switzerland' },
-  { code: 'other', label: 'Other' },
-];
 const INSURANCE_LABELS: Record<InsuranceType, string> = {
   clalit: 'כללית / Clalit',
   maccabi: 'מכבי / Maccabi',
@@ -118,6 +105,69 @@ function ToggleChip<T extends string>({
 
 function FieldLabel({ children }: { children: React.ReactNode }) {
   return <label className="text-sm font-medium text-text-primary">{children}</label>;
+}
+
+function OtherTagInput({
+  tags, onAdd, onRemove, placeholder,
+}: {
+  tags: string[];
+  onAdd: (v: string) => void;
+  onRemove: (v: string) => void;
+  placeholder?: string;
+}) {
+  const [input, setInput] = useState('');
+
+  function add() {
+    const val = input.trim();
+    if (val && !tags.includes(val)) {
+      onAdd(val);
+    }
+    setInput('');
+  }
+
+  return (
+    <div className="flex flex-col gap-2">
+      {tags.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <span
+              key={tag}
+              className="flex items-center gap-1.5 rounded-full border border-primary bg-primary/10 px-3 py-1 text-sm font-medium text-primary"
+            >
+              {tag}
+              <button
+                type="button"
+                onClick={() => onRemove(tag)}
+                className="flex h-4 w-4 items-center justify-center rounded-full hover:bg-primary/20"
+                aria-label={`Remove ${tag}`}
+              >
+                ×
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
+      <div className="flex gap-2">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); add(); } }}
+          placeholder={placeholder}
+          dir="auto"
+          className="flex-1 rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
+        />
+        <button
+          type="button"
+          onClick={add}
+          disabled={!input.trim()}
+          className="rounded-lg border border-primary px-3.5 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-white disabled:opacity-40"
+        >
+          +
+        </button>
+      </div>
+    </div>
+  );
 }
 
 function TextInput({
@@ -308,61 +358,34 @@ function Step2({
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-1.5">
-        <FieldLabel>{t('country')}</FieldLabel>
-        <select
-          value={data.country}
-          onChange={(e) => onChange({ country: e.target.value, city: '', cityCode: 0, street: '', buildingNumber: '' })}
-          className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:border-primary focus:outline-none"
-        >
-          {COUNTRIES.map((c) => (
-            <option key={c.code} value={c.code}>{c.label}</option>
-          ))}
-        </select>
-      </div>
-
-      <div className="flex flex-col gap-1.5">
         <FieldLabel>{t('city')}</FieldLabel>
-        {data.country === 'IL' ? (
-          <CitySelect
-            value={data.city}
-            onChange={(name, code) => onChange({ city: name, cityCode: code, street: '', buildingNumber: '' })}
-            required
-          />
-        ) : (
-          <TextInput
-            id="city"
-            value={data.city}
-            onChange={(v) => onChange({ city: v })}
-            dir="auto"
-            required
-          />
-        )}
+        <CitySelect
+          value={data.city}
+          onChange={(name, code) => onChange({ city: name, cityCode: code, street: '', buildingNumber: '' })}
+          required
+        />
       </div>
 
-      {data.city && data.country === 'IL' && (
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-1.5">
-            <FieldLabel>{t('address')}</FieldLabel>
-            <StreetSelect
-              cityCode={data.cityCode}
-              value={data.street}
-              onChange={(v) => onChange({ street: v })}
-            />
-          </div>
-          {data.street && (
-            <div className="flex flex-col gap-1.5">
-              <FieldLabel>מספר בית</FieldLabel>
-              <TextInput
-                id="buildingNumber"
-                value={data.buildingNumber}
-                onChange={(v) => onChange({ buildingNumber: v })}
-                dir="ltr"
-                placeholder="12"
-              />
-            </div>
-          )}
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1.5">
+          <FieldLabel>{t('address')} <span className="text-text-muted font-normal">({t('optional')})</span></FieldLabel>
+          <StreetSelect
+            cityCode={data.cityCode}
+            value={data.street}
+            onChange={(v) => onChange({ street: v })}
+          />
         </div>
-      )}
+        <div className="flex flex-col gap-1.5">
+          <FieldLabel>מספר בית <span className="text-text-muted font-normal">({t('optional')})</span></FieldLabel>
+          <TextInput
+            id="buildingNumber"
+            value={data.buildingNumber}
+            onChange={(v) => onChange({ buildingNumber: v })}
+            dir="ltr"
+            placeholder="12"
+          />
+        </div>
+      </div>
 
       <div className="flex flex-col gap-2">
         <FieldLabel>{t('specialisations')}</FieldLabel>
@@ -382,12 +405,11 @@ function Step2({
             />
           ))}
         </div>
-        <TextInput
-          id="specialisationsOther"
-          value={data.specialisationsOther}
-          onChange={(v) => onChange({ specialisationsOther: v })}
+        <OtherTagInput
+          tags={data.specialisationsOther}
+          onAdd={(v) => onChange({ specialisationsOther: [...data.specialisationsOther, v] })}
+          onRemove={(v) => onChange({ specialisationsOther: data.specialisationsOther.filter((t) => t !== v) })}
           placeholder={t('otherPlaceholder')}
-          dir="auto"
         />
       </div>
 
@@ -409,12 +431,11 @@ function Step2({
             />
           ))}
         </div>
-        <TextInput
-          id="sessionTypesOther"
-          value={data.sessionTypesOther}
-          onChange={(v) => onChange({ sessionTypesOther: v })}
+        <OtherTagInput
+          tags={data.sessionTypesOther}
+          onAdd={(v) => onChange({ sessionTypesOther: [...data.sessionTypesOther, v] })}
+          onRemove={(v) => onChange({ sessionTypesOther: data.sessionTypesOther.filter((t) => t !== v) })}
           placeholder={t('otherPlaceholder')}
-          dir="auto"
         />
       </div>
     </div>
@@ -554,15 +575,14 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
     photo: '',
   });
   const [step2, setStep2] = useState<Step2Data>({
-    country: 'IL',
     city: '',
     cityCode: 0,
     street: '',
     buildingNumber: '',
     specialisations: [],
-    specialisationsOther: '',
+    specialisationsOther: [],
     sessionTypes: [],
-    sessionTypesOther: '',
+    sessionTypesOther: [],
   });
   const [step3, setStep3] = useState<Step3Data>({
     phone: '',
@@ -640,12 +660,12 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
         coordinates: [34.7818, 32.0853],
         city: step2.city,
         address: addressParts,
-        country: step2.country,
+        country: 'IL',
       },
       specialisations: step2.specialisations,
-      specialisationsOther: step2.specialisationsOther.trim() || undefined,
+      specialisationsOther: step2.specialisationsOther.length ? step2.specialisationsOther : undefined,
       sessionTypes: step2.sessionTypes,
-      sessionTypesOther: step2.sessionTypesOther.trim() || undefined,
+      sessionTypesOther: step2.sessionTypesOther.length ? step2.sessionTypesOther : undefined,
       contactPhone: step3.phone,
       contactEmail: step3.email || undefined,
       insuranceAccepted: step3.insuranceAccepted,

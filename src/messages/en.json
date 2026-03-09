@@ -362,7 +362,8 @@
       "photoError": "Upload failed. Please try again.",
       "otherPlaceholder": "Other — describe freely (e.g. oncology, feeding therapy, trauma)",
       "firstName": "First name",
-      "lastName": "Last name"
+      "lastName": "Last name",
+      "optional": "optional"
     }
   },
   "dashboard": {

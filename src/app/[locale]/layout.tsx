@@ -11,6 +11,7 @@ import { User } from '@/lib/db/models/User';
 import { TherapistProfile } from '@/lib/db/models/TherapistProfile';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import { Toaster } from 'sonner';
 import '@/app/globals.css';
 
 const inter = Inter({
@@ -88,6 +89,7 @@ export default async function LocaleLayout({
             <Navbar avatarUrl={avatarUrl} />
             <main className="pt-16">{children}</main>
             <Footer />
+            <Toaster dir={dir} richColors position="top-center" />
           </SessionProvider>
         </NextIntlClientProvider>
       </body>

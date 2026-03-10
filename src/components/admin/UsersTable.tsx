@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
 
 interface AdminUser {
   id: string;
@@ -25,7 +26,10 @@ export default function UsersTable({ users: initialUsers }: { users: AdminUser[]
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(patch),
     });
-    if (!res.ok) return;
+    if (!res.ok) {
+      toast.error(t('toast.error'));
+      return;
+    }
     const updated = await res.json() as { status?: string; role?: string | null };
     setUsers((prev) =>
       prev.map((u) =>
@@ -34,6 +38,7 @@ export default function UsersTable({ users: initialUsers }: { users: AdminUser[]
           : u
       )
     );
+    toast.success(t('toast.saved'));
   }
 
   function handleToggleStatus(user: AdminUser) {

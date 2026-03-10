@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
 import type { TherapistProfilePublic, Specialisation, SessionType, InsuranceType } from '@/types';
 
 const SPECIALISATIONS: Specialisation[] = [
@@ -60,10 +61,51 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
   const [photo, setPhoto] = useState<string>(profile.photo ?? '');
 
   const [saving, setSaving] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
   const [uploading, setUploading] = useState(false);
-  const [uploadError, setUploadError] = useState('');
+
+  // Track initial values to detect dirty state
+  const initial = useRef({
+    bioHe: profile.bio.he ?? '',
+    bioAr: profile.bio.ar ?? '',
+    bioEn: profile.bio.en ?? '',
+    city: profile.location.city ?? '',
+    address: profile.location.address ?? '',
+    phone: profile.contactPhone ?? '',
+    specialisations: [...profile.specialisations],
+    specialisationsOther: [...(profile.specialisationsOther ?? [])],
+    sessionTypesOther: [...(profile.sessionTypesOther ?? [])],
+    sessionTypes: [...profile.sessionTypes],
+    insuranceAccepted: [...profile.insuranceAccepted],
+    languages: [...profile.languages],
+    feeMin: profile.feeRange ? String(profile.feeRange.min) : '',
+    feeMax: profile.feeRange ? String(profile.feeRange.max) : '',
+    acceptingPatients: profile.isAcceptingPatients,
+    gender: profile.gender,
+    photo: profile.photo ?? '',
+  });
+
+  const isDirty = useMemo(() => {
+    const i = initial.current;
+    return (
+      bioHe !== i.bioHe ||
+      bioAr !== i.bioAr ||
+      bioEn !== i.bioEn ||
+      city !== i.city ||
+      address !== i.address ||
+      phone !== i.phone ||
+      JSON.stringify(specialisations) !== JSON.stringify(i.specialisations) ||
+      JSON.stringify(specialisationsOther) !== JSON.stringify(i.specialisationsOther) ||
+      JSON.stringify(sessionTypesOther) !== JSON.stringify(i.sessionTypesOther) ||
+      JSON.stringify(sessionTypes) !== JSON.stringify(i.sessionTypes) ||
+      JSON.stringify(insuranceAccepted) !== JSON.stringify(i.insuranceAccepted) ||
+      JSON.stringify(languages) !== JSON.stringify(i.languages) ||
+      feeMin !== i.feeMin ||
+      feeMax !== i.feeMax ||
+      acceptingPatients !== i.acceptingPatients ||
+      gender !== i.gender ||
+      photo !== i.photo
+    );
+  }, [bioHe, bioAr, bioEn, city, address, phone, specialisations, specialisationsOther, sessionTypesOther, sessionTypes, insuranceAccepted, languages, feeMin, feeMax, acceptingPatients, gender, photo]);
 
   function toggle<T extends string>(arr: T[], val: T, setArr: (v: T[]) => void) {
     setArr(arr.includes(val) ? arr.filter((x) => x !== val) : [...arr, val]);
@@ -72,8 +114,6 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
-    setError('');
-    setSuccess(false);
 
     const body: Record<string, unknown> = {
       bio: { he: bioHe, ar: bioAr, en: bioEn },
@@ -104,10 +144,21 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
         body: JSON.stringify(body),
       });
       if (!res.ok) throw new Error('save failed');
-      setSuccess(true);
+      // Reset dirty baseline so button disables after save
+      initial.current = {
+        bioHe, bioAr, bioEn, city, address, phone,
+        specialisations: [...specialisations],
+        specialisationsOther: [...specialisationsOther],
+        sessionTypesOther: [...sessionTypesOther],
+        sessionTypes: [...sessionTypes],
+        insuranceAccepted: [...insuranceAccepted],
+        languages: [...languages],
+        feeMin, feeMax, acceptingPatients, gender, photo,
+      };
+      toast.success(t('saveSuccess'));
       onSaved?.();
     } catch {
-      setError(t('saveError'));
+      toast.error(t('saveError'));
     } finally {
       setSaving(false);
     }
@@ -158,7 +209,6 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
             onChange={async (e) => {
               const file = e.target.files?.[0];
               if (!file) return;
-              setUploadError('');
               setUploading(true);
               try {
                 const form = new FormData();
@@ -168,10 +218,10 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
                   const data = await res.json() as { url: string };
                   setPhoto(data.url);
                 } else {
-                  setUploadError(t('photoError'));
+                  toast.error(t('photoError'));
                 }
               } catch {
-                setUploadError(t('photoError'));
+                toast.error(t('photoError'));
               } finally {
                 setUploading(false);
               }
@@ -185,13 +235,12 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
             <p className="text-xs text-text-secondary">
               {uploading ? t('photoUploading') : t('photoHint')}
             </p>
-            {uploadError && <p className="mt-0.5 text-xs text-red-600">{uploadError}</p>}
           </div>
 
           {/* Save button in hero */}
           <button
             type="submit"
-            disabled={saving}
+            disabled={saving || !isDirty}
             className="inline-flex flex-shrink-0 items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold tracking-wide text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_4px_12px_rgba(0,29,61,0.2)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none"
           >
             {saving ? (
@@ -206,17 +255,6 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
           </button>
         </div>
 
-        {/* Inline feedback banners */}
-        {success && (
-          <div className="border-t border-green-100 bg-green-50 px-4 py-2.5">
-            <p className="text-sm font-medium text-green-700">{t('saveSuccess')}</p>
-          </div>
-        )}
-        {error && (
-          <div className="border-t border-red-100 bg-red-50 px-4 py-2.5">
-            <p role="alert" className="text-sm text-red-700">{error}</p>
-          </div>
-        )}
       </div>
 
       {/* Bio */}

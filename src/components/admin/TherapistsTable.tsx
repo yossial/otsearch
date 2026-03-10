@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
 
 interface AdminTherapist {
   id: string;
@@ -33,11 +34,15 @@ export default function TherapistsTable({
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(patch),
     });
-    if (!res.ok) return;
+    if (!res.ok) {
+      toast.error(t('toast.error'));
+      return;
+    }
     const updated = await res.json() as Partial<AdminTherapist>;
     setTherapists((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, ...updated } : t))
+      prev.map((th) => (th.id === id ? { ...th, ...updated } : th))
     );
+    toast.success(t('toast.saved'));
   }
 
   if (therapists.length === 0) {

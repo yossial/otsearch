@@ -644,6 +644,10 @@
       "previous": "Previous",
       "next": "Next",
       "page": "Page {page} of {total}"
+    },
+    "toast": {
+      "saved": "Saved",
+      "error": "Error saving"
     }
   }
 }

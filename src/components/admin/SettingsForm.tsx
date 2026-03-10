@@ -2,6 +2,7 @@
 
 import { useOptimistic, useTransition } from 'react';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
 
 interface Settings {
   showTherapistFee: boolean;
@@ -36,15 +37,25 @@ export default function SettingsForm({ settings: initial }: { settings: Settings
 
   function toggle(key: keyof Settings) {
     const newVal = !optimisticSettings[key];
-    startTransition(() => {
+    startTransition(async () => {
       applyOptimistic({ [key]: newVal });
-      void patchSettings({ [key]: newVal });
+      try {
+        await patchSettings({ [key]: newVal });
+        toast.success(t('toast.saved'));
+      } catch {
+        toast.error(t('toast.error'));
+      }
     });
   }
 
   function updateField(key: keyof Settings, value: string | number) {
-    startTransition(() => {
-      void patchSettings({ [key]: value });
+    startTransition(async () => {
+      try {
+        await patchSettings({ [key]: value });
+        toast.success(t('toast.saved'));
+      } catch {
+        toast.error(t('toast.error'));
+      }
     });
   }
 

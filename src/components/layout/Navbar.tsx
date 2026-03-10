@@ -6,7 +6,6 @@ import { useLocale } from 'next-intl';
 import { useSession, signOut } from 'next-auth/react';
 import { Link, usePathname } from '@/i18n/navigation';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import Image from 'next/image';
 
 function getInitials(name?: string | null): string {
   if (!name) return '?';
@@ -48,7 +47,7 @@ function IconLogout() {
   );
 }
 
-export default function Navbar() {
+export default function Navbar({ avatarUrl }: { avatarUrl?: string | null }) {
   const t = useTranslations('nav');
   const locale = useLocale();
   const dir = (locale === 'he' || locale === 'ar') ? 'rtl' : 'ltr';
@@ -62,9 +61,10 @@ export default function Navbar() {
   const role = (session?.user as { role?: string } | undefined)?.role;
   const isTherapist = role === 'therapist';
   const isAdmin = role === 'admin';
-  const userName = session?.user?.name;
+  const userName = session?.user?.name || session?.user?.email;
   const userEmail = session?.user?.email;
-  const userImage = session?.user?.image;
+  // avatarUrl (server-fetched) takes priority over session.user.image (JWT-based, may be absent for large data: URLs)
+  const userImage = avatarUrl || session?.user?.image;
 
   useEffect(() => {
     if (!isHomepage) return;
@@ -130,7 +130,8 @@ export default function Navbar() {
                   aria-label={userName ?? 'User menu'}
                 >
                   {userImage ? (
-                    <Image
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
                       src={userImage}
                       alt={userName ?? ''}
                       width={36}
@@ -214,7 +215,7 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/auth/register"
-                className="group relative overflow-hidden rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-mid hover:shadow-[0_4px_12px_rgba(0,29,61,0.25)]"
+                className="group inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-semibold tracking-wide text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_4px_12px_rgba(0,29,61,0.2)]"
               >
                 {t('register')}
               </Link>
@@ -263,7 +264,8 @@ export default function Navbar() {
           {isLoggedIn && (
             <div className="mb-2 flex items-center gap-3 border-b border-border py-3">
               {userImage ? (
-                <Image src={userImage} alt={userName ?? ''} width={36} height={36} className="h-9 w-9 rounded-full object-cover" />
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={userImage} alt={userName ?? ''} width={36} height={36} className="h-9 w-9 rounded-full object-cover" />
               ) : (
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-bold text-text-inverse">
                   {getInitials(userName)}

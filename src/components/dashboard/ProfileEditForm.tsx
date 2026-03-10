@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import type { TherapistProfilePublic, Specialisation, SessionType, InsuranceType } from '@/types';
 
@@ -28,6 +27,11 @@ const INSURANCE_LABELS: Record<InsuranceType, string> = {
 const LANG_LABELS: Record<string, string> = {
   he: 'עברית', ar: 'ערבית', en: 'אנגלית', ru: 'רוסית', fr: 'צרפתית', es: 'ספרדית', am: 'אמהרית',
 };
+
+function getInitials(name?: string | null): string {
+  if (!name) return '?';
+  return name.split(' ').filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join('');
+}
 
 interface Props {
   profile: TherapistProfilePublic;
@@ -109,14 +113,18 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
     }
   }
 
+  const displayName = profile.displayName.he || profile.displayName.en || '';
+
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-      {/* Photo upload */}
-      <div className="rounded-lg bg-surface p-6 border border-border">
-        <h2 className="mb-4 text-base font-semibold text-text-primary">{t('photoLabel')}</h2>
-        <div className="flex items-center gap-4">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+
+      {/* Hero card */}
+      <div className="overflow-hidden rounded-xl border border-border bg-surface">
+        <div className="h-1 bg-gradient-to-r from-primary-mid via-primary to-accent" />
+        <div className="flex items-center gap-4 p-4">
+          {/* Avatar — clickable to upload */}
           <div
-            className={`relative h-20 w-20 cursor-pointer overflow-hidden rounded-full border-2 border-dashed bg-bg-alt transition-colors ${uploading ? 'border-primary opacity-70' : 'border-border hover:border-primary'}`}
+            className={`relative h-16 w-16 flex-shrink-0 cursor-pointer overflow-hidden rounded-full border-2 border-dashed bg-bg-alt transition-colors ${uploading ? 'border-primary opacity-70' : 'border-border hover:border-primary'}`}
             onClick={() => !uploading && document.getElementById('profile-photo-upload')?.click()}
             role="button"
             tabIndex={0}
@@ -129,13 +137,19 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
               </svg>
             ) : photo ? (
-              <Image src={photo} alt="Profile photo" fill className="object-cover" unoptimized />
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={photo} alt={displayName} className="h-full w-full object-cover" />
             ) : (
-              <svg className="absolute inset-0 m-auto h-7 w-7 text-text-muted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-              </svg>
+              <span className="absolute inset-0 flex items-center justify-center text-lg font-bold text-text-secondary">
+                {displayName ? getInitials(displayName) : (
+                  <svg className="h-6 w-6 text-text-muted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                  </svg>
+                )}
+              </span>
             )}
           </div>
+
           <input
             id="profile-photo-upload"
             type="file"
@@ -163,13 +177,46 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
               }
             }}
           />
-          <div>
-            <p className="text-sm text-text-muted">
+
+          <div className="min-w-0 flex-1">
+            {displayName && (
+              <p className="truncate text-base font-bold text-text-primary">{displayName}</p>
+            )}
+            <p className="text-xs text-text-secondary">
               {uploading ? t('photoUploading') : t('photoHint')}
             </p>
-            {uploadError && <p className="mt-1 text-xs text-red-600">{uploadError}</p>}
+            {uploadError && <p className="mt-0.5 text-xs text-red-600">{uploadError}</p>}
           </div>
+
+          {/* Save button in hero */}
+          <button
+            type="submit"
+            disabled={saving}
+            className="inline-flex flex-shrink-0 items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold tracking-wide text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_4px_12px_rgba(0,29,61,0.2)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none"
+          >
+            {saving ? (
+              <svg className="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            )}
+            {t('save')}
+          </button>
         </div>
+
+        {/* Inline feedback banners */}
+        {success && (
+          <div className="border-t border-green-100 bg-green-50 px-4 py-2.5">
+            <p className="text-sm font-medium text-green-700">{t('saveSuccess')}</p>
+          </div>
+        )}
+        {error && (
+          <div className="border-t border-red-100 bg-red-50 px-4 py-2.5">
+            <p role="alert" className="text-sm text-red-700">{error}</p>
+          </div>
+        )}
       </div>
 
       {/* Bio */}
@@ -177,25 +224,25 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
         <textarea
           value={bioHe}
           onChange={(e) => setBioHe(e.target.value)}
-          rows={4}
+          rows={3}
           dir="rtl"
-          className="w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:outline-none"
+          className={textareaCls}
         />
         <label className="mt-3 block text-sm font-medium text-text-primary">{t('bioAr')}</label>
         <textarea
           value={bioAr}
           onChange={(e) => setBioAr(e.target.value)}
-          rows={4}
+          rows={3}
           dir="rtl"
-          className="mt-1.5 w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:outline-none"
+          className={`mt-1.5 ${textareaCls}`}
         />
         <label className="mt-3 block text-sm font-medium text-text-primary">{t('bioEn')}</label>
         <textarea
           value={bioEn}
           onChange={(e) => setBioEn(e.target.value)}
-          rows={4}
+          rows={3}
           dir="ltr"
-          className="mt-1.5 w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:outline-none"
+          className={`mt-1.5 ${textareaCls}`}
         />
       </Section>
 
@@ -221,7 +268,7 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
 
       {/* Location & contact */}
       <Section title={t('city')}>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
             <label className="mb-1.5 block text-sm font-medium text-text-primary">{t('city')}</label>
             <input value={city} onChange={(e) => setCity(e.target.value)} className={inputCls} />
@@ -239,7 +286,7 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
 
       {/* Fees */}
       <Section title={t('feeMin')}>
-        <div className="grid grid-cols-2 gap-4 sm:w-72">
+        <div className="grid grid-cols-2 gap-3 sm:w-64">
           <div>
             <label className="mb-1.5 block text-sm font-medium text-text-primary">{t('feeMin')}</label>
             <input value={feeMin} onChange={(e) => setFeeMin(e.target.value)} type="number" min={0} className={inputCls} dir="ltr" />
@@ -253,7 +300,7 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
 
       {/* Specialisations */}
       <Section title={t('specialisations')}>
-        <CheckboxGroup
+        <ChipGroup
           options={SPECIALISATIONS}
           selected={specialisations}
           labels={SPEC_LABELS}
@@ -271,7 +318,7 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
 
       {/* Session types */}
       <Section title={t('sessionTypes')}>
-        <CheckboxGroup
+        <ChipGroup
           options={SESSION_TYPES}
           selected={sessionTypes}
           labels={SESSION_LABELS}
@@ -289,7 +336,7 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
 
       {/* Insurance */}
       <Section title={t('insurance')}>
-        <CheckboxGroup
+        <ChipGroup
           options={INSURANCE_TYPES}
           selected={insuranceAccepted}
           labels={INSURANCE_LABELS}
@@ -299,7 +346,7 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
 
       {/* Languages */}
       <Section title={t('languages')}>
-        <CheckboxGroup
+        <ChipGroup
           options={LANGUAGES}
           selected={languages}
           labels={LANG_LABELS}
@@ -307,46 +354,33 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
         />
       </Section>
 
-      {/* Accepting patients */}
-      <div className="flex items-center gap-3">
-        <input
-          id="accepting"
-          type="checkbox"
-          checked={acceptingPatients}
-          onChange={(e) => setAcceptingPatients(e.target.checked)}
-          className="h-4 w-4 rounded border-border accent-primary"
-        />
-        <label htmlFor="accepting" className="text-sm font-medium text-text-primary">
-          {t('acceptingPatients')}
-        </label>
-      </div>
-
-      {success && (
-        <p className="rounded-lg bg-green-50 px-4 py-3 text-sm font-medium text-green-700">
-          {t('saveSuccess')}
-        </p>
-      )}
-      {error && (
-        <p role="alert" className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
-          {error}
-        </p>
-      )}
-
-      <div className="flex gap-3">
+      {/* Accepting patients — toggle switch */}
+      <div className="flex items-center justify-between rounded-xl border border-border bg-surface p-4">
+        <div>
+          <p className="text-sm font-semibold text-text-primary">{t('acceptingPatients')}</p>
+        </div>
         <button
-          type="submit"
-          disabled={saving}
-          className="rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark disabled:opacity-60"
+          type="button"
+          role="switch"
+          aria-checked={acceptingPatients}
+          onClick={() => setAcceptingPatients((v) => !v)}
+          className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none ${acceptingPatients ? 'bg-primary' : 'bg-border'}`}
         >
-          {saving ? '...' : t('save')}
+          <span
+            aria-hidden="true"
+            className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ltr:translate-x-0 rtl:-translate-x-0 ${acceptingPatients ? 'ltr:translate-x-5 rtl:-translate-x-5' : ''}`}
+          />
         </button>
       </div>
+
     </form>
   );
 }
 
 const inputCls =
-  'w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:outline-none';
+  'w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:outline-none';
+const textareaCls =
+  'w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:outline-none';
 
 function OtherTagInput({
   tags, onAdd, onRemove, placeholder,
@@ -400,7 +434,7 @@ function OtherTagInput({
         <button
           type="button"
           onClick={add}
-          className="rounded-lg border border-primary px-3.5 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-white"
+          className="rounded-lg border border-primary px-3 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-white"
         >
           +
         </button>
@@ -411,14 +445,14 @@ function OtherTagInput({
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-lg bg-surface p-6 border border-border">
-      <h2 className="mb-4 text-base font-semibold text-text-primary">{title}</h2>
+    <div className="rounded-xl border border-border bg-surface p-4">
+      <h2 className="mb-3 text-sm font-semibold text-text-primary">{title}</h2>
       {children}
     </div>
   );
 }
 
-function CheckboxGroup<T extends string>({
+function ChipGroup<T extends string>({
   options, selected, labels, onToggle,
 }: {
   options: T[];
@@ -429,15 +463,18 @@ function CheckboxGroup<T extends string>({
   return (
     <div className="flex flex-wrap gap-2">
       {options.map((opt) => (
-        <label key={opt} className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            checked={selected.includes(opt)}
-            onChange={() => onToggle(opt)}
-            className="h-4 w-4 rounded border-border accent-primary"
-          />
-          <span className="text-sm text-text-primary">{labels[opt] ?? opt}</span>
-        </label>
+        <button
+          key={opt}
+          type="button"
+          onClick={() => onToggle(opt)}
+          className={`rounded-full border px-3 py-1 text-sm font-medium transition-colors ${
+            selected.includes(opt)
+              ? 'border-primary bg-primary text-white'
+              : 'border-border bg-bg text-text-secondary hover:border-primary/50'
+          }`}
+        >
+          {labels[opt] ?? opt}
+        </button>
       ))}
     </div>
   );

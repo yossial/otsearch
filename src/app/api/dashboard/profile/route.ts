@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth/auth';
 import { connectDB } from '@/lib/db';
+import { User } from '@/lib/db/models/User';
 import { TherapistProfile } from '@/lib/db/models/TherapistProfile';
 
 export const dynamic = 'force-dynamic';
@@ -11,7 +12,15 @@ export async function PATCH(req: NextRequest) {
     if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    const therapistProfileId = (session.user as { therapistProfileId?: string | null }).therapistProfileId;
+    let therapistProfileId = (session.user as { therapistProfileId?: string | null }).therapistProfileId;
+
+    // JWT may be stale — fall back to DB
+    if (!therapistProfileId) {
+      await connectDB();
+      const dbUser = await User.findById(session.user.id).select('therapistProfileId').lean();
+      therapistProfileId = dbUser?.therapistProfileId ? String(dbUser.therapistProfileId) : null;
+    }
+
     if (!therapistProfileId) {
       return NextResponse.json({ error: 'No therapist profile linked to this account' }, { status: 403 });
     }

@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth/auth';
 import { connectDB } from '@/lib/db';
 import { User } from '@/lib/db/models/User';
 import { TherapistProfile } from '@/lib/db/models/TherapistProfile';
+import { nextSeq } from '@/lib/db/models/Counter';
 import { verifyTherapist } from '@/lib/gov/govApi';
 import { sendEmail } from '@/lib/email/send';
 import { welcomeTherapistHtml } from '@/lib/email/templates/welcomeTherapist';
@@ -64,15 +65,9 @@ export async function POST(req: NextRequest) {
       const lastName = (body.lastName as string | undefined)?.trim() ?? '';
       const fullName = [firstName, lastName].filter(Boolean).join(' ') || verification.fullName || user.name || 'profile';
 
-      // Build slug from full name
-      const baseSlug = fullName
-        .toLowerCase()
-        .trim()
-        .replace(/\s+/g, '-')
-        .replace(/[^\u0590-\u05FF\w-]/g, '');
-
-      const uniqueSuffix = Math.random().toString(36).slice(2);
-      const slug = `${baseSlug || 'profile'}-${uniqueSuffix}`;
+      // Use atomic incremental ID as slug — avoids encoding issues with Hebrew names
+      const profileNum = await nextSeq('therapistProfile');
+      const slug = String(profileNum);
 
       const bioData = (body.bio as { he?: string; ar?: string; en?: string } | undefined) ?? {};
       const locationData = (body.location as { city?: string; address?: string, coordinates?: [number, number] } | undefined) ?? {};
@@ -93,8 +88,8 @@ export async function POST(req: NextRequest) {
         mohRegistrationNumber: mohNumber,
         mohStatus: verification.status, // Good idea to store the verified status
         specialisations: (body.specialisations as string[] | undefined) ?? [],
-        specialisationsOther: (body.specialisationsOther as string | undefined)?.trim() ?? '',
-        sessionTypesOther: (body.sessionTypesOther as string | undefined)?.trim() ?? '',
+        specialisationsOther: (body.specialisationsOther as string[] | undefined) ?? [],
+        sessionTypesOther: (body.sessionTypesOther as string[] | undefined) ?? [],
         languages: (body.languages as string[] | undefined) ?? ['he'],
         location: {
           type: 'Point',
@@ -120,6 +115,7 @@ export async function POST(req: NextRequest) {
       user.role = 'therapist';
       user.name = fullName;
       user.therapistProfileId = profileDoc._id;
+      if (photo) user.image = photo;
       await user.save();
 
       // Send welcome email (fire-and-forget — don't block the response)
@@ -162,11 +158,13 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    const photo = (body.photo as string | undefined)?.trim() || null;
     return NextResponse.json({
       ok: true,
       role: 'therapist',
       therapistProfileId: profileId,
-      verifiedName: verification.fullName // Return verified name for UI feedback
+      photo,
+      verifiedName: verification.fullName
     });
   } catch (err) {
     console.error('[POST /api/onboarding/complete]', err);

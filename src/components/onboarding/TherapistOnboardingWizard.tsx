@@ -3,8 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
-import { useRouter } from '@/i18n/navigation';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import type { Specialisation, InsuranceType, SessionType } from '@/types';
 import CitySelect from '@/components/ui/CitySelect';
 import StreetSelect from '@/components/ui/StreetSelect';
@@ -14,6 +13,7 @@ import StreetSelect from '@/components/ui/StreetSelect';
 interface Step1Data {
   firstName: string;
   lastName: string;
+  bio: string;
   languages: string[];
   gender: 'male' | 'female' | null;
   photo: string;
@@ -30,6 +30,15 @@ interface Step2Data {
   sessionTypesOther: string[];
 }
 
+interface MohVerifiedData {
+  fullName: string;
+  licenseNumber: string;
+  city: string;
+  status: string;
+  statusDetail: string;
+  issueDate: string;
+}
+
 interface Step3Data {
   phone: string;
   email: string;
@@ -37,6 +46,8 @@ interface Step3Data {
   feeMax: string;
   insuranceAccepted: InsuranceType[];
   mohNumber: string;
+  mohVerified: boolean;
+  mohVerifiedData: MohVerifiedData | null;
   acceptingPatients: boolean;
 }
 
@@ -193,7 +204,7 @@ function TextInput({
       dir={dir}
       inputMode={inputMode}
       maxLength={maxLength}
-      className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
+      className="w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
     />
   );
 }
@@ -307,6 +318,23 @@ function Step1({
           />
         </div>
       </div>
+      <div className="flex flex-col gap-1.5">
+        <FieldLabel>
+          {t('bio')} <span className="font-normal text-text-muted">({t('optional')})</span>
+        </FieldLabel>
+        <textarea
+          id="bio"
+          value={data.bio}
+          onChange={(e) => onChange({ bio: e.target.value })}
+          placeholder={t('bioPlaceholder')}
+          dir="rtl"
+          rows={4}
+          maxLength={800}
+          className="w-full resize-none rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+        />
+        <p className="text-xs text-text-muted">{data.bio.length}/800</p>
+      </div>
+
       <div className="flex flex-col gap-2">
         <FieldLabel>{t('gender')}</FieldLabel>
         <div className="flex flex-wrap gap-2">
@@ -452,6 +480,42 @@ function Step3({
   data, onChange,
 }: { data: Step3Data; onChange: (d: Partial<Step3Data>) => void }) {
   const t = useTranslations('onboarding.therapist');
+  const [verifying, setVerifying] = useState(false);
+  const [verifyError, setVerifyError] = useState('');
+
+  const MOH_FORMAT = /^\d{2}-\d{6}$|^\d{5,6}$/;
+
+  async function handleVerify() {
+    setVerifyError('');
+    if (!MOH_FORMAT.test(data.mohNumber.trim())) {
+      setVerifyError(t('mohInvalidFormat'));
+      return;
+    }
+    setVerifying(true);
+    try {
+      const res = await fetch('/api/onboarding/verify-license', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mohNumber: data.mohNumber.trim() }),
+      });
+      if (res.status === 404) {
+        setVerifyError(t('mohNotFound'));
+        onChange({ mohVerified: false, mohVerifiedData: null });
+        return;
+      }
+      if (!res.ok) {
+        setVerifyError(t('saveError'));
+        onChange({ mohVerified: false, mohVerifiedData: null });
+        return;
+      }
+      const result = await res.json() as MohVerifiedData;
+      onChange({ mohVerifiedData: result, mohVerified: false });
+    } catch {
+      setVerifyError(t('saveError'));
+    } finally {
+      setVerifying(false);
+    }
+  }
 
   // Derive prefix/suffix from data.phone; default prefix 050
   const prefix = data.phone.length >= 3 && PHONE_PREFIXES.includes(data.phone.slice(0, 3))
@@ -556,16 +620,83 @@ function Step3({
 
       <div className="flex flex-col gap-1.5">
         <FieldLabel>{t('mohNumber')} *</FieldLabel>
-        <TextInput
-          id="mohNumber"
-          value={data.mohNumber}
-          onChange={(v) => onChange({ mohNumber: v.replace(/[^\d-]/g, '') })}
-          dir="ltr"
-          required
-          inputMode="text"
-          maxLength={9}
-        />
+        <div className="flex gap-2">
+          <div className="flex-1">
+            <TextInput
+              id="mohNumber"
+              value={data.mohNumber}
+              onChange={(v) => {
+                onChange({ mohNumber: v.replace(/[^\d-]/g, ''), mohVerified: false, mohVerifiedData: null });
+                setVerifyError('');
+              }}
+              dir="ltr"
+              required
+              inputMode="text"
+              maxLength={9}
+            />
+          </div>
+          <button
+            type="button"
+            onClick={() => void handleVerify()}
+            disabled={verifying || !data.mohNumber.trim()}
+            className="shrink-0 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {verifying ? t('mohVerifying') : t('mohVerify')}
+          </button>
+        </div>
         <p className="text-xs text-text-muted">{t('mohNumberHint')}</p>
+
+        {verifyError && (
+          <p className="text-xs text-red-600">{verifyError}</p>
+        )}
+
+        {data.mohVerifiedData && !verifyError && (
+          <div id="mohVerify" className="mt-2 overflow-hidden rounded-xl border border-green-200 bg-green-50">
+            {/* Header */}
+            <div className="flex items-center gap-2 border-b border-green-200 bg-green-100/70 px-4 py-2.5" dir="rtl">
+              <svg className="h-4 w-4 shrink-0 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-sm font-semibold text-green-800">{t('mohVerifyFound')}</span>
+            </div>
+
+            {/* Details */}
+            <div className="divide-y divide-green-100 px-4" dir="rtl">
+              {(
+                [
+                  { label: t('mohVerifyName'),    value: data.mohVerifiedData.fullName,       ltr: false },
+                  { label: t('mohVerifyLicense'), value: data.mohVerifiedData.licenseNumber,  ltr: true  },
+                  { label: t('mohVerifyCity'),    value: data.mohVerifiedData.city || '—',    ltr: false },
+                ] as { label: string; value: string; ltr: boolean }[]
+              ).map(({ label, value, ltr }) => (
+                <div key={label} className="flex items-center justify-between py-2.5 text-sm">
+                  <span className="text-text-muted">{label}</span>
+                  <span className="font-semibold text-text-primary" dir={ltr ? 'ltr' : undefined}>{value}</span>
+                </div>
+              ))}
+              <div className="flex items-center justify-between py-2.5 text-sm">
+                <span className="text-text-muted">{t('mohVerifyStatus')}</span>
+                <span className="inline-flex items-center gap-1 rounded-full bg-green-200 px-2.5 py-0.5 text-xs font-semibold text-green-800">
+                  <span className="h-1.5 w-1.5 rounded-full bg-green-600" />
+                  {data.mohVerifiedData.status}
+                </span>
+              </div>
+            </div>
+
+            {/* Confirm */}
+            <label className="flex cursor-pointer items-start gap-3 border-t border-green-200 bg-white/60 px-4 py-3" dir="rtl">
+              <input
+                type="checkbox"
+                checked={data.mohVerified}
+                onChange={(e) => onChange({ mohVerified: e.target.checked })}
+                className="mt-0.5 h-4 w-4 shrink-0 rounded border-green-400 text-green-600"
+              />
+              <span className="text-sm font-medium leading-snug text-green-900">
+                {t('mohVerifyConfirm')}
+              </span>
+            </label>
+          </div>
+        )}
       </div>
 
       <label className="flex items-center gap-3">
@@ -587,7 +718,7 @@ const TOTAL_STEPS = 3;
 
 export default function TherapistOnboardingWizard({ therapistProfileId }: { therapistProfileId: string }) {
   const t = useTranslations('onboarding.therapist');
-  const router = useRouter();
+  const locale = useLocale();
   const { update: updateSession } = useSession();
 
   const [step, setStep] = useState(1);
@@ -597,6 +728,7 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
   const [step1, setStep1] = useState<Step1Data>({
     firstName: '',
     lastName: '',
+    bio: '',
     languages: ['he'],
     gender: null,
     photo: '',
@@ -618,6 +750,8 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
     feeMax: '',
     insuranceAccepted: [],
     mohNumber: '',
+    mohVerified: false,
+    mohVerifiedData: null,
     acceptingPatients: true,
   });
 
@@ -639,28 +773,45 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
       if (step3.phone.replace(/\D/g, '').length < 10) return 'phone';
       if (!step3.mohNumber.trim()) return 'mohNumber';
       if (!/^\d{2}-\d{6}$|^\d{5,6}$/.test(step3.mohNumber.trim())) return 'mohNumber';
+      if (!step3.mohVerified) return 'mohVerify';
     }
     return null;
+  }
+
+  function showValidationError(field: string) {
+    let msg: string;
+    if (field === 'mohNumber') {
+      msg = t('mohInvalidFormat');
+    } else if (field === 'mohVerify') {
+      msg = t('mohVerifyRequired');
+    } else if (field === 'phone') {
+      msg = t('phoneInvalid');
+    } else {
+      msg = t('requiredFields');
+    }
+    setError(msg);
+    const el = document.getElementById(field);
+    el?.focus();
+    el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   function handleNext() {
     const missing = validateCurrent();
     if (missing) {
-      const el = document.getElementById(missing);
-      el?.focus();
-      el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      showValidationError(missing);
       return;
     }
+    setError('');
     setStep((s) => s + 1);
   }
 
   async function handleFinish() {
     const missing = validateCurrent();
     if (missing) {
-      const el = document.getElementById(missing);
-      el?.focus();
+      showValidationError(missing);
       return;
     }
+    setError('');
 
     setSaving(true);
     setError('');
@@ -679,6 +830,11 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
         he: fullName,
         en: fullName,
         ar: fullName,
+      },
+      bio: {
+        he: step1.bio.trim(),
+        en: '',
+        ar: '',
       },
       languages: step1.languages,
       location: {
@@ -726,13 +882,12 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
         return;
       }
 
-      const data = (await res.json()) as { role?: string; therapistProfileId?: string };
+      const data = (await res.json()) as { role?: string; therapistProfileId?: string; photo?: string | null };
 
-      // Fire session update (non-blocking) then navigate; dashboard will read
-      // the fresh session from the server after router.refresh()
-      void updateSession({ role: data.role, therapistProfileId: data.therapistProfileId });
-      router.push('/dashboard');
-      router.refresh();
+      // Await session update so JWT cookie is reissued before navigating.
+      // Hard navigation ensures the middleware reads the updated token.
+      await updateSession({ role: data.role, therapistProfileId: data.therapistProfileId, image: data.photo ?? null });
+      window.location.href = `/${locale}/dashboard`;
     } catch (err) {
       console.error('[handleFinish]', err);
       setError(t('saveError'));
@@ -779,8 +934,9 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
             <button
               type="button"
               onClick={() => setStep((s) => s - 1)}
-              className="rounded-lg border border-border px-4 py-2.5 text-sm font-medium text-text-secondary transition-colors hover:bg-bg"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-border px-4 py-2.5 text-sm font-medium text-text-secondary transition-all duration-200 hover:border-primary/30 hover:bg-primary-light hover:text-primary"
             >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="rtl:rotate-180"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
               {t('back')}
             </button>
           ) : (
@@ -791,18 +947,24 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
             <button
               type="button"
               onClick={handleNext}
-              className="rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold tracking-wide text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_4px_12px_rgba(0,29,61,0.2)]"
             >
               {t('next')}
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="rtl:rotate-180"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </button>
           ) : (
             <button
               type="button"
               onClick={() => void handleFinish()}
               disabled={saving}
-              className="rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark disabled:opacity-60"
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold tracking-wide text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_4px_12px_rgba(0,29,61,0.2)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none"
             >
-              {saving ? '...' : t('finish')}
+              {saving ? '...' : (
+                <>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  {t('finish')}
+                </>
+              )}
             </button>
           )}
         </div>

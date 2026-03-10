@@ -8,6 +8,7 @@ import Google from 'next-auth/providers/google';
 import bcrypt from 'bcryptjs';
 import { connectDB } from '@/lib/db';
 import { User } from '@/lib/db/models/User';
+import { TherapistProfile } from '@/lib/db/models/TherapistProfile';
 import { authConfig } from './auth.config';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -42,6 +43,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           role: string | null;
           therapistProfileId: unknown;
           passwordHash: string;
+          image: string | null;
         };
 
         // OAuth-only accounts have no password hash
@@ -53,10 +55,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         );
         if (!valid) return null;
 
+        // Backfill User.image from TherapistProfile.photo if missing
+        let image = u.image ?? null;
+        if (!image && u.therapistProfileId) {
+          const profile = await TherapistProfile.findById(u.therapistProfileId).select('photo').lean();
+          const profilePhoto = (profile as { photo?: string | null } | null)?.photo ?? null;
+          if (profilePhoto) {
+            image = profilePhoto;
+            await User.updateOne({ _id: u._id }, { $set: { image: profilePhoto } });
+          }
+        }
+
         return {
           id: String(u._id),
           email: u.email,
           name: u.name,
+          image,
           role: u.role,
           therapistProfileId: u.therapistProfileId ? String(u.therapistProfileId) : null,
         };
@@ -87,6 +101,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             _id: unknown;
             role: string | null;
             therapistProfileId: unknown;
+            image: string | null;
           };
 
           // Attach DB identity to the NextAuth user object so jwt() can read it
@@ -94,6 +109,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           (user as unknown as Record<string, unknown>).role = u.role ?? null;
           (user as unknown as Record<string, unknown>).therapistProfileId =
             u.therapistProfileId ? String(u.therapistProfileId) : null;
+          // Prefer our stored profile photo over Google's avatar; backfill if needed
+          let storedImage = u.image ?? null;
+          if (!storedImage && u.therapistProfileId) {
+            const profile = await TherapistProfile.findById(u.therapistProfileId).select('photo').lean();
+            const profilePhoto = (profile as { photo?: string | null } | null)?.photo ?? null;
+            if (profilePhoto) {
+              storedImage = profilePhoto;
+              await User.updateOne({ _id: u._id }, { $set: { image: profilePhoto } });
+            }
+          }
+          if (storedImage) {
+            (user as unknown as Record<string, unknown>).image = storedImage;
+          }
         } catch {
           return false;
         }

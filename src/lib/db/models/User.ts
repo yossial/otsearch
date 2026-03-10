@@ -7,6 +7,7 @@ export interface UserDocument extends Document {
   role: UserRole | null; // null until the user completes onboarding
   status: UserStatus;
   name: string;
+  image: string | null;
   emailVerified: boolean;
   emailVerifyToken: string | null;
   emailVerifyTokenExpiry: Date | null;
@@ -30,6 +31,7 @@ const UserSchema = new Schema<UserDocument>(
     passwordResetToken: { type: String, default: null },
     passwordResetTokenExpiry: { type: Date, default: null },
     therapistProfileId: { type: Schema.Types.ObjectId, ref: 'TherapistProfile', default: null },
+    image: { type: String, default: null },
   },
   { timestamps: true }
 );

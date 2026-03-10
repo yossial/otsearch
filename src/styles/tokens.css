@@ -89,8 +89,8 @@
   /* Font families
      Inter is loaded via next/font in layout.tsx and injected as
      --font-inter CSS var; here we wire it into Tailwind utilities  */
-  --font-sans:    var(--font-inter, 'Inter'), 'Noto Sans Hebrew',
-                  'Noto Sans Arabic', system-ui, sans-serif;
+  --font-sans:    var(--font-inter, 'Inter'), system-ui, sans-serif;
+  --font-heebo:   var(--font-heebo, 'Heebo'), system-ui, sans-serif;
   --font-display: var(--font-calistoga, 'Calistoga'), Georgia, serif;
   --font-mono:    'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
 

@@ -167,7 +167,7 @@ export async function searchTherapists(query: TherapistSearchQuery): Promise<Sea
 
 export async function getTherapistBySlug(slug: string): Promise<TherapistProfilePublic | null> {
   await connectDB();
-  const doc = await TherapistProfile.findOne({ slug, isActive: true }).lean();
+  const doc = await TherapistProfile.findOne({ slug }).lean();
   if (!doc) return null;
   return toPublic(doc as unknown as Record<string, unknown>);
 }

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { searchTherapists } from '@/lib/db/therapists';
@@ -16,6 +17,36 @@ import Pricing from '@/components/home/Pricing';
 import FAQ from '@/components/home/FAQ';
 import { FadeInUp } from '@/components/ui/motion';
 import type { SearchParams } from '@/types';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('home.meta');
+  const siteUrl = process.env.NEXTAUTH_URL ?? 'https://therapio.co.il';
+  return {
+    title: t('title'),
+    description: t('description'),
+    openGraph: {
+      title: t('title'),
+      description: t('description'),
+      url: siteUrl,
+      siteName: 'Therapio',
+      type: 'website',
+      images: [
+        {
+          url: `${siteUrl}/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: t('title'),
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: t('title'),
+      description: t('description'),
+      images: [`${siteUrl}/og-image.png`],
+    },
+  };
+}
 
 interface HomePageProps {
   searchParams: Promise<{

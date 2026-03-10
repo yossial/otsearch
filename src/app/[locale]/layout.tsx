@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Calistoga, Heebo } from 'next/font/google';
+import { Inter, Calistoga, Rubik } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -26,11 +26,11 @@ const calistoga = Calistoga({
   display: 'swap',
 });
 
-const heebo = Heebo({
+const rubik = Rubik({
   subsets: ['hebrew', 'latin'],
-  variable: '--font-heebo',
+  variable: '--font-rubik',
   display: 'swap',
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
 });
 
 export const metadata: Metadata = {
@@ -81,7 +81,7 @@ export default async function LocaleLayout({
   }
 
   return (
-    <html lang={locale} dir={dir} className={`${inter.variable} ${calistoga.variable} ${heebo.variable}`}>
+    <html lang={locale} dir={dir} className={`${inter.variable} ${calistoga.variable} ${rubik.variable}`}>
       <body className="bg-bg font-sans text-text-primary antialiased">
         <NextIntlClientProvider messages={messages}>
           <SessionProvider>

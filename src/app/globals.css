@@ -58,10 +58,10 @@ input[type="password"]::-webkit-credentials-auto-fill-button { display: none; }
   font-family: var(--font-sans);
 }
 
-/* ─── Heebo for Hebrew & Arabic — lighter, more modern than system fallback ─── */
+/* ─── Rubik for Hebrew & Arabic — warm geometric sans, designed by AlefAlefAlef for Google Fonts ─── */
 :lang(he),
 :lang(ar) {
-  font-family: var(--font-heebo), system-ui, sans-serif;
+  font-family: var(--font-rubik), system-ui, sans-serif;
 }
 
 /* ─── Design system animations ───────────────────────────────────────────────── */

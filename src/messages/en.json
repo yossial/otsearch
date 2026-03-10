@@ -27,6 +27,10 @@
     "logout": "Log out"
   },
   "home": {
+    "meta": {
+      "title": "Therapio — Find Occupational Therapists in Israel",
+      "description": "Find private occupational therapists in Israel by specialisation, health fund, and location. Immediate access, no waiting list. Free registration for therapists."
+    },
     "heroEyebrow": "Skip the waiting list",
     "heroTitle": "The Home of Occupational Therapists in Israel: Where Function Becomes Success",
     "heroSubtitle": "Private OTs across Israel, searchable by specialisation, health fund and location",

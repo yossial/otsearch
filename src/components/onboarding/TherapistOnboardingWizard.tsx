@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { useLocale, useTranslations } from 'next-intl';
+import { toast } from 'sonner';
 import type { Specialisation, InsuranceType, SessionType } from '@/types';
 import CitySelect from '@/components/ui/CitySelect';
 import StreetSelect from '@/components/ui/StreetSelect';
@@ -872,11 +873,11 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
         const body = await res.json().catch(() => ({})) as { error?: string };
         const errMsg = body.error ?? '';
         if (errMsg.toLowerCase().includes('not found') || errMsg.toLowerCase().includes('not found in')) {
-          setError(t('mohNotFound'));
+          toast.error(t('mohNotFound'));
         } else if (errMsg.toLowerCase().includes('status') || errMsg.toLowerCase().includes('licence status')) {
-          setError(t('mohExpired'));
+          toast.error(t('mohExpired'));
         } else {
-          setError(t('saveError'));
+          toast.error(t('saveError'));
         }
         setSaving(false);
         return;
@@ -890,7 +891,7 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
       window.location.href = `/${locale}/dashboard`;
     } catch (err) {
       console.error('[handleFinish]', err);
-      setError(t('saveError'));
+      toast.error(t('saveError'));
       setSaving(false);
     }
   }
@@ -911,7 +912,7 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
       </div>
 
       {/* Step content */}
-      <div className="rounded-2xl bg-surface p-6 border border-border sm:p-8">
+      <div className="rounded-xl border border-border bg-surface p-6 sm:p-8">
         {step === 1 && (
           <Step1 data={step1} onChange={(d) => setStep1((s) => ({ ...s, ...d }))} />
         )}

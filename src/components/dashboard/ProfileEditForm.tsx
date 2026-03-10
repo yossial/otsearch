@@ -62,6 +62,8 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
 
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  // Incremented after each save to force useMemo re-evaluation (ref updates don't trigger it)
+  const [savedAt, setSavedAt] = useState(0);
 
   // Track initial values to detect dirty state
   const initial = useRef({
@@ -105,7 +107,9 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
       gender !== i.gender ||
       photo !== i.photo
     );
-  }, [bioHe, bioAr, bioEn, city, address, phone, specialisations, specialisationsOther, sessionTypesOther, sessionTypes, insuranceAccepted, languages, feeMin, feeMax, acceptingPatients, gender, photo]);
+  // savedAt is included so useMemo re-runs after save (ref update alone won't trigger it)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [savedAt, bioHe, bioAr, bioEn, city, address, phone, specialisations, specialisationsOther, sessionTypesOther, sessionTypes, insuranceAccepted, languages, feeMin, feeMax, acceptingPatients, gender, photo]);
 
   function toggle<T extends string>(arr: T[], val: T, setArr: (v: T[]) => void) {
     setArr(arr.includes(val) ? arr.filter((x) => x !== val) : [...arr, val]);
@@ -155,6 +159,7 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
         languages: [...languages],
         feeMin, feeMax, acceptingPatients, gender, photo,
       };
+      setSavedAt((s) => s + 1); // trigger isDirty re-evaluation
       toast.success(t('saveSuccess'));
       onSaved?.();
     } catch {

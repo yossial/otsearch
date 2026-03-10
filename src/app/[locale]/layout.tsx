@@ -89,7 +89,7 @@ export default async function LocaleLayout({
             <Navbar avatarUrl={avatarUrl} />
             <main className="pt-16">{children}</main>
             <Footer />
-            <Toaster dir={dir} richColors position="top-center" />
+            <Toaster dir={dir} richColors position="bottom-center" />
           </SessionProvider>
         </NextIntlClientProvider>
       </body>

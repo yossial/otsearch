@@ -87,14 +87,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           let dbUser = await User.findOne({ email: user.email?.toLowerCase() }).lean();
 
           if (!dbUser) {
-            // New OAuth user — created without a role; onboarding sets it
-            const created = await User.create({
-              email: user.email?.toLowerCase(),
-              name: user.name ?? user.email?.split('@')[0] ?? 'User',
-              passwordHash: '',
-              role: null,
-            });
-            dbUser = created.toObject();
+            // New OAuth user — created without a role; onboarding sets it.
+            // Use findOneAndUpdate with upsert to handle race conditions and
+            // avoid duplicate-key errors if the same email already exists.
+            const upserted = await User.findOneAndUpdate(
+              { email: user.email?.toLowerCase() },
+              {
+                $setOnInsert: {
+                  email: user.email?.toLowerCase(),
+                  name: user.name ?? user.email?.split('@')[0] ?? 'User',
+                  passwordHash: '',
+                  role: null,
+                },
+              },
+              { upsert: true, new: true }
+            );
+            dbUser = upserted.toObject();
           }
 
           const u = dbUser as {

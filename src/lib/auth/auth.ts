@@ -30,50 +30,55 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
-        await connectDB();
-        const user = await User.findOne({
-          email: (credentials.email as string).toLowerCase(),
-        }).lean();
-        if (!user) return null;
+        try {
+          await connectDB();
+          const user = await User.findOne({
+            email: (credentials.email as string).toLowerCase(),
+          }).lean();
+          if (!user) return null;
 
-        const u = user as {
-          _id: unknown;
-          email: string;
-          name: string;
-          role: string | null;
-          therapistProfileId: unknown;
-          passwordHash: string;
-          image: string | null;
-        };
+          const u = user as {
+            _id: unknown;
+            email: string;
+            name: string;
+            role: string | null;
+            therapistProfileId: unknown;
+            passwordHash: string;
+            image: string | null;
+          };
 
-        // OAuth-only accounts have no password hash
-        if (!u.passwordHash) return null;
+          // OAuth-only accounts have no password hash
+          if (!u.passwordHash) return null;
 
-        const valid = await bcrypt.compare(
-          credentials.password as string,
-          u.passwordHash
-        );
-        if (!valid) return null;
+          const valid = await bcrypt.compare(
+            credentials.password as string,
+            u.passwordHash
+          );
+          if (!valid) return null;
 
-        // Backfill User.image from TherapistProfile.photo if missing
-        let image = u.image ?? null;
-        if (!image && u.therapistProfileId) {
-          const profile = await TherapistProfile.findById(u.therapistProfileId).select('photo').lean();
-          const profilePhoto = (profile as { photo?: string | null } | null)?.photo ?? null;
-          if (profilePhoto) {
-            image = profilePhoto;
-            await User.updateOne({ _id: u._id }, { $set: { image: profilePhoto } });
+          // Backfill User.image from TherapistProfile.photo if missing
+          let image = u.image ?? null;
+          if (!image && u.therapistProfileId) {
+            const profile = await TherapistProfile.findById(u.therapistProfileId).select('photo').lean();
+            const profilePhoto = (profile as { photo?: string | null } | null)?.photo ?? null;
+            if (profilePhoto) {
+              image = profilePhoto;
+              await User.updateOne({ _id: u._id }, { $set: { image: profilePhoto } });
+            }
           }
-        }
 
-        return {
-          id: String(u._id),
-          email: u.email,
-          name: u.name,
-          image,
-          role: u.role,
-          therapistProfileId: u.therapistProfileId ? String(u.therapistProfileId) : null,
-        };
+          return {
+            id: String(u._id),
+            email: u.email,
+            name: u.name,
+            image,
+            role: u.role,
+            therapistProfileId: u.therapistProfileId ? String(u.therapistProfileId) : null,
+          };
+        } catch (err) {
+          console.error('[auth] authorize error:', err);
+          return null;
+        }
       },
     }),
   ],

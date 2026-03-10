@@ -11,7 +11,7 @@ export default async function ContactSection() {
           <h2 className="text-2xl font-bold text-text-primary">{t('contact.title')}</h2>
           <p className="mt-2 text-base text-text-secondary">{t('contact.subtitle')}</p>
         </div>
-        <div className="rounded-2xl bg-surface p-6 border border-border">
+        <div className="rounded-xl border border-border bg-surface p-6">
           <ContactSectionForm />
         </div>
       </div>

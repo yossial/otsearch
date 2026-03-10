@@ -72,7 +72,7 @@ export default async function WhatIsOccupationalTherapy() {
           {cards.map(({ key, icon }) => (
             <div
               key={key}
-              className="flex flex-col gap-3 rounded-xl border border-border bg-surface p-5 transition-shadow hover:shadow-card-hover"
+              className="flex flex-col gap-3 rounded-xl border border-border bg-surface p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-card-hover"
             >
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-light text-primary">
                 {icon}

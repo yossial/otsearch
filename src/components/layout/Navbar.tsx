@@ -314,7 +314,7 @@ export default function Navbar({ avatarUrl }: { avatarUrl?: string | null }) {
                 <Link href="/auth/login" onClick={close} className="rounded-lg border border-border px-4 py-2 text-center text-sm font-medium text-text-primary transition-colors hover:border-primary hover:text-primary">
                   {t('login')}
                 </Link>
-                <Link href="/auth/register" onClick={close} className="rounded-lg bg-primary px-4 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-primary-mid">
+                <Link href="/auth/register" onClick={close} className="rounded-lg bg-primary px-4 py-2 text-center text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_4px_12px_rgba(0,29,61,0.2)]">
                   {t('register')}
                 </Link>
               </>

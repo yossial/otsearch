@@ -80,7 +80,7 @@ export default function SettingsForm({ settings: initial }: { settings: Settings
             type="email"
             defaultValue={optimisticSettings.contactEmail}
             onBlur={(e) => updateField('contactEmail', e.target.value)}
-            className="w-full max-w-sm rounded border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none"
+            className="w-full max-w-sm rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -88,7 +88,7 @@ export default function SettingsForm({ settings: initial }: { settings: Settings
           <select
             defaultValue={optimisticSettings.defaultSortOrder}
             onChange={(e) => updateField('defaultSortOrder', e.target.value)}
-            className="w-48 rounded border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none"
+            className="w-48 rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
           >
             <option value="relevance">{t('settings.sortOptions.relevance')}</option>
             <option value="rating">{t('settings.sortOptions.rating')}</option>
@@ -105,7 +105,7 @@ export default function SettingsForm({ settings: initial }: { settings: Settings
               type="number"
               defaultValue={optimisticSettings.premiumMonthlyPrice}
               onBlur={(e) => updateField('premiumMonthlyPrice', Number(e.target.value))}
-              className="w-32 rounded border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none"
+              className="w-32 rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -114,7 +114,7 @@ export default function SettingsForm({ settings: initial }: { settings: Settings
               type="number"
               defaultValue={optimisticSettings.premiumAnnualPrice}
               onBlur={(e) => updateField('premiumAnnualPrice', Number(e.target.value))}
-              className="w-32 rounded border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none"
+              className="w-32 rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
             />
           </div>
         </div>
@@ -127,7 +127,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   return (
     <div>
       <h2 className="mb-4 text-base font-semibold text-text-primary">{title}</h2>
-      <div className="space-y-3 rounded-lg border border-border bg-surface p-5">{children}</div>
+      <div className="space-y-3 rounded-xl border border-border bg-surface p-5">{children}</div>
     </div>
   );
 }

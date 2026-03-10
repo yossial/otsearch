@@ -81,13 +81,13 @@ export default async function AdminDashboardPage() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Registration trend chart */}
-        <div className="rounded-lg border border-border bg-surface p-5">
+        <div className="rounded-xl border border-border bg-surface p-5">
           <h2 className="mb-4 text-sm font-semibold text-text-primary">{t('dashboard.registrationsChart')}</h2>
           <BarChart months={chartMonths} />
         </div>
 
         {/* Platform health */}
-        <div className="rounded-lg border border-border bg-surface p-5">
+        <div className="rounded-xl border border-border bg-surface p-5">
           <h2 className="mb-4 text-sm font-semibold text-text-primary">{t('dashboard.platformHealth')}</h2>
           <div className="space-y-4">
             <RatioBar
@@ -120,7 +120,7 @@ export default async function AdminDashboardPage() {
 
 function StatCard({ label, value, sub }: { label: string; value: number; sub?: string }) {
   return (
-    <div className="rounded-lg border border-border bg-surface p-5">
+    <div className="rounded-xl border border-border bg-surface p-5">
       <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary">{label}</p>
       <div className="mt-1 flex items-baseline gap-1.5">
         <p className="text-2xl font-bold text-text-primary">{value.toLocaleString()}</p>

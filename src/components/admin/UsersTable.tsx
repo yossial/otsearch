@@ -51,7 +51,7 @@ export default function UsersTable({ users: initialUsers }: { users: AdminUser[]
   }
 
   return (
-    <div className="overflow-x-auto rounded-lg border border-border">
+    <div className="overflow-x-auto rounded-xl border border-border">
       <table className="w-full text-sm">
         <thead className="bg-bg-alt">
           <tr>

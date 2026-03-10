@@ -52,7 +52,7 @@ export default function TherapistCard({ therapist }: { therapist: TherapistProfi
       data-therapist-name={`${profile.displayName.he ?? ''} ${profile.displayName.en ?? ''} ${profile.displayName.ar ?? ''}`}
       data-therapist-city={profile.location?.city ?? ''}
       data-therapist-specs={specSearchData}
-      className="group relative flex cursor-pointer flex-col rounded-[16px] border border-border bg-surface
+      className="group relative flex cursor-pointer flex-col rounded-xl border border-border bg-surface
                  shadow-[0_2px_16px_rgba(0,0,0,0.06)]
                  transition-[transform,box-shadow,border-color] duration-300 ease-spring
                  hover:-translate-y-1 hover:border-primary/20 hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]
@@ -145,7 +145,7 @@ export default function TherapistCard({ therapist }: { therapist: TherapistProfi
         <div className="border-t border-border pt-2.5">
           <button
             type="button"
-            className="w-full rounded-lg bg-primary py-2 text-[11px] font-bold uppercase tracking-widest text-white transition-colors hover:bg-primary-mid"
+            className="w-full rounded-lg bg-primary py-2 text-[11px] font-bold uppercase tracking-widest text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_4px_12px_rgba(0,29,61,0.2)]"
           >
             {t('viewProfile')}
           </button>

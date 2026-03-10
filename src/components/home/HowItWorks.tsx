@@ -96,7 +96,7 @@ export default async function HowItWorks() {
                 </div>
               )}
 
-              <div className="group flex h-full flex-col gap-5 rounded-2xl border border-primary/10 bg-surface p-8 transition-all duration-200 hover:border-primary/25 hover:shadow-card-hover">
+              <div className="group flex h-full flex-col gap-5 rounded-xl border border-primary/10 bg-surface p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-card-hover">
                 <div className="flex items-start justify-between">
                   {/* Icon — navy gradient background */}
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-white shadow-[0_2px_8px_rgba(0,29,61,0.2)] transition-all duration-200 group-hover:shadow-[0_4px_12px_rgba(0,29,61,0.3)]">

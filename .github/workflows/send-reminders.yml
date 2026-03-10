@@ -1,0 +1,26 @@
+name: Send weekly reminder emails
+
+on:
+  schedule:
+    # Every Monday at 09:00 UTC (11:00 Israel time, 12:00 in summer)
+    - cron: '0 9 * * 1'
+  workflow_dispatch: # allow manual trigger from GitHub UI
+
+jobs:
+  reminders:
+    name: Trigger reminder API
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call /api/admin/reminders (dev)
+        if: github.ref == 'refs/heads/dev'
+        run: |
+          curl -f -X POST \
+            -H "x-cron-secret: ${{ secrets.CRON_SECRET }}" \
+            "${{ secrets.DEV_APP_URL }}/api/admin/reminders"
+
+      - name: Call /api/admin/reminders (prod)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          curl -f -X POST \
+            -H "x-cron-secret: ${{ secrets.CRON_SECRET }}" \
+            "${{ secrets.PROD_APP_URL }}/api/admin/reminders"

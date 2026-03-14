@@ -103,9 +103,8 @@
 
 ## Backlog (after design refactor)
 
-- [ ] Run `npm run lint && npm run typecheck && npm run test && npm run build` before PR
-- [ ] Raise PR: `feat/151-homepage-redesign` → `dev`
-- [ ] **Epic 6 (#155)**: Rename OT → Therapist — stories #156, #157, #158, #159 (new branch `feat/155`)
+- [x] Run CI checks — lint/typecheck/test/build all pass
+- [x] Raise PR: `feat/151-homepage-redesign` → `dev` — PR #162
 - [ ] Patient Management Platform — see `docs/patient-management-plan.md`
 
 ---

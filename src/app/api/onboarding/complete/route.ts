@@ -73,6 +73,8 @@ export async function POST(req: NextRequest) {
       const locationData = (body.location as { city?: string; address?: string, coordinates?: [number, number] } | undefined) ?? {};
       const phone = (body.contactPhone as string | undefined)?.trim() ?? '';
 
+      const photo = (body.photo as string | undefined)?.trim() || null;
+
       const profileDoc = new TherapistProfile({
         slug,
         displayName: {
@@ -104,7 +106,7 @@ export async function POST(req: NextRequest) {
         isAcceptingPatients: (body.isAcceptingPatients as boolean | undefined) ?? false,
         feeRange: (body.feeRange as { min: number; max: number; currency: string } | null | undefined) ?? null,
         gender: (body.gender as 'male' | 'female' | null | undefined) ?? null,
-        photo: (body.photo as string | undefined)?.trim() || null,
+        photo,
         subscriptionTier: 'free',
         isActive: !!(locationData.city?.trim()),
       });

@@ -63,7 +63,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             const profilePhoto = (profile as { photo?: string | null } | null)?.photo ?? null;
             if (profilePhoto) {
               image = profilePhoto;
-              await User.updateOne({ _id: u._id }, { $set: { image: profilePhoto } });
+              await User.findByIdAndUpdate(u._id, { $set: { image: profilePhoto } });
             }
           }
 
@@ -129,7 +129,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             const profilePhoto = (profile as { photo?: string | null } | null)?.photo ?? null;
             if (profilePhoto) {
               storedImage = profilePhoto;
-              await User.updateOne({ _id: u._id }, { $set: { image: profilePhoto } });
+              await User.findByIdAndUpdate(u._id, { $set: { image: profilePhoto } });
             }
           }
           if (storedImage) {

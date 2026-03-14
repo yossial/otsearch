@@ -1,15 +1,28 @@
 /**
- * Seed script — populates the database with sample OT profiles.
+ * Seed script — populates the database with sample therapist profiles + linked user accounts.
  * Run: npx tsx scripts/seed.ts
  *
  * Idempotent: upserts by slug so it's safe to run multiple times.
+ *
+ * Seeded therapist accounts can log in with:
+ *   email:    <slug>@seed.therapio.co.il
+ *   password: Therapist1!
  */
 
 import 'dotenv/config';
+
+if (process.env.NODE_ENV === 'production') {
+  console.error('❌  seed must not run in production.');
+  process.exit(1);
+}
+
 import mongoose from 'mongoose';
-import { OTProfile } from '../src/lib/db/models/OTProfile';
+import bcrypt from 'bcryptjs';
+import { TherapistProfile } from '../src/lib/db/models/TherapistProfile';
 import { Review } from '../src/lib/db/models/Review';
 import { User } from '../src/lib/db/models/User';
+
+const SEED_PASSWORD = 'Therapist1!';
 
 const MONGODB_URI = process.env.MONGODB_URI ?? 'mongodb://localhost:27017/otsearch';
 
@@ -28,13 +41,16 @@ const profiles = [
     languages: ['he', 'en'],
     location: { type: 'Point' as const, coordinates: [34.7818, 32.0853], city: 'תל אביב', address: 'רחוב דיזנגוף 120, תל אביב' },
     sessionTypes: ['in-person', 'telehealth'],
-    insuranceAccepted: ['clalit', 'maccabi', 'private'],
+    insuranceAccepted: ['clalit', 'maccabi'],
     feeRange: { min: 400, max: 450, currency: 'ILS' as const },
     contactEmail: 'michal.cohen@therapio.co.il',
     contactPhone: '050-123-4567',
     subscriptionTier: 'premium' as const,
     isFeatured: true,
     isAcceptingPatients: true,
+    gender: 'female' as const,
+    mohStatus: 'בתוקף',
+    isActive: true,
   },
   {
     slug: 'yosef-levi',
@@ -50,13 +66,16 @@ const profiles = [
     languages: ['he', 'ar', 'en'],
     location: { type: 'Point' as const, coordinates: [35.2137, 31.7683], city: 'ירושלים', address: 'רחוב יפו 80, ירושלים' },
     sessionTypes: ['in-person', 'home-visit'],
-    insuranceAccepted: ['clalit', 'leumit', 'meuhedet', 'private'],
+    insuranceAccepted: ['clalit', 'leumit', 'meuhedet'],
     feeRange: { min: 360, max: 400, currency: 'ILS' as const },
     contactEmail: 'yosef.levi@therapio.co.il',
     contactPhone: '052-234-5678',
     subscriptionTier: 'premium' as const,
     isFeatured: true,
     isAcceptingPatients: true,
+    gender: 'male' as const,
+    mohStatus: 'בתוקף',
+    isActive: true,
   },
   {
     slug: 'sara-mizrahi',
@@ -72,13 +91,16 @@ const profiles = [
     languages: ['he', 'ru'],
     location: { type: 'Point' as const, coordinates: [34.9896, 32.7940], city: 'חיפה', address: 'שדרות הנשיא 50, חיפה' },
     sessionTypes: ['in-person', 'telehealth'],
-    insuranceAccepted: ['maccabi', 'meuhedet', 'private'],
+    insuranceAccepted: ['maccabi', 'meuhedet'],
     feeRange: { min: 380, max: 420, currency: 'ILS' as const },
     contactEmail: 'sara.mizrahi@therapio.co.il',
     contactPhone: '054-345-6789',
     subscriptionTier: 'premium' as const,
     isFeatured: false,
     isAcceptingPatients: false,
+    gender: 'female' as const,
+    mohStatus: 'בתוקף',
+    isActive: true,
   },
   {
     slug: 'david-peretz',
@@ -94,13 +116,16 @@ const profiles = [
     languages: ['he', 'en'],
     location: { type: 'Point' as const, coordinates: [34.7913, 31.2520], city: 'באר שבע', address: 'שדרות רגר 110, באר שבע' },
     sessionTypes: ['in-person'],
-    insuranceAccepted: ['clalit', 'maccabi', 'leumit', 'private'],
+    insuranceAccepted: ['clalit', 'maccabi', 'leumit'],
     feeRange: { min: 350, max: 380, currency: 'ILS' as const },
     contactEmail: 'david.peretz@therapio.co.il',
     contactPhone: '058-456-7890',
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'male' as const,
+    mohStatus: 'בתוקף',
+    isActive: true,
   },
   {
     slug: 'hana-shapira',
@@ -116,13 +141,16 @@ const profiles = [
     languages: ['he', 'en', 'ru'],
     location: { type: 'Point' as const, coordinates: [34.8516, 32.3215], city: 'נתניה', address: 'רחוב הרצל 55, נתניה' },
     sessionTypes: ['in-person', 'home-visit', 'telehealth'],
-    insuranceAccepted: ['clalit', 'maccabi', 'meuhedet', 'leumit', 'private'],
+    insuranceAccepted: ['clalit', 'maccabi', 'meuhedet', 'leumit'],
     feeRange: { min: 350, max: 400, currency: 'ILS' as const },
     contactEmail: 'hana.shapira@therapio.co.il',
     contactPhone: '050-567-8901',
     subscriptionTier: 'premium' as const,
     isFeatured: true,
     isAcceptingPatients: true,
+    gender: 'female' as const,
+    mohStatus: 'בתוקף',
+    isActive: true,
   },
   {
     slug: 'amir-hassan',
@@ -145,6 +173,9 @@ const profiles = [
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'male' as const,
+    mohStatus: 'בתוקף',
+    isActive: true,
   },
   {
     slug: 'rivka-goldman',
@@ -160,13 +191,16 @@ const profiles = [
     languages: ['he', 'en'],
     location: { type: 'Point' as const, coordinates: [34.7818, 32.0853], city: 'תל אביב', address: 'רחוב שלמה המלך 8, תל אביב' },
     sessionTypes: ['in-person', 'telehealth'],
-    insuranceAccepted: ['maccabi', 'private'],
+    insuranceAccepted: ['maccabi'],
     feeRange: { min: 450, max: 550, currency: 'ILS' as const },
     contactEmail: 'rivka.goldman@therapio.co.il',
     contactPhone: '054-789-0123',
     subscriptionTier: 'premium' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'female' as const,
+    mohStatus: 'בתוקף',
+    isActive: true,
   },
   {
     slug: 'noa-katz',
@@ -182,13 +216,16 @@ const profiles = [
     languages: ['he', 'en', 'fr'],
     location: { type: 'Point' as const, coordinates: [34.9896, 32.7940], city: 'חיפה', address: 'רחוב ממשי 25, חיפה' },
     sessionTypes: ['in-person'],
-    insuranceAccepted: ['clalit', 'maccabi', 'meuhedet', 'leumit', 'private'],
+    insuranceAccepted: ['clalit', 'maccabi', 'meuhedet', 'leumit'],
     feeRange: { min: 420, max: 480, currency: 'ILS' as const },
     contactEmail: 'noa.katz@therapio.co.il',
     contactPhone: '050-890-1234',
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'female' as const,
+    mohStatus: 'בתוקף',
+    isActive: true,
   },
   {
     slug: 'eli-ben-david',
@@ -204,13 +241,16 @@ const profiles = [
     languages: ['he'],
     location: { type: 'Point' as const, coordinates: [34.8983, 32.1663], city: 'רמת גן', address: 'שדרות ירושלים 30, רמת גן' },
     sessionTypes: ['in-person', 'telehealth'],
-    insuranceAccepted: ['clalit', 'meuhedet', 'private'],
+    insuranceAccepted: ['clalit', 'meuhedet'],
     feeRange: { min: 380, max: 420, currency: 'ILS' as const },
     contactEmail: 'eli.bendavid@therapio.co.il',
     contactPhone: '052-901-2345',
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'male' as const,
+    mohStatus: 'בתוקף',
+    isActive: true,
   },
   {
     slug: 'fatima-abu-ali',
@@ -233,6 +273,9 @@ const profiles = [
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'female' as const,
+    mohStatus: 'בתוקף',
+    isActive: true,
   },
   {
     slug: 'tamar-roi',
@@ -248,13 +291,16 @@ const profiles = [
     languages: ['he', 'en'],
     location: { type: 'Point' as const, coordinates: [34.7818, 32.0853], city: 'תל אביב', address: 'רחוב בן יהודה 45, תל אביב' },
     sessionTypes: ['in-person', 'telehealth'],
-    insuranceAccepted: ['maccabi', 'meuhedet', 'private'],
+    insuranceAccepted: ['maccabi', 'meuhedet'],
     feeRange: { min: 400, max: 450, currency: 'ILS' as const },
     contactEmail: 'tamar.roi@therapio.co.il',
     contactPhone: '050-112-2334',
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: false,
+    gender: 'female' as const,
+    mohStatus: 'בתוקף',
+    isActive: true,
   },
   {
     slug: 'ron-ofer',
@@ -270,13 +316,16 @@ const profiles = [
     languages: ['he', 'en'],
     location: { type: 'Point' as const, coordinates: [34.7818, 32.0853], city: 'תל אביב', address: 'דרך מנחם בגין 23, תל אביב' },
     sessionTypes: ['in-person', 'telehealth'],
-    insuranceAccepted: ['private'],
+    insuranceAccepted: [],
     feeRange: { min: 500, max: 600, currency: 'ILS' as const },
     contactEmail: 'ron.ofer@therapio.co.il',
     contactPhone: '052-223-3445',
     subscriptionTier: 'premium' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'male' as const,
+    mohStatus: 'בתוקף',
+    isActive: true,
   },
   {
     slug: 'orna-friedman',
@@ -292,13 +341,16 @@ const profiles = [
     languages: ['he', 'en', 'ru'],
     location: { type: 'Point' as const, coordinates: [34.8516, 32.3215], city: 'נתניה', address: 'רחוב הרצל 20, נתניה' },
     sessionTypes: ['in-person', 'telehealth'],
-    insuranceAccepted: ['clalit', 'maccabi', 'meuhedet', 'leumit', 'private'],
+    insuranceAccepted: ['clalit', 'maccabi', 'meuhedet', 'leumit'],
     feeRange: { min: 450, max: 520, currency: 'ILS' as const },
     contactEmail: 'orna.friedman@therapio.co.il',
     contactPhone: '054-334-4556',
     subscriptionTier: 'premium' as const,
     isFeatured: true,
     isAcceptingPatients: true,
+    gender: 'female' as const,
+    mohStatus: 'בתוקף',
+    isActive: true,
   },
   {
     slug: 'gal-bar-oz',
@@ -314,13 +366,16 @@ const profiles = [
     languages: ['he'],
     location: { type: 'Point' as const, coordinates: [34.9024, 32.0819], city: 'פתח תקווה', address: 'שדרות זבוטינסקי 100, פתח תקווה' },
     sessionTypes: ['in-person', 'home-visit'],
-    insuranceAccepted: ['clalit', 'maccabi', 'meuhedet', 'private'],
+    insuranceAccepted: ['clalit', 'maccabi', 'meuhedet'],
     feeRange: { min: 360, max: 400, currency: 'ILS' as const },
     contactEmail: 'gal.baroz@therapio.co.il',
     contactPhone: '050-445-5667',
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'female' as const,
+    mohStatus: 'בתוקף',
+    isActive: true,
   },
   {
     slug: 'moshe-dvir',
@@ -336,13 +391,16 @@ const profiles = [
     languages: ['he', 'en'],
     location: { type: 'Point' as const, coordinates: [34.7913, 31.2520], city: 'באר שבע', address: 'רחוב קק"ל 40, באר שבע' },
     sessionTypes: ['in-person', 'telehealth'],
-    insuranceAccepted: ['clalit', 'meuhedet', 'private'],
+    insuranceAccepted: ['clalit', 'meuhedet'],
     feeRange: { min: 350, max: 400, currency: 'ILS' as const },
     contactEmail: 'moshe.dvir@therapio.co.il',
     contactPhone: '052-556-6778',
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'male' as const,
+    mohStatus: 'בתוקף',
+    isActive: true,
   },
   {
     slug: 'shira-landau',
@@ -358,13 +416,16 @@ const profiles = [
     languages: ['he', 'en'],
     location: { type: 'Point' as const, coordinates: [34.8983, 32.1663], city: 'רמת גן', address: 'רחוב ביאליק 15, רמת גן' },
     sessionTypes: ['in-person', 'telehealth'],
-    insuranceAccepted: ['maccabi', 'meuhedet', 'leumit', 'private'],
+    insuranceAccepted: ['maccabi', 'meuhedet', 'leumit'],
     feeRange: { min: 400, max: 460, currency: 'ILS' as const },
     contactEmail: 'shira.landau@therapio.co.il',
     contactPhone: '054-667-7889',
     subscriptionTier: 'premium' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'female' as const,
+    mohStatus: 'בתוקף',
+    isActive: true,
   },
   {
     slug: 'avi-nachshon',
@@ -380,13 +441,16 @@ const profiles = [
     languages: ['he', 'ru', 'en'],
     location: { type: 'Point' as const, coordinates: [34.9024, 32.0819], city: 'פתח תקווה', address: 'רחוב אחד העם 88, פתח תקווה' },
     sessionTypes: ['in-person', 'home-visit'],
-    insuranceAccepted: ['clalit', 'maccabi', 'leumit', 'private'],
+    insuranceAccepted: ['clalit', 'maccabi', 'leumit'],
     feeRange: { min: 370, max: 420, currency: 'ILS' as const },
     contactEmail: 'avi.nachshon@therapio.co.il',
     contactPhone: '050-778-8900',
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'male' as const,
+    mohStatus: 'בתוקף',
+    isActive: true,
   },
   {
     slug: 'maya-reuveni',
@@ -402,13 +466,16 @@ const profiles = [
     languages: ['he', 'en'],
     location: { type: 'Point' as const, coordinates: [34.9896, 32.7940], city: 'חיפה', address: 'רחוב הגפן 5, חיפה' },
     sessionTypes: ['in-person', 'telehealth'],
-    insuranceAccepted: ['clalit', 'maccabi', 'private'],
+    insuranceAccepted: ['clalit', 'maccabi'],
     feeRange: { min: 380, max: 420, currency: 'ILS' as const },
     contactEmail: 'maya.reuveni@therapio.co.il',
     contactPhone: '052-889-9001',
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: false,
+    gender: 'female' as const,
+    mohStatus: 'בתוקף',
+    isActive: true,
   },
   {
     slug: 'dan-zarchi',
@@ -424,13 +491,16 @@ const profiles = [
     languages: ['he', 'en'],
     location: { type: 'Point' as const, coordinates: [34.7818, 32.0853], city: 'תל אביב', address: 'רחוב אלנבי 90, תל אביב' },
     sessionTypes: ['in-person', 'telehealth'],
-    insuranceAccepted: ['maccabi', 'meuhedet', 'leumit', 'private'],
+    insuranceAccepted: ['maccabi', 'meuhedet', 'leumit'],
     feeRange: { min: 420, max: 480, currency: 'ILS' as const },
     contactEmail: 'dan.zarchi@therapio.co.il',
     contactPhone: '054-990-0112',
     subscriptionTier: 'premium' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'male' as const,
+    mohStatus: 'בתוקף',
+    isActive: true,
   },
   {
     slug: 'rachel-stern',
@@ -446,13 +516,16 @@ const profiles = [
     languages: ['he', 'en'],
     location: { type: 'Point' as const, coordinates: [34.7818, 32.0853], city: 'תל אביב', address: 'רחוב נחלת בנימין 30, תל אביב' },
     sessionTypes: ['in-person'],
-    insuranceAccepted: ['maccabi', 'leumit', 'private'],
+    insuranceAccepted: ['maccabi', 'leumit'],
     feeRange: { min: 450, max: 500, currency: 'ILS' as const },
     contactEmail: 'rachel.stern@therapio.co.il',
     contactPhone: '050-100-2234',
     subscriptionTier: 'premium' as const,
     isFeatured: true,
     isAcceptingPatients: true,
+    gender: 'female' as const,
+    mohStatus: 'בתוקף',
+    isActive: true,
   },
   {
     slug: 'tal-sela',
@@ -468,13 +541,16 @@ const profiles = [
     languages: ['he', 'en'],
     location: { type: 'Point' as const, coordinates: [34.8983, 32.1663], city: 'רמת גן', address: 'שדרות ירושלים 120, רמת גן' },
     sessionTypes: ['in-person', 'telehealth'],
-    insuranceAccepted: ['clalit', 'maccabi', 'private'],
+    insuranceAccepted: ['clalit', 'maccabi'],
     feeRange: { min: 440, max: 500, currency: 'ILS' as const },
     contactEmail: 'tal.sela@therapio.co.il',
     contactPhone: '052-101-2345',
     subscriptionTier: 'free' as const,
     isFeatured: false,
     isAcceptingPatients: true,
+    gender: 'female' as const,
+    mohStatus: 'בתוקף',
+    isActive: true,
   },
 ];
 
@@ -483,40 +559,62 @@ async function seed() {
   await mongoose.connect(MONGODB_URI);
   console.log('Connected.');
 
+  const passwordHash = await bcrypt.hash(SEED_PASSWORD, 12);
+
   let created = 0;
   let updated = 0;
 
   for (const p of profiles) {
-    const result = await OTProfile.updateOne(
+    // Upsert TherapistProfile
+    const result = await TherapistProfile.updateOne(
       { slug: p.slug },
       { $set: p },
       { upsert: true }
     );
     if (result.upsertedCount) created++;
     else if (result.modifiedCount) updated++;
+
+    // Upsert linked User account — mirrors what onboarding/complete creates
+    const profileDoc = await TherapistProfile.findOne({ slug: p.slug }).lean();
+    if (profileDoc) {
+      await User.findOneAndUpdate(
+        { email: p.contactEmail },
+        {
+          $setOnInsert: {
+            email: p.contactEmail,
+            name: p.displayName.en ?? p.displayName.he,
+            passwordHash,
+            emailVerified: true,
+          },
+          $set: { role: 'therapist', therapistProfileId: profileDoc._id },
+        },
+        { upsert: true }
+      );
+    }
   }
 
   console.log(`Seed complete: ${created} created, ${updated} updated, ${profiles.length} total.`);
+  console.log(`Therapist login: email = <contactEmail>  password = ${SEED_PASSWORD}`);
 
-  // ── Seed patient users ────────────────────────────────────────────────────
-  console.log('\nSeeding patient users...');
-  const seedPatientDefs = [
+  // ── Seed reviewer users (no role — anonymous reviewers for seeded reviews) ─
+  console.log('\nSeeding reviewer users...');
+  const seedReviewerDefs = [
     { email: 'yael.cohen@seed.therapio.co.il', name: 'Yael Cohen' },
     { email: 'roi.benmoshe@seed.therapio.co.il', name: 'Roi Ben-Moshe' },
     { email: 'nadia.petrov@seed.therapio.co.il', name: 'Nadia Petrov' },
   ];
 
-  const patientDocs = await Promise.all(
-    seedPatientDefs.map((p) =>
+  const reviewerDocs = await Promise.all(
+    seedReviewerDefs.map((p) =>
       User.findOneAndUpdate(
         { email: p.email },
-        { $setOnInsert: { ...p, passwordHash: '', role: 'patient', emailVerified: true } },
+        { $setOnInsert: { ...p, passwordHash: '', role: null, emailVerified: true } },
         { upsert: true, new: true }
       )
     )
   );
-  const [yael, roi, nadia] = patientDocs;
-  console.log(`  Patient users ready: ${patientDocs.map((u) => u!.name).join(', ')}`);
+  const [yael, roi, nadia] = reviewerDocs;
+  console.log(`  Reviewer users ready: ${reviewerDocs.map((u) => u!.name).join(', ')}`);
 
   // ── Seed reviews ──────────────────────────────────────────────────────────
   console.log('\nSeeding reviews...');
@@ -550,14 +648,14 @@ async function seed() {
   let reviewsUpdated = 0;
 
   for (const slug of slugsWithReviews) {
-    const profile = await OTProfile.findOne({ slug }).lean();
+    const profile = await TherapistProfile.findOne({ slug }).lean();
     if (!profile) { console.warn(`  Profile not found: ${slug} — skipping`); continue; }
 
     const defs = reviewDefs.filter((r) => r.slug === slug);
 
     for (const def of defs) {
       const res = await Review.updateOne(
-        { userId: def.userId, otProfileId: profile._id },
+        { userId: def.userId, therapistProfileId: profile._id },
         { $set: { rating: def.rating, text: def.text, isApproved: true } },
         { upsert: true }
       );
@@ -567,12 +665,12 @@ async function seed() {
 
     // Recalculate rating stats
     const agg = await Review.aggregate<{ avg: number; count: number }>([
-      { $match: { otProfileId: profile._id, isApproved: true } },
+      { $match: { therapistProfileId: profile._id, isApproved: true } },
       { $group: { _id: null, avg: { $avg: '$rating' }, count: { $sum: 1 } } },
     ]);
     const ratingAvg = agg.length ? Math.round(agg[0].avg * 10) / 10 : 0;
     const ratingCount = agg.length ? agg[0].count : 0;
-    await OTProfile.updateOne({ _id: profile._id }, { $set: { ratingAvg, ratingCount } });
+    await TherapistProfile.updateOne({ _id: profile._id }, { $set: { ratingAvg, ratingCount } });
     console.log(`  ${slug}: ${ratingCount} reviews, avg ${ratingAvg}`);
   }
 

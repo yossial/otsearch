@@ -1,10 +1,53 @@
+import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import { searchOTs } from '@/lib/db/ots';
-import { searchMockOTs } from '@/lib/mock-search';
+import { Link } from '@/i18n/navigation';
+import { searchTherapists } from '@/lib/db/therapists';
+import { searchMockTherapists } from '@/lib/mock-search';
 import SearchBar from '@/components/home/SearchBar';
-import FilterSidebar from '@/components/search/FilterSidebar';
-import OTCard from '@/components/search/OTCard';
-import type { OTProfilePublic, SearchParams } from '@/types';
+import FilterRow from '@/components/home/FilterRow';
+import TherapistPreviewDeck from '@/components/home/TherapistPreviewDeck';
+import HowItWorks from '@/components/home/HowItWorks';
+import WhatIsOccupationalTherapy from '@/components/home/WhatIsOccupationalTherapy';
+import WhyJoinUs from '@/components/home/WhyJoinUs';
+import ContactSection from '@/components/home/ContactSection';
+import TherapistMapWrapper from '@/components/home/TherapistMapWrapper';
+import HeroGraphic from '@/components/home/HeroGraphic';
+import HeroTitleHighlight from '@/components/home/HeroTitleHighlight';
+import Testimonials from '@/components/home/Testimonials';
+import Pricing from '@/components/home/Pricing';
+import FAQ from '@/components/home/FAQ';
+import { FadeInUp } from '@/components/ui/motion';
+import type { SearchParams } from '@/types';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('home.meta');
+  const siteUrl = process.env.NEXTAUTH_URL ?? 'https://therapio.co.il';
+  return {
+    title: t('title'),
+    description: t('description'),
+    openGraph: {
+      title: t('title'),
+      description: t('description'),
+      url: siteUrl,
+      siteName: 'Therapio',
+      type: 'website',
+      images: [
+        {
+          url: `${siteUrl}/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: t('title'),
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: t('title'),
+      description: t('description'),
+      images: [`${siteUrl}/og-image.png`],
+    },
+  };
+}
 
 interface HomePageProps {
   searchParams: Promise<{
@@ -14,6 +57,7 @@ interface HomePageProps {
     sessionType?: string | string[];
     language?: string | string[];
     city?: string;
+    district?: string;
     acceptingOnly?: string;
     sort?: string;
     page?: string;
@@ -23,7 +67,6 @@ interface HomePageProps {
 export default async function HomePage({ searchParams }: HomePageProps) {
   const sp = await searchParams;
   const tHome = await getTranslations('home');
-  const tSearch = await getTranslations('search');
 
   const query: SearchParams = {
     q: sp.q,
@@ -32,79 +75,213 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     sessionType: sp.sessionType as SearchParams['sessionType'],
     language: sp.language,
     city: sp.city,
+    district: sp.district,
     acceptingOnly: sp.acceptingOnly === 'true',
-    sort: sp.sort as SearchParams['sort'],
-    page: sp.page ? parseInt(sp.page, 10) : 1,
-    limit: 20,
+    sort: (sp.sort as SearchParams['sort']) ?? 'rating',
+    page: 1,
+    limit: 10,
   };
 
-  let profiles: OTProfilePublic[] = [];
+  let profiles = [] as Awaited<ReturnType<typeof searchTherapists>>['profiles'];
   let total = 0;
-  let usingMockData = false;
 
   try {
-    ({ profiles, total } = await searchOTs(query));
+    ({ profiles, total } = await searchTherapists(query));
   } catch (err) {
     console.warn('[HomePage] DB unavailable, falling back to mock data:', (err as Error).message);
-    ({ profiles, total } = searchMockOTs(query));
-    usingMockData = true;
+    ({ profiles, total } = searchMockTherapists(query));
   }
 
   return (
     <div className="min-h-screen bg-bg">
-      {/* Compact hero */}
-      <div className="border-b border-border bg-surface">
-        <div className="mx-auto max-w-3xl px-4 py-10 text-center sm:px-6 lg:px-8">
-          <h1 className="mb-3 text-3xl font-extrabold tracking-tight text-text-primary sm:text-4xl">
-            {tHome('heroTitle')}
-          </h1>
-          <p className="mb-6 text-base text-text-secondary">{tHome('heroSubtitle')}</p>
-          <SearchBar />
-        </div>
-      </div>
 
-      {/* Results count bar */}
-      <div className="border-b border-border bg-bg">
-        <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
-          <p className="text-sm text-text-secondary">
-            {tSearch('results', { count: total })}
-            {sp.q && (
-              <span className="ms-1 font-medium text-primary">&ldquo;{sp.q}&rdquo;</span>
-            )}
-            {usingMockData && (
-              <span className="ms-2 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700">
-                demo data
-              </span>
-            )}
-          </p>
-        </div>
-      </div>
+      {/* ── Hero ─────────────────────────────────────────────────────────── */}
+      <section id="hero" className="relative overflow-hidden border-b border-border bg-surface">
+        <div className="relative mx-auto max-w-7xl px-4 pb-12 pt-6 sm:px-6 sm:pb-16 sm:pt-8 lg:px-8 lg:pb-20 lg:pt-12">
+          <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-16">
 
-      {/* Filters + results */}
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-6 md:flex-row md:items-start">
-          <FilterSidebar />
+            {/* Text column */}
+            <div className="w-full flex-1 text-center lg:text-start">
 
-          <div className="flex-1 min-w-0">
-            {profiles.length === 0 ? (
-              <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border bg-surface py-16 text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mb-3 text-text-muted" aria-hidden="true">
-                  <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
-                </svg>
-                <p className="text-base font-medium text-text-secondary">
-                  {tSearch('noResults')}
-                </p>
+              {/* Section badge */}
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-2">
+                <span
+                  className="h-2 w-2 rounded-full bg-accent"
+                  style={{ animation: 'pulse-dot 2s ease-in-out infinite' }}
+                  aria-hidden="true"
+                />
+                <span className="text-xs font-normal tracking-wide text-primary">
+                  {tHome('heroEyebrow')}
+                </span>
               </div>
-            ) : (
-              <div className="flex flex-col gap-4">
-                {profiles.map((ot) => (
-                  <OTCard key={ot.id} ot={ot} />
-                ))}
+
+              {/* Headline */}
+              <h1 className="font-display text-2xl font-normal leading-[1.3] tracking-tight text-text-primary sm:text-3xl lg:text-[2rem] xl:text-[2.25rem]">
+                <HeroTitleHighlight
+                  pre={tHome('heroTitlePre')}
+                  accent={tHome('heroTitleAccent')}
+                  post={tHome('heroTitlePost')}
+                />
+              </h1>
+
+              <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-text-secondary lg:mx-0 lg:max-w-lg">
+                {tHome('heroParagraph')}
+              </p>
+
+              {/* Trust signals */}
+              <div className="mt-8 flex flex-wrap justify-center gap-6 lg:justify-start">
+                <div className="flex flex-col items-center lg:items-start">
+                  <span className="text-xl font-extrabold text-primary">{tHome('stats.therapists')}</span>
+                  <span className="text-xs text-text-secondary">{tHome('stats.therapistsLabel')}</span>
+                </div>
+                <div className="w-px self-stretch bg-border" aria-hidden="true" />
+                <div className="flex flex-col items-center lg:items-start">
+                  <span className="text-xl font-extrabold text-primary">{tHome('stats.cities')}</span>
+                  <span className="text-xs text-text-secondary">{tHome('stats.citiesLabel')}</span>
+                </div>
+                <div className="w-px self-stretch bg-border" aria-hidden="true" />
+                <div className="flex flex-col items-center lg:items-start">
+                  <span className="text-xl font-extrabold text-primary">{tHome('stats.funds')}</span>
+                  <span className="text-xs text-text-secondary">{tHome('stats.fundsLabel')}</span>
+                </div>
               </div>
-            )}
+
+              {/* CTAs */}
+              <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
+                <a
+                  href="#search"
+                  className="group inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-normal text-text-accent shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-dark hover:shadow-accent"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                  </svg>
+                  {tHome('searchButton')}
+                </a>
+                <a
+                  href="#for-therapists"
+                  className="inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-6 py-3 text-sm font-normal text-text-primary transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:text-primary"
+                >
+                  {tHome('heroTherapistCta')}
+                </a>
+              </div>
+            </div>
+
+            {/* Graphic column — hidden on small screens */}
+            <div className="hidden w-full shrink-0 justify-center lg:flex lg:w-[46%]">
+              <HeroGraphic />
+            </div>
+
           </div>
         </div>
+      </section>
+
+      {/* ── Search + filter header ────────────────────────────────────────── */}
+      <div id="search" className="border-b border-border bg-surface">
+        <div className="mx-auto max-w-7xl px-4 pb-4 pt-7 sm:px-6 lg:px-8">
+          <div className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5">
+            <span
+              className="h-1.5 w-1.5 rounded-full bg-primary"
+              style={{ animation: 'pulse-dot 2s ease-in-out infinite' }}
+              aria-hidden="true"
+            />
+            <span className="section-eyebrow text-primary">
+              {tHome('searchHeading')}
+            </span>
+          </div>
+          <SearchBar size="hero" initialQuery={sp.q} />
+        </div>
+        <FilterRow />
       </div>
+
+      {/* ── Therapist preview deck ──────────────────────────────────────── */}
+      <TherapistPreviewDeck profiles={profiles} total={total} />
+
+      {/* ── Why join us ───────────────────────────────────────────────────── */}
+      <WhyJoinUs />
+
+      {/* ── How it works ──────────────────────────────────────────────────── */}
+      <HowItWorks />
+
+      {/* ── Testimonials ──────────────────────────────────────────────────── */}
+      <Testimonials />
+
+      {/* ── Pricing ───────────────────────────────────────────────────────── */}
+      <Pricing />
+
+      {/* ── What is OT ────────────────────────────────────────────────────── */}
+      <WhatIsOccupationalTherapy />
+
+      {/* ── Map section ───────────────────────────────────────────────────── */}
+      <section id="map" className="border-t border-border bg-bg-alt py-10">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <FadeInUp>
+            <div className="mb-5 flex items-center gap-3">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-light">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary" aria-hidden="true">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                </svg>
+              </div>
+              <h2 className="font-display text-xl font-normal text-text-primary">{tHome('mapTitle')}</h2>
+            </div>
+          </FadeInUp>
+          <TherapistMapWrapper profiles={profiles} activeCity={sp.city} />
+        </div>
+      </section>
+
+      {/* ── For therapists CTA (inverted dark section) ────────────────────── */}
+      <section id="for-therapists" className="relative overflow-hidden bg-bg-dark py-20">
+        {/* Dot texture */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+            backgroundSize: '28px 28px',
+          }}
+        />
+        {/* Ambient accent glow */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -end-16 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full bg-accent opacity-[0.06] blur-[80px]"
+        />
+
+        <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          <FadeInUp>
+            <div className="flex flex-col items-center gap-8 text-center sm:flex-row sm:justify-between sm:text-start">
+              <div>
+                <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-accent/70 bg-accent/25 px-3.5 py-1">
+                  <span
+                    className="h-1.5 w-1.5 rounded-full bg-accent"
+                    style={{ animation: 'pulse-dot 2s ease-in-out infinite' }}
+                    aria-hidden="true"
+                  />
+                  <span className="section-eyebrow text-white">
+                    {tHome('therapistBanner.free')}
+                  </span>
+                </div>
+                <h2 className="font-display text-2xl font-normal text-white sm:text-3xl">
+                  {tHome('therapistBanner.title')}
+                </h2>
+                <p className="mt-2 max-w-lg text-base text-white/60">
+                  {tHome('therapistBanner.subtitle')}
+                </p>
+              </div>
+              <Link
+                href="/auth/register"
+                className="shrink-0 rounded-xl bg-accent px-8 py-3.5 text-sm font-normal text-text-accent shadow-accent transition-all duration-200 hover:-translate-y-0.5 hover:bg-sand hover:shadow-accent-lg"
+              >
+                {tHome('therapistBanner.cta')}
+              </Link>
+            </div>
+          </FadeInUp>
+        </div>
+      </section>
+
+      {/* ── FAQ ───────────────────────────────────────────────────────────── */}
+      <FAQ />
+
+      {/* ── Contact section ───────────────────────────────────────────────── */}
+      <ContactSection />
     </div>
   );
 }

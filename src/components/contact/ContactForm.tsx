@@ -5,12 +5,12 @@ import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 
 interface Props {
-  otSlug: string;
-  otName: string;
-  otEmail: string;
+  therapistSlug: string;
+  therapistName: string;
+  therapistEmail: string;
 }
 
-export default function ContactForm({ otSlug, otName, otEmail }: Props) {
+export default function ContactForm({ therapistSlug, therapistName, therapistEmail }: Props) {
   const t = useTranslations('contact');
 
   const [form, setForm] = useState({
@@ -33,7 +33,7 @@ export default function ContactForm({ otSlug, otName, otEmail }: Props) {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, otSlug, otName, otEmail }),
+        body: JSON.stringify({ ...form, therapistSlug, therapistName, therapistEmail }),
       });
       setStatus(res.ok ? 'success' : 'error');
     } catch {
@@ -49,14 +49,14 @@ export default function ContactForm({ otSlug, otName, otEmail }: Props) {
             <path d="M20 6 9 17l-5-5"/>
           </svg>
         </div>
-        <p className="text-base font-semibold text-text-primary">{t('success')}</p>
-        <p className="text-sm text-text-secondary">{t('successDetail', { name: otName })}</p>
+        <p className="text-base font-normal text-text-primary">{t('success')}</p>
+        <p className="text-sm text-text-secondary">{t('successDetail', { name: therapistName })}</p>
       </div>
     );
   }
 
-  const inputClass = 'w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors';
-  const labelClass = 'mb-1.5 block text-sm font-medium text-text-primary';
+  const inputClass = 'w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none transition-colors';
+  const labelClass = 'mb-1.5 block text-sm font-normal text-text-primary';
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -147,7 +147,7 @@ export default function ContactForm({ otSlug, otName, otEmail }: Props) {
       <button
         type="submit"
         disabled={status === 'loading'}
-        className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-3 text-sm font-semibold text-white transition-colors hover:bg-primary/90 disabled:opacity-60"
+        className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-3 text-sm font-normal text-white transition-colors hover:bg-primary-dark disabled:opacity-60"
       >
         {status === 'loading' ? (
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="animate-spin" aria-hidden="true">

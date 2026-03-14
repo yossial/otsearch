@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { getOTReviews } from '@/lib/db/ots';
+import { getTherapistReviews } from '@/lib/db/therapists';
 import ReviewCard from './ReviewCard';
 import ReviewForm from './ReviewForm';
 
@@ -11,15 +11,15 @@ interface Props {
 
 export default async function ReviewsSection({ slug, sessionUserId, userRole }: Props) {
   const t = await getTranslations('reviews');
-  const result = await getOTReviews(slug).catch(() => null);
+  const result = await getTherapistReviews(slug).catch(() => null);
 
   const hasReviews = !!result && result.total > 0;
 
   const locale = 'en'; // server-side locale for date formatting
 
   return (
-    <section id="reviews" className="rounded-lg bg-surface p-6 shadow-card">
-      <h2 className="mb-4 text-lg font-semibold text-text-primary">
+    <section id="reviews" className="rounded-lg bg-surface p-6 border border-border">
+      <h2 className="mb-4 text-lg font-normal text-text-primary">
         {result && result.total > 0
           ? t('titleWithCount', { count: result.total })
           : t('title')}
@@ -45,7 +45,7 @@ export default async function ReviewsSection({ slug, sessionUserId, userRole }: 
 
       {sessionUserId && (
         <div className="border-t border-border pt-4">
-          <h3 className="mb-3 text-sm font-semibold text-text-primary">{t('formTitle')}</h3>
+          <h3 className="mb-3 text-sm font-normal text-text-primary">{t('formTitle')}</h3>
           <ReviewForm slug={slug} isLoggedIn={!!sessionUserId} userRole={userRole} />
         </div>
       )}

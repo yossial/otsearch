@@ -1,17 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import { signIn } from 'next-auth/react';
+import { signIn, getSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import SocialAuthButtons from './SocialAuthButtons';
+import { Button } from '@/components/ui/Button';
 
-export default function LoginForm() {
+export default function LoginForm({ googleEnabled = true }: { googleEnabled?: boolean }) {
   const t = useTranslations('auth');
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') ?? '/dashboard';
+  const callbackUrl = searchParams.get('callbackUrl');
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -36,15 +37,21 @@ export default function LoginForm() {
     if (res?.error) {
       setError(t('errors.invalidCredentials'));
     } else {
-      router.push(callbackUrl);
+      if (callbackUrl) {
+        router.push(callbackUrl);
+      } else {
+        const session = await getSession();
+        const role = (session?.user as { role?: string | null } | undefined)?.role;
+        router.push(role === 'admin' ? '/admin' : '/dashboard');
+      }
       router.refresh();
     }
   }
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-4">
       {/* Social login — primary CTAs */}
-      <SocialAuthButtons callbackUrl={callbackUrl} />
+      <SocialAuthButtons callbackUrl={callbackUrl ?? undefined} googleEnabled={googleEnabled} />
 
       {/* OR divider */}
       <div className="flex items-center gap-3">
@@ -56,7 +63,7 @@ export default function LoginForm() {
       {/* Email / password form */}
       <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="email" className="text-sm font-medium text-text-primary">
+          <label htmlFor="email" className="text-sm font-normal text-text-primary">
             {t('login.email')}
           </label>
           <input
@@ -66,13 +73,13 @@ export default function LoginForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
           />
         </div>
 
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
-            <label htmlFor="password" className="text-sm font-medium text-text-primary">
+            <label htmlFor="password" className="text-sm font-normal text-text-primary">
               {t('login.password')}
             </label>
             <span className="text-xs text-text-muted">{t('login.forgotPassword')}</span>
@@ -84,7 +91,7 @@ export default function LoginForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
           />
         </div>
 
@@ -94,17 +101,23 @@ export default function LoginForm() {
           </p>
         )}
 
-        <button
+        <Button
           type="submit"
           disabled={loading}
-          className="mt-1 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary/90 disabled:opacity-60"
+          size="lg"
+          className="mt-1 w-full"
         >
-          {loading ? '...' : t('login.submit')}
-        </button>
+          {loading ? '...' : (
+            <>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+              {t('login.submit')}
+            </>
+          )}
+        </Button>
 
         <p className="text-center text-sm text-text-secondary">
           {t('login.noAccount')}{' '}
-          <Link href="/auth/register" className="font-medium text-primary hover:underline">
+          <Link href="/auth/register" className="font-normal text-primary hover:underline">
             {t('login.register')}
           </Link>
         </p>

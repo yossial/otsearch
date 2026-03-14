@@ -1,0 +1,224 @@
+/* ═══════════════════════════════════════════════════════════════════
+   OT CONNECT — Design System Tokens
+   src/styles/tokens.css
+
+   Single source of truth for all visual design decisions.
+   Consumed by Tailwind CSS v4 via @theme {}.
+   Every token here automatically becomes a Tailwind utility class:
+     --color-primary    →  bg-primary / text-primary / border-primary
+     --shadow-card      →  shadow-card
+     --radius-lg        →  rounded-lg
+     --font-sans        →  font-sans
+     etc.
+
+   Palette: Federal Blue & Gold (clean white base)
+     Gold #FFD60A — CTA buttons
+     Amber #FFBF1C — hover state
+     Goldenrod #D1A309 — pressed / badges
+     Federal Blue #00044A — headings, footer, dark text
+     Navy Blue #000080 — links
+   ═══════════════════════════════════════════════════════════════════ */
+
+@theme {
+
+  /* ─────────────────────────────────────────────────────────────
+     1. BRAND COLOURS — Federal Blue & Gold palette
+     ───────────────────────────────────────────────────────────── */
+
+  /* Primary — Charcoal
+     Use for: headings, nav, footer, dark sections, text          */
+  --color-primary:         #1F2937;   /* Charcoal — main           */
+  --color-primary-dark:    #111827;   /* Deeper charcoal — hover   */
+  --color-primary-mid:     #0A0F1A;   /* Near black                */
+  --color-primary-light:   #F3F4F6;   /* Light grey tint bg        */
+  --color-primary-xlight:  #F9FAFB;   /* Very subtle grey tint     */
+
+  /* Accent — Electric Blue
+     Use for: CTA buttons, highlights, tags, interactive accents  */
+  --color-accent:          #2563EB;   /* Electric blue — CTA       */
+  --color-accent-dark:     #1D4ED8;   /* Blue dark — hover         */
+  --color-accent-mid:      #1E40AF;   /* Blue mid — pressed        */
+  --color-accent-light:    #DBEAFE;   /* Light blue tint bg        */
+
+  /* ─────────────────────────────────────────────────────────────
+     2. NEUTRAL SURFACES
+     ───────────────────────────────────────────────────────────── */
+
+  --color-surface:         #ffffff;   /* cards, modals, inputs    */
+  --color-surface-raised:  #f8f9fb;   /* slightly elevated        */
+  --color-bg:              #ffffff;   /* page background          */
+  --color-bg-alt:          #F8F9FA;   /* alternate sections       */
+  --color-bg-dark:         #111827;   /* Deep charcoal — dark sections */
+  --color-bg-darker:       #030712;   /* Near black                    */
+
+  /* Borders — Federal Blue at ~8% opacity on white               */
+  --color-border:          #E8E9EE;   /* default border           */
+  --color-border-strong:   #C8CAD8;   /* emphasis border          */
+  --color-border-subtle:   #F2F3F7;   /* very light separator     */
+
+  /* ─────────────────────────────────────────────────────────────
+     3. TEXT
+     ───────────────────────────────────────────────────────────── */
+
+  --color-text-primary:    #111827;   /* Charcoal — headings, body     */
+  --color-text-secondary:  #4B5563;   /* supporting copy, labels       */
+  --color-text-muted:      #9CA3AF;   /* placeholders, hints           */
+  --color-text-disabled:   #D1D5DB;   /* disabled state                */
+  --color-text-inverse:    #ffffff;   /* on dark bg                    */
+  --color-text-accent:     #ffffff;   /* text ON blue btns             */
+  --color-text-link:       #1F2937;   /* inline links                  */
+  --color-text-link-hover: #111827;   /* link hover                    */
+
+  /* ─────────────────────────────────────────────────────────────
+     4. SEMANTIC COLOURS
+     ───────────────────────────────────────────────────────────── */
+
+  --color-success:         #16A34A;
+  --color-success-light:   #DCFCE7;
+  --color-success-dark:    #15803D;
+  --color-warning:         #FFBF1C;
+  --color-warning-light:   #FFF8CC;
+  --color-warning-dark:    #D1A309;
+  --color-error:           #DC2626;
+  --color-error-light:     #FEE2E2;
+  --color-error-dark:      #B91C1C;
+  --color-info:            #00044A;
+  --color-info-light:      #E8E9F0;
+
+  /* ─────────────────────────────────────────────────────────────
+     5. TYPOGRAPHY
+     ───────────────────────────────────────────────────────────── */
+
+  /* Font families
+     Inter is loaded via next/font in layout.tsx and injected as
+     --font-inter CSS var; here we wire it into Tailwind utilities  */
+  --font-sans:    var(--font-inter, 'Inter'), system-ui, sans-serif;
+  --font-rubik:   var(--font-rubik, 'Rubik'), system-ui, sans-serif;
+  --font-display: var(--font-calistoga, 'Calistoga'), Georgia, serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+
+  /* Font weights
+     Maps to: font-light, font-normal, font-medium, font-semibold,
+              font-bold, font-extrabold, font-black                 */
+  --font-weight-light:     300;
+  --font-weight-normal:    400;
+  --font-weight-medium:    500;
+  --font-weight-semibold:  600;
+  --font-weight-bold:      700;
+  --font-weight-extrabold: 800;
+  --font-weight-black:     900;
+
+  /* Custom text sizes (Tailwind defaults cover xs→9xl; add 2xs)
+     Maps to: text-2xs                                              */
+  --text-2xs: 0.625rem;   /* 10px — micro labels, badges          */
+
+  /* Line heights — maps to: leading-tight, leading-snug, etc.    */
+  --leading-tight:    1.25;
+  --leading-snug:     1.375;
+  --leading-normal:   1.5;
+  --leading-relaxed:  1.625;
+  --leading-loose:    2;
+
+  /* Letter spacing — maps to: tracking-tight, tracking-normal, etc. */
+  --tracking-tight:   -0.025em;
+  --tracking-normal:   0em;
+  --tracking-wide:     0.025em;
+  --tracking-wider:    0.05em;
+  --tracking-widest:   0.1em;
+
+  /* ─────────────────────────────────────────────────────────────
+     6. BORDER RADIUS
+     Maps to: rounded-none, rounded-xs, rounded-sm, rounded-md,
+              rounded-lg, rounded-xl, rounded-2xl, rounded-3xl,
+              rounded-full
+
+     Design system rule — use ONLY these two in most cases:
+       rounded-xl  → cards, panels, modals, dialogs   (12px)
+       rounded-lg  → buttons, inputs, selects          (8px)
+     Secondary:
+       rounded-md  → chips, badges, small tags         (6px)
+       rounded-full → avatars, status dots, pill tags
+     ───────────────────────────────────────────────────────────── */
+
+  --radius-none:  0px;
+  --radius-xs:    2px;    /* status dots, hairline borders        */
+  --radius-sm:    4px;    /* tight context chips                  */
+  --radius-md:    5px;    /* chips, badges, small tags            */
+  --radius-lg:    6px;    /* buttons, inputs, selects ✦ PRIMARY   */
+  --radius-xl:    8px;    /* cards, panels, modals    ✦ PRIMARY   */
+  --radius-2xl:   10px;   /* large modals (use sparingly)         */
+  --radius-3xl:   12px;   /* reserved                             */
+  --radius-full:  9999px; /* avatars, pill badges, status dots    */
+
+  /* ─────────────────────────────────────────────────────────────
+     7. SHADOWS
+     Maps to: shadow-xs, shadow-sm, shadow-card, shadow-card-hover,
+              shadow-dropdown, shadow-modal, shadow-button,
+              shadow-button-hover, shadow-focus
+     ───────────────────────────────────────────────────────────── */
+
+  --shadow-xs:           none;
+  --shadow-sm:           none;
+  --shadow-card:         none;                                  /* use border border-border on cards */
+  --shadow-card-hover:   0 2px 8px rgba(0,0,0,0.08);           /* only on hover */
+  --shadow-dropdown:     0 4px 12px rgba(0,0,0,0.10);          /* keep for floating dropdowns */
+  --shadow-modal:        0 8px 32px rgba(0,0,0,0.15);          /* keep for modals */
+  --shadow-button:       none;
+  --shadow-button-hover: none;
+  --shadow-focus:        0 0 0 2px rgba(31,41,55,0.25);          /* focus ring          */
+  --shadow-primary:      0 6px 16px rgba(31,41,55,0.22);         /* primary btn hover   */
+  --shadow-primary-lg:   0 10px 28px rgba(31,41,55,0.30);        /* primary btn lg      */
+
+  /* Raw rgba strings — usable in inline style props and CSS gradients */
+  --color-primary-glow:    rgba(31,41,55,0.22);
+  --color-primary-glow-lg: rgba(31,41,55,0.40);
+  --color-primary-glow-sm: rgba(31,41,55,0.08);
+  --shadow-inner:        none;
+  --shadow-accent:       0 4px 14px rgba(37,99,235,0.35);        /* accent CTA lift     */
+  --shadow-accent-lg:    0 8px 24px rgba(37,99,235,0.45);        /* featured / hero     */
+
+  /* ─────────────────────────────────────────────────────────────
+     8. SPACING (extensions — default Tailwind scale 0→96 still applies)
+     Maps to: p-18, m-22, gap-26, etc.
+     ───────────────────────────────────────────────────────────── */
+
+  --spacing-18:   4.5rem;   /* 72px  */
+  --spacing-22:   5.5rem;   /* 88px  */
+  --spacing-26:   6.5rem;   /* 104px */
+  --spacing-30:   7.5rem;   /* 120px */
+  --spacing-34:   8.5rem;   /* 136px */
+
+  /* ─────────────────────────────────────────────────────────────
+     9. Z-INDEX SCALE
+     Maps to: z-base, z-raised, z-dropdown, z-sticky, z-overlay,
+              z-modal, z-toast, z-tooltip
+     ───────────────────────────────────────────────────────────── */
+
+  --z-base:       0;
+  --z-raised:     10;
+  --z-dropdown:   20;
+  --z-sticky:     30;
+  --z-overlay:    40;
+  --z-modal:      50;
+  --z-toast:      60;
+  --z-tooltip:    70;
+
+  /* ─────────────────────────────────────────────────────────────
+     10. ANIMATION
+     ───────────────────────────────────────────────────────────── */
+
+  /* Easing curves — maps to: ease-default, ease-in, ease-out, etc. */
+  --ease-default:  cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in:       cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:      cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out:   cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-spring:   cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  /* Durations — maps to: duration-fast, duration-normal, etc.    */
+  --duration-fast:    100ms;
+  --duration-normal:  200ms;
+  --duration-slow:    300ms;
+  --duration-slower:  500ms;
+
+}

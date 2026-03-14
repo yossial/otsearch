@@ -2,7 +2,7 @@ import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface ReviewDocument extends Document {
   userId: mongoose.Types.ObjectId;
-  otProfileId: mongoose.Types.ObjectId;
+  therapistProfileId: mongoose.Types.ObjectId;
   rating: number;
   text: string;
   isApproved: boolean;
@@ -13,7 +13,7 @@ export interface ReviewDocument extends Document {
 const ReviewSchema = new Schema<ReviewDocument>(
   {
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    otProfileId: { type: Schema.Types.ObjectId, ref: 'OTProfile', required: true },
+    therapistProfileId: { type: Schema.Types.ObjectId, ref: 'TherapistProfile', required: true },
     rating: {
       type: Number,
       required: true,
@@ -27,10 +27,10 @@ const ReviewSchema = new Schema<ReviewDocument>(
   { timestamps: true }
 );
 
-// One review per user per OT
-ReviewSchema.index({ userId: 1, otProfileId: 1 }, { unique: true });
-// Fast paginated listing of approved reviews for a given OT
-ReviewSchema.index({ otProfileId: 1, isApproved: 1, createdAt: -1 });
+// One review per user per therapist
+ReviewSchema.index({ userId: 1, therapistProfileId: 1 }, { unique: true });
+// Fast paginated listing of approved reviews for a given therapist
+ReviewSchema.index({ therapistProfileId: 1, isApproved: 1, createdAt: -1 });
 
 export const Review: Model<ReviewDocument> =
   mongoose.models.Review ?? mongoose.model<ReviewDocument>('Review', ReviewSchema);

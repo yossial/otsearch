@@ -1,17 +1,19 @@
 import mongoose, { Schema, Document, Model, Types } from 'mongoose';
-import type { UserRole } from '@/types';
+import type { UserRole, UserStatus } from '@/types';
 
 export interface UserDocument extends Document {
   email: string;
   passwordHash: string; // empty string for OAuth-only users
-  role: UserRole | null; // null until the user completes role selection
+  role: UserRole | null; // null until the user completes onboarding
+  status: UserStatus;
   name: string;
+  image: string | null;
   emailVerified: boolean;
   emailVerifyToken: string | null;
   emailVerifyTokenExpiry: Date | null;
   passwordResetToken: string | null;
   passwordResetTokenExpiry: Date | null;
-  otProfileId: Types.ObjectId | null;
+  therapistProfileId: Types.ObjectId | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -20,14 +22,16 @@ const UserSchema = new Schema<UserDocument>(
   {
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     passwordHash: { type: String, default: '' },
-    role: { type: String, enum: ['ot', 'patient', 'admin', null], default: null },
-    name: { type: String, required: true },
+    role: { type: String, enum: ['therapist', 'admin', null], default: null },
+    status: { type: String, enum: ['active', 'suspended'], default: 'active' },
+    name: { type: String, default: '' },
     emailVerified: { type: Boolean, default: false },
     emailVerifyToken: { type: String, default: null },
     emailVerifyTokenExpiry: { type: Date, default: null },
     passwordResetToken: { type: String, default: null },
     passwordResetTokenExpiry: { type: Date, default: null },
-    otProfileId: { type: Schema.Types.ObjectId, ref: 'OTProfile', default: null },
+    therapistProfileId: { type: Schema.Types.ObjectId, ref: 'TherapistProfile', default: null },
+    image: { type: String, default: null },
   },
   { timestamps: true }
 );

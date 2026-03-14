@@ -77,7 +77,7 @@ function FilterSection({
         aria-controls={panelId}
         className="flex w-full items-center justify-between py-0.5 text-start"
       >
-        <h3 className="text-[11px] font-semibold uppercase tracking-wider text-text-secondary">
+        <h3 className="text-[11px] font-normal uppercase tracking-wider text-text-secondary">
           {title}
         </h3>
         <ChevronIcon open={open} />
@@ -108,13 +108,13 @@ function CheckboxItem({
   onChange: (checked: boolean) => void;
 }) {
   return (
-    <label className="flex cursor-pointer items-center gap-2.5">
+    <label className="flex items-center gap-2.5">
       <input
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
         className={cn(
-          'h-4 w-4 cursor-pointer appearance-none rounded border-2 border-border transition-colors',
+          'h-4 w-4 appearance-none rounded border-2 border-border transition-colors',
           'checked:border-primary checked:bg-primary',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1'
         )}
@@ -129,11 +129,11 @@ const SPECIALTY_VALUES = [
   'geriatrics', 'sensory-processing',
 ] as const;
 
-const INSURANCE_VALUES = ['clalit', 'maccabi', 'meuhedet', 'leumit', 'private'] as const;
+const INSURANCE_VALUES = ['clalit', 'maccabi', 'meuhedet', 'leumit'] as const;
 
 const SESSION_TYPE_VALUES = ['in-person', 'telehealth', 'home-visit'] as const;
 
-const LANGUAGE_VALUES = ['he', 'ar', 'en', 'ru'] as const;
+const LANGUAGE_VALUES = ['he', 'en', 'ru', 'fr', 'es'] as const;
 
 function stKey(st: string) {
   return st === 'in-person' ? 'inPerson' : st === 'home-visit' ? 'homeVisit' : 'telehealth';
@@ -226,7 +226,7 @@ export default function FilterSidebar() {
         aria-expanded={sidebarOpen}
         aria-controls="filter-sidebar-panel"
         className={cn(
-          'md:hidden mb-3 flex w-full items-center gap-2 rounded-lg border border-border bg-surface px-4 py-2.5 text-sm font-medium text-text-primary shadow-sm transition-colors hover:bg-bg',
+          'md:hidden mb-3 flex w-full items-center gap-2 rounded-lg border border-border bg-surface px-4 py-2.5 text-sm font-normal text-text-primary shadow-sm transition-colors hover:bg-bg',
           sidebarOpen && 'bg-bg border-primary/30'
         )}
       >
@@ -235,7 +235,7 @@ export default function FilterSidebar() {
           {sidebarOpen ? tSearch('hideFilters') : tSearch('showFilters')}
         </span>
         {activeFilterCount > 0 && (
-          <span className="rounded-full bg-primary px-2 py-0.5 text-xs font-semibold leading-none text-white">
+          <span className="rounded-full bg-primary px-2 py-0.5 text-xs font-normal leading-none text-white">
             {activeFilterCount}
           </span>
         )}
@@ -254,14 +254,14 @@ export default function FilterSidebar() {
       >
         {/* Header */}
         <div className="flex items-center justify-between">
-          <h2 className="text-base font-semibold text-text-primary">
+          <h2 className="text-base font-normal text-text-primary">
             {tSearch('filtersTitle')}
           </h2>
           {hasFilters && (
             <button
               type="button"
               onClick={clearAll}
-              className="text-xs font-medium text-primary hover:underline"
+              className="text-xs font-normal text-primary hover:underline"
             >
               {tSearch('clearFilters')}
             </button>
@@ -272,19 +272,19 @@ export default function FilterSidebar() {
 
         {/* Sort */}
         <div className="flex flex-col gap-2">
-          <p className="text-[11px] font-semibold uppercase tracking-wider text-text-secondary">
+          <p className="text-[11px] font-normal uppercase tracking-wider text-text-secondary">
             {tSearch('sortBy')}
           </p>
           <div className="flex flex-col gap-1.5">
             {(['relevance', 'rating'] as const).map((opt) => (
-              <label key={opt} className="flex cursor-pointer items-center gap-2.5">
+              <label key={opt} className="flex items-center gap-2.5">
                 <input
                   type="radio"
                   name="sort"
                   value={opt}
                   checked={selectedSort === opt}
                   onChange={() => setSort(opt)}
-                  className="h-4 w-4 cursor-pointer accent-primary"
+                  className="h-4 w-4 accent-primary"
                 />
                 <span className="text-sm text-text-primary">{tSearch(`sortOptions.${opt}`)}</span>
               </label>
@@ -359,8 +359,8 @@ export default function FilterSidebar() {
         <div className="h-px bg-border" />
 
         {/* Accepting patients toggle */}
-        <label className="flex cursor-pointer items-center justify-between gap-3">
-          <span className="text-sm font-medium text-text-primary">
+        <label className="flex items-center justify-between gap-3">
+          <span className="text-sm font-normal text-text-primary">
             {tSearch('acceptingPatientsFilter')}
           </span>
           <button
@@ -369,14 +369,14 @@ export default function FilterSidebar() {
             aria-checked={acceptingOnly}
             onClick={toggleAcceptingOnly}
             className={cn(
-              'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
+              'relative inline-flex h-5 w-9 flex-shrink-0 rounded-full border-2 border-transparent transition-colors duration-200',
               acceptingOnly ? 'bg-primary' : 'bg-border'
             )}
           >
             <span
               className={cn(
                 'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200',
-                acceptingOnly ? 'translate-x-4' : 'translate-x-0'
+                acceptingOnly ? 'ltr:translate-x-4 rtl:-translate-x-4' : 'translate-x-0'
               )}
             />
           </button>

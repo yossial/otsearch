@@ -1,9 +1,10 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 
-// Mock next-auth/react signIn
+// Mock next-auth/react signIn and getSession
 vi.mock('next-auth/react', () => ({
   signIn: vi.fn(),
+  getSession: vi.fn().mockResolvedValue({ user: { role: 'user' } }),
 }));
 
 // Mock next/navigation

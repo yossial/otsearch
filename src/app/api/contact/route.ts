@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { sendEmail } from '@/lib/email/send';
 
 const SUBJECT_LABELS: Record<string, string> = {
   newPatient: 'New patient inquiry',
@@ -9,10 +10,10 @@ const SUBJECT_LABELS: Record<string, string> = {
 };
 
 export async function POST(req: NextRequest) {
-  const { fromName, fromEmail, fromPhone, subject, message, otName, otEmail } =
+  const { fromName, fromEmail, fromPhone, subject, message, therapistName, therapistEmail } =
     await req.json();
 
-  if (!fromName || !fromEmail || !message || !otEmail) {
+  if (!fromName || !fromEmail || !message) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
   }
 
@@ -21,7 +22,7 @@ export async function POST(req: NextRequest) {
   const html = `
     <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#1a1a1a">
       <h2 style="font-size:18px;margin-bottom:4px">New message via Therapio</h2>
-      <p style="font-size:13px;color:#666;margin-bottom:24px">Someone reached out to <strong>${otName}</strong></p>
+      <p style="font-size:13px;color:#666;margin-bottom:24px">Someone reached out to <strong>${therapistName}</strong></p>
 
       <table style="width:100%;border-collapse:collapse;font-size:14px">
         <tr>
@@ -50,31 +51,21 @@ export async function POST(req: NextRequest) {
     </div>
   `;
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.EMAIL_FROM ?? 'noreply@ot-connect.co.il';
+  // Fall back to admin email for general inquiries that have no therapist email
+  const toEmail = therapistEmail || process.env.ADMIN_EMAIL || process.env.EMAIL_FROM;
 
-  if (!apiKey) {
-    console.warn('[contact] RESEND_API_KEY not set — email not sent');
-    return NextResponse.json({ ok: true, dev: 'email skipped — no API key' });
+  if (!toEmail) {
+    return NextResponse.json({ error: 'No recipient email configured' }, { status: 500 });
   }
 
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      from,
-      to: [otEmail],
-      reply_to: fromEmail,
-      subject: `[Therapio] ${subjectLabel} — from ${fromName}`,
-      html,
-    }),
+  const ok = await sendEmail({
+    to: toEmail,
+    subject: `[Therapio] ${subjectLabel} — from ${fromName}`,
+    html,
+    replyTo: fromEmail as string,
   });
 
-  if (!res.ok) {
-    console.error('[contact] Resend error:', await res.text());
+  if (!ok) {
     return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
   }
 

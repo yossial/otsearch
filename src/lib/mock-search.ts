@@ -1,10 +1,10 @@
 /**
- * Adapts the legacy MOCK_OTS data to OTProfilePublic format and provides
+ * Adapts the legacy MOCK_THERAPISTS data to TherapistProfilePublic format and provides
  * a filterable search function used as a fallback when the database is unavailable.
  */
-import { MOCK_OTS } from './mock-data';
+import { MOCK_THERAPISTS } from './mock-data';
 import type {
-  OTProfilePublic,
+  TherapistProfilePublic,
   SearchResult,
   SearchParams,
   Specialisation,
@@ -30,7 +30,7 @@ const SESSION_MAP: Record<string, SessionType> = {
   homeVisit: 'home-visit',
 };
 
-function toPublic(m: (typeof MOCK_OTS)[number]): OTProfilePublic {
+function toPublic(m: (typeof MOCK_THERAPISTS)[number]): TherapistProfilePublic {
   const specs = m.specialties
     .map((s) => SPEC_MAP[s])
     .filter((s): s is Specialisation => !!s);
@@ -61,26 +61,28 @@ function toPublic(m: (typeof MOCK_OTS)[number]): OTProfilePublic {
     contactPhone: m.phone,
     subscriptionTier: m.isPro ? 'premium' : 'free',
     isFeatured: m.isPro,
+    isActive: true,
     isAcceptingPatients: m.acceptingNewPatients,
     profileViews: 0,
     ratingAvg: 0,
     ratingCount: 0,
     createdAt: new Date(0).toISOString(),
+    gender: null,
   };
 }
 
-export function searchMockOTs(params: SearchParams): SearchResult {
-  let results = MOCK_OTS.map(toPublic);
+export function searchMockTherapists(params: SearchParams): SearchResult {
+  let results = MOCK_THERAPISTS.map(toPublic);
 
   const q = params.q?.toLowerCase();
   if (q) {
     results = results.filter(
-      (ot) =>
-        ot.displayName.he.toLowerCase().includes(q) ||
-        ot.displayName.en.toLowerCase().includes(q) ||
-        ot.bio.he.toLowerCase().includes(q) ||
-        ot.location.city.toLowerCase().includes(q) ||
-        ot.specialisations.some((s) => s.toLowerCase().includes(q))
+      (p) =>
+        p.displayName.he.toLowerCase().includes(q) ||
+        p.displayName.en.toLowerCase().includes(q) ||
+        p.bio.he.toLowerCase().includes(q) ||
+        p.location.city.toLowerCase().includes(q) ||
+        p.specialisations.some((s) => s.toLowerCase().includes(q))
     );
   }
 
@@ -88,38 +90,38 @@ export function searchMockOTs(params: SearchParams): SearchResult {
     ? (Array.isArray(params.specialisation) ? params.specialisation : [params.specialisation]) as Specialisation[]
     : [];
   if (specs.length) {
-    results = results.filter((ot) => specs.some((s) => ot.specialisations.includes(s)));
+    results = results.filter((p) => specs.some((s) => p.specialisations.includes(s)));
   }
 
   const insurances = params.insurance
     ? (Array.isArray(params.insurance) ? params.insurance : [params.insurance]) as InsuranceType[]
     : [];
   if (insurances.length) {
-    results = results.filter((ot) => insurances.some((i) => ot.insuranceAccepted.includes(i)));
+    results = results.filter((p) => insurances.some((i) => p.insuranceAccepted.includes(i)));
   }
 
   const sessionTypes = params.sessionType
     ? (Array.isArray(params.sessionType) ? params.sessionType : [params.sessionType]) as SessionType[]
     : [];
   if (sessionTypes.length) {
-    results = results.filter((ot) => sessionTypes.some((s) => ot.sessionTypes.includes(s)));
+    results = results.filter((p) => sessionTypes.some((s) => p.sessionTypes.includes(s)));
   }
 
   const languages = params.language
     ? Array.isArray(params.language) ? params.language : [params.language]
     : [];
   if (languages.length) {
-    results = results.filter((ot) => languages.some((l) => ot.languages.includes(l)));
+    results = results.filter((p) => languages.some((l) => p.languages.includes(l)));
   }
 
   if (params.city) {
-    results = results.filter((ot) =>
-      ot.location.city.toLowerCase().includes(params.city!.toLowerCase())
+    results = results.filter((p) =>
+      p.location.city.toLowerCase().includes(params.city!.toLowerCase())
     );
   }
 
   if (params.acceptingOnly) {
-    results = results.filter((ot) => ot.isAcceptingPatients);
+    results = results.filter((p) => p.isAcceptingPatients);
   }
 
   const page = params.page ?? 1;
@@ -130,7 +132,7 @@ export function searchMockOTs(params: SearchParams): SearchResult {
   return { profiles: paged, total, page, totalPages: Math.ceil(total / limit) };
 }
 
-export function getMockOTBySlug(slug: string): OTProfilePublic | null {
-  const m = MOCK_OTS.find((ot) => ot.slug === slug);
+export function getMockTherapistBySlug(slug: string): TherapistProfilePublic | null {
+  const m = MOCK_THERAPISTS.find((t) => t.slug === slug);
   return m ? toPublic(m) : null;
 }

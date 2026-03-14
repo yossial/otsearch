@@ -1,6 +1,8 @@
-export type Locale = 'he' | 'ar' | 'en';
+export type Locale = 'he' | 'ar' | 'en' | 'ru';
 
-export type UserRole = 'ot' | 'patient' | 'admin';
+export type UserRole = 'therapist' | 'admin';
+
+export type UserStatus = 'active' | 'suspended';
 
 export type SubscriptionTier = 'free' | 'premium';
 
@@ -8,7 +10,7 @@ export type SubscriptionStatus = 'active' | 'cancelled' | 'past_due';
 
 export type SubscriptionPlan = 'monthly' | 'annual';
 
-export type InsuranceType = 'clalit' | 'maccabi' | 'meuhedet' | 'leumit' | 'private';
+export type InsuranceType = 'clalit' | 'maccabi' | 'meuhedet' | 'leumit';
 
 export type SessionType = 'in-person' | 'telehealth' | 'home-visit';
 
@@ -35,6 +37,7 @@ export interface GeoLocation {
   coordinates: [number, number]; // [lng, lat]
   city: string;
   address: string;
+  country?: string;
 }
 
 export interface FeeRange {
@@ -43,7 +46,7 @@ export interface FeeRange {
   currency: 'ILS';
 }
 
-export interface OTProfilePublic {
+export interface TherapistProfilePublic {
   id: string;
   slug: string;
   displayName: MultilingualText;
@@ -51,6 +54,8 @@ export interface OTProfilePublic {
   photo: string | null;
   mohRegistrationNumber: string;
   specialisations: Specialisation[];
+  specialisationsOther?: string[];
+  sessionTypesOther?: string[];
   languages: string[];
   location: GeoLocation;
   sessionTypes: SessionType[];
@@ -60,11 +65,13 @@ export interface OTProfilePublic {
   contactPhone: string;
   subscriptionTier: SubscriptionTier;
   isFeatured: boolean;
+  isActive: boolean;
   isAcceptingPatients: boolean;
   profileViews: number;
   ratingAvg: number;
   ratingCount: number;
   createdAt: string;
+  gender: 'male' | 'female' | null;
 }
 
 export interface ReviewPublic {
@@ -91,17 +98,18 @@ export interface SearchParams {
   sessionType?: SessionType | SessionType[];
   language?: string | string[];
   city?: string;
+  district?: string;
   lat?: number;
   lng?: number;
   radius?: number;
   acceptingOnly?: boolean;
-  sort?: 'relevance' | 'distance' | 'rating';
+  sort?: 'relevance' | 'distance' | 'rating' | 'newest' | 'popular';
   page?: number;
   limit?: number;
 }
 
 export interface SearchResult {
-  profiles: OTProfilePublic[];
+  profiles: TherapistProfilePublic[];
   total: number;
   page: number;
   totalPages: number;

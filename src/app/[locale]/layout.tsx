@@ -1,12 +1,39 @@
 import type { Metadata } from 'next';
+import { DM_Sans, Calistoga, Assistant } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { SessionProvider } from 'next-auth/react';
 import { routing } from '@/i18n/routing';
+import { auth } from '@/lib/auth/auth';
+import { connectDB } from '@/lib/db';
+import { User } from '@/lib/db/models/User';
+import { TherapistProfile } from '@/lib/db/models/TherapistProfile';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import { Toaster } from 'sonner';
 import '@/app/globals.css';
+
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+  weight: ['300', '400', '500', '600', '700'],
+});
+
+const calistoga = Calistoga({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-calistoga',
+  display: 'swap',
+});
+
+const assistant = Assistant({
+  subsets: ['hebrew', 'latin'],
+  variable: '--font-rubik',
+  display: 'swap',
+  weight: ['300', '400', '500', '600', '700', '800'],
+});
 
 export const metadata: Metadata = {
   title: {
@@ -26,21 +53,44 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
 
-  if (!routing.locales.includes(locale as 'he' | 'ar' | 'en')) {
+  if (!routing.locales.includes(locale as 'he' | 'ar' | 'en' | 'ru')) {
     notFound();
   }
 
   const messages = await getMessages();
-  const dir = locale === 'en' ? 'ltr' : 'rtl';
+  const dir = locale === 'he' || locale === 'ar' ? 'rtl' : 'ltr';
+
+  // Fetch profile photo server-side so it works even with large data: URLs
+  // that can't fit in a JWT cookie.
+  let avatarUrl: string | null = null;
+  try {
+    const session = await auth();
+    if (session?.user?.id) {
+      await connectDB();
+      let therapistProfileId = (session.user as { therapistProfileId?: string | null }).therapistProfileId;
+      // JWT may be stale — fall back to DB
+      if (!therapistProfileId) {
+        const dbUser = await User.findById(session.user.id).select('therapistProfileId').lean();
+        therapistProfileId = dbUser?.therapistProfileId ? String(dbUser.therapistProfileId) : null;
+      }
+      if (therapistProfileId) {
+        const profile = await TherapistProfile.findById(therapistProfileId).select('photo').lean();
+        avatarUrl = (profile as { photo?: string | null } | null)?.photo ?? null;
+      }
+    }
+  } catch {
+    // non-critical — layout renders without avatar
+  }
 
   return (
-    <html lang={locale} dir={dir}>
+    <html lang={locale} dir={dir} className={`${dmSans.variable} ${calistoga.variable} ${assistant.variable}`}>
       <body className="bg-bg font-sans text-text-primary antialiased">
         <NextIntlClientProvider messages={messages}>
           <SessionProvider>
-            <Navbar />
-            <main>{children}</main>
+            <Navbar avatarUrl={avatarUrl} />
+            <main className="pt-16">{children}</main>
             <Footer />
+            <Toaster dir={dir} richColors position="bottom-center" />
           </SessionProvider>
         </NextIntlClientProvider>
       </body>

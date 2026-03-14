@@ -1,0 +1,97 @@
+import { notFound } from 'next/navigation';
+import { getTranslations, getLocale } from 'next-intl/server';
+import { Link } from '@/i18n/navigation';
+import Image from 'next/image';
+import { getTherapistBySlug } from '@/lib/db/therapists';
+import { getMockTherapistBySlug } from '@/lib/mock-search';
+import ContactForm from '@/components/contact/ContactForm';
+
+interface Props {
+  params: Promise<{ locale: string; slug: string }>;
+}
+
+export default async function ContactPage({ params }: Props) {
+  const { slug } = await params;
+  const locale = await getLocale();
+  const t = await getTranslations('contact');
+  const tSearch = await getTranslations('search');
+
+  const therapist = await getTherapistBySlug(slug).catch(() => getMockTherapistBySlug(slug));
+  if (!therapist) notFound();
+
+  const name = therapist.displayName[locale as keyof typeof therapist.displayName] ?? therapist.displayName.he;
+
+  const [lng, lat] = therapist.location.coordinates;
+  const mapSrc = `https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed`;
+
+  return (
+    <div className="min-h-screen bg-bg">
+      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
+
+        {/* Back to profile */}
+        <Link
+          href={`/therapist/${slug}`}
+          className="mb-6 inline-flex items-center gap-1.5 text-sm font-normal text-text-secondary transition-colors hover:text-primary"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-directional" aria-hidden="true">
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+          {t('backToProfile')}
+        </Link>
+
+        {/* Therapist mini-header */}
+        <div className="card mb-6 flex items-center gap-4 p-5">
+          <Image
+            src={therapist.photo ?? `https://i.pravatar.cc/150?u=${therapist.slug}`}
+            alt={name}
+            width={56}
+            height={56}
+            className="h-14 w-14 flex-shrink-0 rounded-full object-cover ring-2 ring-primary-light"
+          />
+          <div>
+            <h1 className="text-lg font-normal text-text-primary">{name}</h1>
+            <p className="text-sm text-text-secondary">{tSearch('therapistTitle')} · {therapist.location.city}</p>
+            <div className="mt-1 flex flex-wrap gap-1">
+              {therapist.specialisations.slice(0, 3).map((s) => (
+                <span key={s} className="rounded-full bg-primary-light px-2 py-0.5 text-xs font-normal text-primary">
+                  {tSearch(`specialisationLabels.${s}`)}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Two-column layout: form + map */}
+        <div className="flex flex-col gap-6 md:flex-row md:items-start">
+
+          {/* Contact form */}
+          <div className="flex-1">
+            <div className="card p-6">
+              <h2 className="mb-1 text-xl font-normal text-text-primary">{t('title')}</h2>
+              <p className="mb-6 text-sm text-text-secondary">{t('subtitle', { name })}</p>
+              <ContactForm therapistSlug={slug} therapistName={name} therapistEmail={therapist.contactEmail} />
+            </div>
+          </div>
+
+          {/* Map + address */}
+          <aside className="md:w-72 md:flex-shrink-0">
+            <div className="card overflow-hidden">
+              <iframe
+                title={t('mapTitle')}
+                src={mapSrc}
+                className="h-56 w-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+              <div className="p-4">
+                <p className="section-eyebrow">{t('mapTitle')}</p>
+                <p className="mt-1 text-sm text-text-primary">{therapist.location.address}</p>
+                <p className="text-sm text-text-muted">{therapist.location.city}</p>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  );
+}

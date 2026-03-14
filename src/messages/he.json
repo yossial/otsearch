@@ -13,24 +13,190 @@
   },
   "nav": {
     "home": "דף הבית",
-    "search": "חיפוש מטפלים",
+    "search": "חיפוש מרפאים",
     "login": "כניסה",
     "register": "הרשמה",
-    "dashboard": "לוח בקרה",
+    "dashboard": "אזור אישי",
     "profile": "פרופיל",
     "editProfile": "ערוך פרופיל",
+    "adminPanel": "לוח ניהול",
+    "navSearch": "חיפוש מרפאים",
+    "navHowItWorks": "איך זה עובד",
+    "navForTherapists": "למרפאים",
+    "navContact": "צור קשר",
     "logout": "יציאה"
   },
   "home": {
-    "heroTitle": "מצאו את המרפא בעיסוק המתאים לכם",
+    "meta": {
+      "title": "Therapio — מצאו מרפא/ה בעיסוק בישראל",
+      "description": "חפשו מרפאים בעיסוק פרטיים בישראל לפי התמחות, קופת חולים ומיקום. גישה מיידית, ללא רשימת המתנה. הרשמה חינמית למרפאים."
+    },
+    "heroEyebrow": "בלי רשימת המתנה",
+    "heroTitlePre": "מצאו",
+    "heroTitleAccent": "מרפא/ה בעיסוק מוסמך",
+    "heroTitlePost": "בקרבתכם",
     "heroSubtitle": "מרפאים בעיסוק פרטיים ברחבי ישראל, חיפוש לפי התמחות, קופת חולים ומיקום",
-    "searchPlaceholder": "התמחות או שם מרפא...",
-    "searchButton": "חיפוש",
+    "heroParagraph": "ריפוי בעיסוק הוא המפתח לחיים מלאים ועצמאיים. הפלטפורמה שלנו מחברת בין הצרכים הייחודיים שלכם לבין נבחרת המרפאים המוסמכים בישראל – לפי התמחות, אזור וגישה טיפולית. למרפאים: בואו להוביל את התחום ולהגיע למטופלים המדויקים לכם.",
+    "searchHeading": "מצאו את המרפא/ה בעיסוק המתאים/ה לכם",
+    "searchPlaceholder": "התמחות, שם מרפא, עיר...",
+    "searchButton": "מצאו את המרפא/ה שלכם",
+    "heroTherapistCta": "הצטרפות לנבחרת המרפאים",
     "quickFilters": {
-      "paediatrics": "ילדים ופיתוח",
+      "paediatrics": "התפתחות הילד",
+      "paediatricsTagline": "שיהוי התפתחותי, עיבוד חושי, כתיבה",
       "neuro": "שיקום נוירולוגי",
-      "mentalHealth": "בריאות הנפש",
-      "handTherapy": "טיפול ביד"
+      "neuroTagline": "אחרי שבץ, פגיעת ראש או ניתוח",
+      "mentalHealth": "ויסות ורגש",
+      "mentalHealthTagline": "חרדה, ADHD, ויסות חושי",
+      "handTherapy": "שיקום כף יד",
+      "handTherapyTagline": "עצבים, גידים, שחזור תנועה"
+    },
+    "howItWorks": {
+      "eyebrow": "שלושה צעדים פשוטים",
+      "title": "איך זה עובד?",
+      "stepLabel": "שלב {number}",
+      "step1Title": "תארו את הצורך",
+      "step1Desc": "חפשו לפי התמחות, מיקום, קופת חולים וזמינות",
+      "step2Title": "השוו מרפאים",
+      "step2Desc": "פרופילים מלאים עם ביוגרפיה, תמחור וביקורות אמיתיות",
+      "step3Title": "צרו קשר ישיר",
+      "step3Desc": "שלחו הודעה או התקשרו למרפא ישירות — בלי מתווכים"
+    },
+    "stats": {
+      "therapists": "200+",
+      "therapistsLabel": "מרפאים ומרפאות",
+      "cities": "42",
+      "citiesLabel": "ערים",
+      "specialisations": "8",
+      "specialisationsLabel": "תחומי התמחות",
+      "funds": "4",
+      "fundsLabel": "קופות חולים"
+    },
+    "featuredTitle": "מרפאים מובילים",
+    "therapistPreview": {
+      "eyebrow": "המרפאים שלנו",
+      "title": "הרשת הגדולה ביותר של מרפאים בעיסוק בישראל",
+      "description": "התחברו עם מרפאים מוסמכים בכל הארץ, עם סינון לפי התמחות, עיר וקופת חולים.",
+      "statTherapists": "מרפאים רשומים",
+      "statCities": "ערים ברחבי הארץ",
+      "statFunds": "קופות חולים",
+      "cta": "לכל המרפאים",
+      "more": "עוד",
+      "deckAriaLabel": "{count} מרפאים זמינים — לחצו לחיפוש"
+    },
+    "whyJoinUs": {
+      "seekers": {
+        "eyebrow": "למטופלים",
+        "heading": "למה למצוא מרפא/ה בעיסוק דרכנו?",
+        "point1Title": "דיוק מקצועי",
+        "point1Desc": "חיפוש ממוקד לפי התמחות, גיל ואזור מגורים.",
+        "point2Title": "ביטחון ושקיפות",
+        "point2Desc": "רק מרפאים מוסמכים עם רישיון משרד הבריאות.",
+        "point3Title": "זמינות מיידית",
+        "point3Desc": "מצאו את המענה המתאים לכם ללא המתנה מיותרת."
+      },
+      "therapists": {
+        "eyebrow": "למרפאים בעיסוק",
+        "heading": "למה להצטרף לנבחרת שלנו?",
+        "point1Title": "חשיפה ממוקדת",
+        "point1Desc": "הגעה לקהל מטופלים שמחפש בדיוק את המומחיות שלכם.",
+        "point2Title": "נוכחות דיגיטלית",
+        "point2Desc": "פרופיל מקצועי ומעוצב שחוסך לכם הוצאות שיווק.",
+        "point3Title": "בית מקצועי",
+        "point3Desc": "להיות חלק מקהילת המרפאים בעיסוק הגדולה והמובילה בישראל."
+      }
+    },
+    "contact": {
+      "title": "צרו קשר",
+      "subtitle": "יש לכם שאלה? אנחנו כאן לעזור."
+    },
+    "resultsCount": "{count, plural, =0 {לא נמצאו מרפאים} one {נמצא מרפא אחד} other {{count} מרפאים נמצאו}}",
+    "mapTitle": "מרפאים באזורך",
+    "therapistBanner": {
+      "title": "מרפאים בעיסוק? הצטרפו אלינו",
+      "subtitle": "פרופיל חינמי, ללא עמלות — רק מטופלים שמחפשים בדיוק אתכם",
+      "cta": "הוסיפו את הפרופיל שלכם",
+      "free": "חינם לתמיד"
+    },
+    "whatIsOT": {
+      "eyebrow": "מה זה ריפוי בעיסוק?",
+      "title": "עזרה עם הדברים היומיומיים שהכי חשובים",
+      "intro": "מרפאים בעיסוק עוזרים לאנשים בכל גיל להשתתף בפעילויות שנותנות לחיים משמעות — מילד הלומד לכתוב ועד מבוגר שמחזיר עצמאות לאחר שבץ.",
+      "children": {
+        "title": "ילדים והתפתחות",
+        "desc": "עיכובים התפתחותיים, קשיי עיבוד חושי, כתיבה, מוכנות לבית הספר ומיומנויות חברתיות."
+      },
+      "neuro": {
+        "title": "שיקום נוירולוגי",
+        "desc": "התאוששות לאחר שבץ, פגיעת מוח או ניתוח — שיקום תנועה, קואורדינציה ועצמאות."
+      },
+      "mentalHealth": {
+        "title": "בריאות הנפש",
+        "desc": "הפרעת קשב (ADHD), חרדה, ויסות רגשי ואסטרטגיות לתפקוד יומיומי."
+      },
+      "handTherapy": {
+        "title": "כף יד וגפה עליונה",
+        "desc": "שיקום לאחר ניתוח, פגיעת עצב או גיד, ניהול כאב ושיקום תפקוד כף היד."
+      },
+      "footnote": "מרפאים בעיסוק בישראל מוסמכים על ידי משרד הבריאות ומוכשרים לסייע בכל שלבי החיים."
+    },
+    "testimonials": {
+      "eyebrow": "מה אומרים עלינו",
+      "title": "מטופלים ומרפאים/ות שסומכים עלינו",
+      "t1Quote": "המרפאה שמצאנו דרך Therapio שינתה את חיי ביתי. היא התקשתה לכתוב ולהתרכז בבית הספר — היום היא פורחת.",
+      "t1Name": "שרה כ.",
+      "t1Role": "אמא לילדה בת 8, תל אביב",
+      "t2Quote": "חזרתי לעצמאות מלאה אחרי שבץ תוך פחות מחצי שנה. מצאתי את המרפא/ה שלי בשתי דקות — פרופיל מפורט, קשר ישיר.",
+      "t2Name": "דוד מ.",
+      "t2Role": "מטופל שיקום, חיפה",
+      "t3Quote": "הצטרפתי לפני שנה — היום המרפאה שלי מלאה במטופלים שמדויקים לי. Therapio מביאה לי בדיוק את מי שאני יכולה לעזור לו.",
+      "t3Name": "ד\"ר מיכל ר.",
+      "t3Role": "מרפאה בעיסוק, ירושלים"
+    },
+    "pricing": {
+      "eyebrow": "מחירים",
+      "title": "פשוט ושקוף — למרפאים/ות",
+      "subtitle": "החיפוש תמיד חינמי למטופלים",
+      "freeName": "חינם לתמיד",
+      "freePrice": "₪0",
+      "freePeriod": "לחודש",
+      "freeDesc": "כל מה שצריך כדי להתחיל",
+      "freeFeature1": "פרופיל מלא בתוצאות החיפוש",
+      "freeFeature2": "עמוד פרופיל אישי",
+      "freeFeature3": "קישור יצירת קשר ישיר",
+      "freeFeature4": "הצגה במפה",
+      "freeFeature5": "עד 4 התמחויות",
+      "freeCta": "הצטרפו חינם",
+      "premiumName": "פרמיום",
+      "premiumPrice": "₪99",
+      "premiumPeriod": "/ חודש",
+      "premiumBadge": "הכי פופולרי",
+      "premiumTrialBadge": "3 חודשים חינם להתחלה",
+      "premiumTrialNote": "לאחר מכן ₪99/חודש · ביטול בכל עת",
+      "premiumDesc": "למרפאים/ות שרוצים קליניקה מלאה",
+      "premiumFeature1": "הופעה ראשונה בתוצאות החיפוש",
+      "premiumFeature2": "תג מאומת ומובלט בפרופיל",
+      "premiumFeature3": "התמחויות ללא הגבלה (חינמי: עד 4)",
+      "premiumFeature4": "אנליטיקה: צפיות, פניות ותגובות",
+      "premiumFeature5": "תיבת הודעות ישירות ממטופלים",
+      "premiumFeature6": "וידאו פרזנטציה קצרה בפרופיל",
+      "premiumFeature7": "תמונות מרובות מהקליניקה",
+      "premiumRoiNote": "💡 מטופל חדש אחד בחודש מהרישום המועדף מכסה בדרך כלל 4+ חודשי מנוי.",
+      "premiumCta": "התחילו 3 חודשים חינם"
+    },
+    "faq": {
+      "eyebrow": "שאלות נפוצות",
+      "title": "כל מה שרציתם לדעת",
+      "q1": "האם החיפוש חינמי למטופלים?",
+      "a1": "כן, לגמרי חינמי. אין צורך בהרשמה לצורך גלישה וחיפוש מרפאים/ות.",
+      "q2": "האם המרפאים/ות מאומתים?",
+      "a2": "כל המרפאים/ות ברשימה מוסמכים ורשומים במשרד הבריאות. אנחנו מאמתים רישיונות לפני אישור הפרופיל.",
+      "q3": "איך יוצרים קשר עם מרפא/ה?",
+      "a3": "לחצו על כל פרופיל לפרטי קשר מלאים — טלפון, אימייל או הודעה ישירה.",
+      "q4": "האם ניתן לסנן לפי קופת חולים?",
+      "a4": "כן — ניתן לסנן לפי כללית, מכבי, מאוחדת ולאומית.",
+      "q5": "איך מרפאים/ות מצטרפים לפלטפורמה?",
+      "a5": "הרשמה חינמית ומילוי פרופיל תוך כמה דקות. לחצו על הצטרפות לנבחרת המרפאים/ות בראש הדף."
     }
   },
   "search": {
@@ -42,6 +208,8 @@
     "activeFilters": "{count} מסננים פעילים",
     "clearFilters": "נקה הכל",
     "acceptingPatientsFilter": "מקבל/ת מטופלים חדשים",
+    "acceptingPatientsMale": "מקבל מטופלים חדשים",
+    "acceptingPatientsFemale": "מקבלת מטופלים חדשים",
     "sortBy": "מיין לפי",
     "sortOptions": {
       "relevance": "רלוונטיות",
@@ -50,25 +218,27 @@
     },
     "filters": {
       "specialisation": "התמחות",
-      "insurance": "קופת חולים",
-      "location": "מיקום",
+      "insurance": "בהסדר עם קופות חולים",
+      "location": "עיר",
+      "district": "אזור",
       "sessionType": "סוג טיפול",
       "language": "שפה",
       "availability": "זמינות"
     },
     "sessionTypes": {
       "inPerson": "פרונטלי",
-      "telehealth": "טלה-מדיסין",
+      "telehealth": "טיפול מרחוק",
       "homeVisit": "ביקור בית"
     },
     "insurance": {
       "clalit": "כללית",
       "maccabi": "מכבי",
       "meuhedet": "מאוחדת",
-      "leumit": "לאומית",
-      "private": "פרטי בלבד"
+      "leumit": "לאומית"
     },
-    "otTitle": "מרפא/ה בעיסוק",
+    "therapistTitle": "מרפא/ה בעיסוק",
+    "therapistTitleMale": "מרפא בעיסוק",
+    "therapistTitleFemale": "מרפאה בעיסוק",
     "callButton": "התקשר",
     "contactButton": "צור קשר",
     "viewProfile": "צפה בפרופיל",
@@ -76,43 +246,70 @@
     "sessionLabel": "טיפול:",
     "feePerSession": "לטיפול",
     "noFeeInfo": "מחיר לפי פניה",
+    "feeFrom": "החל מ-₪{min}",
+    "featuredLabel": "מומלץ",
+    "messageButton": "שלח הודעה",
     "filtersTitle": "מסננים",
     "specialisationLabels": {
-      "paediatrics": "ילדים ופיתוח",
+      "paediatrics": "התפתחות הילד",
       "neurological": "שיקום נוירולוגי",
-      "mental-health": "בריאות הנפש",
-      "hand-therapy": "טיפול ביד",
+      "mental-health": "ויסות ורגש",
+      "hand-therapy": "שיקום כף יד",
       "geriatrics": "גריאטריה",
       "sensory-processing": "עיבוד חושי",
       "vocational": "שיקום תעסוקתי",
       "ergonomic": "ארגונומיה"
     },
+    "sortNewest": "החדשים ביותר",
+    "sortPopular": "הפופולריים ביותר",
+    "noMoreResults": "ראיתם את כל המרפאים",
+    "viewAllTherapists": "לכל המרפאים",
+    "loadingMore": "טוען עוד...",
     "languageLabels": {
       "he": "עברית",
       "ar": "ערבית",
       "en": "אנגלית",
       "ru": "רוסית",
-      "fr": "צרפתית"
-    },
-    "messageButton": "שלח הודעה"
+      "fr": "צרפתית",
+      "es": "ספרדית"
+    }
+  },
+  "footer": {
+    "forPatients": "למטופלים",
+    "forTherapists": "למרפאים",
+    "company": "החברה",
+    "searchTherapists": "חיפוש מרפאים",
+    "contact": "צרו קשר",
+    "joinAsTherapist": "הצטרפו כמרפא",
+    "about": "אודות",
+    "privacy": "מדיניות פרטיות",
+    "terms": "תנאי שימוש",
+    "copyright": "© 2026 Therapio. כל הזכויות שמורות."
   },
   "profile": {
     "contactPhone": "התקשר",
     "contactEmail": "שלח אימייל",
     "save": "שמור למועדפים",
     "specialisations": "התמחויות",
-    "insurance": "קופות חולים",
+    "insurance": "בהסדר עם קופות חולים",
     "languages": "שפות",
     "location": "מיקום",
     "sessionTypes": "סוגי טיפול",
     "about": "אודות",
     "fees": "עלות טיפול",
-    "acceptingPatients": "מקבל מטופלים חדשים",
+    "acceptingPatients": "מקבלים מטופלים חדשים",
     "backToSearch": "חזרה לחיפוש",
-    "otTitle": "מרפא/ה בעיסוק",
-    "feePerSession": "לטיפול"
+    "backToDashboard": "חזרה ללוח הבקרה",
+    "editProfile": "ערוך פרופיל",
+    "therapistTitle": "מרפא/ה בעיסוק",
+    "therapistTitleMale": "מרפא בעיסוק",
+    "therapistTitleFemale": "מרפאה בעיסוק",
+    "feePerSession": "לטיפול",
+    "mohNumber": "רישיון משרד הבריאות",
+    "verifyLicence": "בדוק ברשומות משרד הבריאות"
   },
   "auth": {
+    "backHome": "חזרה",
     "login": {
       "title": "כניסה לחשבון",
       "email": "אימייל",
@@ -127,7 +324,6 @@
       "email": "אימייל",
       "password": "סיסמה",
       "confirmPassword": "אשר סיסמה",
-      "name": "שם מלא",
       "submit": "צור חשבון",
       "hasAccount": "כבר יש לך חשבון?",
       "login": "כניסה"
@@ -138,25 +334,24 @@
       "orContinueWith": "או המשך עם",
       "oauthError": "שגיאה בהתחברות, נסה שנית"
     },
-    "roleSelect": {
-      "title": "ברוך/ה הבא/ה!",
-      "subtitle": "מה מביא אותך לכאן?",
-      "therapistCard": "אני מרפא/ת בעיסוק",
-      "therapistDesc": "אני רוצה להציג את המרפאה שלי ולהתחבר עם מטופלים",
-      "patientCard": "אני מחפש/ת מרפא בעיסוק",
-      "patientDesc": "אני רוצה למצוא מרפא בעיסוק לעצמי או לבן משפחה"
-    },
     "errors": {
       "invalidCredentials": "אימייל או סיסמה שגויים",
       "emailExists": "אימייל זה כבר רשום במערכת",
       "required": "שדה חובה",
       "invalidEmail": "כתובת אימייל לא תקינה",
       "passwordTooShort": "הסיסמה חייבת להכיל לפחות 8 תווים",
-      "passwordMismatch": "הסיסמאות אינן תואמות"
+      "passwordWeak": "הסיסמה חייבת לכלול לפחות 8 תווים, אות ומספר",
+      "passwordRule_min8": "לפחות 8 תווים",
+      "passwordRule_letter": "מכילה אות",
+      "passwordRule_number": "מכילה ספרה",
+      "invalidPhone": "אנא הכנס מספר טלפון ישראלי תקין",
+      "passwordMismatch": "הסיסמאות אינן תואמות",
+      "authError": "שגיאת התחברות",
+      "backToLogin": "חזרה לדף הכניסה"
     }
   },
   "onboarding": {
-    "ot": {
+    "therapist": {
       "title": "בואו נקים את הפרופיל שלך",
       "subtitle": "כמה פרטים ותופיע בתוצאות החיפוש",
       "step": "שלב {current} מתוך {total}",
@@ -165,42 +360,56 @@
       "step3Title": "פרטי קשר ותנאים",
       "next": "הבא",
       "back": "חזור",
-      "finish": "סיים ועבור ללוח הבקרה",
-      "displayNameHe": "שם תצוגה (עברית) *",
-      "displayNameEn": "שם תצוגה (אנגלית)",
+      "finish": "סיים ועבור לאזור האישי",
       "displayNameAr": "שם תצוגה (ערבית)",
       "languages": "שפות טיפול *",
+      "country": "מדינה",
       "city": "עיר *",
       "address": "כתובת",
       "specialisations": "תחומי התמחות *",
       "sessionTypes": "סוגי טיפול *",
-      "insurance": "קופות חולים",
+      "insurance": "בהסדר עם קופות חולים",
       "phone": "טלפון *",
       "email": "אימייל ליצירת קשר",
       "feeMin": "מחיר מינימום לטיפול (₪)",
       "feeMax": "מחיר מקסימום לטיפול (₪)",
       "mohNumber": "מספר רישיון משרד הבריאות",
-      "acceptingPatients": "מקבל/ת מטופלים חדשים",
-      "saveError": "שגיאה בשמירת הפרופיל"
-    },
-    "patient": {
-      "title": "נעשה לך חיפוש מותאם אישית",
-      "subtitle": "כמה שאלות כדי שנוכל למצוא את המרפא המתאים לך",
-      "skip": "דלג לחיפוש",
-      "findTherapists": "הצג מרפאים",
-      "whoLabel": "עבור מי מחפשים?",
-      "whoSelf": "עצמי",
-      "whoChild": "ילד/ה שלי",
-      "whoFamily": "בן/בת משפחה אחר/ת",
-      "specialisationsLabel": "מה תחום הקושי? (ניתן לבחור כמה)",
-      "cityLabel": "באיזו עיר/אזור?",
-      "cityPlaceholder": "לדוגמה: תל אביב, ירושלים...",
-      "sessionTypeLabel": "איך מעדיפים לקבל טיפול?",
-      "sessionTypeAny": "לא משנה"
+      "mohNumberHint": "מספר הרישיון מהמש\"ב (5–6 ספרות, או בפורמט XX-XXXXXX)",
+      "mohVerify": "אמת רישיון",
+      "mohVerifying": "מאמת...",
+      "mohVerifyFound": "פרטי הרישיון נמצאו",
+      "mohVerifyName": "שם מלא",
+      "mohVerifyLicense": "מספר רישיון",
+      "mohVerifyCity": "עיר",
+      "mohVerifyStatus": "סטטוס",
+      "mohVerifyConfirm": "זה אני — אני מאשר/ת שמדובר בפרופיל שלי",
+      "mohVerifyRequired": "יש לאמת את הרישיון ולאשר שזה הפרופיל שלך",
+      "mohInvalidFormat": "מספר רישיון לא תקין — יש להזין 5–6 ספרות, או בפורמט XX-XXXXXX",
+      "phoneInvalid": "מספר טלפון לא תקין — יש להזין 7 ספרות",
+      "requiredFields": "יש למלא את כל שדות החובה",
+      "mohNotFound": "מספר הרישיון לא נמצא ברשומות משרד הבריאות",
+      "mohExpired": "הרישיון אינו בתוקף. לפרטים — פנה/י למשרד הבריאות",
+      "acceptingPatients": "מקבל מטופלים חדשים",
+      "gender": "מגדר",
+      "genderMale": "זכר",
+      "genderFemale": "נקבה",
+      "genderUnspecified": "לא לציין",
+      "saveError": "שגיאה בשמירת הפרופיל",
+      "bio": "אודות",
+      "bioPlaceholder": "ספר/י על עצמך, הגישה הטיפולית שלך, ניסיון רלוונטי...",
+      "photoLabel": "תמונת פרופיל",
+      "photoHint": "לחצו על העיגול להעלאת תמונה (אופציונלי)",
+      "photoUploading": "מעלה...",
+      "photoError": "שגיאה בהעלאת התמונה",
+      "otherPlaceholder": "אחר — תאר/י בחופשיות (לדוג': אונקולוגיה, הזנה, טראומה)",
+      "firstName": "שם פרטי",
+      "lastName": "שם משפחה",
+      "optional": "אופציונלי"
     }
   },
   "dashboard": {
-    "title": "לוח בקרה",
+    "title": "אזור אישי",
+    "therapistRole": "מרפא/ה בעיסוק",
     "profileViews": "צפיות בפרופיל",
     "enquiries": "פניות",
     "completeness": "שלמות הפרופיל",
@@ -213,8 +422,32 @@
     "allTime": "כל הזמן",
     "incompleteProfile": "הפרופיל שלך עוד לא מלא — מלא את הפרטים כדי להופיע בתוצאות החיפוש.",
     "completeProfile": "השלמת הפרופיל",
-    "patientAccountNotice": "חשבון זה הוא חשבון מטופל. חפש מרפאים בעיסוק",
-    "searchPageLink": "בעמוד החיפוש",
+    "rating": "דירוג",
+    "reviews": "{count} ביקורות",
+    "noRating": "עדיין אין דירוגים",
+    "acceptingPatients": "מקבל מטופלים",
+    "notAccepting": "לא מקבל כרגע",
+    "profileActive": "פרופיל מוצג",
+    "profileInactive": "פרופיל מוסתר",
+    "upgradeTitle": "שדרוג לפרמיום",
+    "upgradeDesc": "קבל מיקום מועדף, דירוג גבוה יותר בחיפוש ואנליטיקס מתקדם.",
+    "upgradeCta": "שדרג עכשיו",
+    "subscriptionFree": "חינמי",
+    "subscriptionPremium": "פרמיום",
+    "profileStrength": "חוזק הפרופיל",
+    "specialisationsLabel": "התמחויות",
+    "sessionTypesLabel": "סוגי טיפול",
+    "insuranceLabel": "קופות חולים",
+    "completenessTitle": "השלם את הפרופיל",
+    "completenessItems": {
+      "city": "הוסף עיר",
+      "bio": "כתוב אודות",
+      "specialisations": "הוסף התמחויות",
+      "sessionTypes": "הוסף סוגי טיפול",
+      "insurance": "הוסף קופות חולים",
+      "phone": "הוסף טלפון",
+      "photo": "הוסף תמונת פרופיל"
+    },
     "edit": {
       "title": "עריכת פרופיל",
       "bio": "אודות (עברית)",
@@ -226,13 +459,22 @@
       "specialisations": "התמחויות",
       "languages": "שפות",
       "sessionTypes": "סוגי טיפול",
-      "insurance": "קופות חולים",
+      "insurance": "בהסדר עם קופות חולים",
       "feeMin": "מחיר מינימום לטיפול (₪)",
       "feeMax": "מחיר מקסימום לטיפול (₪)",
-      "acceptingPatients": "מקבל/ת מטופלים חדשים",
+      "acceptingPatients": "מקבל מטופלים חדשים",
+      "gender": "מגדר",
+      "genderMale": "זכר",
+      "genderFemale": "נקבה",
+      "genderUnspecified": "לא לציין",
       "saveSuccess": "הפרופיל עודכן בהצלחה",
       "saveError": "שגיאה בשמירת הפרופיל",
-      "save": "שמור שינויים"
+      "save": "שמור שינויים",
+      "photoLabel": "תמונת פרופיל",
+      "photoHint": "לחצו על העיגול להחלפת תמונה",
+      "photoUploading": "מעלה...",
+      "photoError": "שגיאה בהעלאת התמונה",
+      "otherPlaceholder": "אחר — תאר/י בחופשיות (לדוג': אונקולוגיה, הזנה, טראומה)"
     }
   },
   "reviews": {
@@ -244,14 +486,14 @@
     "ratingLabel": "הדירוג שלך",
     "ratingRequired": "אנא בחר דירוג",
     "textLabel": "הביקורת שלך",
-    "textPlaceholder": "שתף את החוויה שלך עם המרפא/ה...",
+    "textPlaceholder": "שתפו את החוויה שלכם עם המרפא...",
     "textTooShort": "הביקורת חייבת להכיל לפחות 20 תווים",
     "textTooLong": "הביקורת לא יכולה לעלות על 1000 תווים",
     "submit": "שלח ביקורת",
     "submitting": "שולח...",
     "submitSuccess": "תודה! הביקורת שלך התקבלה.",
     "submitError": "שגיאה בשליחת הביקורת. נסה שוב.",
-    "alreadyReviewed": "כבר כתבת ביקורת על מרפא/ה זה.",
+    "alreadyReviewed": "כבר כתבת ביקורת על מרפא זה.",
     "loginPrompt": "רוצה לשתף את החוויה שלך?",
     "loginLink": "התחבר כדי לכתוב ביקורת",
     "otCannotReview": "מרפאים בעיסוק אינם יכולים לכתוב ביקורות.",
@@ -270,7 +512,7 @@
     "phonePlaceholder": "אופציונלי",
     "subjectLabel": "נושא",
     "subjects": {
-      "newPatient": "פניית מטופל חדש",
+      "newPatient": "פנייה של מטופל חדש",
       "appointment": "בקשה לקביעת תור",
       "insurance": "שאלה על קופות חולים / עלויות",
       "general": "שאלה כללית",
@@ -283,5 +525,151 @@
     "success": "ההודעה נשלחה!",
     "successDetail": "הודעתך נשלחה לـ {name}. הם יחזרו אליך בהקדם.",
     "error": "שגיאה בשליחת ההודעה. נסה שנית."
+  },
+  "admin": {
+    "title": "ניהול",
+    "nav": {
+      "dashboard": "לוח בקרה",
+      "users": "משתמשים",
+      "therapists": "מרפאים",
+      "billing": "חיוב",
+      "settings": "הגדרות"
+    },
+    "dashboard": {
+      "title": "לוח בקרה",
+      "stats": {
+        "totalUsers": "סה\"כ משתמשים",
+        "totalTherapists": "סה\"כ מרפאים",
+        "activeTherapists": "מרפאים פעילים",
+        "premiumSubscribers": "מנויי פרמיום",
+        "featuredTherapists": "מרפאים מובלטים",
+        "newRegistrations": "הרשמות חדשות (חודש)",
+        "totalProfileViews": "סה\"כ צפיות בפרופיל"
+      },
+      "registrationsChart": "הרשמות חדשות — 6 חודשים אחרונים",
+      "platformHealth": "בריאות הפלטפורמה",
+      "health": {
+        "activeTherapists": "מרפאים פעילים",
+        "premiumSubscribers": "מנויי פרמיום",
+        "featured": "מובלטים"
+      }
+    },
+    "users": {
+      "title": "משתמשים",
+      "searchPlaceholder": "חפשו שם או אימייל…",
+      "total": "סה\"כ {count}",
+      "noResults": "לא נמצאו משתמשים.",
+      "filterRoles": {
+        "all": "כל התפקידים",
+        "therapist": "מרפא",
+        "admin": "מנהל",
+        "unregistered": "לא רשום"
+      },
+      "filterStatuses": {
+        "all": "כל הסטטוסים",
+        "active": "פעיל",
+        "suspended": "מושעה"
+      },
+      "table": {
+        "name": "שם",
+        "email": "אימייל",
+        "role": "תפקיד",
+        "status": "סטטוס",
+        "joined": "הצטרף",
+        "actions": "פעולות"
+      },
+      "actions": {
+        "suspend": "השעה",
+        "reactivate": "הפעל מחדש"
+      }
+    },
+    "therapists": {
+      "title": "מרפאים",
+      "searchPlaceholder": "חפשו שם או עיר…",
+      "total": "סה\"כ {count}",
+      "noResults": "לא נמצאו מרפאים.",
+      "filterTiers": {
+        "all": "כל הרמות",
+        "free": "חינמי",
+        "premium": "פרמיום"
+      },
+      "filterFeatured": {
+        "all": "מובלט: הכל",
+        "yes": "מובלטים בלבד",
+        "no": "לא מובלטים"
+      },
+      "filterStatuses": {
+        "all": "כל הסטטוסים",
+        "active": "פעיל",
+        "inactive": "לא פעיל"
+      },
+      "table": {
+        "name": "שם",
+        "city": "עיר",
+        "tier": "רמה",
+        "featured": "מובלט",
+        "active": "פעיל",
+        "views": "צפיות",
+        "actions": "פעולות"
+      },
+      "status": {
+        "yes": "כן",
+        "no": "לא",
+        "active": "פעיל",
+        "inactive": "לא פעיל"
+      },
+      "actions": {
+        "feature": "הבלט",
+        "unfeature": "הסר הבלטה",
+        "activate": "הפעל",
+        "deactivate": "השבת",
+        "upgrade": "שדרג",
+        "downgrade": "הורד רמה"
+      }
+    },
+    "billing": {
+      "title": "חיוב",
+      "premium": "פרמיום",
+      "monthlyPrice": "מחיר חודשי",
+      "annualPrice": "מחיר שנתי"
+    },
+    "settings": {
+      "title": "הגדרות",
+      "sections": {
+        "featureFlags": "דגלי תכונות",
+        "registration": "הרשמה",
+        "platform": "פלטפורמה",
+        "pricing": "תמחור מנויים (₪)"
+      },
+      "flags": {
+        "showFee": "הצג עלות טיפול בכרטיסים/פרופילים",
+        "showRating": "הצג דירוג מרפאים",
+        "showMap": "הצג מפה בדף הבית",
+        "featuredSection": "הצג מדור מומלצים",
+        "newRegistrations": "הרשמות חדשות מופעלות",
+        "requireApproval": "דרוש אישור מנהל לפרופילים חדשים"
+      },
+      "fields": {
+        "contactEmail": "אימייל ליצירת קשר",
+        "defaultSort": "מיון חיפוש ברירת מחדל",
+        "monthlyPrice": "מחיר חודשי",
+        "annualPrice": "מחיר שנתי"
+      },
+      "sortOptions": {
+        "relevance": "רלוונטיות",
+        "rating": "דירוג",
+        "newest": "חדש ביותר"
+      }
+    },
+    "common": {
+      "filter": "סנן",
+      "previous": "הקודם",
+      "next": "הבא",
+      "page": "עמוד {page} מתוך {total}"
+    },
+    "toast": {
+      "saved": "השינויים נשמרו",
+      "error": "שגיאה בשמירה"
+    }
   }
 }

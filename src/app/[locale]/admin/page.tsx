@@ -66,7 +66,7 @@ export default async function AdminDashboardPage() {
 
   return (
     <div>
-      <h1 className="mb-6 text-2xl font-bold text-text-primary">{t('dashboard.title')}</h1>
+      <h1 className="mb-6 text-2xl font-normal text-text-primary">{t('dashboard.title')}</h1>
 
       {/* Stats grid */}
       <div className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
@@ -81,14 +81,14 @@ export default async function AdminDashboardPage() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Registration trend chart */}
-        <div className="rounded-xl border border-border bg-surface p-5">
-          <h2 className="mb-4 text-sm font-semibold text-text-primary">{t('dashboard.registrationsChart')}</h2>
+        <div className="card p-5">
+          <h2 className="mb-4 text-sm font-normal text-text-primary">{t('dashboard.registrationsChart')}</h2>
           <BarChart months={chartMonths} />
         </div>
 
         {/* Platform health */}
-        <div className="rounded-xl border border-border bg-surface p-5">
-          <h2 className="mb-4 text-sm font-semibold text-text-primary">{t('dashboard.platformHealth')}</h2>
+        <div className="card p-5">
+          <h2 className="mb-4 text-sm font-normal text-text-primary">{t('dashboard.platformHealth')}</h2>
           <div className="space-y-4">
             <RatioBar
               label={t('dashboard.health.activeTherapists')}
@@ -120,11 +120,11 @@ export default async function AdminDashboardPage() {
 
 function StatCard({ label, value, sub }: { label: string; value: number; sub?: string }) {
   return (
-    <div className="rounded-xl border border-border bg-surface p-5">
-      <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary">{label}</p>
+    <div className="card p-5">
+      <p className="section-eyebrow">{label}</p>
       <div className="mt-1 flex items-baseline gap-1.5">
-        <p className="text-2xl font-bold text-text-primary">{value.toLocaleString()}</p>
-        {sub && <span className="text-xs font-medium text-text-muted">{sub}</span>}
+        <p className="text-2xl font-normal text-text-primary">{value.toLocaleString()}</p>
+        {sub && <span className="text-xs font-normal text-text-muted">{sub}</span>}
       </div>
     </div>
   );
@@ -140,7 +140,7 @@ function BarChart({ months }: { months: { label: string; count: number }[] }) {
         const barH = Math.max(Math.round((m.count / maxCount) * chartH), m.count > 0 ? 4 : 2);
         return (
           <div key={m.label} className="flex flex-1 flex-col items-center gap-1">
-            <span className="text-[10px] font-semibold text-text-primary">{m.count > 0 ? m.count : ''}</span>
+            <span className="text-[10px] font-normal text-text-primary">{m.count > 0 ? m.count : ''}</span>
             <div
               className="w-full rounded-t bg-primary"
               style={{ height: `${barH}px`, minHeight: '2px' }}
@@ -170,9 +170,9 @@ function RatioBar({
   return (
     <div>
       <div className="mb-1 flex items-center justify-between text-xs">
-        <span className="font-medium text-text-primary">{label}</span>
+        <span className="font-normal text-text-primary">{label}</span>
         <span className="text-text-muted">
-          {value}/{total} <span className="font-semibold text-text-secondary">({rate}%)</span>
+          {value}/{total} <span className="font-normal text-text-secondary">({rate}%)</span>
         </span>
       </div>
       <div className="h-2 overflow-hidden rounded-full bg-bg-alt">

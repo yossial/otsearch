@@ -32,7 +32,9 @@
       "description": "Find private occupational therapists in Israel by specialisation, health fund, and location. Immediate access, no waiting list. Free registration for therapists."
     },
     "heroEyebrow": "Skip the waiting list",
-    "heroTitle": "The Home of Occupational Therapists in Israel: Where Function Becomes Success",
+    "heroTitlePre": "Find a",
+    "heroTitleAccent": "Certified Therapist",
+    "heroTitlePost": "Near You",
     "heroSubtitle": "Private OTs across Israel, searchable by specialisation, health fund and location",
     "heroParagraph": "Occupational therapy is the key to a full and independent life. Our platform connects your unique needs with Israel's leading certified therapists—filtered by specialization, location, and therapeutic approach. For Therapists: Join our professional community and reach the right patients for your clinic.",
     "searchHeading": "Find the right occupational therapist for you",
@@ -52,6 +54,7 @@
     "howItWorks": {
       "eyebrow": "Three simple steps",
       "title": "How it works",
+      "stepLabel": "Step {number}",
       "step1Title": "Describe your need",
       "step1Desc": "Search by specialisation, location, health fund and availability",
       "step2Title": "Compare therapists",
@@ -70,6 +73,17 @@
       "fundsLabel": "Health funds"
     },
     "featuredTitle": "Featured therapists",
+    "therapistPreview": {
+      "eyebrow": "Our Therapists",
+      "title": "Israel's largest occupational therapy network",
+      "description": "Connect with certified therapists across Israel, filtered by specialisation, city, and health fund.",
+      "statTherapists": "Registered therapists",
+      "statCities": "Cities covered",
+      "statFunds": "Health funds accepted",
+      "cta": "Browse all therapists",
+      "more": "more",
+      "deckAriaLabel": "{count} therapists available — browse all"
+    },
     "whyJoinUs": {
       "seekers": {
         "eyebrow": "For patients",
@@ -154,15 +168,21 @@
       "freeFeature5": "Up to 4 specialisations",
       "freeCta": "Join for free",
       "premiumName": "Premium",
-      "premiumPrice": "Coming soon",
-      "premiumBadge": "Coming soon",
-      "premiumDesc": "For therapists who want to lead",
-      "premiumFeature1": "Everything in Free",
-      "premiumFeature2": "Featured placement at the top",
-      "premiumFeature3": "Leading therapist badge",
-      "premiumFeature4": "Analytics dashboard",
-      "premiumFeature5": "Priority support",
-      "premiumCta": "Get notified"
+      "premiumPrice": "₪99",
+      "premiumPeriod": "/ month",
+      "premiumBadge": "Most popular",
+      "premiumTrialBadge": "3 months free to start",
+      "premiumTrialNote": "then ₪99/month · cancel anytime",
+      "premiumDesc": "For therapists who want a full clinic",
+      "premiumFeature1": "Priority listing — appear first in search results",
+      "premiumFeature2": "Featured & Verified badge on your profile",
+      "premiumFeature3": "Unlimited specialisations (free: up to 4)",
+      "premiumFeature4": "Analytics: profile views, inquiries & conversions",
+      "premiumFeature5": "Direct message inbox from prospective patients",
+      "premiumFeature6": "Short video introduction on your profile",
+      "premiumFeature7": "Multiple clinic photos",
+      "premiumRoiNote": "💡 One new patient per month from premium listing typically covers 4+ months of subscription.",
+      "premiumCta": "Start 3 months free"
     },
     "faq": {
       "eyebrow": "FAQ",
@@ -288,6 +308,7 @@
     "verifyLicence": "Verify on MOH Registry"
   },
   "auth": {
+    "backHome": "Back",
     "login": {
       "title": "Log in to your account",
       "email": "Email",

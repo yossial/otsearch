@@ -6,6 +6,7 @@ import { useLocale } from 'next-intl';
 import { useSession, signOut } from 'next-auth/react';
 import { Link, usePathname } from '@/i18n/navigation';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { Button } from '@/components/ui/Button';
 
 function getInitials(name?: string | null): string {
   if (!name) return '?';
@@ -68,7 +69,7 @@ export default function Navbar({ avatarUrl }: { avatarUrl?: string | null }) {
 
   useEffect(() => {
     if (!isHomepage) return;
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
@@ -139,7 +140,7 @@ export default function Navbar({ avatarUrl }: { avatarUrl?: string | null }) {
                       className="h-9 w-9 rounded-full object-cover ring-2 ring-transparent transition-all group-hover:ring-accent/40"
                     />
                   ) : (
-                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-sm font-bold text-text-inverse ring-2 ring-transparent transition-all group-hover:ring-accent/40">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-sm font-normal text-text-inverse ring-2 ring-transparent transition-all group-hover:ring-accent/40">
                       {getInitials(userName)}
                     </span>
                   )}
@@ -154,12 +155,12 @@ export default function Navbar({ avatarUrl }: { avatarUrl?: string | null }) {
                 >
                   {/* User info header */}
                   <div className="border-b border-border px-4 py-3">
-                    <p className="truncate text-sm font-semibold text-text-primary">{userName}</p>
+                    <p className="truncate text-sm font-normal text-text-primary">{userName}</p>
                     {userEmail && (
                       <p className="mt-0.5 truncate text-xs text-text-secondary">{userEmail}</p>
                     )}
                     {role && (
-                      <span className={`mt-1.5 inline-block rounded px-1.5 py-0.5 text-2xs font-semibold uppercase tracking-wide ${isAdmin ? 'bg-accent text-text-inverse' : 'bg-primary-light text-primary'}`}>
+                      <span className={`mt-1.5 inline-block rounded px-1.5 py-0.5 text-2xs font-normal uppercase tracking-wide ${isAdmin ? 'bg-accent text-text-inverse' : 'bg-primary-light text-primary'}`}>
                         {isAdmin ? 'Admin' : 'Therapist'}
                       </span>
                     )}
@@ -209,13 +210,13 @@ export default function Navbar({ avatarUrl }: { avatarUrl?: string | null }) {
             <>
               <Link
                 href="/auth/login"
-                className="rounded-lg px-4 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-bg-alt hover:text-primary"
+                className="rounded-lg px-4 py-2 text-sm font-normal text-text-secondary transition-colors hover:bg-bg-alt hover:text-primary"
               >
                 {t('login')}
               </Link>
               <Link
                 href="/auth/register"
-                className="group inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-semibold tracking-wide text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_4px_12px_rgba(0,29,61,0.2)]"
+                className="group inline-flex items-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-sm font-normal tracking-wide text-text-accent transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-dark hover:shadow-accent"
               >
                 {t('register')}
               </Link>
@@ -267,12 +268,12 @@ export default function Navbar({ avatarUrl }: { avatarUrl?: string | null }) {
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={userImage} alt={userName ?? ''} width={36} height={36} className="h-9 w-9 rounded-full object-cover" />
               ) : (
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-bold text-text-inverse">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-normal text-text-inverse">
                   {getInitials(userName)}
                 </span>
               )}
               <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-text-primary">{userName}</p>
+                <p className="truncate text-sm font-normal text-text-primary">{userName}</p>
                 {userEmail && <p className="truncate text-xs text-text-secondary">{userEmail}</p>}
               </div>
             </div>
@@ -282,39 +283,40 @@ export default function Navbar({ avatarUrl }: { avatarUrl?: string | null }) {
             {isLoggedIn ? (
               <>
                 {!isOnboarding && (
-                  <Link href="/dashboard" onClick={close} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-text-secondary transition-colors hover:bg-primary-light hover:text-primary">
+                  <Link href="/dashboard" onClick={close} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-normal text-text-secondary transition-colors hover:bg-primary-light hover:text-primary">
                     <IconDashboard />
                     {t('dashboard')}
                   </Link>
                 )}
                 {!isOnboarding && isTherapist && (
-                  <Link href="/dashboard/edit" onClick={close} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-text-secondary transition-colors hover:bg-primary-light hover:text-primary">
+                  <Link href="/dashboard/edit" onClick={close} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-normal text-text-secondary transition-colors hover:bg-primary-light hover:text-primary">
                     <IconEdit />
                     {t('editProfile')}
                   </Link>
                 )}
                 {isAdmin && (
-                  <Link href="/admin" onClick={close} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-text-secondary transition-colors hover:bg-accent/10 hover:text-accent">
+                  <Link href="/admin" onClick={close} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-normal text-text-secondary transition-colors hover:bg-accent/10 hover:text-accent">
                     <IconAdmin />
                     {t('adminPanel')}
                   </Link>
                 )}
                 <div className="my-1 h-px bg-border" />
-                <button
+                <Button
                   type="button"
+                  variant="destructive"
                   onClick={() => { close(); signOut({ callbackUrl: '/' }); }}
-                  className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-text-secondary transition-colors hover:bg-red-50 hover:text-red-600"
+                  className="w-full justify-start gap-2.5"
                 >
                   <IconLogout />
                   {t('logout')}
-                </button>
+                </Button>
               </>
             ) : (
               <>
-                <Link href="/auth/login" onClick={close} className="rounded-lg border border-border px-4 py-2 text-center text-sm font-medium text-text-primary transition-colors hover:border-primary hover:text-primary">
+                <Link href="/auth/login" onClick={close} className="rounded-lg border border-border px-4 py-2 text-center text-sm font-normal text-text-primary transition-colors hover:border-primary hover:text-primary">
                   {t('login')}
                 </Link>
-                <Link href="/auth/register" onClick={close} className="rounded-lg bg-primary px-4 py-2 text-center text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_4px_12px_rgba(0,29,61,0.2)]">
+                <Link href="/auth/register" onClick={close} className="rounded-lg bg-accent px-4 py-2 text-center text-sm font-normal text-text-accent transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-dark hover:shadow-accent">
                   {t('register')}
                 </Link>
               </>

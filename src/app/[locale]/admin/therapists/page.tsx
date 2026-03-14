@@ -66,7 +66,7 @@ export default async function AdminTherapistsPage({ searchParams }: PageProps) {
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-text-primary">{t('therapists.title')}</h1>
+        <h1 className="text-2xl font-normal text-text-primary">{t('therapists.title')}</h1>
         <span className="text-sm text-text-secondary">{t('therapists.total', { count: total })}</span>
       </div>
 
@@ -107,7 +107,7 @@ export default async function AdminTherapistsPage({ searchParams }: PageProps) {
         </select>
         <button
           type="submit"
-          className="rounded bg-primary px-4 py-2 text-sm font-semibold text-text-accent transition-colors hover:opacity-90"
+          className="rounded bg-primary px-4 py-2 text-sm font-normal text-text-accent transition-colors hover:opacity-90"
         >
           {t('common.filter')}
         </button>

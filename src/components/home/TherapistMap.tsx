@@ -51,6 +51,7 @@ export default function TherapistMap({ profiles, activeCity }: TherapistMapProps
       const map = L.map(mapRef.current!, {
         center: centerCoords,
         zoom: initialZoom,
+        scrollWheelZoom: false,
       });
       mapInstanceRef.current = map;
 

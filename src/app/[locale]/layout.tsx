@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Calistoga, Rubik } from 'next/font/google';
+import { DM_Sans, Calistoga, Assistant } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -14,10 +14,11 @@ import Footer from '@/components/layout/Footer';
 import { Toaster } from 'sonner';
 import '@/app/globals.css';
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ['latin'],
   variable: '--font-inter',
   display: 'swap',
+  weight: ['300', '400', '500', '600', '700'],
 });
 
 const calistoga = Calistoga({
@@ -27,11 +28,11 @@ const calistoga = Calistoga({
   display: 'swap',
 });
 
-const rubik = Rubik({
+const assistant = Assistant({
   subsets: ['hebrew', 'latin'],
   variable: '--font-rubik',
   display: 'swap',
-  weight: ['300', '400', '500', '600', '700', '800', '900'],
+  weight: ['300', '400', '500', '600', '700', '800'],
 });
 
 export const metadata: Metadata = {
@@ -82,7 +83,7 @@ export default async function LocaleLayout({
   }
 
   return (
-    <html lang={locale} dir={dir} className={`${inter.variable} ${calistoga.variable} ${rubik.variable}`}>
+    <html lang={locale} dir={dir} className={`${dmSans.variable} ${calistoga.variable} ${assistant.variable}`}>
       <body className="bg-bg font-sans text-text-primary antialiased">
         <NextIntlClientProvider messages={messages}>
           <SessionProvider>

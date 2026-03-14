@@ -27,14 +27,14 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       {/* Sidebar */}
       <aside className="hidden h-full w-56 shrink-0 overflow-y-auto border-e border-border bg-surface lg:flex lg:flex-col">
         <div className="border-b border-border px-5 py-4">
-          <span className="text-sm font-bold text-text-primary uppercase tracking-widest">{t('title')}</span>
+          <span className="text-sm font-normal text-text-primary uppercase tracking-widest">{t('title')}</span>
         </div>
         <nav className="flex flex-col gap-0.5 p-3">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="rounded px-3 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-bg-alt hover:text-text-primary"
+              className="rounded px-3 py-2 text-sm font-normal text-text-secondary transition-colors hover:bg-bg-alt hover:text-text-primary"
             >
               {item.label}
             </Link>
@@ -49,7 +49,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <Link
               key={item.href}
               href={item.href}
-              className="shrink-0 rounded px-3 py-1.5 text-sm font-medium text-text-secondary transition-colors hover:bg-bg-alt hover:text-text-primary"
+              className="shrink-0 rounded px-3 py-1.5 text-sm font-normal text-text-secondary transition-colors hover:bg-bg-alt hover:text-text-primary"
             >
               {item.label}
             </Link>

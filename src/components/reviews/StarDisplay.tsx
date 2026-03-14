@@ -57,7 +57,7 @@ export default function StarDisplay({ rating, size = 'md', showNumber = false, c
         );
       })}
       {showNumber && (
-        <span className="ms-1 text-sm font-medium text-text-primary">{rating.toFixed(1)}</span>
+        <span className="ms-1 text-sm font-normal text-text-primary">{rating.toFixed(1)}</span>
       )}
       {count !== undefined && (
         <span className="ms-0.5 text-sm text-text-muted">({count})</span>

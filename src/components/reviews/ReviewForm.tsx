@@ -25,7 +25,7 @@ export default function ReviewForm({ slug, isLoggedIn, userRole }: Props) {
     return (
       <p className="text-sm text-text-secondary">
         {t('loginPrompt')}{' '}
-        <Link href="/auth/login" className="font-medium text-primary hover:underline">
+        <Link href="/auth/login" className="font-normal text-primary hover:underline">
           {t('loginLink')}
         </Link>
       </p>
@@ -38,7 +38,7 @@ export default function ReviewForm({ slug, isLoggedIn, userRole }: Props) {
 
   if (status === 'success') {
     return (
-      <div className="rounded-lg bg-green-50 px-4 py-3 text-sm font-medium text-green-700">
+      <div className="rounded-lg bg-green-50 px-4 py-3 text-sm font-normal text-green-700">
         {t('submitSuccess')}
       </div>
     );
@@ -73,7 +73,7 @@ export default function ReviewForm({ slug, isLoggedIn, userRole }: Props) {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div>
-        <p className="mb-2 text-sm font-medium text-text-primary">{t('ratingLabel')}</p>
+        <p className="mb-2 text-sm font-normal text-text-primary">{t('ratingLabel')}</p>
         <div className="flex gap-1">
           {Array.from({ length: 5 }, (_, i) => {
             const val = i + 1;
@@ -114,7 +114,7 @@ export default function ReviewForm({ slug, isLoggedIn, userRole }: Props) {
       </div>
 
       <div>
-        <label htmlFor="review-text" className="mb-1.5 block text-sm font-medium text-text-primary">
+        <label htmlFor="review-text" className="mb-1.5 block text-sm font-normal text-text-primary">
           {t('textLabel')}
         </label>
         <textarea
@@ -142,7 +142,7 @@ export default function ReviewForm({ slug, isLoggedIn, userRole }: Props) {
         type="submit"
         disabled={status === 'loading' || rating === 0}
         className={cn(
-          'flex w-full items-center justify-center rounded-lg bg-primary py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark disabled:opacity-60'
+          'flex w-full items-center justify-center rounded-lg bg-primary py-2.5 text-sm font-normal text-white transition-colors hover:bg-primary-dark disabled:opacity-60'
         )}
       >
         {status === 'loading' ? t('submitting') : t('submit')}

@@ -71,9 +71,9 @@ export default async function DashboardPage() {
       <div className="mx-auto max-w-5xl space-y-5 px-4 py-8 sm:px-6 lg:px-8">
 
         {/* ── Hero card ───────────────────────────────────────────── */}
-        <div className="overflow-hidden rounded-xl border border-border bg-surface">
+        <div className="card overflow-hidden">
           {/* Accent bar */}
-          <div className="h-1 bg-gradient-to-r from-primary-mid via-primary to-accent" />
+          <div className="gradient-bar" />
 
           <div className="flex flex-wrap items-start justify-between gap-4 p-6">
             {/* Avatar + name */}
@@ -88,30 +88,30 @@ export default async function DashboardPage() {
                   className="h-[72px] w-[72px] shrink-0 rounded-full object-cover ring-[3px] ring-primary-light"
                 />
               ) : (
-                <div className="flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-full bg-primary text-2xl font-bold text-white ring-[3px] ring-primary-light">
+                <div className="flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-full bg-primary text-2xl font-normal text-white ring-[3px] ring-primary-light">
                   {(profileName ?? name).charAt(0).toUpperCase()}
                 </div>
               )}
               <div className="min-w-0">
-                <h1 className="text-xl font-bold leading-tight text-text-primary">
+                <h1 className="text-xl font-normal leading-tight text-text-primary">
                   {profileName ?? name}
                 </h1>
                 <p className="mt-0.5 text-sm text-text-muted">{t('therapistRole')}</p>
                 {profile && (
                   <div className="mt-2.5 flex flex-wrap gap-1.5">
-                    <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                    <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-normal ${
                       profile.isActive ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'
                     }`}>
                       <span className={`h-1.5 w-1.5 rounded-full ${profile.isActive ? 'bg-green-500' : 'bg-red-400'}`} />
                       {profile.isActive ? t('profileActive') : t('profileInactive')}
                     </span>
-                    <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                    <span className={`rounded-full px-2.5 py-0.5 text-xs font-normal ${
                       profile.isAcceptingPatients ? 'bg-primary-light text-primary' : 'bg-bg-alt text-text-muted'
                     }`}>
                       {profile.isAcceptingPatients ? t('acceptingPatients') : t('notAccepting')}
                     </span>
                     {isPremium && (
-                      <span className="rounded-full bg-yellow-50 px-2.5 py-0.5 text-xs font-medium text-yellow-700">
+                      <span className="rounded-full bg-yellow-50 px-2.5 py-0.5 text-xs font-normal text-yellow-700">
                         {t('subscriptionPremium')}
                       </span>
                     )}
@@ -124,7 +124,7 @@ export default async function DashboardPage() {
             <div className="flex shrink-0 gap-2">
               <Link
                 href="/dashboard/edit"
-                className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-semibold tracking-wide text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_4px_12px_rgba(0,29,61,0.2)]"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-normal tracking-wide text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-primary"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                 {t('editProfile')}
@@ -132,7 +132,7 @@ export default async function DashboardPage() {
               {profile?.slug && (
                 <Link
                   href={`/therapist/${profile.slug}?from=dashboard`}
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-border px-4 py-2 text-sm font-medium text-text-secondary transition-all duration-200 hover:border-primary/30 hover:bg-primary-light hover:text-primary"
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-border px-4 py-2 text-sm font-normal text-text-secondary transition-all duration-200 hover:border-primary/30 hover:bg-primary-light hover:text-primary"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                   {t('viewProfile')}
@@ -180,10 +180,10 @@ export default async function DashboardPage() {
 
           {/* Profile completeness */}
           {profile && (
-            <div className="rounded-xl border border-border bg-surface p-6">
+            <div className="card p-6">
               <div className="mb-5 flex items-center justify-between">
-                <h2 className="text-base font-semibold text-text-primary">{t('completenessTitle')}</h2>
-                <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                <h2 className="text-base font-normal text-text-primary">{t('completenessTitle')}</h2>
+                <span className={`rounded-full px-2.5 py-0.5 text-xs font-normal ${
                   completenessScore === 100 ? 'bg-green-50 text-green-700' : 'bg-primary-light text-primary'
                 }`}>
                   {completenessScore}%
@@ -212,7 +212,7 @@ export default async function DashboardPage() {
                         <polyline points="20 6 9 17 4 12"/>
                       </svg>
                     ) : (
-                      <span className="text-lg font-bold text-text-primary">{completenessScore}%</span>
+                      <span className="text-lg font-normal text-text-primary">{completenessScore}%</span>
                     )}
                   </div>
                 </div>
@@ -232,7 +232,7 @@ export default async function DashboardPage() {
                             </svg>
                           )}
                         </span>
-                        <span className={`text-xs ${done ? 'text-text-muted line-through' : 'font-medium text-text-primary'}`}>
+                        <span className={`text-xs ${done ? 'text-text-muted line-through' : 'font-normal text-text-primary'}`}>
                           {(t as (k: string) => string)(`completenessItems.${key}`)}
                         </span>
                       </li>
@@ -244,7 +244,7 @@ export default async function DashboardPage() {
               {missing.length > 0 && (
                 <Link
                   href="/dashboard/edit"
-                  className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+                  className="mt-4 inline-flex items-center gap-1.5 text-sm font-normal text-primary hover:underline"
                 >
                   {t('completeProfile')}
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="rtl:rotate-180">
@@ -257,12 +257,12 @@ export default async function DashboardPage() {
 
           {/* Rating & subscription */}
           {profile && (
-            <div className="rounded-xl border border-border bg-surface p-6">
-              <h2 className="mb-5 text-base font-semibold text-text-primary">{t('profileStrength')}</h2>
+            <div className="card p-6">
+              <h2 className="mb-5 text-base font-normal text-text-primary">{t('profileStrength')}</h2>
 
               {/* Rating */}
               <div className="mb-5">
-                <p className="mb-2 text-xs font-medium uppercase tracking-wide text-text-muted">{t('rating')}</p>
+                <p className="section-eyebrow mb-2 text-text-muted">{t('rating')}</p>
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-0.5">
                     {[1, 2, 3, 4, 5].map((s) => {
@@ -278,7 +278,7 @@ export default async function DashboardPage() {
                     })}
                   </div>
                   {profile.ratingCount > 0 ? (
-                    <span className="text-sm font-semibold text-text-primary">
+                    <span className="text-sm font-normal text-text-primary">
                       {profile.ratingAvg.toFixed(1)}
                       <span className="ms-1 font-normal text-text-muted">({profile.ratingCount})</span>
                     </span>
@@ -290,8 +290,8 @@ export default async function DashboardPage() {
 
               {/* Subscription */}
               <div>
-                <p className="mb-2 text-xs font-medium uppercase tracking-wide text-text-muted">{t('subscription')}</p>
-                <span className={`inline-block rounded-full px-3 py-1 text-xs font-bold ${
+                <p className="section-eyebrow mb-2 text-text-muted">{t('subscription')}</p>
+                <span className={`inline-block rounded-full px-3 py-1 text-xs font-normal ${
                   isPremium ? 'bg-yellow-100 text-yellow-700' : 'border border-border bg-bg-alt text-text-secondary'
                 }`}>
                   {isPremium ? t('subscriptionPremium') : t('subscriptionFree')}
@@ -306,7 +306,7 @@ export default async function DashboardPage() {
                       <polyline points="20 6 9 17 4 12"/>
                     </svg>
                   </span>
-                  <p className="text-sm font-medium text-green-800">{t('completeProfile')}</p>
+                  <p className="text-sm font-normal text-green-800">{t('completeProfile')}</p>
                 </div>
               )}
             </div>
@@ -321,13 +321,13 @@ export default async function DashboardPage() {
                 <path d="M6 2 3 6l9 14 9-14-3-4Z"/><path d="M3 6h18"/>
               </svg>
               <div>
-                <p className="font-semibold text-text-primary">{t('upgradeTitle')}</p>
+                <p className="font-normal text-text-primary">{t('upgradeTitle')}</p>
                 <p className="mt-0.5 text-sm text-text-secondary">{t('upgradeDesc')}</p>
               </div>
             </div>
             <Link
               href="/dashboard/billing"
-              className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-bold tracking-wide text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_4px_12px_rgba(0,29,61,0.2)]"
+              className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-normal tracking-wide text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-primary"
             >
               {t('upgradeCta')}
             </Link>
@@ -343,7 +343,7 @@ function StatItem({ label, value, icon }: { label: string; value: string | numbe
   return (
     <div className="flex items-center gap-1.5 text-text-muted">
       {icon}
-      <span className="text-sm font-semibold text-text-primary">{value}</span>
+      <span className="text-sm font-normal text-text-primary">{value}</span>
       <span className="text-xs text-text-muted">{label}</span>
     </div>
   );

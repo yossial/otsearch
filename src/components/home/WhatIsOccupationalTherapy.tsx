@@ -51,11 +51,11 @@ export default async function WhatIsOccupationalTherapy() {
         <div className="mb-12 text-center">
           <div className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5">
             <span
-              className="h-1.5 w-1.5 rounded-full bg-primary"
+              className="h-1.5 w-1.5 rounded-full bg-accent"
               style={{ animation: 'pulse-dot 2s ease-in-out infinite' }}
               aria-hidden="true"
             />
-            <span className="text-xs font-medium uppercase tracking-[0.15em] text-primary">
+            <span className="section-eyebrow text-primary">
               {t('eyebrow')}
             </span>
           </div>
@@ -72,13 +72,13 @@ export default async function WhatIsOccupationalTherapy() {
           {cards.map(({ key, icon }) => (
             <div
               key={key}
-              className="flex flex-col gap-3 rounded-xl border border-border bg-surface p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-card-hover"
+              className="card flex flex-col gap-3 p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-card-hover"
             >
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-light text-primary">
                 {icon}
               </div>
               <div>
-                <h3 className="mb-1 text-sm font-bold text-text-primary">
+                <h3 className="mb-1 text-sm font-normal text-text-primary">
                   {t(`${key}.title`)}
                 </h3>
                 <p className="text-sm leading-relaxed text-text-secondary">

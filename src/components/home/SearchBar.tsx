@@ -140,7 +140,7 @@ export default function SearchBar({ initialQuery = '', size = 'default', onDark 
   if (size === 'hero') {
     const ringClass = onDark
       ? 'shadow-[0_8px_48px_rgba(0,0,0,0.5)]'
-      : 'border border-border shadow-sm focus-within:border-primary focus-within:shadow-[0_0_0_3px_rgba(0,29,61,0.10)]';
+      : 'border border-border shadow-sm focus-within:border-primary focus-within:shadow-focus';
 
     return (
       <form
@@ -187,7 +187,7 @@ export default function SearchBar({ initialQuery = '', size = 'default', onDark 
 
         {/* Tab hint (shows while ghost is visible) */}
         {ghostRemainder && (
-          <span className="shrink-0 rounded border border-border px-1.5 py-0.5 text-[10px] font-medium leading-none text-text-muted">
+          <span className="shrink-0 rounded border border-border px-1.5 py-0.5 text-[10px] font-normal leading-none text-text-muted">
             Tab
           </span>
         )}
@@ -213,7 +213,7 @@ export default function SearchBar({ initialQuery = '', size = 'default', onDark 
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex w-full items-center gap-2 rounded-lg border border-border bg-surface px-3 py-2 transition-[border-color,box-shadow] duration-150 focus-within:border-primary focus-within:shadow-[0_0_0_3px_rgba(0,29,61,0.10)]"
+      className="flex w-full items-center gap-2 rounded-lg border border-border bg-surface px-3 py-2 transition-[border-color,box-shadow] duration-150 focus-within:border-primary focus-within:shadow-focus"
     >
       {isNavigating ? (
         <svg className="h-4 w-4 shrink-0 animate-spin text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
@@ -251,7 +251,7 @@ export default function SearchBar({ initialQuery = '', size = 'default', onDark 
       </div>
 
       {ghostRemainder && (
-        <span className="shrink-0 rounded border border-border px-1 py-0.5 text-[10px] font-medium leading-none text-text-muted">
+        <span className="shrink-0 rounded border border-border px-1 py-0.5 text-[10px] font-normal leading-none text-text-muted">
           Tab
         </span>
       )}

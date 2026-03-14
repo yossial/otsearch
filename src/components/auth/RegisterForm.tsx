@@ -6,6 +6,7 @@ import { signIn } from 'next-auth/react';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import SocialAuthButtons from './SocialAuthButtons';
+import { Button } from '@/components/ui/Button';
 
 export default function RegisterForm() {
   const t = useTranslations('auth');
@@ -81,7 +82,7 @@ export default function RegisterForm() {
   }
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-3">
       {/* Social signup — primary CTAs */}
       <SocialAuthButtons callbackUrl="/onboarding/therapist" />
 
@@ -93,9 +94,9 @@ export default function RegisterForm() {
       </div>
 
       {/* Email / password form */}
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3" noValidate>
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="reg-email" className="text-sm font-medium text-text-primary">
+          <label htmlFor="reg-email" className="text-sm font-normal text-text-primary">
             {t('register.email')}
           </label>
           <input
@@ -110,7 +111,7 @@ export default function RegisterForm() {
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="reg-password" className="text-sm font-medium text-text-primary">
+          <label htmlFor="reg-password" className="text-sm font-normal text-text-primary">
             {t('register.password')}
           </label>
           <input
@@ -139,7 +140,7 @@ export default function RegisterForm() {
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="confirm-password" className="text-sm font-medium text-text-primary">
+          <label htmlFor="confirm-password" className="text-sm font-normal text-text-primary">
             {t('register.confirmPassword')}
           </label>
           <div className="relative">
@@ -177,10 +178,11 @@ export default function RegisterForm() {
           </p>
         )}
 
-        <button
+        <Button
           type="submit"
           disabled={loading}
-          className="mt-1 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold tracking-wide text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_4px_12px_rgba(0,29,61,0.2)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none"
+          size="lg"
+          className="mt-1 w-full"
         >
           {loading ? '...' : (
             <>
@@ -188,11 +190,11 @@ export default function RegisterForm() {
               {t('register.submit')}
             </>
           )}
-        </button>
+        </Button>
 
         <p className="text-center text-sm text-text-secondary">
           {t('register.hasAccount')}{' '}
-          <Link href="/auth/login" className="font-medium text-primary hover:underline">
+          <Link href="/auth/login" className="font-normal text-primary hover:underline">
             {t('register.login')}
           </Link>
         </p>

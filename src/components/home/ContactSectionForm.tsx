@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/Button';
 
 export default function ContactSectionForm() {
   const t = useTranslations('contact');
@@ -55,14 +56,14 @@ export default function ContactSectionForm() {
             <path d="M20 6 9 17l-5-5" />
           </svg>
         </div>
-        <p className="text-base font-semibold text-text-primary">{t('success')}</p>
+        <p className="text-base font-normal text-text-primary">{t('success')}</p>
       </div>
     );
   }
 
   const inputClass =
     'w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 transition-colors';
-  const labelClass = 'mb-1.5 block text-sm font-medium text-text-primary';
+  const labelClass = 'mb-1.5 block text-sm font-normal text-text-primary';
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -116,10 +117,11 @@ export default function ContactSectionForm() {
         <p className="rounded-lg bg-red-50 px-4 py-2.5 text-sm text-red-600">{t('error')}</p>
       )}
 
-      <button
+      <Button
         type="submit"
         disabled={status === 'loading'}
-        className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-3 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_4px_12px_rgba(0,29,61,0.2)] disabled:translate-y-0 disabled:opacity-60 disabled:shadow-none"
+        size="lg"
+        className="w-full"
       >
         {status === 'loading' ? (
           <svg
@@ -155,7 +157,7 @@ export default function ContactSectionForm() {
           </svg>
         )}
         {status === 'loading' ? t('sending') : t('submit')}
-      </button>
+      </Button>
     </form>
   );
 }

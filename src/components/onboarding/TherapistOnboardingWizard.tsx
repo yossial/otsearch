@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import type { Specialisation, InsuranceType, SessionType } from '@/types';
 import CitySelect from '@/components/ui/CitySelect';
 import StreetSelect from '@/components/ui/StreetSelect';
+import { Button } from '@/components/ui/Button';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -104,7 +105,7 @@ function ToggleChip<T extends string>({
     <button
       type="button"
       onClick={() => onToggle(value)}
-      className={`rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ${
+      className={`rounded-full border px-3.5 py-1.5 text-sm font-normal transition-colors ${
         selected
           ? 'border-primary bg-primary text-white'
           : 'border-border bg-bg text-text-secondary hover:border-primary/50'
@@ -116,7 +117,7 @@ function ToggleChip<T extends string>({
 }
 
 function FieldLabel({ children }: { children: React.ReactNode }) {
-  return <label className="text-sm font-medium text-text-primary">{children}</label>;
+  return <label className="text-sm font-normal text-text-primary">{children}</label>;
 }
 
 function OtherTagInput({
@@ -144,7 +145,7 @@ function OtherTagInput({
           {tags.map((tag) => (
             <span
               key={tag}
-              className="flex items-center gap-1.5 rounded-full border border-primary bg-primary/10 px-3 py-1 text-sm font-medium text-primary"
+              className="flex items-center gap-1.5 rounded-full border border-primary bg-primary/10 px-3 py-1 text-sm font-normal text-primary"
             >
               {tag}
               <button
@@ -173,7 +174,7 @@ function OtherTagInput({
           type="button"
           onClick={add}
           disabled={!input.trim()}
-          className="rounded-lg border border-primary px-3.5 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-white disabled:opacity-40"
+          className="rounded-lg border border-primary px-3.5 py-2 text-sm font-normal text-primary transition-colors hover:bg-primary hover:text-white disabled:opacity-40"
         >
           +
         </button>
@@ -217,7 +218,7 @@ function ProgressBar({ currentStep, totalSteps, stepTitle }: { currentStep: numb
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between text-sm">
-        <span className="font-semibold text-text-primary">{stepTitle}</span>
+        <span className="font-normal text-text-primary">{stepTitle}</span>
         <span className="text-text-muted">
           {t('step', { current: currentStep, total: totalSteps })}
         </span>
@@ -344,7 +345,7 @@ function Step1({
               key={String(val)}
               type="button"
               onClick={() => onChange({ gender: val })}
-              className={`rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ${
+              className={`rounded-full border px-3.5 py-1.5 text-sm font-normal transition-colors ${
                 data.gender === val
                   ? 'border-primary bg-primary text-white'
                   : 'border-border bg-bg text-text-secondary hover:border-primary/50'
@@ -636,14 +637,14 @@ function Step3({
               maxLength={9}
             />
           </div>
-          <button
+          <Button
             type="button"
             onClick={() => void handleVerify()}
             disabled={verifying || !data.mohNumber.trim()}
-            className="shrink-0 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-60"
+            className="shrink-0"
           >
             {verifying ? t('mohVerifying') : t('mohVerify')}
-          </button>
+          </Button>
         </div>
         <p className="text-xs text-text-muted">{t('mohNumberHint')}</p>
 
@@ -658,7 +659,7 @@ function Step3({
               <svg className="h-4 w-4 shrink-0 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <span className="text-sm font-semibold text-green-800">{t('mohVerifyFound')}</span>
+              <span className="text-sm font-normal text-green-800">{t('mohVerifyFound')}</span>
             </div>
 
             {/* Details */}
@@ -672,12 +673,12 @@ function Step3({
               ).map(({ label, value, ltr }) => (
                 <div key={label} className="flex items-center justify-between py-2.5 text-sm">
                   <span className="text-text-muted">{label}</span>
-                  <span className="font-semibold text-text-primary" dir={ltr ? 'ltr' : undefined}>{value}</span>
+                  <span className="font-normal text-text-primary" dir={ltr ? 'ltr' : undefined}>{value}</span>
                 </div>
               ))}
               <div className="flex items-center justify-between py-2.5 text-sm">
                 <span className="text-text-muted">{t('mohVerifyStatus')}</span>
-                <span className="inline-flex items-center gap-1 rounded-full bg-green-200 px-2.5 py-0.5 text-xs font-semibold text-green-800">
+                <span className="inline-flex items-center gap-1 rounded-full bg-green-200 px-2.5 py-0.5 text-xs font-normal text-green-800">
                   <span className="h-1.5 w-1.5 rounded-full bg-green-600" />
                   {data.mohVerifiedData.status}
                 </span>
@@ -692,7 +693,7 @@ function Step3({
                 onChange={(e) => onChange({ mohVerified: e.target.checked })}
                 className="mt-0.5 h-4 w-4 shrink-0 rounded border-green-400 text-green-600"
               />
-              <span className="text-sm font-medium leading-snug text-green-900">
+              <span className="text-sm font-normal leading-snug text-green-900">
                 {t('mohVerifyConfirm')}
               </span>
             </label>
@@ -902,7 +903,7 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
     <div className="mx-auto max-w-xl px-4 py-10 sm:px-6">
       {/* Header */}
       <div className="mb-8 text-center">
-        <h1 className="text-2xl font-bold text-text-primary">{t('title')}</h1>
+        <h1 className="text-2xl font-normal text-text-primary">{t('title')}</h1>
         <p className="mt-1 text-sm text-text-secondary">{t('subtitle')}</p>
       </div>
 
@@ -912,7 +913,7 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
       </div>
 
       {/* Step content */}
-      <div className="rounded-xl border border-border bg-surface p-6 sm:p-8">
+      <div className="card p-6 sm:p-8">
         {step === 1 && (
           <Step1 data={step1} onChange={(d) => setStep1((s) => ({ ...s, ...d }))} />
         )}
@@ -932,33 +933,33 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
         {/* Navigation */}
         <div className="mt-6 flex items-center justify-between gap-4">
           {step > 1 ? (
-            <button
+            <Button
               type="button"
+              variant="secondary"
               onClick={() => setStep((s) => s - 1)}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-border px-4 py-2.5 text-sm font-medium text-text-secondary transition-all duration-200 hover:border-primary/30 hover:bg-primary-light hover:text-primary"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="rtl:rotate-180"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
               {t('back')}
-            </button>
+            </Button>
           ) : (
             <div />
           )}
 
           {step < TOTAL_STEPS ? (
-            <button
+            <Button
               type="button"
+              size="lg"
               onClick={handleNext}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold tracking-wide text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_4px_12px_rgba(0,29,61,0.2)]"
             >
               {t('next')}
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="rtl:rotate-180"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </button>
+            </Button>
           ) : (
-            <button
+            <Button
               type="button"
+              size="lg"
               onClick={() => void handleFinish()}
               disabled={saving}
-              className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold tracking-wide text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_4px_12px_rgba(0,29,61,0.2)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none"
             >
               {saving ? '...' : (
                 <>
@@ -966,7 +967,7 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
                   {t('finish')}
                 </>
               )}
-            </button>
+            </Button>
           )}
         </div>
       </div>

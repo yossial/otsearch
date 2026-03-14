@@ -36,7 +36,7 @@ export default async function StatsBar() {
                 <span className="text-4xl font-extrabold tabular-nums text-accent sm:text-5xl">
                   {value}
                 </span>
-                <span className="text-xs font-medium uppercase tracking-[0.12em] text-white/50">
+                <span className="text-xs font-normal uppercase tracking-widest text-white/50">
                   {label}
                 </span>
               </div>

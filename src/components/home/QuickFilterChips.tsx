@@ -59,7 +59,7 @@ export default async function QuickFilterChips({ variant = 'light' }: QuickFilte
 
   const cardBase = isDark
     ? 'border-white/15 bg-white/8 backdrop-blur-sm hover:border-white/30 hover:bg-white/14'
-    : 'border-border bg-surface shadow-sm hover:border-primary/40 hover:shadow-[0_6px_24px_rgba(42,127,98,0.12)]';
+    : 'border-border bg-surface shadow-sm hover:border-primary/40 hover:shadow-primary';
 
   const iconBase = isDark
     ? 'bg-white/15 text-white group-hover:bg-white/25'
@@ -77,13 +77,13 @@ export default async function QuickFilterChips({ variant = 'light' }: QuickFilte
         <Link
           key={key}
           href={`/?specialisation=${spec}`}
-          className={`group flex flex-col gap-4 rounded-2xl border p-5 transition-all duration-200 ${cardBase}`}
+          className={`group flex flex-col gap-4 rounded-xl border p-5 transition-all duration-200 ${cardBase}`}
         >
           <div className={`flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-200 ${iconBase}`}>
             {ICONS[key]}
           </div>
           <div>
-            <p className={`text-sm font-bold transition-colors duration-150 ${labelClass}`}>
+            <p className={`text-sm font-normal transition-colors duration-150 ${labelClass}`}>
               {t(`quickFilters.${key}`)}
             </p>
             <p className={`mt-1 text-xs leading-snug ${taglineClass}`}>

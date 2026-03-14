@@ -26,7 +26,7 @@ export default async function AdminSettingsPage() {
 
   return (
     <div>
-      <h1 className="mb-6 text-2xl font-bold text-text-primary">{t('settings.title')}</h1>
+      <h1 className="mb-6 text-2xl font-normal text-text-primary">{t('settings.title')}</h1>
       <SettingsForm settings={settingsData} />
     </div>
   );

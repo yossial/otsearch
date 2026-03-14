@@ -6,6 +6,7 @@ import { getSettings } from '@/lib/db/models/SiteSettings';
 import { getTranslations } from 'next-intl/server';
 import TherapistsTable from '@/components/admin/TherapistsTable';
 import { Link } from '@/i18n/navigation';
+import { Button } from '@/components/ui/Button';
 
 interface PageProps {
   searchParams: Promise<{ page?: string; tier?: string; q?: string }>;
@@ -66,22 +67,22 @@ export default async function AdminBillingPage({ searchParams }: PageProps) {
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-text-primary">{t('billing.title')}</h1>
+        <h1 className="text-2xl font-normal text-text-primary">{t('billing.title')}</h1>
       </div>
 
       {/* Summary */}
       <div className="mb-6 flex flex-wrap gap-4">
         <div className="rounded-lg border border-border bg-surface px-5 py-4">
-          <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary">{t('billing.premium')}</p>
-          <p className="mt-1 text-2xl font-bold text-text-primary">{premiumCount} <span className="text-sm font-normal text-text-secondary">/ {totalTherapists}</span></p>
+          <p className="section-eyebrow">{t('billing.premium')}</p>
+          <p className="mt-1 text-2xl font-normal text-text-primary">{premiumCount} <span className="text-sm font-normal text-text-secondary">/ {totalTherapists}</span></p>
         </div>
         <div className="rounded-lg border border-border bg-surface px-5 py-4">
-          <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary">{t('billing.monthlyPrice')}</p>
-          <p className="mt-1 text-2xl font-bold text-text-primary">₪{settings.premiumMonthlyPrice}</p>
+          <p className="section-eyebrow">{t('billing.monthlyPrice')}</p>
+          <p className="mt-1 text-2xl font-normal text-text-primary">₪{settings.premiumMonthlyPrice}</p>
         </div>
         <div className="rounded-lg border border-border bg-surface px-5 py-4">
-          <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary">{t('billing.annualPrice')}</p>
-          <p className="mt-1 text-2xl font-bold text-text-primary">₪{settings.premiumAnnualPrice}</p>
+          <p className="section-eyebrow">{t('billing.annualPrice')}</p>
+          <p className="mt-1 text-2xl font-normal text-text-primary">₪{settings.premiumAnnualPrice}</p>
         </div>
       </div>
 
@@ -102,12 +103,9 @@ export default async function AdminBillingPage({ searchParams }: PageProps) {
           <option value="free">{t('therapists.filterTiers.free')}</option>
           <option value="premium">{t('therapists.filterTiers.premium')}</option>
         </select>
-        <button
-          type="submit"
-          className="rounded bg-primary px-4 py-2 text-sm font-semibold text-text-accent transition-colors hover:opacity-90"
-        >
+        <Button type="submit">
           {t('common.filter')}
-        </button>
+        </Button>
       </form>
 
       <TherapistsTable therapists={therapists} showTierActions />

@@ -4,6 +4,7 @@ import { useState, useRef, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import type { TherapistProfilePublic, Specialisation, SessionType, InsuranceType } from '@/types';
+import { Button } from '@/components/ui/Button';
 
 const SPECIALISATIONS: Specialisation[] = [
   'paediatrics', 'neurological', 'mental-health', 'hand-therapy',
@@ -175,8 +176,8 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
 
       {/* Hero card */}
-      <div className="overflow-hidden rounded-xl border border-border bg-surface">
-        <div className="h-1 bg-gradient-to-r from-primary-mid via-primary to-accent" />
+      <div className="card overflow-hidden">
+        <div className="gradient-bar" />
         <div className="flex items-center gap-4 p-4">
           {/* Avatar — clickable to upload */}
           <div
@@ -196,7 +197,7 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
               // eslint-disable-next-line @next/next/no-img-element
               <img src={photo} alt={displayName} className="h-full w-full object-cover" />
             ) : (
-              <span className="absolute inset-0 flex items-center justify-center text-lg font-bold text-text-secondary">
+              <span className="absolute inset-0 flex items-center justify-center text-lg font-normal text-text-secondary">
                 {displayName ? getInitials(displayName) : (
                   <svg className="h-6 w-6 text-text-muted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
@@ -235,7 +236,7 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
 
           <div className="min-w-0 flex-1">
             {displayName && (
-              <p className="truncate text-base font-bold text-text-primary">{displayName}</p>
+              <p className="truncate text-base font-normal text-text-primary">{displayName}</p>
             )}
             <p className="text-xs text-text-secondary">
               {uploading ? t('photoUploading') : t('photoHint')}
@@ -254,7 +255,7 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
           dir="rtl"
           className={textareaCls}
         />
-        <label className="mt-3 block text-sm font-medium text-text-primary">{t('bioAr')}</label>
+        <label className="mt-3 block text-sm font-normal text-text-primary">{t('bioAr')}</label>
         <textarea
           value={bioAr}
           onChange={(e) => setBioAr(e.target.value)}
@@ -262,7 +263,7 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
           dir="rtl"
           className={`mt-1.5 ${textareaCls}`}
         />
-        <label className="mt-3 block text-sm font-medium text-text-primary">{t('bioEn')}</label>
+        <label className="mt-3 block text-sm font-normal text-text-primary">{t('bioEn')}</label>
         <textarea
           value={bioEn}
           onChange={(e) => setBioEn(e.target.value)}
@@ -280,7 +281,7 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
               key={String(val)}
               type="button"
               onClick={() => setGender(val)}
-              className={`rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ${
+              className={`rounded-full border px-3.5 py-1.5 text-sm font-normal transition-colors ${
                 gender === val
                   ? 'border-primary bg-primary text-white'
                   : 'border-border bg-bg text-text-secondary hover:border-primary/50'
@@ -296,15 +297,15 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
       <Section title={t('city')}>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-text-primary">{t('city')}</label>
+            <label className="mb-1.5 block text-sm font-normal text-text-primary">{t('city')}</label>
             <input value={city} onChange={(e) => setCity(e.target.value)} className={inputCls} />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-text-primary">{t('address')}</label>
+            <label className="mb-1.5 block text-sm font-normal text-text-primary">{t('address')}</label>
             <input value={address} onChange={(e) => setAddress(e.target.value)} className={inputCls} />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-text-primary">{t('phone')}</label>
+            <label className="mb-1.5 block text-sm font-normal text-text-primary">{t('phone')}</label>
             <input value={phone} onChange={(e) => setPhone(e.target.value)} type="tel" className={inputCls} dir="ltr" />
           </div>
         </div>
@@ -314,11 +315,11 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
       <Section title={t('feeMin')}>
         <div className="grid grid-cols-2 gap-3 sm:w-64">
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-text-primary">{t('feeMin')}</label>
+            <label className="mb-1.5 block text-sm font-normal text-text-primary">{t('feeMin')}</label>
             <input value={feeMin} onChange={(e) => setFeeMin(e.target.value)} type="number" min={0} className={inputCls} dir="ltr" />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-text-primary">{t('feeMax')}</label>
+            <label className="mb-1.5 block text-sm font-normal text-text-primary">{t('feeMax')}</label>
             <input value={feeMax} onChange={(e) => setFeeMax(e.target.value)} type="number" min={0} className={inputCls} dir="ltr" />
           </div>
         </div>
@@ -381,9 +382,9 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
       </Section>
 
       {/* Accepting patients — toggle switch */}
-      <div className="flex items-center justify-between rounded-xl border border-border bg-surface p-4">
+      <div className="card flex items-center justify-between p-4">
         <div>
-          <p className="text-sm font-semibold text-text-primary">{t('acceptingPatients')}</p>
+          <p className="text-sm font-normal text-text-primary">{t('acceptingPatients')}</p>
         </div>
         <button
           type="button"
@@ -401,10 +402,10 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
 
       {/* Save button — bottom of form */}
       <div className="flex justify-end">
-        <button
+        <Button
           type="submit"
           disabled={saving || !isDirty}
-          className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold tracking-wide text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_4px_12px_rgba(0,29,61,0.2)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none"
+          size="lg"
         >
           {saving ? (
             <svg className="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
@@ -415,7 +416,7 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
           )}
           {t('save')}
-        </button>
+        </Button>
       </div>
 
     </form>
@@ -452,7 +453,7 @@ function OtherTagInput({
           {tags.map((tag) => (
             <span
               key={tag}
-              className="flex items-center gap-1.5 rounded-full border border-primary bg-primary/10 px-3 py-1 text-sm font-medium text-primary"
+              className="flex items-center gap-1.5 rounded-full border border-primary bg-primary/10 px-3 py-1 text-sm font-normal text-primary"
             >
               {tag}
               <button
@@ -476,13 +477,13 @@ function OtherTagInput({
           dir="auto"
           className={inputCls}
         />
-        <button
+        <Button
           type="button"
+          variant="secondary"
           onClick={add}
-          className="rounded-lg border border-primary px-3 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-white"
         >
           +
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -490,8 +491,8 @@ function OtherTagInput({
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-xl border border-border bg-surface p-4">
-      <h2 className="mb-3 text-sm font-semibold text-text-primary">{title}</h2>
+    <div className="card p-4">
+      <h2 className="mb-3 text-sm font-normal text-text-primary">{title}</h2>
       {children}
     </div>
   );
@@ -512,7 +513,7 @@ function ChipGroup<T extends string>({
           key={opt}
           type="button"
           onClick={() => onToggle(opt)}
-          className={`rounded-full border px-3 py-1 text-sm font-medium transition-colors ${
+          className={`rounded-full border px-3 py-1 text-sm font-normal transition-colors ${
             selected.includes(opt)
               ? 'border-primary bg-primary text-white'
               : 'border-border bg-bg text-text-secondary hover:border-primary/50'

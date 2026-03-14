@@ -25,7 +25,7 @@ function FAQItem({
         aria-expanded={isOpen}
         className="flex w-full items-center justify-between gap-4 py-5 text-start transition-colors hover:text-primary"
       >
-        <span className="text-sm font-semibold text-text-primary">{q}</span>
+        <span className="text-sm font-normal text-text-primary">{q}</span>
         <span
           className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-all duration-200 ${
             isOpen
@@ -70,11 +70,11 @@ export default function FAQ() {
           <div className="mb-12 text-center">
             <div className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5">
               <span
-                className="h-1.5 w-1.5 rounded-full bg-primary"
+                className="h-1.5 w-1.5 rounded-full bg-accent"
                 style={{ animation: 'pulse-dot 2s ease-in-out infinite' }}
                 aria-hidden="true"
               />
-              <span className="text-xs font-medium uppercase tracking-[0.15em] text-primary">
+              <span className="section-eyebrow text-primary">
                 {t('eyebrow')}
               </span>
             </div>
@@ -85,7 +85,7 @@ export default function FAQ() {
         </FadeInUp>
 
         <FadeInUp delay={0.1}>
-          <div className="rounded-2xl border border-border bg-surface px-7">
+          <div className="card px-7">
             {KEYS.map((key) => (
               <FAQItem
                 key={key}

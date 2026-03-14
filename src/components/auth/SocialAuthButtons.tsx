@@ -73,7 +73,7 @@ export default function SocialAuthButtons({ callbackUrl = '/onboarding/therapist
           type="button"
           onClick={handleGoogle}
           disabled={googleLoading}
-          className="flex w-full items-center justify-center gap-3 rounded-lg border border-border bg-white px-4 py-2.5 text-sm font-medium text-text-primary shadow-sm transition-colors hover:bg-gray-50 disabled:opacity-60"
+          className="flex w-full items-center justify-center gap-3 rounded-lg border border-border bg-white px-4 py-2.5 text-sm font-normal text-text-primary shadow-sm transition-colors hover:bg-gray-50 disabled:opacity-60"
         >
           <GoogleIcon />
           <span>{googleLoading ? '...' : t('social.continueWithGoogle')}</span>
@@ -83,7 +83,7 @@ export default function SocialAuthButtons({ callbackUrl = '/onboarding/therapist
       <button
         type="button"
         onClick={handleApple}
-        className="flex w-full items-center justify-center gap-3 rounded-lg border border-border bg-black px-4 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-gray-900"
+        className="flex w-full items-center justify-center gap-3 rounded-lg border border-border bg-black px-4 py-2.5 text-sm font-normal text-white shadow-sm transition-colors hover:bg-gray-900"
       >
         <AppleIcon />
         <span>{t('social.continueWithApple')}</span>

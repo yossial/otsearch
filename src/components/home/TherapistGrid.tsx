@@ -107,7 +107,7 @@ export default function TherapistGrid({
           <circle cx="11" cy="11" r="8" />
           <path d="m21 21-4.35-4.35" />
         </svg>
-        <p className="text-base font-medium text-text-secondary">{t('noResults')}</p>
+        <p className="text-base font-normal text-text-secondary">{t('noResults')}</p>
       </div>
     );
   }
@@ -130,7 +130,7 @@ export default function TherapistGrid({
         <div className="mt-8 flex justify-center">
           <Link
             href="/search"
-            className="inline-flex items-center gap-2 rounded-xl border-2 border-primary px-8 py-3 text-sm font-bold text-primary transition-colors hover:bg-primary hover:text-white"
+            className="inline-flex items-center gap-2 rounded-xl border-2 border-primary px-8 py-3 text-sm font-normal text-primary transition-colors hover:bg-primary hover:text-white"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>

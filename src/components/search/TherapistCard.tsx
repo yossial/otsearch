@@ -52,7 +52,7 @@ export default function TherapistCard({ therapist }: { therapist: TherapistProfi
       data-therapist-name={`${profile.displayName.he ?? ''} ${profile.displayName.en ?? ''} ${profile.displayName.ar ?? ''}`}
       data-therapist-city={profile.location?.city ?? ''}
       data-therapist-specs={specSearchData}
-      className="group relative flex cursor-pointer flex-col rounded-xl border border-border bg-surface
+      className="card group relative flex cursor-pointer flex-col
                  shadow-[0_2px_16px_rgba(0,0,0,0.06)]
                  transition-[transform,box-shadow,border-color] duration-300 ease-spring
                  hover:-translate-y-1 hover:border-primary/20 hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]
@@ -61,14 +61,14 @@ export default function TherapistCard({ therapist }: { therapist: TherapistProfi
       {/* Top row: accepting status (left) + fee (right) */}
       <div className="flex min-h-[1.75rem] items-center justify-between px-4 pt-3">
         {profile.isAcceptingPatients ? (
-          <span className="rounded-full bg-success/10 px-2.5 py-1 text-[11px] font-semibold leading-none text-success">
+          <span className="rounded-full bg-success/10 px-2.5 py-1 text-[11px] font-normal leading-none text-success">
             {t('acceptingPatientsFilter')}
           </span>
         ) : (
           <span />
         )}
         {feeLabel && (
-          <span className="text-sm font-semibold text-text-secondary">{feeLabel}</span>
+          <span className="text-sm font-normal text-text-secondary">{feeLabel}</span>
         )}
       </div>
 
@@ -83,7 +83,7 @@ export default function TherapistCard({ therapist }: { therapist: TherapistProfi
             className="h-20 w-20 rounded-full object-cover ring-2 ring-primary-light"
           />
           {isPremium && (
-            <span className="absolute -end-1 -top-1 flex items-center rounded-full bg-accent px-1.5 py-0.5 text-[9px] font-bold leading-none text-text-accent">
+            <span className="absolute -end-1 -top-1 flex items-center rounded-full bg-accent px-1.5 py-0.5 text-[9px] font-normal leading-none text-text-accent">
               {t('featuredLabel')}
             </span>
           )}
@@ -92,11 +92,11 @@ export default function TherapistCard({ therapist }: { therapist: TherapistProfi
 
       {/* Identity — centered */}
       <div className="mt-2 px-4 text-center">
-        <h3 className="text-base font-bold leading-snug text-text-primary">{name}</h3>
+        <h3 className="text-base font-normal leading-snug text-text-primary">{name}</h3>
         <p className="mt-0.5 text-xs text-text-muted">{t(titleKey)}</p>
 
         {/* City */}
-        <p className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-primary">
+        <p className="mt-1 inline-flex items-center gap-1 text-xs font-normal text-primary">
           <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="flex-shrink-0">
             <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
           </svg>
@@ -107,7 +107,7 @@ export default function TherapistCard({ therapist }: { therapist: TherapistProfi
         {FEATURES.showTherapistRating && profile.ratingCount > 0 && (
           <div className="mt-1 flex items-center justify-center gap-1">
             <StarDisplay rating={profile.ratingAvg} size="sm" />
-            <span className="text-xs font-semibold text-text-primary">{profile.ratingAvg.toFixed(1)}</span>
+            <span className="text-xs font-normal text-text-primary">{profile.ratingAvg.toFixed(1)}</span>
             <span className="text-xs text-text-muted">({profile.ratingCount})</span>
           </div>
         )}
@@ -120,13 +120,13 @@ export default function TherapistCard({ therapist }: { therapist: TherapistProfi
         {visibleSpecs.map((spec) => (
           <span
             key={spec}
-            className="whitespace-nowrap rounded-full border border-border px-2.5 py-0.5 text-[11px] font-medium text-text-secondary"
+            className="whitespace-nowrap rounded-full border border-border px-2.5 py-0.5 text-[11px] font-normal text-text-secondary"
           >
             {t(`specialisationLabels.${spec}`)}
           </span>
         ))}
         {extraSpecCount > 0 && (
-          <span className="whitespace-nowrap rounded-full bg-primary px-2.5 py-0.5 text-[11px] font-bold text-white">
+          <span className="whitespace-nowrap rounded-full bg-primary px-2.5 py-0.5 text-[11px] font-normal text-white">
             +{extraSpecCount}
           </span>
         )}
@@ -145,7 +145,7 @@ export default function TherapistCard({ therapist }: { therapist: TherapistProfi
         <div className="border-t border-border pt-2.5">
           <button
             type="button"
-            className="w-full rounded-lg bg-primary py-2 text-[11px] font-bold uppercase tracking-widest text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_4px_12px_rgba(0,29,61,0.2)]"
+            className="w-full rounded-lg border border-primary/40 bg-transparent py-2 text-[11px] font-normal uppercase tracking-widest text-primary transition-all duration-200 hover:border-primary hover:bg-primary/5"
           >
             {t('viewProfile')}
           </button>

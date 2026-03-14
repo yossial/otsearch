@@ -49,17 +49,17 @@ export default function Footer() {
 
           {/* Col 2 — For Patients */}
           <div className="flex flex-col gap-3">
-            <h3 className="text-xs font-medium uppercase tracking-[0.12em] text-white/35">
+            <h3 className="text-xs font-normal uppercase tracking-widest text-white/35">
               {tFooter('forPatients')}
             </h3>
             <nav className="flex flex-col gap-2">
-              <Link href="/" className="text-sm text-white/60 transition-colors hover:text-white">
+              <Link href="/" className="text-sm text-white/60 transition-colors hover:text-accent">
                 {tNav('home')}
               </Link>
-              <Link href="/search" className="text-sm text-white/60 transition-colors hover:text-white">
+              <Link href="/search" className="text-sm text-white/60 transition-colors hover:text-accent">
                 {tFooter('searchTherapists')}
               </Link>
-              <Link href="/#contact" className="text-sm text-white/60 transition-colors hover:text-white">
+              <Link href="/#contact" className="text-sm text-white/60 transition-colors hover:text-accent">
                 {tFooter('contact')}
               </Link>
             </nav>
@@ -67,17 +67,17 @@ export default function Footer() {
 
           {/* Col 3 — For Therapists */}
           <div className="flex flex-col gap-3">
-            <h3 className="text-xs font-medium uppercase tracking-[0.12em] text-white/35">
+            <h3 className="text-xs font-normal uppercase tracking-widest text-white/35">
               {tFooter('forTherapists')}
             </h3>
             <nav className="flex flex-col gap-2">
-              <Link href="/auth/register" className="text-sm text-white/60 transition-colors hover:text-white">
+              <Link href="/auth/register" className="text-sm text-white/60 transition-colors hover:text-accent">
                 {tFooter('joinAsTherapist')}
               </Link>
-              <Link href="/auth/login" className="text-sm text-white/60 transition-colors hover:text-white">
+              <Link href="/auth/login" className="text-sm text-white/60 transition-colors hover:text-accent">
                 {tNav('login')}
               </Link>
-              <Link href="/dashboard" className="text-sm text-white/60 transition-colors hover:text-white">
+              <Link href="/dashboard" className="text-sm text-white/60 transition-colors hover:text-accent">
                 {tNav('dashboard')}
               </Link>
             </nav>
@@ -85,17 +85,17 @@ export default function Footer() {
 
           {/* Col 4 — Legal */}
           <div className="flex flex-col gap-3">
-            <h3 className="text-xs font-medium uppercase tracking-[0.12em] text-white/35">
+            <h3 className="text-xs font-normal uppercase tracking-widest text-white/35">
               {tFooter('company')}
             </h3>
             <nav className="flex flex-col gap-2">
-              <Link href="/about" className="text-sm text-white/60 transition-colors hover:text-white">
+              <Link href="/about" className="text-sm text-white/60 transition-colors hover:text-accent">
                 {tFooter('about')}
               </Link>
-              <Link href="/privacy" className="text-sm text-white/60 transition-colors hover:text-white">
+              <Link href="/privacy" className="text-sm text-white/60 transition-colors hover:text-accent">
                 {tFooter('privacy')}
               </Link>
-              <Link href="/terms" className="text-sm text-white/60 transition-colors hover:text-white">
+              <Link href="/terms" className="text-sm text-white/60 transition-colors hover:text-accent">
                 {tFooter('terms')}
               </Link>
             </nav>
@@ -114,7 +114,7 @@ export default function Footer() {
                 <Link
                   href="/"
                   locale={loc}
-                  className="rounded px-2 py-1 text-xs font-medium text-white/50 transition-colors hover:bg-white/10 hover:text-white"
+                  className="rounded px-2 py-1 text-xs font-normal text-white/50 transition-colors hover:bg-white/10 hover:text-accent"
                 >
                   {loc === 'he' ? 'עב' : loc === 'ar' ? 'عر' : loc === 'ru' ? 'РУ' : 'EN'}
                 </Link>

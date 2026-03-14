@@ -75,7 +75,7 @@ export default function SettingsForm({ settings: initial }: { settings: Settings
 
       <Section title={t('settings.sections.platform')}>
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-text-primary">{t('settings.fields.contactEmail')}</label>
+          <label className="text-sm font-normal text-text-primary">{t('settings.fields.contactEmail')}</label>
           <input
             type="email"
             defaultValue={optimisticSettings.contactEmail}
@@ -84,7 +84,7 @@ export default function SettingsForm({ settings: initial }: { settings: Settings
           />
         </div>
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-text-primary">{t('settings.fields.defaultSort')}</label>
+          <label className="text-sm font-normal text-text-primary">{t('settings.fields.defaultSort')}</label>
           <select
             defaultValue={optimisticSettings.defaultSortOrder}
             onChange={(e) => updateField('defaultSortOrder', e.target.value)}
@@ -100,7 +100,7 @@ export default function SettingsForm({ settings: initial }: { settings: Settings
       <Section title={t('settings.sections.pricing')}>
         <div className="flex gap-6">
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-text-primary">{t('settings.fields.monthlyPrice')}</label>
+            <label className="text-sm font-normal text-text-primary">{t('settings.fields.monthlyPrice')}</label>
             <input
               type="number"
               defaultValue={optimisticSettings.premiumMonthlyPrice}
@@ -109,7 +109,7 @@ export default function SettingsForm({ settings: initial }: { settings: Settings
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-text-primary">{t('settings.fields.annualPrice')}</label>
+            <label className="text-sm font-normal text-text-primary">{t('settings.fields.annualPrice')}</label>
             <input
               type="number"
               defaultValue={optimisticSettings.premiumAnnualPrice}
@@ -126,8 +126,8 @@ export default function SettingsForm({ settings: initial }: { settings: Settings
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h2 className="mb-4 text-base font-semibold text-text-primary">{title}</h2>
-      <div className="space-y-3 rounded-xl border border-border bg-surface p-5">{children}</div>
+      <h2 className="mb-4 text-base font-normal text-text-primary">{title}</h2>
+      <div className="card space-y-3 p-5">{children}</div>
     </div>
   );
 }

@@ -19,7 +19,7 @@ export default async function ReviewsSection({ slug, sessionUserId, userRole }: 
 
   return (
     <section id="reviews" className="rounded-lg bg-surface p-6 border border-border">
-      <h2 className="mb-4 text-lg font-semibold text-text-primary">
+      <h2 className="mb-4 text-lg font-normal text-text-primary">
         {result && result.total > 0
           ? t('titleWithCount', { count: result.total })
           : t('title')}
@@ -45,7 +45,7 @@ export default async function ReviewsSection({ slug, sessionUserId, userRole }: 
 
       {sessionUserId && (
         <div className="border-t border-border pt-4">
-          <h3 className="mb-3 text-sm font-semibold text-text-primary">{t('formTitle')}</h3>
+          <h3 className="mb-3 text-sm font-normal text-text-primary">{t('formTitle')}</h3>
           <ReviewForm slug={slug} isLoggedIn={!!sessionUserId} userRole={userRole} />
         </div>
       )}

@@ -36,7 +36,7 @@ export default async function DashboardEditPage() {
         <div className="mb-4 flex items-center gap-3">
           <Link
             href="/dashboard"
-            className="flex items-center gap-1.5 text-sm font-medium text-text-secondary transition-colors hover:text-primary"
+            className="flex items-center gap-1.5 text-sm font-normal text-text-secondary transition-colors hover:text-primary"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-directional" aria-hidden="true">
               <path d="m15 18-6-6 6-6" />
@@ -44,7 +44,7 @@ export default async function DashboardEditPage() {
             {t('title')}
           </Link>
           <span className="text-text-muted">/</span>
-          <span className="text-sm font-medium text-text-primary">{t('edit.title')}</span>
+          <span className="text-sm font-normal text-text-primary">{t('edit.title')}</span>
         </div>
 
         <ProfileEditForm profile={profile} />

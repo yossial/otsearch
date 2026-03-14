@@ -6,6 +6,7 @@ import { TherapistProfile } from '@/lib/db/models/TherapistProfile';
 import { getTranslations } from 'next-intl/server';
 import UsersTable from '@/components/admin/UsersTable';
 import { Link } from '@/i18n/navigation';
+import { Button } from '@/components/ui/Button';
 
 interface PageProps {
   searchParams: Promise<{ page?: string; role?: string; status?: string; q?: string }>;
@@ -61,7 +62,7 @@ export default async function AdminUsersPage({ searchParams }: PageProps) {
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-text-primary">{t('users.title')}</h1>
+        <h1 className="text-2xl font-normal text-text-primary">{t('users.title')}</h1>
         <span className="text-sm text-text-secondary">{t('users.total', { count: total })}</span>
       </div>
 
@@ -92,12 +93,9 @@ export default async function AdminUsersPage({ searchParams }: PageProps) {
           <option value="active">{t('users.filterStatuses.active')}</option>
           <option value="suspended">{t('users.filterStatuses.suspended')}</option>
         </select>
-        <button
-          type="submit"
-          className="rounded bg-primary px-4 py-2 text-sm font-semibold text-text-accent transition-colors hover:opacity-90"
-        >
+        <Button type="submit">
           {t('common.filter')}
-        </button>
+        </Button>
       </form>
 
       <UsersTable users={users} />

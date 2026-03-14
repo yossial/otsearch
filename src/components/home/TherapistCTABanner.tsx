@@ -8,12 +8,12 @@ export default async function TherapistCTABanner() {
     <section className="bg-primary py-16">
       <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
         {/* Free badge */}
-        <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-white/20 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-white/70">
+        <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-accent/70 bg-accent/25 px-3 py-1 text-xs font-normal uppercase tracking-widest text-white">
           <span className="h-1 w-1 rounded-full bg-accent" aria-hidden="true" />
           {t('free')}
         </span>
 
-        <h2 className="mb-4 text-2xl font-bold text-white sm:text-3xl">
+        <h2 className="mb-4 text-2xl font-normal text-white sm:text-3xl">
           {t('title')}
         </h2>
         <p className="mb-8 text-base leading-relaxed text-white/70">
@@ -22,7 +22,7 @@ export default async function TherapistCTABanner() {
 
         <Link
           href="/register"
-          className="inline-flex items-center gap-2 rounded-xl border-2 border-white/60 px-8 py-3.5 text-sm font-bold text-white transition-all duration-200 hover:border-white hover:bg-white hover:text-primary"
+          className="inline-flex items-center gap-2 rounded-xl border-2 border-white/60 px-8 py-3.5 text-sm font-normal text-white transition-all duration-200 hover:border-white hover:bg-white hover:text-primary"
         >
           {t('cta')}
           {/* Arrow that flips in RTL */}

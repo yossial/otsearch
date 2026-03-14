@@ -43,7 +43,7 @@ function FilterSelect({ value, onChange, placeholder, options, active, disabled,
         className={cn(
           'flex h-9 shrink-0 items-center gap-1.5 rounded-lg px-3 text-sm transition-colors duration-150 outline-none',
           active
-            ? 'bg-primary-light font-medium text-primary'
+            ? 'bg-primary-light font-normal text-primary'
             : 'bg-bg-alt text-text-secondary hover:bg-border/70 hover:text-text-primary',
           disabled && 'opacity-50 pointer-events-none'
         )}
@@ -77,7 +77,7 @@ function FilterSelect({ value, onChange, placeholder, options, active, disabled,
               <Select.Item
                 key={opt.value}
                 value={opt.value}
-                className="flex cursor-pointer select-none items-center gap-2 rounded-lg px-3 py-2 text-sm text-text-primary outline-none data-[highlighted]:bg-primary-light data-[highlighted]:text-primary data-[state=checked]:font-medium data-[state=checked]:text-primary"
+                className="flex cursor-pointer select-none items-center gap-2 rounded-lg px-3 py-2 text-sm text-text-primary outline-none data-[highlighted]:bg-primary-light data-[highlighted]:text-primary data-[state=checked]:font-normal data-[state=checked]:text-primary"
               >
                 <Select.ItemText>{opt.label}</Select.ItemText>
                 <Select.ItemIndicator className="ms-auto text-primary">
@@ -129,7 +129,7 @@ function FilterMultiSelect({ values, onChange, placeholder, options, disabled, d
         className={cn(
           'flex h-9 shrink-0 items-center gap-1.5 rounded-lg px-3 text-sm transition-colors duration-150 outline-none',
           active
-            ? 'bg-primary-light font-medium text-primary'
+            ? 'bg-primary-light font-normal text-primary'
             : 'bg-bg-alt text-text-secondary hover:bg-border/70 hover:text-text-primary',
           disabled && 'opacity-50 pointer-events-none'
         )}
@@ -156,7 +156,7 @@ function FilterMultiSelect({ values, onChange, placeholder, options, disabled, d
                 className={cn(
                   'flex cursor-pointer select-none items-center gap-2.5 rounded-lg px-3 py-2 text-sm outline-none transition-colors',
                   checked
-                    ? 'bg-primary-light text-primary font-medium'
+                    ? 'bg-primary-light text-primary font-normal'
                     : 'text-text-primary data-[highlighted]:bg-primary-light data-[highlighted]:text-primary'
                 )}
               >
@@ -344,7 +344,7 @@ export default function FilterRow() {
             className={cn(
               'flex h-9 shrink-0 items-center gap-1.5 rounded-lg px-3 text-sm transition-colors',
               currentAcceptingOnly
-                ? 'bg-primary-light font-medium text-primary'
+                ? 'bg-primary-light font-normal text-primary'
                 : 'bg-bg-alt text-text-secondary hover:bg-border/70 hover:text-text-primary',
               isPending && 'pointer-events-none'
             )}
@@ -361,7 +361,7 @@ export default function FilterRow() {
               disabled={isPending}
               className="ms-auto flex h-9 shrink-0 items-center gap-1.5 rounded-lg bg-bg-alt px-3 text-sm text-text-secondary transition-colors hover:bg-border/70 hover:text-primary"
             >
-              <span className="flex h-4.5 w-4.5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-text-accent">
+              <span className="flex h-4.5 w-4.5 items-center justify-center rounded-full bg-primary text-[10px] font-normal text-text-accent">
                 {activeFilterCount}
               </span>
               {t('clearFilters')}

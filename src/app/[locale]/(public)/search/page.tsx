@@ -88,7 +88,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       {/* Search header */}
       <div className="border-b border-border bg-surface">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <h1 className="mb-4 text-2xl font-bold text-text-primary">{t('title')}</h1>
+          <h1 className="mb-4 text-2xl font-normal text-text-primary">{t('title')}</h1>
           <Suspense>
             <SearchBar size="hero" initialQuery={sp.q} />
           </Suspense>
@@ -110,11 +110,11 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
               <p className="text-sm text-text-secondary">
                 {t('results', { count: total })}
                 {sp.q && (
-                  <span className="ms-1 font-medium text-primary">&ldquo;{sp.q}&rdquo;</span>
+                  <span className="ms-1 font-normal text-primary">&ldquo;{sp.q}&rdquo;</span>
                 )}
               </p>
               {usingMockData && (
-                <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-700">
+                <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-normal text-amber-700">
                   demo
                 </span>
               )}

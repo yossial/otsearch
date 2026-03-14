@@ -77,7 +77,7 @@ function FilterSection({
         aria-controls={panelId}
         className="flex w-full items-center justify-between py-0.5 text-start"
       >
-        <h3 className="text-[11px] font-semibold uppercase tracking-wider text-text-secondary">
+        <h3 className="text-[11px] font-normal uppercase tracking-wider text-text-secondary">
           {title}
         </h3>
         <ChevronIcon open={open} />
@@ -226,7 +226,7 @@ export default function FilterSidebar() {
         aria-expanded={sidebarOpen}
         aria-controls="filter-sidebar-panel"
         className={cn(
-          'md:hidden mb-3 flex w-full items-center gap-2 rounded-lg border border-border bg-surface px-4 py-2.5 text-sm font-medium text-text-primary shadow-sm transition-colors hover:bg-bg',
+          'md:hidden mb-3 flex w-full items-center gap-2 rounded-lg border border-border bg-surface px-4 py-2.5 text-sm font-normal text-text-primary shadow-sm transition-colors hover:bg-bg',
           sidebarOpen && 'bg-bg border-primary/30'
         )}
       >
@@ -235,7 +235,7 @@ export default function FilterSidebar() {
           {sidebarOpen ? tSearch('hideFilters') : tSearch('showFilters')}
         </span>
         {activeFilterCount > 0 && (
-          <span className="rounded-full bg-primary px-2 py-0.5 text-xs font-semibold leading-none text-white">
+          <span className="rounded-full bg-primary px-2 py-0.5 text-xs font-normal leading-none text-white">
             {activeFilterCount}
           </span>
         )}
@@ -254,14 +254,14 @@ export default function FilterSidebar() {
       >
         {/* Header */}
         <div className="flex items-center justify-between">
-          <h2 className="text-base font-semibold text-text-primary">
+          <h2 className="text-base font-normal text-text-primary">
             {tSearch('filtersTitle')}
           </h2>
           {hasFilters && (
             <button
               type="button"
               onClick={clearAll}
-              className="text-xs font-medium text-primary hover:underline"
+              className="text-xs font-normal text-primary hover:underline"
             >
               {tSearch('clearFilters')}
             </button>
@@ -272,7 +272,7 @@ export default function FilterSidebar() {
 
         {/* Sort */}
         <div className="flex flex-col gap-2">
-          <p className="text-[11px] font-semibold uppercase tracking-wider text-text-secondary">
+          <p className="text-[11px] font-normal uppercase tracking-wider text-text-secondary">
             {tSearch('sortBy')}
           </p>
           <div className="flex flex-col gap-1.5">
@@ -360,7 +360,7 @@ export default function FilterSidebar() {
 
         {/* Accepting patients toggle */}
         <label className="flex items-center justify-between gap-3">
-          <span className="text-sm font-medium text-text-primary">
+          <span className="text-sm font-normal text-text-primary">
             {tSearch('acceptingPatientsFilter')}
           </span>
           <button

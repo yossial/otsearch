@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import SocialAuthButtons from './SocialAuthButtons';
+import { Button } from '@/components/ui/Button';
 
 export default function LoginForm({ googleEnabled = true }: { googleEnabled?: boolean }) {
   const t = useTranslations('auth');
@@ -48,7 +49,7 @@ export default function LoginForm({ googleEnabled = true }: { googleEnabled?: bo
   }
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-4">
       {/* Social login — primary CTAs */}
       <SocialAuthButtons callbackUrl={callbackUrl ?? undefined} googleEnabled={googleEnabled} />
 
@@ -62,7 +63,7 @@ export default function LoginForm({ googleEnabled = true }: { googleEnabled?: bo
       {/* Email / password form */}
       <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="email" className="text-sm font-medium text-text-primary">
+          <label htmlFor="email" className="text-sm font-normal text-text-primary">
             {t('login.email')}
           </label>
           <input
@@ -78,7 +79,7 @@ export default function LoginForm({ googleEnabled = true }: { googleEnabled?: bo
 
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
-            <label htmlFor="password" className="text-sm font-medium text-text-primary">
+            <label htmlFor="password" className="text-sm font-normal text-text-primary">
               {t('login.password')}
             </label>
             <span className="text-xs text-text-muted">{t('login.forgotPassword')}</span>
@@ -100,10 +101,11 @@ export default function LoginForm({ googleEnabled = true }: { googleEnabled?: bo
           </p>
         )}
 
-        <button
+        <Button
           type="submit"
           disabled={loading}
-          className="mt-1 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold tracking-wide text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-[0_4px_12px_rgba(0,29,61,0.2)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none"
+          size="lg"
+          className="mt-1 w-full"
         >
           {loading ? '...' : (
             <>
@@ -111,11 +113,11 @@ export default function LoginForm({ googleEnabled = true }: { googleEnabled?: bo
               {t('login.submit')}
             </>
           )}
-        </button>
+        </Button>
 
         <p className="text-center text-sm text-text-secondary">
           {t('login.noAccount')}{' '}
-          <Link href="/auth/register" className="font-medium text-primary hover:underline">
+          <Link href="/auth/register" className="font-normal text-primary hover:underline">
             {t('login.register')}
           </Link>
         </p>

@@ -15,11 +15,11 @@ export default async function Testimonials() {
           <div className="mb-14 text-center">
             <div className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5">
               <span
-                className="h-1.5 w-1.5 rounded-full bg-primary"
+                className="h-1.5 w-1.5 rounded-full bg-accent"
                 style={{ animation: 'pulse-dot 2s ease-in-out infinite' }}
                 aria-hidden="true"
               />
-              <span className="text-xs font-medium uppercase tracking-[0.15em] text-primary">
+              <span className="section-eyebrow text-primary">
                 {t('eyebrow')}
               </span>
             </div>
@@ -31,11 +31,11 @@ export default async function Testimonials() {
 
         {/* Cards */}
         <StaggerList className="grid grid-cols-1 gap-5 sm:grid-cols-3">
-          {KEYS.map((key, idx) => (
+          {KEYS.map((key) => (
             <StaggerItem key={key}>
               {/* Middle card offset down for visual rhythm */}
               <blockquote
-                className={`flex h-full flex-col rounded-2xl border border-border bg-surface p-7 transition-all duration-200 hover:border-primary/20 hover:shadow-card-hover ${idx === 1 ? 'sm:mt-6' : ''}`}
+                className="card flex h-full flex-col p-7 transition-all duration-200 hover:border-primary/20 hover:shadow-card-hover"
               >
                 {/* Decorative quote mark */}
                 <div
@@ -55,7 +55,7 @@ export default async function Testimonials() {
                     <div className="h-4 w-4 rounded-full bg-primary/30" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-text-primary">{t(`${key}Name`)}</p>
+                    <p className="text-sm font-normal text-text-primary">{t(`${key}Name`)}</p>
                     <p className="text-xs text-text-muted">{t(`${key}Role`)}</p>
                   </div>
                 </footer>

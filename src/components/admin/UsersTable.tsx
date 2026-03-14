@@ -55,27 +55,27 @@ export default function UsersTable({ users: initialUsers }: { users: AdminUser[]
       <table className="w-full text-sm">
         <thead className="bg-bg-alt">
           <tr>
-            <th className="px-4 py-3 text-start font-semibold text-text-secondary">{t('users.table.name')}</th>
-            <th className="px-4 py-3 text-start font-semibold text-text-secondary">{t('users.table.email')}</th>
-            <th className="px-4 py-3 text-start font-semibold text-text-secondary">{t('users.table.role')}</th>
-            <th className="px-4 py-3 text-start font-semibold text-text-secondary">{t('users.table.status')}</th>
-            <th className="px-4 py-3 text-start font-semibold text-text-secondary">{t('users.table.joined')}</th>
-            <th className="px-4 py-3 text-start font-semibold text-text-secondary">{t('users.table.actions')}</th>
+            <th className="px-4 py-3 text-start font-normal text-text-secondary">{t('users.table.name')}</th>
+            <th className="px-4 py-3 text-start font-normal text-text-secondary">{t('users.table.email')}</th>
+            <th className="px-4 py-3 text-start font-normal text-text-secondary">{t('users.table.role')}</th>
+            <th className="px-4 py-3 text-start font-normal text-text-secondary">{t('users.table.status')}</th>
+            <th className="px-4 py-3 text-start font-normal text-text-secondary">{t('users.table.joined')}</th>
+            <th className="px-4 py-3 text-start font-normal text-text-secondary">{t('users.table.actions')}</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-border bg-surface">
           {users.map((user) => (
             <tr key={user.id}>
-              <td className="px-4 py-3 font-medium text-text-primary">{user.name}</td>
+              <td className="px-4 py-3 font-normal text-text-primary">{user.name}</td>
               <td className="px-4 py-3 text-text-secondary">{user.email}</td>
               <td className="px-4 py-3">
-                <span className="rounded px-2 py-0.5 text-xs font-semibold bg-bg-alt text-text-secondary">
+                <span className="rounded px-2 py-0.5 text-xs font-normal bg-bg-alt text-text-secondary">
                   {user.role ?? t('users.filterRoles.unregistered')}
                 </span>
               </td>
               <td className="px-4 py-3">
                 <span
-                  className={`rounded px-2 py-0.5 text-xs font-semibold ${
+                  className={`rounded px-2 py-0.5 text-xs font-normal ${
                     user.status === 'suspended'
                       ? 'bg-red-100 text-red-700'
                       : 'bg-green-100 text-green-700'
@@ -91,7 +91,7 @@ export default function UsersTable({ users: initialUsers }: { users: AdminUser[]
                 <button
                   onClick={() => handleToggleStatus(user)}
                   disabled={pending}
-                  className={`rounded px-3 py-1 text-xs font-semibold transition-colors disabled:opacity-50 ${user.status === 'active' ? 'bg-red-50 text-red-600 hover:bg-red-100' : 'bg-green-50 text-green-700 hover:bg-green-100'}`}
+                  className={`rounded px-3 py-1 text-xs font-normal transition-colors disabled:opacity-50 ${user.status === 'active' ? 'bg-red-50 text-red-600 hover:bg-red-100' : 'bg-green-50 text-green-700 hover:bg-green-100'}`}
                 >
                   {user.status === 'active' ? t('users.actions.suspend') : t('users.actions.reactivate')}
                 </button>

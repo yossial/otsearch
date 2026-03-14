@@ -42,7 +42,7 @@ export default async function AuthErrorPage({ searchParams, params }: Props) {
           </span>
         </div>
 
-        <h1 className="mb-3 text-xl font-bold text-text-primary">
+        <h1 className="mb-3 text-xl font-normal text-text-primary">
           {t('errors.authError')}
         </h1>
 
@@ -53,7 +53,7 @@ export default async function AuthErrorPage({ searchParams, params }: Props) {
         <div className="flex flex-col gap-3">
           <Link
             href="/auth/login"
-            className="rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
+            className="rounded-lg bg-primary px-6 py-2.5 text-sm font-normal text-white transition-colors hover:bg-primary-dark"
           >
             {t('errors.backToLogin')}
           </Link>

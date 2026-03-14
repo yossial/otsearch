@@ -103,13 +103,14 @@
 
 ## Backlog (after design refactor)
 
-- [ ] Patient Management Platform — see `docs/patient-management-plan.md`
-- [ ] Icons & Emojis pass — section headings, empty states, nav items, dashboard cards
 - [ ] Run `npm run lint && npm run typecheck && npm run test && npm run build` before PR
 - [ ] Raise PR: `feat/151-homepage-redesign` → `dev`
+- [ ] **Epic 6 (#155)**: Rename OT → Therapist — stories #156, #157, #158, #159 (new branch `feat/155`)
+- [ ] Patient Management Platform — see `docs/patient-management-plan.md`
 
 ---
 
 ## Done ✓
 
 Design Refactor P1–P8 complete as of 2026-03-14.
+Pill contrast fix (section-eyebrow color: inherit + CTA dark-section pill text-white) — 2026-03-15.

@@ -19,6 +19,7 @@ const VIEWPORT = { width: 1440, height: 900 };
 const PUBLIC_ROUTES = [
   { name: "home", path: `/${LOCALE}` },
   { name: "search", path: `/${LOCALE}/search` },
+  { name: "therapist-profile", path: `/${LOCALE}/therapist/michal-cohen` },
   { name: "auth-login", path: `/${LOCALE}/auth/login` },
   { name: "auth-register", path: `/${LOCALE}/auth/register` },
 ];

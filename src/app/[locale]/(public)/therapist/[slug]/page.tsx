@@ -83,9 +83,9 @@ export default async function TherapistProfilePage({ params, searchParams }: The
                 <img
                   src={therapist.photo ?? `https://i.pravatar.cc/150?u=${therapist.slug}`}
                   alt={name}
-                  width={88}
-                  height={88}
-                  className="h-22 w-22 rounded-full object-cover ring-2 ring-border"
+                  width={120}
+                  height={120}
+                  className="h-28 w-28 rounded-full object-cover ring-2 ring-primary/20 shadow-sm sm:h-32 sm:w-32"
                 />
               </div>
 
@@ -113,7 +113,10 @@ export default async function TherapistProfilePage({ params, searchParams }: The
                 {/* Badges */}
                 <div className="flex flex-wrap gap-2">
                   {therapist.subscriptionTier === 'premium' && (
-                    <span className="rounded-full bg-primary px-2.5 py-0.5 text-xs font-normal text-white">PRO</span>
+                    <span className="inline-flex items-center gap-1 rounded-full bg-accent px-2.5 py-0.5 text-xs font-normal text-text-accent">
+                      <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      PRO
+                    </span>
                   )}
                   {therapist.isAcceptingPatients && (
                     <span className="flex items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-normal text-green-700">

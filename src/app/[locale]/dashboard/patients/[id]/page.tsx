@@ -5,6 +5,7 @@ import { auth } from '@/lib/auth/auth';
 import { connectDB } from '@/lib/db';
 import { Patient } from '@/lib/db/models/Patient';
 import { decrypt } from '@/lib/crypto';
+import SessionList from '@/components/dashboard/sessions/SessionList';
 
 export const dynamic = 'force-dynamic';
 
@@ -24,12 +25,13 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default async function PatientDetailPage({ params }: PageProps) {
-  const { id } = await params;
+  const { id, locale } = await params;
   const session = await auth();
   const role = (session?.user as { role?: string | null } | undefined)?.role;
   if (!session?.user || role !== 'therapist') redirect('/auth/login');
 
   const t = await getTranslations('dashboard.patients');
+  const tSessions = await getTranslations('dashboard.sessions');
 
   await connectDB();
   const patient = await Patient.findById(id).lean();
@@ -214,26 +216,28 @@ export default async function PatientDetailPage({ params }: PageProps) {
           </div>
         )}
 
-        {/* Tabs placeholder */}
+        {/* Sessions tab */}
         <div className="card overflow-hidden">
-          <div className="flex border-b border-border">
-            {[
-              { label: t('sessionsTab'), key: 'sessions' },
-              { label: t('goalsTab'), key: 'goals' },
-              { label: t('invoicesTab'), key: 'invoices' },
-            ].map((tab) => (
-              <button
-                key={tab.key}
-                className="border-b-2 border-transparent px-5 py-3 text-sm font-normal text-text-muted"
-                disabled
-              >
-                {tab.label}
-              </button>
-            ))}
+          <div className="flex items-center justify-between border-b border-border px-5 py-3">
+            <div className="flex">
+              <span className="border-b-2 border-primary px-5 py-3 text-sm font-normal text-text-primary -mb-px">
+                {t('sessionsTab')}
+              </span>
+              <span className="border-b-2 border-transparent px-5 py-3 text-sm font-normal text-text-muted">
+                {t('goalsTab')}
+              </span>
+              <span className="border-b-2 border-transparent px-5 py-3 text-sm font-normal text-text-muted">
+                {t('invoicesTab')}
+              </span>
+            </div>
+            <Link
+              href={`/dashboard/patients/${id}/sessions/new`}
+              className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-sm font-normal text-white hover:bg-primary-hover"
+            >
+              {tSessions('newSession')}
+            </Link>
           </div>
-          <div className="p-8 text-center text-sm text-text-muted">
-            {t('emptySessionsState')}
-          </div>
+          <SessionList patientId={id} locale={locale} />
         </div>
 
       </div>

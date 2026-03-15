@@ -55,8 +55,8 @@ export default function ContactForm({ therapistSlug, therapistName, therapistEma
     );
   }
 
-  const inputClass = 'w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none transition-colors';
-  const labelClass = 'mb-1.5 block text-sm font-normal text-text-primary';
+  const inputClass = 'form-field w-full';
+  const labelClass = 'form-label';
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">

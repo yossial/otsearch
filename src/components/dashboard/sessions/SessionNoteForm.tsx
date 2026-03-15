@@ -336,20 +336,20 @@ export default function SessionNoteForm({
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {/* Date */}
           <div>
-            <label className="mb-1.5 block text-sm font-normal text-text-secondary">
+            <label className="form-label">
               {t('date')} <span className="text-red-500">*</span>
             </label>
             <input
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none"
+              className="form-field w-full"
             />
           </div>
 
           {/* Duration */}
           <div>
-            <label className="mb-1.5 block text-sm font-normal text-text-secondary">
+            <label className="form-label">
               {t('duration')} <span className="text-red-500">*</span>
             </label>
             <input
@@ -359,13 +359,13 @@ export default function SessionNoteForm({
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
               placeholder="45"
-              className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none"
+              className="form-field w-full"
             />
           </div>
 
           {/* Fee */}
           <div>
-            <label className="mb-1.5 block text-sm font-normal text-text-secondary">{t('fee')}</label>
+            <label className="form-label">{t('fee')}</label>
             <input
               type="number"
               min="0"
@@ -373,18 +373,18 @@ export default function SessionNoteForm({
               value={fee}
               onChange={(e) => setFee(e.target.value)}
               placeholder="₪"
-              className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none"
+              className="form-field w-full"
             />
           </div>
 
           {/* Appointment link */}
           {appointments.length > 0 && (
             <div>
-              <label className="mb-1.5 block text-sm font-normal text-text-secondary">{t('linkAppointment')}</label>
+              <label className="form-label">{t('linkAppointment')}</label>
               <select
                 value={appointmentId}
                 onChange={(e) => setAppointmentId(e.target.value)}
-                className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none"
+                className="form-field w-full"
               >
                 <option value="">—</option>
                 {appointments.map((a) => (
@@ -410,7 +410,7 @@ export default function SessionNoteForm({
                       type="checkbox"
                       checked={goalsAddressed.includes(g._id)}
                       onChange={() => toggleGoal(g._id)}
-                      className="rounded border-border text-primary focus:ring-primary"
+                      className="form-checkbox"
                     />
                     <span className="text-sm text-text-secondary">{g.title}</span>
                   </label>
@@ -449,7 +449,7 @@ export default function SessionNoteForm({
         {mode === 'soap' ? (
           <>
             <div>
-              <label className="mb-1.5 block text-sm font-normal text-text-secondary">
+              <label className="form-label">
                 {t('subjective')}
                 <span className="ms-1 text-xs text-text-muted">— {t('subjectiveHint')}</span>
               </label>
@@ -457,11 +457,11 @@ export default function SessionNoteForm({
                 value={subjective}
                 onChange={(e) => setSubjective(e.target.value)}
                 rows={3}
-                className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none resize-y"
+                className="form-field w-full resize-y"
               />
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-normal text-text-secondary">
+              <label className="form-label">
                 {t('objective')}
                 <span className="ms-1 text-xs text-text-muted">— {t('objectiveHint')}</span>
               </label>
@@ -469,11 +469,11 @@ export default function SessionNoteForm({
                 value={objective}
                 onChange={(e) => setObjective(e.target.value)}
                 rows={3}
-                className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none resize-y"
+                className="form-field w-full resize-y"
               />
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-normal text-text-secondary">
+              <label className="form-label">
                 {t('assessment')}
                 <span className="ms-1 text-xs text-text-muted">— {t('assessmentHint')}</span>
               </label>
@@ -481,11 +481,11 @@ export default function SessionNoteForm({
                 value={assessment}
                 onChange={(e) => setAssessment(e.target.value)}
                 rows={3}
-                className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none resize-y"
+                className="form-field w-full resize-y"
               />
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-normal text-text-secondary">
+              <label className="form-label">
                 {t('plan')}
                 <span className="ms-1 text-xs text-text-muted">— {t('planHint')}</span>
               </label>
@@ -493,18 +493,18 @@ export default function SessionNoteForm({
                 value={plan}
                 onChange={(e) => setPlan(e.target.value)}
                 rows={3}
-                className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none resize-y"
+                className="form-field w-full resize-y"
               />
             </div>
           </>
         ) : (
           <div>
-            <label className="mb-1.5 block text-sm font-normal text-text-secondary">{t('freeText')}</label>
+            <label className="form-label">{t('freeText')}</label>
             <textarea
               value={freeText}
               onChange={(e) => setFreeText(e.target.value)}
               rows={10}
-              className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none resize-y"
+              className="form-field w-full resize-y"
             />
           </div>
         )}

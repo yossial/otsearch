@@ -111,12 +111,12 @@ export default function NewAppointmentModal({
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Patient */}
           <div className="flex flex-col gap-1">
-            <label className="text-sm text-text-muted">{t('selectPatient')}</label>
+            <label className="form-label">{t('selectPatient')}</label>
             <select
               value={patientId}
               onChange={(e) => setPatientId(e.target.value)}
               required
-              className="input text-sm"
+              className="form-field"
             >
               <option value="">{t('selectPatient')}</option>
               {patients.map((p) => (
@@ -129,7 +129,7 @@ export default function NewAppointmentModal({
 
           {/* Date */}
           <div className="flex flex-col gap-1">
-            <label className="text-sm text-text-muted">
+            <label className="form-label">
               {/* generic date label */}
               {date}
             </label>
@@ -138,14 +138,14 @@ export default function NewAppointmentModal({
               value={date}
               onChange={(e) => setDate(e.target.value)}
               required
-              className="input text-sm"
+              className="form-field"
             />
           </div>
 
           {/* Start time + duration */}
           <div className="grid grid-cols-2 gap-3">
             <div className="flex flex-col gap-1">
-              <label className="text-sm text-text-muted">
+              <label className="form-label">
                 {startTime}
               </label>
               <input
@@ -153,29 +153,29 @@ export default function NewAppointmentModal({
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
                 required
-                className="input text-sm"
+                className="form-field"
               />
             </div>
             <div className="flex flex-col gap-1">
-              <label className="text-sm text-text-muted">{t('sessionDuration')}</label>
+              <label className="form-label">{t('sessionDuration')}</label>
               <input
                 type="number"
                 min={5}
                 max={240}
                 value={duration}
                 onChange={(e) => setDuration(parseInt(e.target.value, 10) || 45)}
-                className="input text-sm"
+                className="form-field"
               />
             </div>
           </div>
 
           {/* Type */}
           <div className="flex flex-col gap-1">
-            <label className="text-sm text-text-muted">{t('appointmentType')}</label>
+            <label className="form-label">{t('appointmentType')}</label>
             <select
               value={type}
               onChange={(e) => setType(e.target.value as typeof type)}
-              className="input text-sm"
+              className="form-field"
             >
               <option value="in-person">{t('typeInPerson')}</option>
               <option value="telehealth">{t('typeTelehealth')}</option>
@@ -186,26 +186,26 @@ export default function NewAppointmentModal({
           {/* Location */}
           {(type === 'in-person' || type === 'home-visit') && (
             <div className="flex flex-col gap-1">
-              <label className="text-sm text-text-muted">{t('location')}</label>
+              <label className="form-label">{t('location')}</label>
               <input
                 type="text"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="input text-sm"
+                className="form-field"
               />
             </div>
           )}
 
           {/* Fee */}
           <div className="flex flex-col gap-1">
-            <label className="text-sm text-text-muted">{t('fee')}</label>
+            <label className="form-label">{t('fee')}</label>
             <input
               type="number"
               min={0}
               step={0.01}
               value={fee}
               onChange={(e) => setFee(e.target.value)}
-              className="input text-sm"
+              className="form-field"
             />
           </div>
 

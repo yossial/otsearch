@@ -15,18 +15,10 @@ export default async function HomepageSearch({ profiles, total, initialQuery }: 
   const tPreview = await getTranslations('home.therapistPreview');
 
   return (
-    <section id="search" className="border-b border-border bg-surface">
+    <section id="search" className="border-b border-border bg-bg-alt pb-6">
 
       {/* ── Search input ──────────────────────────────────────────── */}
-      <div className="mx-auto max-w-3xl px-4 pb-4 pt-7 sm:px-6 lg:px-8">
-        <div className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5">
-          <span
-            className="h-1.5 w-1.5 rounded-full bg-primary"
-            style={{ animation: 'pulse-dot 2s ease-in-out infinite' }}
-            aria-hidden="true"
-          />
-          <span className="section-eyebrow text-primary">{t('searchHeading')}</span>
-        </div>
+      <div className="mx-auto max-w-3xl px-4 pb-5 pt-8 sm:px-6 lg:px-8">
         <SearchBar size="hero" initialQuery={initialQuery} />
       </div>
 
@@ -34,7 +26,7 @@ export default async function HomepageSearch({ profiles, total, initialQuery }: 
       <FilterRow />
 
       {/* ── Social proof strip ────────────────────────────────────── */}
-      <div className="border-t border-border bg-bg-alt">
+      <div className="border-t border-border bg-surface">
         <div className="mx-auto max-w-3xl px-4 py-3.5 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between gap-4">
 

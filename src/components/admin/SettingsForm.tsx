@@ -75,20 +75,20 @@ export default function SettingsForm({ settings: initial }: { settings: Settings
 
       <Section title={t('settings.sections.platform')}>
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-normal text-text-primary">{t('settings.fields.contactEmail')}</label>
+          <label className="form-label">{t('settings.fields.contactEmail')}</label>
           <input
             type="email"
             defaultValue={optimisticSettings.contactEmail}
             onBlur={(e) => updateField('contactEmail', e.target.value)}
-            className="w-full max-w-sm rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+            className="form-field w-full max-w-sm"
           />
         </div>
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-normal text-text-primary">{t('settings.fields.defaultSort')}</label>
+          <label className="form-label">{t('settings.fields.defaultSort')}</label>
           <select
             defaultValue={optimisticSettings.defaultSortOrder}
             onChange={(e) => updateField('defaultSortOrder', e.target.value)}
-            className="w-48 rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+            className="form-field w-48"
           >
             <option value="relevance">{t('settings.sortOptions.relevance')}</option>
             <option value="rating">{t('settings.sortOptions.rating')}</option>
@@ -100,21 +100,21 @@ export default function SettingsForm({ settings: initial }: { settings: Settings
       <Section title={t('settings.sections.pricing')}>
         <div className="flex gap-6">
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-normal text-text-primary">{t('settings.fields.monthlyPrice')}</label>
+            <label className="form-label">{t('settings.fields.monthlyPrice')}</label>
             <input
               type="number"
               defaultValue={optimisticSettings.premiumMonthlyPrice}
               onBlur={(e) => updateField('premiumMonthlyPrice', Number(e.target.value))}
-              className="w-32 rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+              className="form-field w-32"
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-normal text-text-primary">{t('settings.fields.annualPrice')}</label>
+            <label className="form-label">{t('settings.fields.annualPrice')}</label>
             <input
               type="number"
               defaultValue={optimisticSettings.premiumAnnualPrice}
               onBlur={(e) => updateField('premiumAnnualPrice', Number(e.target.value))}
-              className="w-32 rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+              className="form-field w-32"
             />
           </div>
         </div>

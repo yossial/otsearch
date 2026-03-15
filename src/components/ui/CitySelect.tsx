@@ -65,7 +65,7 @@ export default function CitySelect({ value, onChange, placeholder = 'חפש עי
         required={required}
         dir="rtl"
         autoComplete="off"
-        className="w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+        className="form-field w-full"
       />
       {open && filtered.length > 0 && (
         <ul

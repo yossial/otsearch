@@ -113,11 +113,7 @@ function CheckboxItem({
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        className={cn(
-          'h-4 w-4 appearance-none rounded border-2 border-border transition-colors',
-          'checked:border-primary checked:bg-primary',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1'
-        )}
+        className="form-checkbox"
       />
       <span className="text-sm text-text-primary">{label}</span>
     </label>
@@ -284,7 +280,7 @@ export default function FilterSidebar() {
                   value={opt}
                   checked={selectedSort === opt}
                   onChange={() => setSort(opt)}
-                  className="h-4 w-4 accent-primary"
+                  className="form-radio"
                 />
                 <span className="text-sm text-text-primary">{tSearch(`sortOptions.${opt}`)}</span>
               </label>

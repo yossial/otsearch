@@ -101,14 +101,14 @@ export default function InvoiceForm({
       <div className="card p-5">
         <h2 className="mb-4 text-sm font-normal uppercase tracking-wide text-text-muted">{t('patientDetails')}</h2>
         <div>
-          <label className="mb-1.5 block text-sm font-normal text-text-secondary">
+          <label className="form-label">
             {t('selectPatient')} <span className="text-red-500">*</span>
           </label>
           <select
             value={patientId}
             onChange={(e) => setPatientId(e.target.value)}
             required
-            className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none"
+            className="form-field w-full"
           >
             <option value="">—</option>
             {patients.map((p) => (
@@ -123,30 +123,30 @@ export default function InvoiceForm({
         <h2 className="mb-4 text-sm font-normal uppercase tracking-wide text-text-muted">{t('therapistDetails')}</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label className="mb-1.5 block text-sm font-normal text-text-secondary">{t('therapistDetails')}</label>
+            <label className="form-label">{t('therapistDetails')}</label>
             <input
               type="text"
               value={therapistName}
               onChange={(e) => setTherapistName(e.target.value)}
-              className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none"
+              className="form-field w-full"
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-normal text-text-secondary">{t('businessNumber')}</label>
+            <label className="form-label">{t('businessNumber')}</label>
             <input
               type="text"
               value={businessNumber}
               onChange={(e) => setBusinessNumber(e.target.value)}
-              className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none"
+              className="form-field w-full"
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-normal text-text-secondary">{t('dueDate')}</label>
+            <label className="form-label">{t('dueDate')}</label>
             <input
               type="date"
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}
-              className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none"
+              className="form-field w-full"
             />
           </div>
         </div>
@@ -165,7 +165,7 @@ export default function InvoiceForm({
                   value={item.description}
                   onChange={(e) => updateLine(idx, 'description', e.target.value)}
                   placeholder={t('description')}
-                  className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none"
+                  className="form-field w-full"
                 />
               </div>
               <div>
@@ -175,7 +175,7 @@ export default function InvoiceForm({
                   min="1"
                   value={item.quantity}
                   onChange={(e) => updateLine(idx, 'quantity', parseInt(e.target.value, 10) || 1)}
-                  className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none"
+                  className="form-field w-full"
                 />
               </div>
               <div>
@@ -186,7 +186,7 @@ export default function InvoiceForm({
                   step="0.01"
                   value={item.unitPrice}
                   onChange={(e) => updateLine(idx, 'unitPrice', parseFloat(e.target.value) || 0)}
-                  className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none"
+                  className="form-field w-full"
                 />
               </div>
               <div>
@@ -220,7 +220,7 @@ export default function InvoiceForm({
               type="checkbox"
               checked={vatIncluded}
               onChange={(e) => setVatIncluded(e.target.checked)}
-              className="rounded border-border text-primary focus:ring-primary"
+              className="form-checkbox"
             />
             {t('vatIncluded')} (18%)
           </label>

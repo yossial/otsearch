@@ -68,7 +68,7 @@ export default function GoalForm({ patientId, onCreated }: GoalFormProps) {
 
       <div className="space-y-3">
         <div>
-          <label className="mb-1 block text-xs font-normal text-text-secondary">
+          <label className="form-label">
             {t('titleLabel')} <span className="text-red-500">*</span>
           </label>
           <input
@@ -76,27 +76,27 @@ export default function GoalForm({ patientId, onCreated }: GoalFormProps) {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none"
+            className="form-field w-full"
           />
         </div>
 
         <div>
-          <label className="mb-1 block text-xs font-normal text-text-secondary">{t('description')}</label>
+          <label className="form-label">{t('description')}</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={2}
-            className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none resize-y"
+            className="form-field w-full resize-y"
           />
         </div>
 
         <div>
-          <label className="mb-1 block text-xs font-normal text-text-secondary">{t('targetDate')}</label>
+          <label className="form-label">{t('targetDate')}</label>
           <input
             type="date"
             value={targetDate}
             onChange={(e) => setTargetDate(e.target.value)}
-            className="w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none"
+            className="form-field w-full"
           />
         </div>
       </div>

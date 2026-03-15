@@ -168,7 +168,7 @@ function OtherTagInput({
           onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); add(); } }}
           placeholder={placeholder}
           dir="auto"
-          className="flex-1 rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
+          className="form-field flex-1"
         />
         <button
           type="button"
@@ -206,7 +206,7 @@ function TextInput({
       dir={dir}
       inputMode={inputMode}
       maxLength={maxLength}
-      className="w-full rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
+      className="form-field w-full"
     />
   );
 }
@@ -332,7 +332,7 @@ function Step1({
           dir="rtl"
           rows={4}
           maxLength={800}
-          className="w-full resize-none rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+          className="form-field w-full resize-none"
         />
         <p className="text-xs text-text-muted">{data.bio.length}/800</p>
       </div>
@@ -536,7 +536,7 @@ function Step3({
             <select
               value={prefix}
               onChange={(e) => setPrefix(e.target.value)}
-              className="w-24 rounded-lg border border-border bg-bg px-2 py-2.5 text-sm text-text-primary focus:outline-none"
+              className="form-field w-24"
             >
               {PHONE_PREFIXES.map((p) => (
                 <option key={p} value={p}>{p}</option>
@@ -553,7 +553,7 @@ function Step3({
               maxLength={7}
               dir="ltr"
               required
-              className="flex-1 rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
+              className="form-field flex-1"
             />
           </div>
         </div>
@@ -566,7 +566,7 @@ function Step3({
             value={data.email}
             onChange={(e) => onChange({ email: e.target.value })}
             dir="ltr"
-            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
+            className="form-field"
           />
         </div>
       </div>
@@ -582,7 +582,7 @@ function Step3({
             value={data.feeMin}
             onChange={(e) => onChange({ feeMin: e.target.value })}
             dir="ltr"
-            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:outline-none"
+            className="form-field"
           />
         </div>
         <div className="flex flex-col gap-1.5">
@@ -595,7 +595,7 @@ function Step3({
             value={data.feeMax}
             onChange={(e) => onChange({ feeMax: e.target.value })}
             dir="ltr"
-            className="rounded-lg border border-border bg-bg px-3.5 py-2.5 text-sm text-text-primary focus:outline-none"
+            className="form-field"
           />
         </div>
       </div>
@@ -691,7 +691,7 @@ function Step3({
                 type="checkbox"
                 checked={data.mohVerified}
                 onChange={(e) => onChange({ mohVerified: e.target.checked })}
-                className="mt-0.5 h-4 w-4 shrink-0 rounded border-green-400 text-green-600"
+                className="form-checkbox mt-0.5 shrink-0"
               />
               <span className="text-sm font-normal leading-snug text-green-900">
                 {t('mohVerifyConfirm')}
@@ -706,7 +706,7 @@ function Step3({
           type="checkbox"
           checked={data.acceptingPatients}
           onChange={(e) => onChange({ acceptingPatients: e.target.checked })}
-          className="h-4 w-4 rounded border-border text-primary"
+          className="form-checkbox"
         />
         <span className="text-sm text-text-primary">{t('acceptingPatients')}</span>
       </label>

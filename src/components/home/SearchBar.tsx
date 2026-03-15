@@ -138,16 +138,16 @@ export default function SearchBar({ initialQuery = '', size = 'default', onDark 
 
   // ── Hero variant ─────────────────────────────────────────────────────────────
   if (size === 'hero') {
-    const ringClass = onDark
+    const wrapClass = onDark
       ? 'shadow-[0_8px_48px_rgba(0,0,0,0.5)]'
-      : 'border border-border shadow-sm focus-within:border-primary focus-within:shadow-focus';
+      : 'border border-border/60 shadow-md focus-within:border-primary/30 focus-within:shadow-[0_4px_28px_rgba(0,0,128,0.10)]';
 
     return (
       <form
         onSubmit={handleSubmit}
-        className={`flex w-full items-center gap-3 overflow-hidden rounded-xl bg-surface px-4 transition-all duration-150 ${ringClass}`}
+        className={`flex w-full items-center gap-2 overflow-hidden rounded-full bg-surface ps-5 pe-2 transition-all duration-200 ${wrapClass}`}
       >
-        {/* Search / spinner icon */}
+        {/* Search / spinner icon — leading */}
         {isNavigating ? (
           <svg className="h-[18px] w-[18px] shrink-0 animate-spin text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -197,7 +197,7 @@ export default function SearchBar({ initialQuery = '', size = 'default', onDark 
           <button
             type="button"
             onClick={handleClear}
-            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-bg-alt text-text-muted transition-colors hover:bg-border hover:text-text-primary"
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-bg-alt text-text-muted transition-colors hover:bg-border hover:text-text-primary"
             aria-label="Clear search"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -205,6 +205,17 @@ export default function SearchBar({ initialQuery = '', size = 'default', onDark 
             </svg>
           </button>
         )}
+
+        {/* Submit button — gold pill, trailing */}
+        <button
+          type="submit"
+          className="my-2 shrink-0 rounded-full bg-accent px-5 py-2.5 text-sm font-normal text-text-accent transition-all duration-200 hover:bg-accent-dark hover:shadow-sm"
+          aria-label={t('searchPlaceholder')}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+          </svg>
+        </button>
       </form>
     );
   }

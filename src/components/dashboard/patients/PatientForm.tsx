@@ -159,7 +159,7 @@ export default function PatientForm({ patientId, initialData, isFirstPatient }: 
                 value={type}
                 checked={data.type === type}
                 onChange={() => set('type', type)}
-                className="accent-primary"
+                className="form-radio"
               />
               <span className="text-sm text-text-primary">
                 {type === 'direct' ? t('typeDirect') : t('typeChild')}
@@ -174,41 +174,41 @@ export default function PatientForm({ patientId, initialData, isFirstPatient }: 
         <h2 className="mb-4 text-base font-normal text-text-primary">{t('patientInfo')}</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label className="mb-1 block text-sm text-text-secondary">{t('firstName')} *</label>
+            <label className="form-label">{t('firstName')} *</label>
             <input
               type="text"
               value={data.firstName}
               onChange={(e) => set('firstName', e.target.value)}
-              className="w-full rounded border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-primary"
+              className="form-field w-full"
             />
             {errors.firstName && <p className="mt-1 text-xs text-red-600">{errors.firstName}</p>}
           </div>
           <div>
-            <label className="mb-1 block text-sm text-text-secondary">{t('lastName')} *</label>
+            <label className="form-label">{t('lastName')} *</label>
             <input
               type="text"
               value={data.lastName}
               onChange={(e) => set('lastName', e.target.value)}
-              className="w-full rounded border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-primary"
+              className="form-field w-full"
             />
             {errors.lastName && <p className="mt-1 text-xs text-red-600">{errors.lastName}</p>}
           </div>
           <div>
-            <label className="mb-1 block text-sm text-text-secondary">{t('dateOfBirth')} *</label>
+            <label className="form-label">{t('dateOfBirth')} *</label>
             <input
               type="date"
               value={data.dateOfBirth}
               onChange={(e) => set('dateOfBirth', e.target.value)}
-              className="w-full rounded border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-primary"
+              className="form-field w-full"
             />
             {errors.dateOfBirth && <p className="mt-1 text-xs text-red-600">{errors.dateOfBirth}</p>}
           </div>
           <div>
-            <label className="mb-1 block text-sm text-text-secondary">{t('gender')}</label>
+            <label className="form-label">{t('gender')}</label>
             <select
               value={data.gender}
               onChange={(e) => set('gender', e.target.value as PatientGender)}
-              className="w-full rounded border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none"
+              className="form-field w-full"
             >
               <option value="male">{t('genderMale')}</option>
               <option value="female">{t('genderFemale')}</option>
@@ -217,11 +217,11 @@ export default function PatientForm({ patientId, initialData, isFirstPatient }: 
             </select>
           </div>
           <div>
-            <label className="mb-1 block text-sm text-text-secondary">{t('insuranceLabel')}</label>
+            <label className="form-label">{t('insuranceLabel')}</label>
             <select
               value={data.insurance}
               onChange={(e) => set('insurance', e.target.value as InsuranceFund | '')}
-              className="w-full rounded border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none"
+              className="form-field w-full"
             >
               <option value="">—</option>
               <option value="clalit">{t('insuranceClalit')}</option>
@@ -232,12 +232,12 @@ export default function PatientForm({ patientId, initialData, isFirstPatient }: 
             </select>
           </div>
           <div>
-            <label className="mb-1 block text-sm text-text-secondary">{t('referralSource')}</label>
+            <label className="form-label">{t('referralSource')}</label>
             <input
               type="text"
               value={data.referralSource}
               onChange={(e) => set('referralSource', e.target.value)}
-              className="w-full rounded border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-primary"
+              className="form-field w-full"
             />
           </div>
         </div>
@@ -249,21 +249,21 @@ export default function PatientForm({ patientId, initialData, isFirstPatient }: 
           <h2 className="mb-4 text-base font-normal text-text-primary">{t('contactInfo')}</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="mb-1 block text-sm text-text-secondary">{t('phone')}</label>
+              <label className="form-label">{t('phone')}</label>
               <input
                 type="tel"
                 value={data.phone}
                 onChange={(e) => set('phone', e.target.value)}
-                className="w-full rounded border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className="form-field w-full"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm text-text-secondary">{t('email')}</label>
+              <label className="form-label">{t('email')}</label>
               <input
                 type="email"
                 value={data.email}
                 onChange={(e) => set('email', e.target.value)}
-                className="w-full rounded border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className="form-field w-full"
               />
             </div>
           </div>
@@ -273,47 +273,47 @@ export default function PatientForm({ patientId, initialData, isFirstPatient }: 
           <h2 className="mb-4 text-base font-normal text-text-primary">{t('parentInfo')}</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="mb-1 block text-sm text-text-secondary">{t('firstName')}</label>
+              <label className="form-label">{t('firstName')}</label>
               <input
                 type="text"
                 value={data.parentFirstName}
                 onChange={(e) => set('parentFirstName', e.target.value)}
-                className="w-full rounded border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className="form-field w-full"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm text-text-secondary">{t('lastName')}</label>
+              <label className="form-label">{t('lastName')}</label>
               <input
                 type="text"
                 value={data.parentLastName}
                 onChange={(e) => set('parentLastName', e.target.value)}
-                className="w-full rounded border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className="form-field w-full"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm text-text-secondary">{t('phone')}</label>
+              <label className="form-label">{t('phone')}</label>
               <input
                 type="tel"
                 value={data.parentPhone}
                 onChange={(e) => set('parentPhone', e.target.value)}
-                className="w-full rounded border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className="form-field w-full"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm text-text-secondary">{t('email')}</label>
+              <label className="form-label">{t('email')}</label>
               <input
                 type="email"
                 value={data.parentEmail}
                 onChange={(e) => set('parentEmail', e.target.value)}
-                className="w-full rounded border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className="form-field w-full"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm text-text-secondary">{t('relationship')}</label>
+              <label className="form-label">{t('relationship')}</label>
               <select
                 value={data.parentRelationship}
                 onChange={(e) => set('parentRelationship', e.target.value as ParentRelationship | '')}
-                className="w-full rounded border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none"
+                className="form-field w-full"
               >
                 <option value="">—</option>
                 <option value="mother">{t('relationshipMother')}</option>
@@ -327,12 +327,12 @@ export default function PatientForm({ patientId, initialData, isFirstPatient }: 
 
       {/* Diagnosis notes */}
       <div className="card p-6">
-        <label className="mb-1 block text-sm font-normal text-text-secondary">{t('diagnosisNotes')}</label>
+        <label className="form-label">{t('diagnosisNotes')}</label>
         <textarea
           value={data.diagnosisNotes}
           onChange={(e) => set('diagnosisNotes', e.target.value)}
           rows={4}
-          className="w-full rounded border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          className="form-field w-full"
         />
       </div>
 
@@ -347,7 +347,7 @@ export default function PatientForm({ patientId, initialData, isFirstPatient }: 
               type="checkbox"
               checked={data.consentGiven}
               onChange={(e) => set('consentGiven', e.target.checked)}
-              className="mt-0.5 accent-primary"
+              className="form-checkbox mt-0.5"
               data-testid="consent-checkbox"
             />
             <span className="text-sm font-normal text-amber-900">{t('consentGiven')} *</span>

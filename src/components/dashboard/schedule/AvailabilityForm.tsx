@@ -150,7 +150,7 @@ export default function AvailabilityForm({ initialAvailability }: Props) {
                   type="checkbox"
                   checked={day.active}
                   onChange={(e) => updateDay(day.dayOfWeek, 'active', e.target.checked)}
-                  className="h-4 w-4 rounded border-border accent-primary"
+                  className="form-checkbox"
                 />
                 <span className="text-sm text-text-primary">
                   {t(`days.${day.dayOfWeek}` as `days.${0 | 1 | 2 | 3 | 4 | 5 | 6}`)}
@@ -164,7 +164,7 @@ export default function AvailabilityForm({ initialAvailability }: Props) {
                     type="time"
                     value={day.startTime}
                     onChange={(e) => updateDay(day.dayOfWeek, 'startTime', e.target.value)}
-                    className="input w-28 text-sm"
+                    className="form-field w-28"
                     aria-label={`${t(`days.${day.dayOfWeek}` as `days.${0 | 1 | 2 | 3 | 4 | 5 | 6}`)} start`}
                   />
                   <span className="text-text-muted">–</span>
@@ -173,7 +173,7 @@ export default function AvailabilityForm({ initialAvailability }: Props) {
                     type="time"
                     value={day.endTime}
                     onChange={(e) => updateDay(day.dayOfWeek, 'endTime', e.target.value)}
-                    className="input w-28 text-sm"
+                    className="form-field w-28"
                     aria-label={`${t(`days.${day.dayOfWeek}` as `days.${0 | 1 | 2 | 3 | 4 | 5 | 6}`)} end`}
                   />
                   {/* Session duration */}
@@ -186,7 +186,7 @@ export default function AvailabilityForm({ initialAvailability }: Props) {
                       onChange={(e) =>
                         updateDay(day.dayOfWeek, 'sessionDuration', parseInt(e.target.value, 10) || 45)
                       }
-                      className="input w-16 text-sm"
+                      className="form-field w-16"
                       aria-label={t('sessionDuration')}
                     />
                     <span className="text-xs text-text-muted">{t('sessionDuration')}</span>
@@ -201,7 +201,7 @@ export default function AvailabilityForm({ initialAvailability }: Props) {
                       onChange={(e) =>
                         updateDay(day.dayOfWeek, 'breakBetween', parseInt(e.target.value, 10) || 0)
                       }
-                      className="input w-16 text-sm"
+                      className="form-field w-16"
                       aria-label={t('breakBetween')}
                     />
                     <span className="text-xs text-text-muted">{t('breakBetween')}</span>
@@ -218,25 +218,25 @@ export default function AvailabilityForm({ initialAvailability }: Props) {
         <h2 className="mb-4 text-base font-normal text-text-primary">{t('bookingWindow')}</h2>
         <div className="flex flex-wrap gap-6">
           <div className="flex flex-col gap-1">
-            <label className="text-sm text-text-muted">{t('bookingWindow')}</label>
+            <label className="form-label">{t('bookingWindow')}</label>
             <input
               type="number"
               min={1}
               max={365}
               value={bookingWindowDays}
               onChange={(e) => setBookingWindowDays(parseInt(e.target.value, 10) || 60)}
-              className="input w-24 text-sm"
+              className="form-field w-24"
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-sm text-text-muted">{t('minNotice')}</label>
+            <label className="form-label">{t('minNotice')}</label>
             <input
               type="number"
               min={0}
               max={168}
               value={minNoticeHours}
               onChange={(e) => setMinNoticeHours(parseInt(e.target.value, 10) || 24)}
-              className="input w-24 text-sm"
+              className="form-field w-24"
             />
           </div>
         </div>
@@ -276,12 +276,12 @@ export default function AvailabilityForm({ initialAvailability }: Props) {
         {/* Add new exception */}
         <div className="flex flex-wrap items-end gap-3">
           <div className="flex flex-col gap-1">
-            <label className="text-xs text-text-muted">{t('addException')}</label>
+            <label className="form-label">{t('addException')}</label>
             <input
               type="date"
               value={newException.date}
               onChange={(e) => setNewException((p) => ({ ...p, date: e.target.value }))}
-              className="input w-36 text-sm"
+              className="form-field w-36"
             />
           </div>
           <select
@@ -289,7 +289,7 @@ export default function AvailabilityForm({ initialAvailability }: Props) {
             onChange={(e) =>
               setNewException((p) => ({ ...p, type: e.target.value as 'unavailable' | 'special_hours' }))
             }
-            className="input w-40 text-sm"
+            className="form-field w-40"
           >
             <option value="unavailable">{t('exceptionUnavailable')}</option>
             <option value="special_hours">{t('exceptionSpecialHours')}</option>
@@ -300,14 +300,14 @@ export default function AvailabilityForm({ initialAvailability }: Props) {
                 type="time"
                 value={newException.startTime ?? ''}
                 onChange={(e) => setNewException((p) => ({ ...p, startTime: e.target.value }))}
-                className="input w-28 text-sm"
+                className="form-field w-28"
               />
               <span className="text-text-muted">–</span>
               <input
                 type="time"
                 value={newException.endTime ?? ''}
                 onChange={(e) => setNewException((p) => ({ ...p, endTime: e.target.value }))}
-                className="input w-28 text-sm"
+                className="form-field w-28"
               />
             </>
           )}
@@ -316,7 +316,7 @@ export default function AvailabilityForm({ initialAvailability }: Props) {
             placeholder={t('exceptions')}
             value={newException.reason ?? ''}
             onChange={(e) => setNewException((p) => ({ ...p, reason: e.target.value }))}
-            className="input w-40 text-sm"
+            className="form-field w-40"
           />
           <button
             onClick={addException}

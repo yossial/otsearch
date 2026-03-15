@@ -3,9 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { searchTherapists } from '@/lib/db/therapists';
 import { searchMockTherapists } from '@/lib/mock-search';
-import SearchBar from '@/components/home/SearchBar';
-import FilterRow from '@/components/home/FilterRow';
-import TherapistPreviewDeck from '@/components/home/TherapistPreviewDeck';
+import HomepageSearch from '@/components/home/HomepageSearch';
 import HowItWorks from '@/components/home/HowItWorks';
 import WhatIsOccupationalTherapy from '@/components/home/WhatIsOccupationalTherapy';
 import WhyJoinUs from '@/components/home/WhyJoinUs';
@@ -175,26 +173,8 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         </div>
       </section>
 
-      {/* ── Search + filter header ────────────────────────────────────────── */}
-      <div id="search" className="border-b border-border bg-surface">
-        <div className="mx-auto max-w-7xl px-4 pb-4 pt-7 sm:px-6 lg:px-8">
-          <div className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5">
-            <span
-              className="h-1.5 w-1.5 rounded-full bg-primary"
-              style={{ animation: 'pulse-dot 2s ease-in-out infinite' }}
-              aria-hidden="true"
-            />
-            <span className="section-eyebrow text-primary">
-              {tHome('searchHeading')}
-            </span>
-          </div>
-          <SearchBar size="hero" initialQuery={sp.q} />
-        </div>
-        <FilterRow />
-      </div>
-
-      {/* ── Therapist preview deck ──────────────────────────────────────── */}
-      <TherapistPreviewDeck profiles={profiles} total={total} />
+      {/* ── Search + results ─────────────────────────────────────────────── */}
+      <HomepageSearch profiles={profiles} total={total} initialQuery={sp.q} />
 
       {/* ── Why join us ───────────────────────────────────────────────────── */}
       <WhyJoinUs />

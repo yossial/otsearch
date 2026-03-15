@@ -1,4 +1,5 @@
-import { redirect, notFound } from 'next/navigation';
+import { notFound } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { auth } from '@/lib/auth/auth';
@@ -22,7 +23,7 @@ export default async function NewSessionPage({ params }: PageProps) {
   const { id, locale } = await params;
   const session = await auth();
   const role = (session?.user as { role?: string | null } | undefined)?.role;
-  if (!session?.user || role !== 'therapist') redirect('/auth/login');
+  if (!session?.user || role !== 'therapist') redirect(`/${locale}/auth/login`);
 
   const t = await getTranslations('dashboard.sessions');
 
@@ -30,7 +31,7 @@ export default async function NewSessionPage({ params }: PageProps) {
 
   const patient = await Patient.findById(id).select('therapistId firstName lastName').lean();
   if (!patient) notFound();
-  if (patient.therapistId.toString() !== session.user.id) redirect('/dashboard/patients');
+  if (patient.therapistId.toString() !== session.user.id) redirect(`/${locale}/dashboard/patients`);
 
   const [goalsRaw, appointmentsRaw] = await Promise.all([
     Goal.find({ patientId: id, therapistId: session.user.id, status: 'active' })

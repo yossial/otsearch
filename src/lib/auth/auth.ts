@@ -11,6 +11,12 @@ import { User } from '@/lib/db/models/User';
 import { TherapistProfile } from '@/lib/db/models/TherapistProfile';
 import { authConfig } from './auth.config';
 
+/** Returns the URL only if it's safe to embed in a JWT cookie (no data URLs, max 512 chars). */
+function safeImage(url: string | null | undefined): string | null {
+  if (!url || url.startsWith('data:') || url.length > 512) return null;
+  return url;
+}
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
@@ -35,7 +41,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           const user = await User.findOne({
             email: (credentials.email as string).toLowerCase(),
           }).lean();
-          if (!user) return null;
+          if (!user) {
+            console.warn('[auth] authorize: user not found:', (credentials.email as string).toLowerCase());
+            return null;
+          }
 
           const u = user as {
             _id: unknown;
@@ -47,20 +56,27 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             image: string | null;
           };
 
-          // OAuth-only accounts have no password hash
-          if (!u.passwordHash) return null;
+          // OAuth-only accounts have no password hash — must use Google sign-in
+          if (!u.passwordHash) {
+            console.warn('[auth] authorize: OAuth-only account, no password:', u.email);
+            return null;
+          }
 
           const valid = await bcrypt.compare(
             credentials.password as string,
             u.passwordHash
           );
-          if (!valid) return null;
+          if (!valid) {
+            console.warn('[auth] authorize: wrong password for:', u.email);
+            return null;
+          }
 
-          // Backfill User.image from TherapistProfile.photo if missing
-          let image = u.image ?? null;
+          // Backfill User.image from TherapistProfile.photo if missing.
+          // Never store data URLs or very long URLs — they blow up the JWT cookie.
+          let image = safeImage(u.image);
           if (!image && u.therapistProfileId) {
             const profile = await TherapistProfile.findById(u.therapistProfileId).select('photo').lean();
-            const profilePhoto = (profile as { photo?: string | null } | null)?.photo ?? null;
+            const profilePhoto = safeImage((profile as { photo?: string | null } | null)?.photo);
             if (profilePhoto) {
               image = profilePhoto;
               await User.findByIdAndUpdate(u._id, { $set: { image: profilePhoto } });
@@ -122,11 +138,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           (user as unknown as Record<string, unknown>).role = u.role ?? null;
           (user as unknown as Record<string, unknown>).therapistProfileId =
             u.therapistProfileId ? String(u.therapistProfileId) : null;
-          // Prefer our stored profile photo over Google's avatar; backfill if needed
-          let storedImage = u.image ?? null;
+          // Prefer our stored profile photo over Google's avatar; backfill if needed.
+          // Never store data URLs or very long URLs — they blow up the JWT cookie.
+          let storedImage = safeImage(u.image);
           if (!storedImage && u.therapistProfileId) {
             const profile = await TherapistProfile.findById(u.therapistProfileId).select('photo').lean();
-            const profilePhoto = (profile as { photo?: string | null } | null)?.photo ?? null;
+            const profilePhoto = safeImage((profile as { photo?: string | null } | null)?.photo);
             if (profilePhoto) {
               storedImage = profilePhoto;
               await User.findByIdAndUpdate(u._id, { $set: { image: profilePhoto } });

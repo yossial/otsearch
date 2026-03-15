@@ -76,6 +76,7 @@ export default function SessionNoteForm({
   const [unsigning, setUnsigning] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showSignConfirm, setShowSignConfirm] = useState(false);
+  const [generatingDraft, setGeneratingDraft] = useState(false);
 
   const canSave = date.trim() !== '' && duration.trim() !== '';
 
@@ -182,6 +183,41 @@ export default function SessionNoteForm({
     setGoalsAddressed((prev) =>
       prev.includes(goalId) ? prev.filter((g) => g !== goalId) : [...prev, goalId]
     );
+  }
+
+  async function handleAiDraft() {
+    setGeneratingDraft(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/ai/draft-note', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionDate: date,
+          duration: duration ? parseInt(duration, 10) : undefined,
+          goalsAddressed: goals.filter((g) => goalsAddressed.includes(g._id)).map((g) => g.title),
+          mode,
+        }),
+      });
+      if (!res.ok) {
+        const data = (await res.json()) as { error?: string };
+        throw new Error(data.error ?? t('aiDraftError'));
+      }
+      const data = (await res.json()) as { draft: Record<string, string> };
+      const draft = data.draft;
+      if (mode === 'freetext') {
+        if (draft.freeText) setFreeText(draft.freeText);
+      } else {
+        if (draft.subjective) setSubjective(draft.subjective);
+        if (draft.objective) setObjective(draft.objective);
+        if (draft.assessment) setAssessment(draft.assessment);
+        if (draft.plan) setPlan(draft.plan);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t('aiDraftError'));
+    } finally {
+      setGeneratingDraft(false);
+    }
   }
 
   // Signed read-only view
@@ -478,18 +514,20 @@ export default function SessionNoteForm({
 
       {/* Footer actions */}
       <div className="flex flex-wrap items-center justify-between gap-3">
-        {/* AI Draft (future) */}
-        <div className="relative group">
+        {/* AI Draft */}
+        <div className="flex flex-col gap-1">
           <button
-            disabled
-            aria-label={t('aiDraftSoon')}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-2 text-sm font-normal text-text-muted opacity-50 cursor-not-allowed"
+            type="button"
+            onClick={() => { void handleAiDraft(); }}
+            disabled={generatingDraft}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-primary/30 bg-primary-light px-3 py-2 text-sm font-normal text-primary transition-colors hover:bg-primary/10 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {t('aiDraft')}
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 8v4l3 3"/>
+            </svg>
+            {generatingDraft ? t('aiDraftGenerating') : t('aiDraft')}
           </button>
-          <span className="pointer-events-none absolute bottom-full mb-1 start-0 whitespace-nowrap rounded bg-text-primary px-2 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100">
-            {t('aiDraftSoon')}
-          </span>
+          <p className="text-2xs text-text-muted">{t('aiDraftHint')}</p>
         </div>
 
         <div className="flex gap-2">

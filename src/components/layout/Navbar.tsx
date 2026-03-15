@@ -7,6 +7,7 @@ import { useSession, signOut } from 'next-auth/react';
 import { Link, usePathname } from '@/i18n/navigation';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { Button } from '@/components/ui/Button';
+import NotificationBell from '@/components/layout/NotificationBell';
 
 function getInitials(name?: string | null): string {
   if (!name) return '?';
@@ -122,6 +123,7 @@ export default function Navbar({ avatarUrl }: { avatarUrl?: string | null }) {
 
         {/* Desktop auth */}
         <div className="hidden items-center gap-3 md:flex">
+          {isLoggedIn && isTherapist && <NotificationBell />}
           {isLoggedIn ? (
             <DropdownMenu.Root dir={dir}>
               <DropdownMenu.Trigger asChild>

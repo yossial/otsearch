@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, getLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { auth } from '@/lib/auth/auth';
 import { connectDB } from '@/lib/db';
@@ -13,8 +13,9 @@ export async function generateMetadata() {
 
 export default async function PatientsPage() {
   const session = await auth();
+  const locale = await getLocale();
   const role = (session?.user as { role?: string | null } | undefined)?.role;
-  if (!session?.user || role !== 'therapist') redirect('/auth/login');
+  if (!session?.user || role !== 'therapist') redirect(`/${locale}/auth/login`);
 
   const t = await getTranslations('dashboard.patients');
 

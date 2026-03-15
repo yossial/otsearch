@@ -35,17 +35,18 @@ function calcCompleteness(profile: Profile): { score: number; missing: string[] 
 
 export default async function DashboardPage() {
   const session = await auth();
-  if (!session?.user) redirect('/auth/login');
+  const locale = await getLocale();
+
+  if (!session?.user) redirect(`/${locale}/auth/login`);
 
   const t = await getTranslations('dashboard');
-  const locale = await getLocale();
 
   let therapistProfileId = (session.user as { therapistProfileId?: string | null }).therapistProfileId;
 
   if (!therapistProfileId) {
     await connectDB();
     const dbUser = await User.findById(session.user.id).select('therapistProfileId role').lean();
-    if (!dbUser?.therapistProfileId) redirect('/onboarding/therapist');
+    if (!dbUser?.therapistProfileId) redirect(`/${locale}/onboarding/therapist`);
     therapistProfileId = String(dbUser.therapistProfileId);
   }
 
@@ -312,6 +313,41 @@ export default async function DashboardPage() {
             </div>
           )}
         </div>
+
+        {/* ── Clinic tools (premium only) ─────────────────────────── */}
+        {isPremium && (
+          <div className="grid gap-4 sm:grid-cols-3">
+            {[
+              {
+                href: '/dashboard/patients',
+                label: (t as (k: string) => string)('patients.title'),
+                icon: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+              },
+              {
+                href: '/dashboard/schedule',
+                label: (t as (k: string) => string)('schedule.title'),
+                icon: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>,
+              },
+              {
+                href: '/dashboard/billing',
+                label: (t as (k: string) => string)('billing'),
+                icon: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>,
+              },
+            ].map(({ href, label, icon }) => (
+              <Link
+                key={href}
+                href={href}
+                className="card group flex items-center gap-3 px-5 py-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-light text-primary">
+                  {icon}
+                </span>
+                <span className="flex-1 font-normal text-text-primary">{label}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-text-muted transition-transform group-hover:translate-x-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </Link>
+            ))}
+          </div>
+        )}
 
         {/* ── Upgrade banner (free tier only) ─────────────────────── */}
         {!isPremium && (

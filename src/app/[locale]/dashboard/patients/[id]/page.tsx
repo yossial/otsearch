@@ -1,4 +1,5 @@
-import { redirect, notFound } from 'next/navigation';
+import { notFound } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { auth } from '@/lib/auth/auth';
@@ -28,7 +29,7 @@ export default async function PatientDetailPage({ params }: PageProps) {
   const { id, locale } = await params;
   const session = await auth();
   const role = (session?.user as { role?: string | null } | undefined)?.role;
-  if (!session?.user || role !== 'therapist') redirect('/auth/login');
+  if (!session?.user || role !== 'therapist') redirect(`/${locale}/auth/login`);
 
   const t = await getTranslations('dashboard.patients');
   const tSessions = await getTranslations('dashboard.sessions');
@@ -36,7 +37,7 @@ export default async function PatientDetailPage({ params }: PageProps) {
   await connectDB();
   const patient = await Patient.findById(id).lean();
   if (!patient) notFound();
-  if (patient.therapistId.toString() !== session.user.id) redirect('/dashboard/patients');
+  if (patient.therapistId.toString() !== session.user.id) redirect(`/${locale}/dashboard/patients`);
 
   let diagnosisNotes: string | undefined;
   if (patient.diagnosisNotes) {
@@ -223,12 +224,18 @@ export default async function PatientDetailPage({ params }: PageProps) {
               <span className="border-b-2 border-primary px-5 py-3 text-sm font-normal text-text-primary -mb-px">
                 {t('sessionsTab')}
               </span>
-              <span className="border-b-2 border-transparent px-5 py-3 text-sm font-normal text-text-muted">
+              <Link
+                href={`/dashboard/patients/${id}/goals`}
+                className="border-b-2 border-transparent px-5 py-3 text-sm font-normal text-text-muted transition-colors hover:text-primary"
+              >
                 {t('goalsTab')}
-              </span>
-              <span className="border-b-2 border-transparent px-5 py-3 text-sm font-normal text-text-muted">
+              </Link>
+              <Link
+                href={`/dashboard/patients/${id}/invoices`}
+                className="border-b-2 border-transparent px-5 py-3 text-sm font-normal text-text-muted transition-colors hover:text-primary"
+              >
                 {t('invoicesTab')}
-              </span>
+              </Link>
             </div>
             <Link
               href={`/dashboard/patients/${id}/sessions/new`}

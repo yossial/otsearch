@@ -5,6 +5,18 @@
 import type { NextAuthConfig } from 'next-auth';
 import { NextResponse } from 'next/server';
 
+/**
+ * Returns the image URL only if it's a safe HTTP(S) URL short enough to store
+ * in the JWT cookie. Data URLs (base64) and very long URLs are excluded to
+ * prevent ERR_RESPONSE_HEADERS_TOO_BIG.
+ */
+function safeImageUrl(url: string | null | undefined): string | null {
+  if (!url) return null;
+  if (url.startsWith('data:')) return null;   // base64 data URL — never store in JWT
+  if (url.length > 512) return null;          // unexpectedly long URL
+  return url;
+}
+
 export const authConfig: NextAuthConfig = {
   pages: {
     signIn: '/auth/login',
@@ -21,7 +33,7 @@ export const authConfig: NextAuthConfig = {
         if (!isLoggedIn) {
           const locale = pathname.split('/')[1] ?? 'he';
           const loginUrl = new URL(`/${locale}/auth/login`, request.url);
-          loginUrl.searchParams.set('callbackUrl', request.url);
+          loginUrl.searchParams.set('callbackUrl', pathname);
           return NextResponse.redirect(loginUrl);
         }
         const role = (auth?.user as { role?: string | null } | undefined)?.role;
@@ -36,7 +48,7 @@ export const authConfig: NextAuthConfig = {
         if (!isLoggedIn) {
           const locale = pathname.split('/')[1] ?? 'he';
           const loginUrl = new URL(`/${locale}/auth/login`, request.url);
-          loginUrl.searchParams.set('callbackUrl', request.url);
+          loginUrl.searchParams.set('callbackUrl', pathname);
           return NextResponse.redirect(loginUrl);
         }
       }
@@ -74,14 +86,14 @@ export const authConfig: NextAuthConfig = {
         const s = session as { role?: string | null; therapistProfileId?: string | null; image?: string | null };
         if (s.role !== undefined) token.role = s.role;
         if (s.therapistProfileId !== undefined) token.therapistProfileId = s.therapistProfileId;
-        if (s.image !== undefined) token.picture = s.image;
+        if (s.image !== undefined) token.picture = safeImageUrl(s.image);
       }
       if (user) {
         token.role = (user as { role?: string | null }).role ?? null;
         token.therapistProfileId =
           (user as { therapistProfileId?: string | null }).therapistProfileId ?? null;
         const img = (user as { image?: string | null }).image;
-        if (img !== undefined) token.picture = img;
+        if (img !== undefined) token.picture = safeImageUrl(img);
       }
       return token;
     },

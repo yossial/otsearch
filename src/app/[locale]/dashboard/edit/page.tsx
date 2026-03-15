@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, getLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { auth } from '@/lib/auth/auth';
 import { connectDB } from '@/lib/db';
@@ -14,7 +14,8 @@ export async function generateMetadata() {
 
 export default async function DashboardEditPage() {
   const session = await auth();
-  if (!session?.user) redirect('/auth/login');
+  const locale = await getLocale();
+  if (!session?.user) redirect(`/${locale}/auth/login`);
 
   let therapistProfileId = (session.user as { therapistProfileId?: string | null }).therapistProfileId;
 
@@ -22,13 +23,13 @@ export default async function DashboardEditPage() {
   if (!therapistProfileId) {
     await connectDB();
     const dbUser = await User.findById(session.user.id).select('therapistProfileId').lean();
-    if (!dbUser?.therapistProfileId) redirect('/dashboard');
+    if (!dbUser?.therapistProfileId) redirect(`/${locale}/dashboard`);
     therapistProfileId = String(dbUser.therapistProfileId);
   }
 
   const t = await getTranslations('dashboard');
   const profile = await getTherapistProfileById(therapistProfileId);
-  if (!profile) redirect('/dashboard');
+  if (!profile) redirect(`/${locale}/dashboard`);
 
   return (
     <div className="min-h-screen bg-bg-alt">

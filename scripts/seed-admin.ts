@@ -22,8 +22,12 @@ import { User } from '../src/lib/db/models/User';
 const MONGODB_URI = process.env.MONGODB_URI ?? 'mongodb://localhost:27017/otsearch';
 
 function arg(name: string): string | undefined {
+  // Support both `-- --name=val` (process.argv) and `--name=val` (npm_config_* env)
   const flag = `--${name}=`;
-  return process.argv.find((a) => a.startsWith(flag))?.slice(flag.length);
+  return (
+    process.argv.find((a) => a.startsWith(flag))?.slice(flag.length) ??
+    process.env[`npm_config_${name}`]
+  );
 }
 
 async function main() {

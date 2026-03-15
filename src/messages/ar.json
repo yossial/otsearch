@@ -82,7 +82,8 @@
       "statFunds": "صناديق تأمين صحي",
       "cta": "تصفح جميع المعالجين",
       "more": "المزيد",
-      "deckAriaLabel": "{count} معالج متاح — تصفح الجميع"
+      "deckAriaLabel": "{count} معالج متاح — تصفح الجميع",
+      "viewProfile": "عرض الملف"
     },
     "whyJoinUs": {
       "seekers": {
@@ -486,6 +487,7 @@
       "addPatient": "إضافة مريض",
       "searchPlaceholder": "البحث بالاسم...",
       "noPatients": "لا يوجد مرضى بعد",
+      "noPatientsHint": "أضف مريضك الأول لبدء إدارة عيادتك",
       "totalActive": "مرضى نشطون",
       "newThisMonth": "جدد هذا الشهر",
       "typeLabel": "النوع",
@@ -604,6 +606,7 @@
       "exceptionUnavailable": "غير متاح",
       "exceptionSpecialHours": "ساعات خاصة",
       "noAppointments": "لا توجد مواعيد هذا الأسبوع",
+      "today": "اليوم",
       "statusScheduled": "مجدول",
       "statusConfirmed": "مؤكد",
       "statusCompleted": "مكتمل",
@@ -688,6 +691,44 @@
       "save": "حفظ الهدف",
       "achievedDate": "تاريخ التحقق",
       "avgRating": "متوسط التقييم"
+    },
+    "tabs": {
+      "overview": "نظرة عامة"
+    },
+    "overview": {
+      "quickActions": "إجراءات سريعة",
+      "newPatient": "مريض جديد",
+      "scheduleAppt": "حدد موعد",
+      "writeNote": "كتابة ملاحظة",
+      "newInvoice": "فاتورة جديدة",
+      "revenueMonth": "إيرادات الشهر",
+      "vsLastMonth": "مقارنة بالشهر الماضي",
+      "outstandingBalance": "رصيد مستحق",
+      "outstandingInvoices": "فواتير مفتوحة",
+      "activePatients": "المرضى النشطون",
+      "newThisMonth": "جديد هذا الشهر",
+      "thisWeek": "هذا الأسبوع",
+      "unsignedNotes": "ملاحظات للتوقيع",
+      "allSigned": "كل شيء موقّع",
+      "todaySchedule": "جدول اليوم",
+      "noAppointmentsToday": "لا مواعيد اليوم",
+      "needsAttention": "يحتاج إلى اهتمام",
+      "allClear": "كل شيء على ما يرام",
+      "allClearSub": "لا إجراءات معلقة",
+      "signNotes": "توقيع الملاحظات",
+      "reviewInvoices": "فواتير متأخرة",
+      "atRiskPatients": "مرضى بدون موعد",
+      "atRiskSub": "لم يُعالَجوا خلال 30 يوماً",
+      "firstVisit": "زيارة أولى",
+      "hasBalance": "رصيد مفتوح",
+      "allSetTitle": "كل شيء جاهز!",
+      "allSetDesc": "الملف الشخصي مكتمل ونشط"
+    },
+    "milestones": {
+      "onboarded": "مرحباً بك!",
+      "onboardedSub": "تم إعداد ملفك الشخصي بنجاح",
+      "firstPatient": "أول مريض!",
+      "firstPatientSub": "مبارك على أول مريض لك"
     }
   },
   "reviews": {
@@ -884,5 +925,21 @@
       "saved": "تم الحفظ",
       "error": "خطأ في الحفظ"
     }
+  },
+  "breadcrumb": {
+    "dashboard": "لوحة التحكم",
+    "patients": "المرضى",
+    "schedule": "الجدول الزمني",
+    "billing": "الفواتير",
+    "goals": "الأهداف",
+    "invoices": "الفواتير",
+    "edit": "تعديل الملف",
+    "newPatient": "مريض جديد",
+    "newInvoice": "فاتورة جديدة",
+    "newSession": "جلسة جديدة",
+    "admin": "الإدارة",
+    "users": "المستخدمون",
+    "therapists": "المعالجون",
+    "settings": "الإعدادات"
   }
 }

@@ -2,6 +2,8 @@ import { redirect } from 'next/navigation';
 import { auth } from '@/lib/auth/auth';
 import { Link } from '@/i18n/navigation';
 import { getLocale, getTranslations } from 'next-intl/server';
+import BreadcrumbNav from '@/components/ui/BreadcrumbNav';
+import { BreadcrumbProvider } from '@/components/ui/BreadcrumbContext';
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
@@ -59,7 +61,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
       {/* Main content */}
       <main className="flex-1 overflow-y-auto pt-12 lg:pt-0">
-        <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">{children}</div>
+        <div className="mx-auto max-w-6xl space-y-5 px-4 py-8 sm:px-6">
+          <BreadcrumbProvider>
+            <BreadcrumbNav />
+            {children}
+          </BreadcrumbProvider>
+        </div>
       </main>
     </div>
   );

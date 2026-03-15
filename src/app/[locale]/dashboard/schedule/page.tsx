@@ -92,15 +92,11 @@ export default async function SchedulePage() {
   }));
 
   return (
-    <div className="min-h-screen bg-bg-alt">
-      <div className="mx-auto max-w-5xl space-y-5 px-4 py-8 sm:px-6 lg:px-8">
-        <ScheduleTabs
-          initialAvailability={availability}
-          initialAppointments={appointments}
-          activePatients={activePatients}
-          weekStart={weekStart.toISOString()}
-        />
-      </div>
-    </div>
+    <ScheduleTabs
+      initialAvailability={availability}
+      initialAppointments={appointments}
+      activePatients={activePatients}
+      weekStart={weekStart.toISOString()}
+    />
   );
 }

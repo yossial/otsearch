@@ -27,13 +27,7 @@ function IconDashboard() {
     </svg>
   );
 }
-function IconEdit() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-    </svg>
-  );
-}
+
 function IconAdmin() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -156,16 +150,27 @@ export default function Navbar({ avatarUrl }: { avatarUrl?: string | null }) {
                   className="z-50 min-w-55 rounded-xl border border-border bg-surface shadow-dropdown animate-in fade-in-0 zoom-in-95"
                 >
                   {/* User info header */}
-                  <div className="border-b border-border px-4 py-3">
-                    <p className="truncate text-sm font-normal text-text-primary">{userName}</p>
-                    {userEmail && (
-                      <p className="mt-0.5 truncate text-xs text-text-secondary">{userEmail}</p>
-                    )}
-                    {role && (
-                      <span className={`mt-1.5 inline-block rounded px-1.5 py-0.5 text-2xs font-normal uppercase tracking-wide ${isAdmin ? 'bg-accent text-text-inverse' : 'bg-primary-light text-primary'}`}>
-                        {isAdmin ? 'Admin' : 'Therapist'}
+                  <div className="flex items-center gap-3 border-b border-border px-4 py-3">
+                    {userImage ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={userImage} alt={userName ?? ''} className="h-8 w-8 shrink-0 rounded-full object-cover" />
+                    ) : (
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-xs text-white">
+                        {getInitials(userName)}
                       </span>
                     )}
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-normal text-text-primary">{userName}</p>
+                      {userEmail && (
+                        <p className="mt-0.5 truncate text-xs text-text-secondary">{userEmail}</p>
+                      )}
+                      {role && (
+                        <span className="mt-1 flex items-center gap-1.5 text-xs text-text-muted">
+                          <span className={`h-1.5 w-1.5 rounded-full ${isAdmin ? 'bg-accent' : 'bg-green-500'}`} />
+                          {isAdmin ? 'Admin' : 'Therapist'}
+                        </span>
+                      )}
+                    </div>
                   </div>
 
                   <div className="p-1.5">
@@ -174,14 +179,6 @@ export default function Navbar({ avatarUrl }: { avatarUrl?: string | null }) {
                         <Link href="/dashboard" className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-text-secondary outline-none transition-colors hover:bg-primary-light hover:text-primary">
                           <IconDashboard />
                           {t('dashboard')}
-                        </Link>
-                      </DropdownMenu.Item>
-                    )}
-                    {!isOnboarding && isTherapist && (
-                      <DropdownMenu.Item asChild>
-                        <Link href="/dashboard/edit" className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-text-secondary outline-none transition-colors hover:bg-primary-light hover:text-primary">
-                          <IconEdit />
-                          {t('editProfile')}
                         </Link>
                       </DropdownMenu.Item>
                     )}
@@ -288,12 +285,6 @@ export default function Navbar({ avatarUrl }: { avatarUrl?: string | null }) {
                   <Link href="/dashboard" onClick={close} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-normal text-text-secondary transition-colors hover:bg-primary-light hover:text-primary">
                     <IconDashboard />
                     {t('dashboard')}
-                  </Link>
-                )}
-                {!isOnboarding && isTherapist && (
-                  <Link href="/dashboard/edit" onClick={close} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-normal text-text-secondary transition-colors hover:bg-primary-light hover:text-primary">
-                    <IconEdit />
-                    {t('editProfile')}
                   </Link>
                 )}
                 {isAdmin && (

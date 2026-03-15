@@ -6,6 +6,7 @@ import { auth } from '@/lib/auth/auth';
 import { connectDB } from '@/lib/db';
 import { Patient } from '@/lib/db/models/Patient';
 import InvoiceList from '@/components/dashboard/billing/InvoiceList';
+import BreadcrumbLabel from '@/components/ui/BreadcrumbLabel';
 
 export const dynamic = 'force-dynamic';
 

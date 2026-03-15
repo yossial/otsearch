@@ -11,6 +11,7 @@ import { Appointment } from '@/lib/db/models/Appointment';
 import { decrypt } from '@/lib/crypto';
 import SessionNoteForm from '@/components/dashboard/sessions/SessionNoteForm';
 import type { SessionNotes } from '@/lib/db/models/TreatmentSession';
+import BreadcrumbLabel from '@/components/ui/BreadcrumbLabel';
 
 export const dynamic = 'force-dynamic';
 
@@ -99,10 +100,16 @@ export default async function SessionDetailPage({ params }: PageProps) {
     appointmentId: sessionDoc.appointmentId ? String(sessionDoc.appointmentId) : undefined,
   };
 
+  const sessionDateLabel = sessionDoc.date.toLocaleDateString(locale === 'he' ? 'he-IL' : locale === 'ar' ? 'ar' : 'en-GB', {
+    day: 'numeric',
+    month: 'short',
+  });
+
   return (
-    <div className="min-h-screen bg-bg-alt">
-      <div className="mx-auto max-w-3xl space-y-5 px-4 py-8 sm:px-6 lg:px-8">
-        {/* Back link */}
+    <>
+      <BreadcrumbLabel segment={id} label={`${patient.firstName} ${patient.lastName}`} />
+      <BreadcrumbLabel segment={sid} label={sessionDateLabel} />
+      {/* Back link */}
         <Link
           href={`/dashboard/patients/${id}`}
           className="inline-flex items-center gap-1 text-sm text-text-muted hover:text-primary"
@@ -154,7 +161,6 @@ export default async function SessionDetailPage({ params }: PageProps) {
           appointments={appointments}
           session={sessionData}
         />
-      </div>
-    </div>
+    </>
   );
 }

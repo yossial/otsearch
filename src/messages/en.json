@@ -82,7 +82,8 @@
       "statFunds": "Health funds accepted",
       "cta": "Browse all therapists",
       "more": "more",
-      "deckAriaLabel": "{count} therapists available — browse all"
+      "deckAriaLabel": "{count} therapists available — browse all",
+      "viewProfile": "View profile"
     },
     "whyJoinUs": {
       "seekers": {
@@ -485,6 +486,7 @@
       "addPatient": "Add Patient",
       "searchPlaceholder": "Search by name...",
       "noPatients": "No patients yet",
+      "noPatientsHint": "Add your first patient to start managing your practice",
       "totalActive": "Active patients",
       "newThisMonth": "New this month",
       "typeLabel": "Type",
@@ -603,6 +605,7 @@
       "exceptionUnavailable": "Unavailable",
       "exceptionSpecialHours": "Special hours",
       "noAppointments": "No appointments this week",
+      "today": "Today",
       "statusScheduled": "Scheduled",
       "statusConfirmed": "Confirmed",
       "statusCompleted": "Completed",
@@ -687,6 +690,44 @@
       "save": "Save Goal",
       "achievedDate": "Achieved Date",
       "avgRating": "Avg Rating"
+    },
+    "tabs": {
+      "overview": "Overview"
+    },
+    "overview": {
+      "quickActions": "Quick Actions",
+      "newPatient": "New Patient",
+      "scheduleAppt": "Schedule",
+      "writeNote": "Write Note",
+      "newInvoice": "New Invoice",
+      "revenueMonth": "Revenue this month",
+      "vsLastMonth": "vs last month",
+      "outstandingBalance": "Outstanding",
+      "outstandingInvoices": "open invoices",
+      "activePatients": "Active patients",
+      "newThisMonth": "new this month",
+      "thisWeek": "This week",
+      "unsignedNotes": "notes to sign",
+      "allSigned": "all signed",
+      "todaySchedule": "Today's Schedule",
+      "noAppointmentsToday": "No appointments today",
+      "needsAttention": "Needs Attention",
+      "allClear": "All clear",
+      "allClearSub": "No pending actions",
+      "signNotes": "Sign session notes",
+      "reviewInvoices": "Overdue invoices",
+      "atRiskPatients": "Patients at risk",
+      "atRiskSub": "Not seen in 30 days",
+      "firstVisit": "First visit",
+      "hasBalance": "Has balance",
+      "allSetTitle": "All set!",
+      "allSetDesc": "Profile complete and active"
+    },
+    "milestones": {
+      "onboarded": "Welcome!",
+      "onboardedSub": "Your profile is set up and ready",
+      "firstPatient": "First patient added!",
+      "firstPatientSub": "Your clinic is open for business"
     }
   },
   "reviews": {
@@ -883,5 +924,21 @@
       "saved": "Saved",
       "error": "Error saving"
     }
+  },
+  "breadcrumb": {
+    "dashboard": "Dashboard",
+    "patients": "Patients",
+    "schedule": "Schedule",
+    "billing": "Billing",
+    "goals": "Goals",
+    "invoices": "Invoices",
+    "edit": "Edit Profile",
+    "newPatient": "New Patient",
+    "newInvoice": "New Invoice",
+    "newSession": "New Session",
+    "admin": "Admin",
+    "users": "Users",
+    "therapists": "Therapists",
+    "settings": "Settings"
   }
 }

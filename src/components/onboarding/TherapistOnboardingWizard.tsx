@@ -889,7 +889,7 @@ export default function TherapistOnboardingWizard({ therapistProfileId }: { ther
       // Await session update so JWT cookie is reissued before navigating.
       // Hard navigation ensures the middleware reads the updated token.
       await updateSession({ role: data.role, therapistProfileId: data.therapistProfileId, image: data.photo ?? null });
-      window.location.href = `/${locale}/dashboard`;
+      window.location.href = `/${locale}/dashboard?milestone=onboarded`;
     } catch (err) {
       console.error('[handleFinish]', err);
       toast.error(t('saveError'));

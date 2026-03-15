@@ -82,7 +82,8 @@
       "statFunds": "Больничных касс",
       "cta": "Все терапевты",
       "more": "ещё",
-      "deckAriaLabel": "{count} специалистов доступно — смотреть всех"
+      "deckAriaLabel": "{count} специалистов доступно — смотреть всех",
+      "viewProfile": "Профиль"
     },
     "whyJoinUs": {
       "seekers": {
@@ -484,6 +485,7 @@
       "addPatient": "Добавить пациента",
       "searchPlaceholder": "Поиск по имени...",
       "noPatients": "Пациентов ещё нет",
+      "noPatientsHint": "Добавьте первого пациента, чтобы начать управлять практикой",
       "totalActive": "Активных пациентов",
       "newThisMonth": "Новых в этом месяце",
       "typeLabel": "Тип",
@@ -602,6 +604,7 @@
       "exceptionUnavailable": "Недоступно",
       "exceptionSpecialHours": "Особые часы",
       "noAppointments": "На этой неделе приёмов нет",
+      "today": "Сегодня",
       "statusScheduled": "Запланировано",
       "statusConfirmed": "Подтверждено",
       "statusCompleted": "Завершено",
@@ -686,6 +689,44 @@
       "save": "Сохранить цель",
       "achievedDate": "Дата достижения",
       "avgRating": "Средняя оценка"
+    },
+    "tabs": {
+      "overview": "Обзор"
+    },
+    "overview": {
+      "quickActions": "Быстрые действия",
+      "newPatient": "Новый пациент",
+      "scheduleAppt": "Записать",
+      "writeNote": "Написать запись",
+      "newInvoice": "Новый счёт",
+      "revenueMonth": "Доход за месяц",
+      "vsLastMonth": "к прошлому месяцу",
+      "outstandingBalance": "К получению",
+      "outstandingInvoices": "открытых счетов",
+      "activePatients": "Активных пациентов",
+      "newThisMonth": "новых в этом месяце",
+      "thisWeek": "На этой неделе",
+      "unsignedNotes": "записей к подписи",
+      "allSigned": "всё подписано",
+      "todaySchedule": "Расписание на сегодня",
+      "noAppointmentsToday": "Нет приёмов сегодня",
+      "needsAttention": "Требует внимания",
+      "allClear": "Всё в порядке",
+      "allClearSub": "Нет ожидающих действий",
+      "signNotes": "Подписать записи",
+      "reviewInvoices": "Просроченные счета",
+      "atRiskPatients": "Пациенты без записи",
+      "atRiskSub": "Не посещали более 30 дней",
+      "firstVisit": "Первый приём",
+      "hasBalance": "Есть задолженность",
+      "allSetTitle": "Всё готово!",
+      "allSetDesc": "Профиль заполнен и активен"
+    },
+    "milestones": {
+      "onboarded": "Добро пожаловать!",
+      "onboardedSub": "Ваш профиль настроен и готов",
+      "firstPatient": "Первый пациент!",
+      "firstPatientSub": "Поздравляем с первым пациентом"
     }
   },
   "reviews": {
@@ -882,5 +923,21 @@
       "saved": "Сохранено",
       "error": "Ошибка сохранения"
     }
+  },
+  "breadcrumb": {
+    "dashboard": "Панель",
+    "patients": "Пациенты",
+    "schedule": "Расписание",
+    "billing": "Счета",
+    "goals": "Цели",
+    "invoices": "Счета",
+    "edit": "Редактировать профиль",
+    "newPatient": "Новый пациент",
+    "newInvoice": "Новый счёт",
+    "newSession": "Новая запись",
+    "admin": "Администрация",
+    "users": "Пользователи",
+    "therapists": "Терапевты",
+    "settings": "Настройки"
   }
 }

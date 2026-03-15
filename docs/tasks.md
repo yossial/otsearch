@@ -106,12 +106,15 @@
 - [x] Run CI checks — lint/typecheck/test/build all pass
 - [x] Raise PR: `feat/151-homepage-redesign` → `dev` — PR #162
 - [x] Patient Management Platform — Stories 7.1–7.8 complete
-- [ ] Persistent breadcrumb component — all non-landing pages (dashboard, admin, auth, onboarding, therapist profile). Auto-generates from route segments. RTL-aware arrow direction.
-- [ ] Dashboard UX improvements:
-  - [ ] Hide "Complete Profile" card when profile is already complete (0% remaining)
-  - [ ] Make all dashboard cards except the top hero card collapsible
-  - [ ] Tabs layout: put "Complete Profile" + adjacent card in a "Profile" tab; one tab per patient management card (Patients, Schedule, Billing)
-- [ ] Confetti + celebratory message on milestone completions (onboarding wizard finish, first patient added, etc.)
+- [x] Dashboard redesign — tabbed shell, KPI cards, Today's Schedule, Needs Attention, Quick Actions (2026-03-15)
+  - [x] `dashboard/layout.tsx` — auth + profile fetch + DashboardShell
+  - [x] `DashboardShell.tsx` — hero card (main pages only) + sticky tab bar
+  - [x] Overview page — premium: 5 KPI cards, today's schedule, needs attention; free: completeness + upgrade banner
+  - [x] Hide completeness card when profile is 100%
+  - [x] Patients / Schedule / Billing pages — stripped outer wrappers, layout owns chrome
+  - [x] i18n — `tabs.*` + `overview.*` keys added to all 4 locales
+- [x] Persistent breadcrumb — dashboard sub-pages + admin. BreadcrumbContext + BreadcrumbLabel + BreadcrumbNav. RTL-aware. Dynamic segment labels via context. (2026-03-15)
+- [x] Confetti on milestones — onboarding complete + first patient. canvas-confetti + ConfettiEffect toast. Clean URL after fire. (2026-03-15)
 
 ---
 

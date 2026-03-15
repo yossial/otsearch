@@ -32,8 +32,7 @@ export default async function DashboardEditPage() {
   if (!profile) redirect(`/${locale}/dashboard`);
 
   return (
-    <div className="min-h-screen bg-bg-alt">
-      <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6 lg:px-8">
+    <>
         <div className="mb-4 flex items-center gap-3">
           <Link
             href="/dashboard"
@@ -49,7 +48,6 @@ export default async function DashboardEditPage() {
         </div>
 
         <ProfileEditForm profile={profile} />
-      </div>
-    </div>
+    </>
   );
 }

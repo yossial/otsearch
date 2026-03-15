@@ -8,6 +8,7 @@ import { Patient } from '@/lib/db/models/Patient';
 import { Goal } from '@/lib/db/models/Goal';
 import { Appointment } from '@/lib/db/models/Appointment';
 import SessionNoteForm from '@/components/dashboard/sessions/SessionNoteForm';
+import BreadcrumbLabel from '@/components/ui/BreadcrumbLabel';
 
 export const dynamic = 'force-dynamic';
 
@@ -61,8 +62,8 @@ export default async function NewSessionPage({ params }: PageProps) {
   }));
 
   return (
-    <div className="min-h-screen bg-bg-alt">
-      <div className="mx-auto max-w-3xl space-y-5 px-4 py-8 sm:px-6 lg:px-8">
+    <>
+      <BreadcrumbLabel segment={id} label={`${patient.firstName} ${patient.lastName}`} />
         {/* Back link */}
         <Link
           href={`/dashboard/patients/${id}`}
@@ -104,7 +105,6 @@ export default async function NewSessionPage({ params }: PageProps) {
           goals={goals}
           appointments={appointments}
         />
-      </div>
-    </div>
+    </>
   );
 }

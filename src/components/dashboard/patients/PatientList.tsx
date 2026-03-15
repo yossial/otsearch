@@ -97,19 +97,27 @@ export default function PatientList({ initialPatients, initialTotal }: PatientLi
 
   return (
     <div className="space-y-4">
-      {/* Search + filter */}
-      <div className="flex flex-wrap gap-3">
+      {/* Unified filter bar */}
+      <div className="flex items-center gap-0 overflow-hidden rounded-lg border border-border bg-surface focus-within:ring-1 focus-within:ring-primary/30">
+        {/* Search icon */}
+        <span className="flex items-center ps-3 text-text-muted">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </span>
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder={t('searchPlaceholder')}
-          className="flex-1 rounded border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          className="flex-1 bg-transparent px-2 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
         />
+        {/* Divider */}
+        <div className="h-5 w-px bg-border" />
         <select
           value={status}
           onChange={(e) => setStatus(e.target.value)}
-          className="rounded border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none"
+          className="bg-transparent pe-3 ps-2 py-2 text-sm text-text-secondary focus:outline-none"
         >
           <option value="">{t('filterAll')}</option>
           <option value="active">{t('filterActive')}</option>
@@ -118,18 +126,25 @@ export default function PatientList({ initialPatients, initialTotal }: PatientLi
         </select>
       </div>
 
-      {/* Results count */}
-      {!loading && (
-        <p className="text-sm text-text-muted">{total} {t('title').toLowerCase()}</p>
-      )}
-      {loading && (
-        <p className="text-sm text-text-muted">{t('searchPlaceholder').replace('...', '')}…</p>
-      )}
+      {/* Result count below filter bar */}
+      <p className="mb-1 text-xs text-text-muted">{total} {t('title').toLowerCase()}</p>
 
       {/* Empty state */}
       {!loading && patients.length === 0 && (
-        <div className="card p-10 text-center">
-          <p className="text-text-muted">{t('noPatients')}</p>
+        <div className="card flex flex-col items-center justify-center px-6 py-14 text-center">
+          <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary-light text-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <p className="font-normal text-text-primary">{t('noPatients')}</p>
+          <p className="mt-1 text-sm text-text-muted">{t('noPatientsHint')}</p>
+          <Link
+            href="/dashboard/patients/new"
+            className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-normal text-white transition-all hover:-translate-y-0.5 hover:bg-primary-dark"
+          >
+            + {t('addPatient')}
+          </Link>
         </div>
       )}
 

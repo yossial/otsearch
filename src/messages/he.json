@@ -82,7 +82,8 @@
       "statFunds": "קופות חולים",
       "cta": "לכל המרפאים",
       "more": "עוד",
-      "deckAriaLabel": "{count} מרפאים זמינים — לחצו לחיפוש"
+      "deckAriaLabel": "{count} מרפאים זמינים — לחצו לחיפוש",
+      "viewProfile": "לפרופיל"
     },
     "whyJoinUs": {
       "seekers": {
@@ -486,6 +487,7 @@
       "addPatient": "הוסף מטופל",
       "searchPlaceholder": "חיפוש לפי שם...",
       "noPatients": "אין מטופלים עדיין",
+      "noPatientsHint": "הוסף את המטופל הראשון שלך כדי להתחיל לנהל את הפרקטיקה",
       "totalActive": "מטופלים פעילים",
       "newThisMonth": "חדשים החודש",
       "typeLabel": "סוג",
@@ -604,6 +606,7 @@
       "exceptionUnavailable": "לא זמין",
       "exceptionSpecialHours": "שעות מיוחדות",
       "noAppointments": "אין פגישות השבוע",
+      "today": "היום",
       "statusScheduled": "מתוכנן",
       "statusConfirmed": "מאושר",
       "statusCompleted": "הושלם",
@@ -688,6 +691,44 @@
       "save": "שמור מטרה",
       "achievedDate": "תאריך הגעה ליעד",
       "avgRating": "ממוצע דירוג"
+    },
+    "tabs": {
+      "overview": "סקירה"
+    },
+    "overview": {
+      "quickActions": "פעולות מהירות",
+      "newPatient": "מטופל חדש",
+      "scheduleAppt": "קבע תור",
+      "writeNote": "כתוב רשומה",
+      "newInvoice": "חשבונית חדשה",
+      "revenueMonth": "הכנסות החודש",
+      "vsLastMonth": "לעומת חודש שעבר",
+      "outstandingBalance": "לגביה",
+      "outstandingInvoices": "חשבוניות פתוחות",
+      "activePatients": "מטופלים פעילים",
+      "newThisMonth": "חדשים החודש",
+      "thisWeek": "השבוע",
+      "unsignedNotes": "רשומות לחתימה",
+      "allSigned": "הכל חתום",
+      "todaySchedule": "לוח היום",
+      "noAppointmentsToday": "אין תורים להיום",
+      "needsAttention": "דורש טיפול",
+      "allClear": "הכל מסודר",
+      "allClearSub": "אין פעולות ממתינות",
+      "signNotes": "רשומות לחתימה",
+      "reviewInvoices": "חשבוניות באיחור",
+      "atRiskPatients": "מטופלים ללא תור",
+      "atRiskSub": "לא טופלו ב-30 יום",
+      "firstVisit": "ביקור ראשון",
+      "hasBalance": "יתרה פתוחה",
+      "allSetTitle": "הכל מוכן!",
+      "allSetDesc": "הפרופיל מלא ופעיל"
+    },
+    "milestones": {
+      "onboarded": "ברוך הבא!",
+      "onboardedSub": "הפרופיל שלך הוגדר בהצלחה",
+      "firstPatient": "מטופל ראשון!",
+      "firstPatientSub": "ברכות על הצעד הראשון"
     }
   },
   "reviews": {
@@ -884,5 +925,21 @@
       "saved": "השינויים נשמרו",
       "error": "שגיאה בשמירה"
     }
+  },
+  "breadcrumb": {
+    "dashboard": "לוח מחוונים",
+    "patients": "מטופלים",
+    "schedule": "לוח זמנים",
+    "billing": "חשבוניות",
+    "goals": "מטרות",
+    "invoices": "חשבוניות",
+    "edit": "עריכת פרופיל",
+    "newPatient": "מטופל חדש",
+    "newInvoice": "חשבונית חדשה",
+    "newSession": "רשומה חדשה",
+    "admin": "ניהול",
+    "users": "משתמשים",
+    "therapists": "מרפאים",
+    "settings": "הגדרות"
   }
 }

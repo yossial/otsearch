@@ -34,11 +34,13 @@ interface PatientFormProps {
   /** If provided, form is in edit mode */
   patientId?: string;
   initialData?: Partial<PatientFormData>;
+  /** True when this therapist has no patients yet — triggers confetti on creation */
+  isFirstPatient?: boolean;
 }
 
 const TODAY = new Date().toISOString().split('T')[0]!;
 
-export default function PatientForm({ patientId, initialData }: PatientFormProps) {
+export default function PatientForm({ patientId, initialData, isFirstPatient }: PatientFormProps) {
   const t = useTranslations('dashboard.patients');
   const router = useRouter();
 
@@ -134,7 +136,8 @@ export default function PatientForm({ patientId, initialData }: PatientFormProps
         return;
       }
 
-      router.push('/dashboard/patients');
+      const milestone = !patientId && isFirstPatient ? '?milestone=first_patient' : '';
+      router.push(`/dashboard/patients${milestone}`);
     } catch {
       setServerError('Network error. Please try again.');
     } finally {

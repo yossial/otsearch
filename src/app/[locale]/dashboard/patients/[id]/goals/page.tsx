@@ -7,6 +7,7 @@ import { connectDB } from '@/lib/db';
 import { Patient } from '@/lib/db/models/Patient';
 import GoalList from '@/components/dashboard/goals/GoalList';
 import GoalFormWrapper from '@/components/dashboard/goals/GoalFormWrapper';
+import BreadcrumbLabel from '@/components/ui/BreadcrumbLabel';
 
 export const dynamic = 'force-dynamic';
 

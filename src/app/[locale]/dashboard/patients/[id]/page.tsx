@@ -7,6 +7,7 @@ import { connectDB } from '@/lib/db';
 import { Patient } from '@/lib/db/models/Patient';
 import { decrypt } from '@/lib/crypto';
 import SessionList from '@/components/dashboard/sessions/SessionList';
+import BreadcrumbLabel from '@/components/ui/BreadcrumbLabel';
 
 export const dynamic = 'force-dynamic';
 
@@ -70,8 +71,8 @@ export default async function PatientDetailPage({ params }: PageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-bg-alt">
-      <div className="mx-auto max-w-4xl space-y-5 px-4 py-8 sm:px-6 lg:px-8">
+    <>
+      <BreadcrumbLabel segment={id} label={`${patient.firstName} ${patient.lastName}`} />
 
         {/* Back */}
         <Link href="/dashboard/patients" className="inline-flex items-center gap-1 text-sm text-text-muted hover:text-primary">
@@ -247,7 +248,6 @@ export default async function PatientDetailPage({ params }: PageProps) {
           <SessionList patientId={id} locale={locale} />
         </div>
 
-      </div>
-    </div>
+    </>
   );
 }

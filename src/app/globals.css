@@ -104,8 +104,10 @@ button, [role="button"], select, label { cursor: pointer; }
   .form-field::placeholder {
     color: var(--color-text-muted);
   }
-  .form-field:focus {
+  .form-field:focus,
+  .form-field:focus-visible {
     border-color: var(--color-primary);
+    outline: none;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04), 0 0 0 3px var(--color-primary-glow-sm);
   }
   .form-field:disabled {
@@ -139,6 +141,7 @@ button, [role="button"], select, label { cursor: pointer; }
     background-position: center;
     background-repeat: no-repeat;
   }
+  .form-checkbox:focus,
   .form-checkbox:focus-visible {
     outline: none;
     box-shadow: 0 0 0 2px var(--color-surface), 0 0 0 4px var(--color-primary);
@@ -170,6 +173,7 @@ button, [role="button"], select, label { cursor: pointer; }
     background-position: center;
     background-repeat: no-repeat;
   }
+  .form-radio:focus,
   .form-radio:focus-visible {
     outline: none;
     box-shadow: 0 0 0 2px var(--color-surface), 0 0 0 4px var(--color-primary);

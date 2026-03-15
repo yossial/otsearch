@@ -60,16 +60,28 @@ export default async function TherapistProfilePage({ params, searchParams }: The
     <div className="min-h-screen bg-bg-alt">
       <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
 
-        {/* Back link */}
-        <Link
-          href={backHref}
-          className="mb-4 inline-flex items-center gap-1.5 text-sm font-normal text-text-secondary transition-colors hover:text-primary"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-directional" aria-hidden="true">
-            <path d="m15 18-6-6 6-6" />
-          </svg>
-          {backLabel}
-        </Link>
+        {/* Breadcrumb */}
+        <nav aria-label="breadcrumb" className="mb-5">
+          <ol className="flex items-center gap-1.5 text-sm text-text-muted">
+            <li>
+              <Link href="/" className="transition-colors hover:text-primary">Therapio</Link>
+            </li>
+            <li aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-directional">
+                <path d="m15 18-6-6 6-6" />
+              </svg>
+            </li>
+            <li>
+              <Link href={backHref} className="transition-colors hover:text-primary">{backLabel}</Link>
+            </li>
+            <li aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-directional">
+                <path d="m15 18-6-6 6-6" />
+              </svg>
+            </li>
+            <li className="truncate font-normal text-text-primary" aria-current="page">{name}</li>
+          </ol>
+        </nav>
 
         {/* Hero card */}
         <div className="card mb-5 overflow-hidden">

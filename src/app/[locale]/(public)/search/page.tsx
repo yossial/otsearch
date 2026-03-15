@@ -103,6 +103,9 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             <FilterSidebar />
           </Suspense>
 
+          {/* Divider — desktop only */}
+          <div className="hidden w-px self-stretch bg-border md:block" aria-hidden="true" />
+
           {/* Results */}
           <div className="min-w-0 flex-1">
             {/* Result count + demo badge */}

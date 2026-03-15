@@ -8,7 +8,7 @@ export default function HeroGraphic() {
   return (
     <div
       aria-hidden="true"
-      className="relative mx-auto h-[380px] w-full max-w-[400px] select-none lg:h-[500px] lg:max-w-[520px]"
+      className="relative mx-auto h-[340px] w-full max-w-[380px] select-none lg:h-[420px] lg:max-w-[460px]"
     >
       {/* Offset background frame — subtle depth */}
       <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-2xl bg-primary-light" />

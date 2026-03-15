@@ -94,8 +94,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     <div className="min-h-screen bg-bg">
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section id="hero" className="relative overflow-hidden border-b border-border bg-surface">
-        <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-10 sm:px-6 sm:pb-20 sm:pt-14 lg:px-8 lg:pb-28 lg:pt-20">
+      <section id="hero" className="relative overflow-hidden border-b border-border bg-surface"
+        style={{ backgroundImage: 'radial-gradient(ellipse 70% 60% at 100% 0%, color-mix(in srgb, var(--color-primary) 4%, transparent), transparent)' }}
+      >
+        <div className="relative mx-auto max-w-7xl px-4 pb-12 pt-6 sm:px-6 sm:pb-16 sm:pt-8 lg:px-8 lg:pb-20 lg:pt-10">
           <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-16">
 
             {/* Text column */}

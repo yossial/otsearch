@@ -25,7 +25,7 @@ export default function RegisterForm() {
     e.preventDefault();
     setError('');
 
-    if (!email.trim() || !password) {
+    if (!email.trim() || !password || !confirmPassword) {
       setError(t('errors.required'));
       return;
     }
@@ -54,9 +54,10 @@ export default function RegisterForm() {
 
       if (!res.ok) {
         const key = data.error as string;
-        const msg = key in { emailExists: 1, passwordWeak: 1, invalidEmail: 1, required: 1 }
-          ? t(`errors.${key as 'emailExists' | 'passwordWeak' | 'invalidEmail' | 'required'}`)
-          : t('errors.required');
+        const knownKeys = { emailExists: 1, passwordWeak: 1, invalidEmail: 1, required: 1 } as const;
+        const msg = key in knownKeys
+          ? t(`errors.${key as keyof typeof knownKeys}`)
+          : t('errors.serverError');
         setError(msg);
         setLoading(false);
         return;
@@ -76,7 +77,7 @@ export default function RegisterForm() {
       router.push('/onboarding/therapist');
       router.refresh();
     } catch {
-      setError(t('errors.required'));
+      setError(t('errors.serverError'));
       setLoading(false);
     }
   }

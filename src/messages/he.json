@@ -346,6 +346,7 @@
       "passwordRule_number": "מכילה ספרה",
       "invalidPhone": "אנא הכנס מספר טלפון ישראלי תקין",
       "passwordMismatch": "הסיסמאות אינן תואמות",
+      "serverError": "אירעה שגיאה. אנא נסה שוב.",
       "authError": "שגיאת התחברות",
       "backToLogin": "חזרה לדף הכניסה"
     }

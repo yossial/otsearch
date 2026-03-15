@@ -346,6 +346,7 @@
       "passwordRule_number": "يحتوي على رقم",
       "invalidPhone": "يرجى إدخال رقم هاتف إسرائيلي صالح",
       "passwordMismatch": "كلمتا المرور غير متطابقتين",
+      "serverError": "حدث خطأ. يرجى المحاولة مرة أخرى.",
       "authError": "خطأ في المصادقة",
       "backToLogin": "العودة إلى تسجيل الدخول"
     }

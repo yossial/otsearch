@@ -345,6 +345,7 @@
       "passwordRule_number": "Contains a number",
       "invalidPhone": "Please enter a valid Israeli mobile or landline number",
       "passwordMismatch": "Passwords do not match",
+      "serverError": "Something went wrong. Please try again.",
       "authError": "Authentication error",
       "backToLogin": "Back to sign in"
     }

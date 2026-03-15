@@ -115,6 +115,8 @@
   - [x] i18n — `tabs.*` + `overview.*` keys added to all 4 locales
 - [x] Persistent breadcrumb — dashboard sub-pages + admin. BreadcrumbContext + BreadcrumbLabel + BreadcrumbNav. RTL-aware. Dynamic segment labels via context. (2026-03-15)
 - [x] Confetti on milestones — onboarding complete + first patient. canvas-confetti + ConfettiEffect toast. Clean URL after fire. (2026-03-15)
+- [x] Emerald accent (#059669), patients icon stat pills, PatientList unified filter bar + rich empty state, Navbar avatar header + dot role badge, Edit Profile removed (2026-03-15)
+- [x] PR #172 raised: feat/patient-mgmt → main — awaiting review
 
 ---
 

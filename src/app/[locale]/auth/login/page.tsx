@@ -29,7 +29,7 @@ export default async function LoginPage() {
 
         {/* Brand */}
         <div className="mb-6 text-center">
-          <p className="mb-1 text-[11px] font-normal uppercase tracking-widest text-text-muted">Therapio</p>
+          <p className="mb-1 text-[11px] font-normal uppercase tracking-widest text-primary/60">Therapio</p>
           <h1 className="text-xl font-normal text-text-primary">{t('login.title')}</h1>
         </div>
 

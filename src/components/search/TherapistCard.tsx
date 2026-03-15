@@ -83,7 +83,8 @@ export default function TherapistCard({ therapist }: { therapist: TherapistProfi
             className="h-20 w-20 rounded-full object-cover ring-2 ring-primary-light"
           />
           {isPremium && (
-            <span className="absolute -end-1 -top-1 flex items-center rounded-full bg-accent px-1.5 py-0.5 text-[9px] font-normal leading-none text-text-accent">
+            <span className="absolute -end-1 -top-1 flex items-center gap-1 rounded-full bg-accent px-2 py-0.5 text-[10px] font-normal leading-none text-text-accent shadow-sm">
+              <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
               {t('featuredLabel')}
             </span>
           )}
@@ -141,11 +142,11 @@ export default function TherapistCard({ therapist }: { therapist: TherapistProfi
       <div className="flex-1" />
 
       {/* View profile button */}
-      <div className="px-4 pb-3 pt-2">
-        <div className="border-t border-border pt-2.5">
+      <div className="px-4 pb-4 pt-2">
+        <div className="border-t border-border pt-3">
           <button
             type="button"
-            className="w-full rounded-lg border border-primary/40 bg-transparent py-2 text-[11px] font-normal uppercase tracking-widest text-primary transition-all duration-200 hover:border-primary hover:bg-primary/5"
+            className="w-full rounded-lg bg-primary py-2.5 text-xs font-normal text-white transition-all duration-200 hover:bg-primary-dark group-hover:shadow-primary"
           >
             {t('viewProfile')}
           </button>

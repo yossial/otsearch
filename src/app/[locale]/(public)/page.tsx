@@ -95,7 +95,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <section id="hero" className="relative overflow-hidden border-b border-border bg-surface">
-        <div className="relative mx-auto max-w-7xl px-4 pb-12 pt-6 sm:px-6 sm:pb-16 sm:pt-8 lg:px-8 lg:pb-20 lg:pt-12">
+        <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-10 sm:px-6 sm:pb-20 sm:pt-14 lg:px-8 lg:pb-28 lg:pt-20">
           <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-16">
 
             {/* Text column */}
@@ -114,7 +114,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               </div>
 
               {/* Headline */}
-              <h1 className="font-display text-2xl font-normal leading-[1.3] tracking-tight text-text-primary sm:text-3xl lg:text-[2rem] xl:text-[2.25rem]">
+              <h1 className="font-display text-3xl font-normal leading-[1.25] tracking-tight text-text-primary sm:text-4xl lg:text-[2.75rem] xl:text-[3rem]">
                 <HeroTitleHighlight
                   pre={tHome('heroTitlePre')}
                   accent={tHome('heroTitleAccent')}
@@ -127,20 +127,20 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               </p>
 
               {/* Trust signals */}
-              <div className="mt-8 flex flex-wrap justify-center gap-6 lg:justify-start">
+              <div className="mt-10 flex flex-wrap justify-center gap-8 lg:justify-start">
                 <div className="flex flex-col items-center lg:items-start">
-                  <span className="text-xl font-extrabold text-primary">{tHome('stats.therapists')}</span>
-                  <span className="text-xs text-text-secondary">{tHome('stats.therapistsLabel')}</span>
+                  <span className="text-3xl font-extrabold text-primary">{tHome('stats.therapists')}</span>
+                  <span className="mt-0.5 text-xs text-text-secondary">{tHome('stats.therapistsLabel')}</span>
                 </div>
                 <div className="w-px self-stretch bg-border" aria-hidden="true" />
                 <div className="flex flex-col items-center lg:items-start">
-                  <span className="text-xl font-extrabold text-primary">{tHome('stats.cities')}</span>
-                  <span className="text-xs text-text-secondary">{tHome('stats.citiesLabel')}</span>
+                  <span className="text-3xl font-extrabold text-primary">{tHome('stats.cities')}</span>
+                  <span className="mt-0.5 text-xs text-text-secondary">{tHome('stats.citiesLabel')}</span>
                 </div>
                 <div className="w-px self-stretch bg-border" aria-hidden="true" />
                 <div className="flex flex-col items-center lg:items-start">
-                  <span className="text-xl font-extrabold text-primary">{tHome('stats.funds')}</span>
-                  <span className="text-xs text-text-secondary">{tHome('stats.fundsLabel')}</span>
+                  <span className="text-3xl font-extrabold text-primary">{tHome('stats.funds')}</span>
+                  <span className="mt-0.5 text-xs text-text-secondary">{tHome('stats.fundsLabel')}</span>
                 </div>
               </div>
 

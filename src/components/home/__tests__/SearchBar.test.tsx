@@ -5,6 +5,7 @@ const mockPush = vi.fn();
 
 vi.mock('@/i18n/navigation', () => ({
   useRouter: () => ({ push: mockPush }),
+  usePathname: () => '/',
 }));
 
 vi.mock('next-intl', () => ({

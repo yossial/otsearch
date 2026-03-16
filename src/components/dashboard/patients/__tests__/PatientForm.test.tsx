@@ -4,6 +4,7 @@ import { vi } from 'vitest';
 // Mock next-intl
 vi.mock('next-intl', () => ({
   useTranslations: () => (key: string) => key,
+  useLocale: () => 'en',
 }));
 
 // Mock @/i18n/navigation

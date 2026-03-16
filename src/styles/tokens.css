@@ -33,12 +33,12 @@
   --color-primary-light:   #edeaff;   /* Indigo tint bg            */
   --color-primary-xlight:  #f5f3ff;   /* Very subtle indigo tint   */
 
-  /* Accent — Emerald Green
+  /* Accent — Vivid Indigo (palette secondary)
      Use for: CTA buttons, highlights, tags, interactive accents  */
-  --color-accent:          #059669;   /* Emerald-600 — CTA         */
-  --color-accent-dark:     #047857;   /* Emerald-700 — hover       */
-  --color-accent-mid:      #065F46;   /* Emerald-800 — pressed     */
-  --color-accent-light:    #D1FAE5;   /* Emerald-100 — bg tint     */
+  --color-accent:          #1b0f93;   /* Vivid indigo — CTA        */
+  --color-accent-dark:     #1b007c;   /* Purple-indigo — hover     */
+  --color-accent-mid:      #0a013d;   /* Dark indigo — pressed     */
+  --color-accent-light:    #edeaff;   /* Indigo-100 — bg tint      */
 
   /* ─────────────────────────────────────────────────────────────
      2. NEUTRAL SURFACES
@@ -174,8 +174,8 @@
   --color-primary-glow-lg: rgba(27,15,147,0.40);
   --color-primary-glow-sm: rgba(27,15,147,0.10);
   --shadow-inner:        none;
-  --shadow-accent:       0 4px 14px rgba(5,150,105,0.35);        /* accent CTA lift     */
-  --shadow-accent-lg:    0 8px 24px rgba(5,150,105,0.45);        /* featured / hero     */
+  --shadow-accent:       0 4px 14px rgba(27,15,147,0.35);        /* accent CTA lift     */
+  --shadow-accent-lg:    0 8px 24px rgba(27,15,147,0.45);        /* featured / hero     */
 
   /* ─────────────────────────────────────────────────────────────
      8. SPACING (extensions — default Tailwind scale 0→96 still applies)

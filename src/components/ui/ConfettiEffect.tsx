@@ -27,14 +27,14 @@ export default function ConfettiEffect() {
       particleCount: 120,
       spread: 80,
       origin: { y: 0.55 },
-      colors: ['#000080', '#FFD60A', '#ffffff', '#0000B6', '#FFD60A'],
+      colors: ['#1b0f93', '#1b007c', '#ffffff', '#0a013d', '#edeaff'],
     });
     setTimeout(() => {
       void confetti({
         particleCount: 60,
         spread: 130,
         origin: { y: 0.4 },
-        colors: ['#000080', '#FFD60A', '#ffffff'],
+        colors: ['#1b0f93', '#0a013d', '#ffffff'],
       });
     }, 300);
 

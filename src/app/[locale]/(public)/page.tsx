@@ -262,7 +262,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               </div>
               <Link
                 href="/auth/register"
-                className="shrink-0 rounded-xl bg-accent px-8 py-3.5 text-sm font-normal text-text-accent shadow-accent transition-all duration-200 hover:-translate-y-0.5 hover:bg-sand hover:shadow-accent-lg"
+                className="shrink-0 rounded-xl bg-accent px-8 py-3.5 text-sm font-normal text-text-accent shadow-accent transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-dark hover:shadow-accent-lg"
               >
                 {tHome('therapistBanner.cta')}
               </Link>

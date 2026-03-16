@@ -23,7 +23,7 @@ function FreeCheck() {
 
 function PremiumCheck() {
   return (
-    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/30 text-accent">
+    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-sky-400/25 text-sky-300">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <polyline points="20 6 9 17 4 12" />
       </svg>
@@ -101,26 +101,28 @@ export default async function Pricing() {
               </div>
 
               <div>
-                <p className="text-xs font-normal uppercase tracking-widest text-white/60">{t('premiumName')}</p>
+                <p className="text-xs font-normal uppercase tracking-widest text-accent">{t('premiumName')}</p>
 
                 {/* Trial highlight */}
-                <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-accent/70 bg-accent/25 px-3 py-1">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
-                  <span className="text-xs font-normal text-white">{t('premiumTrialBadge')}</span>
+                <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-sky-400/50 bg-sky-400/15 px-3 py-1">
+                  <span className="h-1.5 w-1.5 rounded-full bg-sky-400" aria-hidden="true" />
+                  <span className="text-xs font-normal text-sky-200">{t('premiumTrialBadge')}</span>
                 </div>
 
                 <div className="mt-2 flex items-baseline gap-1.5">
-                  <span className="text-5xl font-extrabold text-accent">{t('premiumPrice')}</span>
-                  <span className="text-sm text-white/60">{t('premiumPeriod')}</span>
+                  <span className="text-5xl font-extrabold text-white">{t('premiumPrice')}</span>
+                  <span className="text-sm text-white/80">{t('premiumPeriod')}</span>
                 </div>
-                <p className="mt-1 text-xs text-white/50">{t('premiumTrialNote')}</p>
+                <p className="mt-1 text-xs text-white/70">{t('premiumTrialNote')}</p>
 
-                <p className="mt-3 text-sm text-white/70">{t('premiumDesc')}</p>
+                <p className="mt-3 text-sm text-white/85">{t('premiumDesc')}</p>
               </div>
 
-              <ul className="mt-7 flex flex-col gap-3">
+              <div className="my-5 h-px bg-accent/20" aria-hidden="true" />
+
+              <ul className="flex flex-col gap-3">
                 {PREMIUM_FEATURES.map((key) => (
-                  <li key={key} className="flex items-center gap-2.5 text-sm text-white/85">
+                  <li key={key} className="flex items-center gap-2.5 text-sm text-white/90">
                     <PremiumCheck />
                     {t(key)}
                   </li>
@@ -129,13 +131,13 @@ export default async function Pricing() {
 
               {/* ROI note */}
               <div className="mt-5 rounded-lg border border-accent/25 bg-accent/10 px-4 py-2.5">
-                <p className="text-xs text-white/70">{t('premiumRoiNote')}</p>
+                <p className="text-xs text-white/80">{t('premiumRoiNote')}</p>
               </div>
 
               <div className="mt-auto pt-7">
                 <Link
                   href="/auth/register"
-                  className="block w-full rounded-lg bg-accent py-3 text-center text-sm font-normal text-text-accent shadow-accent transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-dark hover:shadow-accent-lg"
+                  className="block w-full rounded-lg bg-white py-3 text-center text-sm font-normal text-primary shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90 hover:shadow-lg"
                 >
                   {t('premiumCta')}
                 </Link>

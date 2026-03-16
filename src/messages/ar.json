@@ -420,6 +420,7 @@
     "completeness": "اكتمال الملف الشخصي",
     "subscription": "الاشتراك",
     "notifications": {
+      "title": "الإشعارات",
       "markAllRead": "تحديد الكل كمقروء",
       "empty": "لا توجد اشعارات جديدة",
       "viewAll": "عرض الكل"

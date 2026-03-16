@@ -418,6 +418,7 @@
     "completeness": "Полнота профиля",
     "subscription": "Подписка",
     "notifications": {
+      "title": "Уведомления",
       "markAllRead": "Отметить все прочитанными",
       "empty": "Нет новых уведомлений",
       "viewAll": "Все уведомления"

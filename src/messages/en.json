@@ -419,6 +419,7 @@
     "completeness": "Profile completeness",
     "subscription": "Subscription",
     "notifications": {
+      "title": "Notifications",
       "markAllRead": "Mark all as read",
       "empty": "No new notifications",
       "viewAll": "View all"

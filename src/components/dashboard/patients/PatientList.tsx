@@ -167,14 +167,14 @@ export default function PatientList({ initialPatients, initialTotal }: PatientLi
                 <p className="font-normal text-text-primary">
                   {p.firstName} {p.lastName}
                 </p>
-                <p className="text-xs text-text-muted">
-                  {t('age')}: {calcAge(p.dateOfBirth)} {t('years')}
-                </p>
+                <div className="mt-0.5 flex flex-wrap items-center gap-1.5">
+                  <span className="text-xs text-text-muted">{t('age')}: {calcAge(p.dateOfBirth)} {t('years')}</span>
+                  {typeBadge(p.type)}
+                </div>
               </div>
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
-              {typeBadge(p.type)}
               {p.insurance && p.insurance !== 'none' && (
                 <span className="rounded-full bg-bg-alt px-2 py-0.5 text-xs text-text-muted">
                   {t(`insurance${p.insurance.charAt(0).toUpperCase() + p.insurance.slice(1)}` as 'insuranceClalit')}

@@ -272,7 +272,7 @@ export default async function DashboardPage() {
     ]),
     // Weekly completed sessions for last 8 weeks
     Appointment.aggregate<{ _id: string; count: number }>([
-      { $match: { therapistId, startTime: { $gte: eightWeeksAgo }, status: 'completed' } },
+      { $match: { therapistId: tid, startTime: { $gte: eightWeeksAgo }, status: 'completed' } },
       {
         $group: {
           _id: { $dateToString: { format: '%Y-%V', date: '$startTime' } },

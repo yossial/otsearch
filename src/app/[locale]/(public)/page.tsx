@@ -116,7 +116,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               </div>
 
               {/* Headline — flows as one natural line, no forced breaks */}
-              <h1 className="font-display text-4xl font-normal leading-[1.2] tracking-tight text-text-primary sm:text-5xl lg:text-[3.4rem] xl:text-[3.8rem]">
+              <h1 className="font-display text-3xl font-normal leading-[1.2] tracking-tight text-text-primary sm:text-4xl lg:text-[2.85rem] xl:text-[3.2rem]">
                 <span className="inline-block opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.1s_forwards]">
                   {tHome('heroTitlePre')}
                 </span>
@@ -127,7 +127,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               </h1>
 
               {/* Sub-headline */}
-              <p className="mx-auto mt-6 max-w-xl text-xl leading-snug text-text-secondary opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.5s_forwards] lg:mx-0 lg:max-w-lg">
+              <p className="mx-auto mt-6 max-w-xl text-2xl leading-snug text-text-secondary opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.5s_forwards] lg:mx-0 lg:max-w-lg">
                 {tHome('heroSubtitle')}
               </p>
 
@@ -149,7 +149,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                   </span>
                   <span className="text-base text-text-secondary">{tHome('heroFeatureTherapists')}</span>
                 </div>
-                <p className="pt-2 text-base font-normal leading-relaxed text-text-primary">
+                <p className="pt-2 text-lg font-normal leading-relaxed text-text-primary">
                   {tHome('heroTagline')}
                 </p>
               </div>

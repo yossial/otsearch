@@ -675,7 +675,9 @@
       "paidAt": "تاريخ الدفع",
       "paidAmount": "المبلغ المدفوع",
       "save": "حفظ الفاتورة",
-      "premiumRequired": "هذه الميزة متاحة للمشتركين المميزين فقط"
+      "premiumRequired": "هذه الميزة متاحة للمشتركين المميزين فقط",
+      "view": "عرض",
+      "upgradeCtaShort": "ترقية إلى بريميوم"
     },
     "goals": {
       "title": "الأهداف العلاجية",
@@ -719,7 +721,8 @@
       "type_other": "أخرى"
     },
     "tabs": {
-      "overview": "نظرة عامة"
+      "overview": "نظرة عامة",
+      "settings": "الإعدادات"
     },
     "overview": {
       "quickActions": "إجراءات سريعة",
@@ -755,6 +758,27 @@
       "onboardedSub": "تم إعداد ملفك الشخصي بنجاح",
       "firstPatient": "أول مريض!",
       "firstPatientSub": "مبارك على أول مريض لك"
+    },
+    "settings": {
+      "business": {
+        "pageTitle": "إعدادات العمل",
+        "pageSubtitle": "ستظهر هذه التفاصيل في الفواتير التي تصدرها",
+        "sectionTitle": "تفاصيل العمل",
+        "businessName": "اسم العمل",
+        "businessNamePlaceholder": "عيادة...",
+        "businessType": "نوع العمل",
+        "businessTypeNone": "اختر النوع",
+        "businessTypeLicensed": "مرخص",
+        "businessTypeExempt": "معفى",
+        "businessTypeCompany": "شركة محدودة",
+        "businessNumber": "رقم العمل / التسجيل",
+        "businessNumberPlaceholder": "123456789",
+        "vatNumber": "رقم ضريبة القيمة المضافة",
+        "vatNumberPlaceholder": "123456789",
+        "businessAddress": "عنوان العمل",
+        "businessAddressPlaceholder": "الشارع، المدينة",
+        "saved": "تم حفظ التفاصيل بنجاح"
+      }
     }
   },
   "reviews": {

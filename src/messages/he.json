@@ -675,7 +675,9 @@
       "paidAt": "תאריך תשלום",
       "paidAmount": "סכום ששולם",
       "save": "שמור חשבונית",
-      "premiumRequired": "תכונה זו זמינה למנויי פרמיום בלבד"
+      "premiumRequired": "תכונה זו זמינה למנויי פרמיום בלבד",
+      "view": "צפה",
+      "upgradeCtaShort": "שדרג לפרמיום"
     },
     "goals": {
       "title": "מטרות טיפוליות",
@@ -719,7 +721,8 @@
       "type_other": "אחר"
     },
     "tabs": {
-      "overview": "סקירה"
+      "overview": "סקירה",
+      "settings": "הגדרות"
     },
     "overview": {
       "quickActions": "פעולות מהירות",
@@ -755,6 +758,27 @@
       "onboardedSub": "הפרופיל שלך הוגדר בהצלחה",
       "firstPatient": "מטופל ראשון!",
       "firstPatientSub": "ברכות על הצעד הראשון"
+    },
+    "settings": {
+      "business": {
+        "pageTitle": "הגדרות עסקיות",
+        "pageSubtitle": "פרטים אלו יופיעו בחשבוניות שתנפיק",
+        "sectionTitle": "פרטי העסק",
+        "businessName": "שם העסק",
+        "businessNamePlaceholder": "מרפאת...",
+        "businessType": "סוג עוסק",
+        "businessTypeNone": "בחר סוג",
+        "businessTypeLicensed": "עוסק מורשה",
+        "businessTypeExempt": "עוסק פטור",
+        "businessTypeCompany": "חברה בע\"מ",
+        "businessNumber": "מס׳ עוסק / ח.פ",
+        "businessNumberPlaceholder": "123456789",
+        "vatNumber": "מספר מע\"מ",
+        "vatNumberPlaceholder": "123456789",
+        "businessAddress": "כתובת העסק",
+        "businessAddressPlaceholder": "רחוב, עיר",
+        "saved": "הפרטים נשמרו בהצלחה"
+      }
     }
   },
   "reviews": {

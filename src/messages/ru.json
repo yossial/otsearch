@@ -673,7 +673,9 @@
       "paidAt": "Дата оплаты",
       "paidAmount": "Оплаченная сумма",
       "save": "Сохранить счёт",
-      "premiumRequired": "Эта функция доступна только для Premium"
+      "premiumRequired": "Эта функция доступна только для Premium",
+      "view": "Просмотр",
+      "upgradeCtaShort": "Перейти на Premium"
     },
     "goals": {
       "title": "Терапевтические цели",
@@ -717,7 +719,8 @@
       "type_other": "Другое"
     },
     "tabs": {
-      "overview": "Обзор"
+      "overview": "Обзор",
+      "settings": "Настройки"
     },
     "overview": {
       "quickActions": "Быстрые действия",
@@ -753,6 +756,27 @@
       "onboardedSub": "Ваш профиль настроен и готов",
       "firstPatient": "Первый пациент!",
       "firstPatientSub": "Поздравляем с первым пациентом"
+    },
+    "settings": {
+      "business": {
+        "pageTitle": "Настройки бизнеса",
+        "pageSubtitle": "Эти данные будут отображаться в выставляемых счетах",
+        "sectionTitle": "Реквизиты бизнеса",
+        "businessName": "Название бизнеса",
+        "businessNamePlaceholder": "Клиника...",
+        "businessType": "Тип бизнеса",
+        "businessTypeNone": "Выберите тип",
+        "businessTypeLicensed": "Лицензированный",
+        "businessTypeExempt": "Освобождённый",
+        "businessTypeCompany": "ООО",
+        "businessNumber": "Номер бизнеса / регистрации",
+        "businessNumberPlaceholder": "123456789",
+        "vatNumber": "Номер НДС",
+        "vatNumberPlaceholder": "123456789",
+        "businessAddress": "Адрес бизнеса",
+        "businessAddressPlaceholder": "Улица, город",
+        "saved": "Данные успешно сохранены"
+      }
     }
   },
   "reviews": {

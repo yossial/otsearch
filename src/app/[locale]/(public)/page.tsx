@@ -131,28 +131,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                 {tHome('heroSubtitle')}
               </p>
 
-              {/* Feature rows + tagline */}
-              <div className="mx-auto mt-6 max-w-xl space-y-3 opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.65s_forwards] lg:mx-0">
-                <div className="flex items-center gap-3 text-start">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent" aria-hidden="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/>
-                    </svg>
-                  </span>
-                  <span className="text-base text-text-secondary">{tHome('heroFeaturePatients')}</span>
-                </div>
-                <div className="flex items-center gap-3 text-start">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/8 text-primary" aria-hidden="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 17h3m0 0h3m-3 0V14m0 3v3"/>
-                    </svg>
-                  </span>
-                  <span className="text-base text-text-secondary">{tHome('heroFeatureTherapists')}</span>
-                </div>
-                <p className="pt-2 text-lg font-normal leading-relaxed text-text-primary">
-                  {tHome('heroTagline')}
-                </p>
-              </div>
+              {/* Body text */}
+              <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-text-secondary opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.65s_forwards] lg:mx-0">
+                {tHome('heroBody')}
+              </p>
 
               {/* Trust signals */}
               <div className="mt-10 flex flex-wrap justify-center gap-8 lg:justify-start">

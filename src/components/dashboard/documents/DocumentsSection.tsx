@@ -314,7 +314,7 @@ export default function DocumentsSection({ patientId, locale }: DocumentsSection
 
               <div className="flex shrink-0 items-center gap-1.5">
                 <a
-                  href={doc.fileUrl}
+                  href={`/api/patient-docs/${doc._id}/file`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="rounded-lg border border-border px-2.5 py-1 text-xs text-text-secondary transition-colors hover:border-primary/30 hover:text-primary"

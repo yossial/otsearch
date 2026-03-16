@@ -508,6 +508,7 @@
       "sessionsTab": "Сеансы",
       "goalsTab": "Цели",
       "invoicesTab": "Счета",
+      "documentsTab": "Документы",
       "savePatient": "Сохранить пациента",
       "newPatient": "Новый пациент",
       "age": "Возраст",
@@ -689,6 +690,26 @@
       "save": "Сохранить цель",
       "achievedDate": "Дата достижения",
       "avgRating": "Средняя оценка"
+    },
+    "documents": {
+      "title": "Документы",
+      "upload": "Загрузить документ",
+      "fileLabel": "Файл",
+      "fileHint": "PDF, изображение — до 10 МБ",
+      "titleLabel": "Заголовок",
+      "typeLabel": "Тип документа",
+      "noteLabel": "Заметка",
+      "save": "Сохранить",
+      "view": "Открыть",
+      "delete": "Удалить",
+      "noDocs": "Нет документов",
+      "type_referral": "Направление",
+      "type_diagnosis": "Диагноз",
+      "type_prescription": "Рецепт",
+      "type_insurance": "Страховка",
+      "type_consent": "Согласие",
+      "type_scan": "Скан",
+      "type_other": "Другое"
     },
     "tabs": {
       "overview": "Обзор"

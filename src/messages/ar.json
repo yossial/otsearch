@@ -510,6 +510,7 @@
       "sessionsTab": "الجلسات",
       "goalsTab": "الأهداف",
       "invoicesTab": "الفواتير",
+      "documentsTab": "المستندات",
       "savePatient": "حفظ المريض",
       "newPatient": "مريض جديد",
       "age": "العمر",
@@ -691,6 +692,26 @@
       "save": "حفظ الهدف",
       "achievedDate": "تاريخ التحقق",
       "avgRating": "متوسط التقييم"
+    },
+    "documents": {
+      "title": "المستندات",
+      "upload": "رفع مستند",
+      "fileLabel": "الملف",
+      "fileHint": "PDF، صورة — حتى 10 ميغابايت",
+      "titleLabel": "العنوان",
+      "typeLabel": "نوع المستند",
+      "noteLabel": "ملاحظة",
+      "save": "حفظ",
+      "view": "عرض",
+      "delete": "حذف",
+      "noDocs": "لا توجد مستندات بعد",
+      "type_referral": "إحالة",
+      "type_diagnosis": "تشخيص",
+      "type_prescription": "وصفة طبية",
+      "type_insurance": "تأمين",
+      "type_consent": "موافقة",
+      "type_scan": "مسح ضوئي",
+      "type_other": "أخرى"
     },
     "tabs": {
       "overview": "نظرة عامة"

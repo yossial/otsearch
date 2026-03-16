@@ -10,6 +10,7 @@ import { Appointment } from '@/lib/db/models/Appointment';
 import { Invoice } from '@/lib/db/models/Invoice';
 import { TreatmentSession } from '@/lib/db/models/TreatmentSession';
 import mongoose from 'mongoose';
+import DashboardCharts from '@/components/dashboard/DashboardCharts';
 
 export async function generateMetadata() {
   const t = await getTranslations('dashboard');
@@ -188,6 +189,8 @@ export default async function DashboardPage() {
   const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
   const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 1);
   const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+  const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 5, 1);
+  const eightWeeksAgo = new Date(now.getTime() - 8 * 7 * 24 * 60 * 60 * 1000);
 
   const [
     revenueAgg,
@@ -202,6 +205,8 @@ export default async function DashboardPage() {
     outstandingPatientIds,
     overdueCount,
     atRiskCount,
+    monthlyRevenueRaw,
+    weeklySessionsRaw,
   ] = await Promise.all([
     Invoice.aggregate([
       { $match: { therapistId: tid, status: 'paid', paidAt: { $gte: monthStart } } },
@@ -259,7 +264,49 @@ export default async function DashboardPage() {
       status: 'active',
       lastTreatmentDate: { $lt: thirtyDaysAgo },
     }),
+    // Monthly revenue for last 6 months
+    Invoice.aggregate<{ _id: { year: number; month: number }; total: number }>([
+      { $match: { therapistId: tid, status: 'paid', paidAt: { $gte: sixMonthsAgo } } },
+      { $group: { _id: { year: { $year: '$paidAt' }, month: { $month: '$paidAt' } }, total: { $sum: '$total' } } },
+      { $sort: { '_id.year': 1, '_id.month': 1 } },
+    ]),
+    // Weekly completed sessions for last 8 weeks
+    Appointment.aggregate<{ _id: string; count: number }>([
+      { $match: { therapistId, startTime: { $gte: eightWeeksAgo }, status: 'completed' } },
+      {
+        $group: {
+          _id: { $dateToString: { format: '%Y-%V', date: '$startTime' } },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]),
   ]);
+
+  // Build chart datasets
+  const MONTH_NAMES_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const MONTH_NAMES_SHORT_HE = ['ינו', 'פבר', 'מרץ', 'אפר', 'מאי', 'יונ', 'יול', 'אוג', 'ספט', 'אוק', 'נוב', 'דצמ'];
+  const monthNames = locale === 'he' ? MONTH_NAMES_SHORT_HE : MONTH_NAMES_SHORT;
+
+  // Fill in any missing months so chart has 6 bars
+  const revenueByMonth: { month: string; revenue: number }[] = [];
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const year = d.getFullYear();
+    const month = d.getMonth() + 1;
+    const found = monthlyRevenueRaw.find((r) => r._id.year === year && r._id.month === month);
+    revenueByMonth.push({ month: monthNames[month - 1] ?? String(month), revenue: found?.total ?? 0 });
+  }
+
+  // Weekly sessions — take last 8 weeks
+  const weeklySessionsData: { week: string; sessions: number }[] = weeklySessionsRaw.slice(-8).map((w, i) => ({
+    week: `W${i + 1}`,
+    sessions: w.count,
+  }));
+  // Pad to 8 weeks if fewer
+  while (weeklySessionsData.length < 8) {
+    weeklySessionsData.unshift({ week: `W${weeklySessionsData.length + 1}`, sessions: 0 });
+  }
 
   const revenueThisMonth: number = revenueAgg[0]?.total ?? 0;
   const revenueLastMonth: number = lastMonthAgg[0]?.total ?? 0;
@@ -682,6 +729,14 @@ export default async function DashboardPage() {
           }
         />
       </div>
+
+      {/* ── Charts ─────────────────────────────────────────────────── */}
+      <DashboardCharts
+        revenueData={revenueByMonth}
+        sessionsData={weeklySessionsData}
+        revenueLabel={t('overview.revenueMonth')}
+        sessionsLabel={t('overview.thisWeek')}
+      />
 
       {/* ── Profile completeness (when < 100%) ────────────────────── */}
       {completenessScore < 100 && profile && (

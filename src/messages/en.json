@@ -509,6 +509,7 @@
       "sessionsTab": "Sessions",
       "goalsTab": "Goals",
       "invoicesTab": "Invoices",
+      "documentsTab": "Documents",
       "savePatient": "Save patient",
       "newPatient": "New patient",
       "age": "Age",
@@ -690,6 +691,26 @@
       "save": "Save Goal",
       "achievedDate": "Achieved Date",
       "avgRating": "Avg Rating"
+    },
+    "documents": {
+      "title": "Documents",
+      "upload": "Upload document",
+      "fileLabel": "File",
+      "fileHint": "PDF, image — up to 10 MB",
+      "titleLabel": "Title",
+      "typeLabel": "Document type",
+      "noteLabel": "Note",
+      "save": "Save",
+      "view": "View",
+      "delete": "Delete",
+      "noDocs": "No documents yet",
+      "type_referral": "Referral",
+      "type_diagnosis": "Diagnosis",
+      "type_prescription": "Prescription",
+      "type_insurance": "Insurance",
+      "type_consent": "Consent",
+      "type_scan": "Scan",
+      "type_other": "Other"
     },
     "tabs": {
       "overview": "Overview"

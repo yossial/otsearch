@@ -322,8 +322,26 @@ input[type="password"]::-webkit-credentials-auto-fill-button { display: none; }
   background-position: 150% 0%, 0% 0%;
   animation: hero-shimmer-rtl 2.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s 1 forwards;
 }
+/* Gradient text with shimmer for hero accent phrase (RTL default, LTR override) */
+.hero-text-accent {
+  background-image:
+    linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.28) 50%, transparent 100%),
+    linear-gradient(135deg, #047857 0%, #059669 35%, #10b981 62%, #34d399 100%);
+  background-size: 50% 100%, 100% 100%;
+  background-position: 150% 0%, 0% 0%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: hero-shimmer-rtl 2.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.7s 1 forwards;
+}
+[dir="ltr"] .hero-text-accent {
+  background-position: -50% 0%, 0% 0%;
+  animation: hero-shimmer-ltr 2.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.7s 1 forwards;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-shimmer { animation: none; }
+  .hero-text-accent { animation: none; background-image: linear-gradient(135deg, #047857 0%, #059669 35%, #10b981 62%, #34d399 100%); background-size: 100% 100%; }
   [style*="word-up"] { animation: none !important; opacity: 1 !important; }
 }
 @keyframes spine-glow {

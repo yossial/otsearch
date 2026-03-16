@@ -115,29 +115,44 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                 </span>
               </div>
 
-              {/* Headline */}
-              <h1 className="font-display text-3xl font-normal leading-[1.15] tracking-tight text-text-primary sm:text-4xl lg:text-[2.75rem] xl:text-[3rem]">
-                <span className="block opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.1s_forwards]">
+              {/* Headline — flows as one natural line, no forced breaks */}
+              <h1 className="font-display text-3xl font-normal leading-[1.2] tracking-tight text-text-primary sm:text-4xl lg:text-[2.85rem] xl:text-[3.2rem]">
+                <span className="inline-block opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.1s_forwards]">
                   {tHome('heroTitlePre')}
                 </span>
-                <span className="inline-flex items-center gap-2.5 opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.25s_forwards]">
-                  <span className="text-accent">{tHome('heroTitleAccent')}</span>
-                  <span
-                    className="h-2.5 w-2.5 shrink-0 rounded-full bg-accent"
-                    style={{ animation: 'pulse-dot 2s ease-in-out infinite' }}
-                    aria-hidden="true"
-                  />
+                {' '}
+                <span className="inline-block opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.3s_forwards]">
+                  <span className="hero-text-accent">{tHome('heroTitleAccent')}</span>
                 </span>
               </h1>
 
               {/* Sub-headline */}
-              <p className="mx-auto mt-4 max-w-xl text-lg leading-snug text-text-secondary lg:mx-0 lg:max-w-lg">
+              <p className="mx-auto mt-5 max-w-xl text-lg leading-snug text-text-secondary opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.5s_forwards] lg:mx-0 lg:max-w-lg">
                 {tHome('heroSubtitle')}
               </p>
 
-              <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-text-muted lg:mx-0 lg:max-w-lg">
-                {tHome('heroParagraph')}
-              </p>
+              {/* Feature rows + tagline */}
+              <div className="mx-auto mt-5 max-w-xl space-y-2 opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.65s_forwards] lg:mx-0">
+                <div className="flex items-center gap-3 text-start">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/>
+                    </svg>
+                  </span>
+                  <span className="text-sm text-text-secondary">{tHome('heroFeaturePatients')}</span>
+                </div>
+                <div className="flex items-center gap-3 text-start">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/8 text-primary" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 17h3m0 0h3m-3 0V14m0 3v3"/>
+                    </svg>
+                  </span>
+                  <span className="text-sm text-text-secondary">{tHome('heroFeatureTherapists')}</span>
+                </div>
+                <p className="pt-0.5 text-xs leading-relaxed text-text-muted">
+                  {tHome('heroTagline')}
+                </p>
+              </div>
 
               {/* Trust signals */}
               <div className="mt-10 flex flex-wrap justify-center gap-8 lg:justify-start">

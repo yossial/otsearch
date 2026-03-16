@@ -11,12 +11,12 @@
      --font-sans        →  font-sans
      etc.
 
-   Palette: Federal Blue & Gold (clean white base)
-     Gold #FFD60A — CTA buttons
-     Amber #FFBF1C — hover state
-     Goldenrod #D1A309 — pressed / badges
-     Federal Blue #00044A — headings, footer, dark text
-     Navy Blue #000080 — links
+   Palette: "I Will Be Okay" — Deep Indigo (light white base)
+     #1b0f93 — vivid indigo — primary / brand
+     #1b007c — deep purple-indigo — hover
+     #0a013d — dark indigo — pressed / deep
+     #02001a — near-black navy — dark sections
+     #02000e — near black — darkest bg
    ═══════════════════════════════════════════════════════════════════ */
 
 @theme {
@@ -25,20 +25,20 @@
      1. BRAND COLOURS — Federal Blue & Gold palette
      ───────────────────────────────────────────────────────────── */
 
-  /* Primary — Charcoal
-     Use for: headings, nav, footer, dark sections, text          */
-  --color-primary:         #1F2937;   /* Charcoal — main           */
-  --color-primary-dark:    #111827;   /* Deeper charcoal — hover   */
-  --color-primary-mid:     #0A0F1A;   /* Near black                */
-  --color-primary-light:   #F3F4F6;   /* Light grey tint bg        */
-  --color-primary-xlight:  #F9FAFB;   /* Very subtle grey tint     */
+  /* Primary — Deep Indigo
+     Use for: headings, nav, buttons, borders, interactive states  */
+  --color-primary:         #1b0f93;   /* Vivid indigo — main       */
+  --color-primary-dark:    #1b007c;   /* Purple-indigo — hover     */
+  --color-primary-mid:     #0a013d;   /* Dark indigo — pressed     */
+  --color-primary-light:   #edeaff;   /* Indigo tint bg            */
+  --color-primary-xlight:  #f5f3ff;   /* Very subtle indigo tint   */
 
-  /* Accent — Electric Blue
+  /* Accent — Vivid Indigo (palette secondary)
      Use for: CTA buttons, highlights, tags, interactive accents  */
-  --color-accent:          #2563EB;   /* Electric blue — CTA       */
-  --color-accent-dark:     #1D4ED8;   /* Blue dark — hover         */
-  --color-accent-mid:      #1E40AF;   /* Blue mid — pressed        */
-  --color-accent-light:    #DBEAFE;   /* Light blue tint bg        */
+  --color-accent:          #1b0f93;   /* Vivid indigo — CTA        */
+  --color-accent-dark:     #1b007c;   /* Purple-indigo — hover     */
+  --color-accent-mid:      #0a013d;   /* Dark indigo — pressed     */
+  --color-accent-light:    #edeaff;   /* Indigo-100 — bg tint      */
 
   /* ─────────────────────────────────────────────────────────────
      2. NEUTRAL SURFACES
@@ -48,13 +48,13 @@
   --color-surface-raised:  #f8f9fb;   /* slightly elevated        */
   --color-bg:              #ffffff;   /* page background          */
   --color-bg-alt:          #F8F9FA;   /* alternate sections       */
-  --color-bg-dark:         #111827;   /* Deep charcoal — dark sections */
-  --color-bg-darker:       #030712;   /* Near black                    */
+  --color-bg-dark:         #02001a;   /* Near-black navy — dark sections */
+  --color-bg-darker:       #02000e;   /* Near black indigo               */
 
   /* Borders — Federal Blue at ~8% opacity on white               */
-  --color-border:          #E8E9EE;   /* default border           */
-  --color-border-strong:   #C8CAD8;   /* emphasis border          */
-  --color-border-subtle:   #F2F3F7;   /* very light separator     */
+  --color-border:          #e5e3f5;   /* default border — indigo tint  */
+  --color-border-strong:   #c4c0e8;   /* emphasis border               */
+  --color-border-subtle:   #f0eeff;   /* very light separator          */
 
   /* ─────────────────────────────────────────────────────────────
      3. TEXT
@@ -66,8 +66,8 @@
   --color-text-disabled:   #D1D5DB;   /* disabled state                */
   --color-text-inverse:    #ffffff;   /* on dark bg                    */
   --color-text-accent:     #ffffff;   /* text ON blue btns             */
-  --color-text-link:       #1F2937;   /* inline links                  */
-  --color-text-link-hover: #111827;   /* link hover                    */
+  --color-text-link:       #1b0f93;   /* inline links                  */
+  --color-text-link-hover: #1b007c;   /* link hover                    */
 
   /* ─────────────────────────────────────────────────────────────
      4. SEMANTIC COLOURS
@@ -165,17 +165,17 @@
   --shadow-modal:        0 8px 32px rgba(0,0,0,0.15);          /* keep for modals */
   --shadow-button:       none;
   --shadow-button-hover: none;
-  --shadow-focus:        0 0 0 2px rgba(31,41,55,0.25);          /* focus ring          */
-  --shadow-primary:      0 6px 16px rgba(31,41,55,0.22);         /* primary btn hover   */
-  --shadow-primary-lg:   0 10px 28px rgba(31,41,55,0.30);        /* primary btn lg      */
+  --shadow-focus:        0 0 0 2px rgba(27,15,147,0.25);          /* focus ring          */
+  --shadow-primary:      0 6px 16px rgba(27,15,147,0.30);         /* primary btn hover   */
+  --shadow-primary-lg:   0 10px 28px rgba(27,15,147,0.40);        /* primary btn lg      */
 
   /* Raw rgba strings — usable in inline style props and CSS gradients */
-  --color-primary-glow:    rgba(31,41,55,0.22);
-  --color-primary-glow-lg: rgba(31,41,55,0.40);
-  --color-primary-glow-sm: rgba(31,41,55,0.08);
+  --color-primary-glow:    rgba(27,15,147,0.22);
+  --color-primary-glow-lg: rgba(27,15,147,0.40);
+  --color-primary-glow-sm: rgba(27,15,147,0.10);
   --shadow-inner:        none;
-  --shadow-accent:       0 4px 14px rgba(37,99,235,0.35);        /* accent CTA lift     */
-  --shadow-accent-lg:    0 8px 24px rgba(37,99,235,0.45);        /* featured / hero     */
+  --shadow-accent:       0 4px 14px rgba(27,15,147,0.35);        /* accent CTA lift     */
+  --shadow-accent-lg:    0 8px 24px rgba(27,15,147,0.45);        /* featured / hero     */
 
   /* ─────────────────────────────────────────────────────────────
      8. SPACING (extensions — default Tailwind scale 0→96 still applies)

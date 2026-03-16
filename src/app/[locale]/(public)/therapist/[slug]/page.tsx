@@ -60,16 +60,28 @@ export default async function TherapistProfilePage({ params, searchParams }: The
     <div className="min-h-screen bg-bg-alt">
       <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
 
-        {/* Back link */}
-        <Link
-          href={backHref}
-          className="mb-4 inline-flex items-center gap-1.5 text-sm font-normal text-text-secondary transition-colors hover:text-primary"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-directional" aria-hidden="true">
-            <path d="m15 18-6-6 6-6" />
-          </svg>
-          {backLabel}
-        </Link>
+        {/* Breadcrumb */}
+        <nav aria-label="breadcrumb" className="mb-5">
+          <ol className="flex items-center gap-1.5 text-sm text-text-muted">
+            <li>
+              <Link href="/" className="transition-colors hover:text-primary">Therapio</Link>
+            </li>
+            <li aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-directional">
+                <path d="m15 18-6-6 6-6" />
+              </svg>
+            </li>
+            <li>
+              <Link href={backHref} className="transition-colors hover:text-primary">{backLabel}</Link>
+            </li>
+            <li aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-directional">
+                <path d="m15 18-6-6 6-6" />
+              </svg>
+            </li>
+            <li className="truncate font-normal text-text-primary" aria-current="page">{name}</li>
+          </ol>
+        </nav>
 
         {/* Hero card */}
         <div className="card mb-5 overflow-hidden">
@@ -83,9 +95,9 @@ export default async function TherapistProfilePage({ params, searchParams }: The
                 <img
                   src={therapist.photo ?? `https://i.pravatar.cc/150?u=${therapist.slug}`}
                   alt={name}
-                  width={88}
-                  height={88}
-                  className="h-22 w-22 rounded-full object-cover ring-2 ring-border"
+                  width={120}
+                  height={120}
+                  className="h-28 w-28 rounded-full object-cover ring-2 ring-primary/20 shadow-sm sm:h-32 sm:w-32"
                 />
               </div>
 
@@ -113,7 +125,10 @@ export default async function TherapistProfilePage({ params, searchParams }: The
                 {/* Badges */}
                 <div className="flex flex-wrap gap-2">
                   {therapist.subscriptionTier === 'premium' && (
-                    <span className="rounded-full bg-primary px-2.5 py-0.5 text-xs font-normal text-white">PRO</span>
+                    <span className="inline-flex items-center gap-1 rounded-full bg-accent px-2.5 py-0.5 text-xs font-normal text-text-accent">
+                      <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      PRO
+                    </span>
                   )}
                   {therapist.isAcceptingPatients && (
                     <span className="flex items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-normal text-green-700">
@@ -192,7 +207,7 @@ export default async function TherapistProfilePage({ params, searchParams }: The
                     </span>
                   ))}
                   {therapist.specialisationsOther?.map((spec) => (
-                    <span key={spec} className="rounded-full bg-bg-alt px-3 py-1 text-sm font-normal text-text-secondary">
+                    <span key={spec} className="rounded-full border border-border bg-surface px-3 py-1 text-sm font-normal text-text-primary">
                       {spec}
                     </span>
                   ))}
@@ -253,10 +268,10 @@ export default async function TherapistProfilePage({ params, searchParams }: The
             {/* Insurance */}
             {therapist.insuranceAccepted.length > 0 && (
               <div className="card p-4">
-                <h3 className="section-eyebrow mb-2.5">{t('insurance')}</h3>
+                <h3 className="mb-2.5 text-xs font-normal uppercase tracking-wider text-text-secondary">{t('insurance')}</h3>
                 <div className="flex flex-wrap gap-1.5">
                   {therapist.insuranceAccepted.map((ins) => (
-                    <span key={ins} className="rounded-full bg-bg-alt px-2.5 py-1 text-xs font-normal text-text-secondary">
+                    <span key={ins} className="rounded-full border border-border bg-surface px-2.5 py-1 text-xs font-normal text-text-primary">
                       {tSearch(`insurance.${ins}`)}
                     </span>
                   ))}
@@ -267,10 +282,10 @@ export default async function TherapistProfilePage({ params, searchParams }: The
             {/* Languages */}
             {therapist.languages.length > 0 && (
               <div className="card p-4">
-                <h3 className="section-eyebrow mb-2.5">{t('languages')}</h3>
+                <h3 className="mb-2.5 text-xs font-normal uppercase tracking-wider text-text-secondary">{t('languages')}</h3>
                 <div className="flex flex-wrap gap-1.5">
                   {therapist.languages.map((lang) => (
-                    <span key={lang} className="rounded-full bg-bg-alt px-2.5 py-1 text-xs font-normal text-text-secondary">
+                    <span key={lang} className="rounded-full border border-border bg-surface px-2.5 py-1 text-xs font-normal text-text-primary">
                       {tSearch(`languageLabels.${lang}`)}
                     </span>
                   ))}
@@ -281,7 +296,7 @@ export default async function TherapistProfilePage({ params, searchParams }: The
             {/* MOH Licence */}
             {therapist.mohRegistrationNumber && (
               <div className="card p-4">
-                <h3 className="section-eyebrow mb-2.5">{t('mohNumber')}</h3>
+                <h3 className="mb-2.5 text-xs font-normal uppercase tracking-wider text-text-secondary">{t('mohNumber')}</h3>
                 <span className="mb-2 flex items-center gap-1.5 text-xs font-normal text-green-700">
                   <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
@@ -301,7 +316,7 @@ export default async function TherapistProfilePage({ params, searchParams }: The
 
             {/* Location */}
             <div className="card p-4">
-              <h3 className="section-eyebrow mb-2.5">{t('location')}</h3>
+              <h3 className="mb-2.5 text-xs font-normal uppercase tracking-wider text-text-secondary">{t('location')}</h3>
               <div className="flex items-center gap-1.5 text-sm text-text-secondary">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" />

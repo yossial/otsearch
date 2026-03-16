@@ -3,9 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { searchTherapists } from '@/lib/db/therapists';
 import { searchMockTherapists } from '@/lib/mock-search';
-import SearchBar from '@/components/home/SearchBar';
-import FilterRow from '@/components/home/FilterRow';
-import TherapistPreviewDeck from '@/components/home/TherapistPreviewDeck';
+import HomepageSearch from '@/components/home/HomepageSearch';
 import HowItWorks from '@/components/home/HowItWorks';
 import WhatIsOccupationalTherapy from '@/components/home/WhatIsOccupationalTherapy';
 import WhyJoinUs from '@/components/home/WhyJoinUs';
@@ -96,8 +94,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     <div className="min-h-screen bg-bg">
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section id="hero" className="relative overflow-hidden border-b border-border bg-surface">
-        <div className="relative mx-auto max-w-7xl px-4 pb-12 pt-6 sm:px-6 sm:pb-16 sm:pt-8 lg:px-8 lg:pb-20 lg:pt-12">
+      <section id="hero" className="relative overflow-hidden border-b border-border bg-surface"
+        style={{ backgroundImage: 'radial-gradient(ellipse 70% 60% at 100% 0%, color-mix(in srgb, var(--color-primary) 4%, transparent), transparent)' }}
+      >
+        <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-8 sm:px-6 sm:pb-20 sm:pt-12 lg:px-8 lg:pb-24 lg:pt-14">
           <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-16">
 
             {/* Text column */}
@@ -110,39 +110,65 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                   style={{ animation: 'pulse-dot 2s ease-in-out infinite' }}
                   aria-hidden="true"
                 />
-                <span className="text-xs font-normal tracking-wide text-primary">
+                <span className="text-sm font-normal tracking-wide text-primary">
                   {tHome('heroEyebrow')}
                 </span>
               </div>
 
-              {/* Headline */}
-              <h1 className="font-display text-2xl font-normal leading-[1.3] tracking-tight text-text-primary sm:text-3xl lg:text-[2rem] xl:text-[2.25rem]">
-                <HeroTitleHighlight
-                  pre={tHome('heroTitlePre')}
-                  accent={tHome('heroTitleAccent')}
-                  post={tHome('heroTitlePost')}
-                />
+              {/* Headline — flows as one natural line, no forced breaks */}
+              <h1 className="font-display text-3xl font-normal leading-[1.2] tracking-tight text-text-primary sm:text-4xl lg:text-[2.85rem] xl:text-[3.2rem]">
+                <span className="inline-block opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.1s_forwards]">
+                  {tHome('heroTitlePre')}
+                </span>
+                {' '}
+                <span className="inline-block opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.3s_forwards]">
+                  <span className="hero-text-accent">{tHome('heroTitleAccent')}</span>
+                </span>
               </h1>
 
-              <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-text-secondary lg:mx-0 lg:max-w-lg">
-                {tHome('heroParagraph')}
+              {/* Sub-headline */}
+              <p className="mx-auto mt-6 max-w-xl text-2xl leading-snug text-text-secondary opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.5s_forwards] lg:mx-0 lg:max-w-lg">
+                {tHome('heroSubtitle')}
               </p>
 
+              {/* Feature rows + tagline */}
+              <div className="mx-auto mt-6 max-w-xl space-y-3 opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.65s_forwards] lg:mx-0">
+                <div className="flex items-center gap-3 text-start">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/>
+                    </svg>
+                  </span>
+                  <span className="text-base text-text-secondary">{tHome('heroFeaturePatients')}</span>
+                </div>
+                <div className="flex items-center gap-3 text-start">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/8 text-primary" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 17h3m0 0h3m-3 0V14m0 3v3"/>
+                    </svg>
+                  </span>
+                  <span className="text-base text-text-secondary">{tHome('heroFeatureTherapists')}</span>
+                </div>
+                <p className="pt-2 text-lg font-normal leading-relaxed text-text-primary">
+                  {tHome('heroTagline')}
+                </p>
+              </div>
+
               {/* Trust signals */}
-              <div className="mt-8 flex flex-wrap justify-center gap-6 lg:justify-start">
+              <div className="mt-10 flex flex-wrap justify-center gap-8 lg:justify-start">
                 <div className="flex flex-col items-center lg:items-start">
-                  <span className="text-xl font-extrabold text-primary">{tHome('stats.therapists')}</span>
-                  <span className="text-xs text-text-secondary">{tHome('stats.therapistsLabel')}</span>
+                  <span className="text-4xl font-extrabold text-primary">{tHome('stats.therapists')}</span>
+                  <span className="mt-0.5 text-sm text-text-secondary">{tHome('stats.therapistsLabel')}</span>
                 </div>
                 <div className="w-px self-stretch bg-border" aria-hidden="true" />
                 <div className="flex flex-col items-center lg:items-start">
-                  <span className="text-xl font-extrabold text-primary">{tHome('stats.cities')}</span>
-                  <span className="text-xs text-text-secondary">{tHome('stats.citiesLabel')}</span>
+                  <span className="text-4xl font-extrabold text-primary">{tHome('stats.cities')}</span>
+                  <span className="mt-0.5 text-sm text-text-secondary">{tHome('stats.citiesLabel')}</span>
                 </div>
                 <div className="w-px self-stretch bg-border" aria-hidden="true" />
                 <div className="flex flex-col items-center lg:items-start">
-                  <span className="text-xl font-extrabold text-primary">{tHome('stats.funds')}</span>
-                  <span className="text-xs text-text-secondary">{tHome('stats.fundsLabel')}</span>
+                  <span className="text-4xl font-extrabold text-primary">{tHome('stats.funds')}</span>
+                  <span className="mt-0.5 text-sm text-text-secondary">{tHome('stats.fundsLabel')}</span>
                 </div>
               </div>
 
@@ -150,7 +176,8 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
                 <a
                   href="#search"
-                  className="group inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-normal text-text-accent shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-dark hover:shadow-accent"
+                  className="group inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-base font-normal text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+                  style={{ background: 'linear-gradient(135deg, #1b0f93 0%, #1b007c 30%, #0a013d 58%, #02001a 80%, #02000e 100%)' }}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
@@ -159,7 +186,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                 </a>
                 <a
                   href="#for-therapists"
-                  className="inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-6 py-3 text-sm font-normal text-text-primary transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:text-primary"
+                  className="inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-7 py-3.5 text-base font-normal text-text-primary transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:text-primary"
                 >
                   {tHome('heroTherapistCta')}
                 </a>
@@ -175,26 +202,8 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         </div>
       </section>
 
-      {/* ── Search + filter header ────────────────────────────────────────── */}
-      <div id="search" className="border-b border-border bg-surface">
-        <div className="mx-auto max-w-7xl px-4 pb-4 pt-7 sm:px-6 lg:px-8">
-          <div className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5">
-            <span
-              className="h-1.5 w-1.5 rounded-full bg-primary"
-              style={{ animation: 'pulse-dot 2s ease-in-out infinite' }}
-              aria-hidden="true"
-            />
-            <span className="section-eyebrow text-primary">
-              {tHome('searchHeading')}
-            </span>
-          </div>
-          <SearchBar size="hero" initialQuery={sp.q} />
-        </div>
-        <FilterRow />
-      </div>
-
-      {/* ── Therapist preview deck ──────────────────────────────────────── */}
-      <TherapistPreviewDeck profiles={profiles} total={total} />
+      {/* ── Search + results ─────────────────────────────────────────────── */}
+      <HomepageSearch profiles={profiles} total={total} initialQuery={sp.q} />
 
       {/* ── Why join us ───────────────────────────────────────────────────── */}
       <WhyJoinUs />
@@ -242,7 +251,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         {/* Ambient accent glow */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -end-16 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full bg-accent opacity-[0.06] blur-[80px]"
+          className="pointer-events-none absolute -inset-e-16 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full bg-accent opacity-[0.06] blur-[80px]"
         />
 
         <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
@@ -268,7 +277,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               </div>
               <Link
                 href="/auth/register"
-                className="shrink-0 rounded-xl bg-accent px-8 py-3.5 text-sm font-normal text-text-accent shadow-accent transition-all duration-200 hover:-translate-y-0.5 hover:bg-sand hover:shadow-accent-lg"
+                className="shrink-0 rounded-xl bg-accent px-8 py-3.5 text-sm font-normal text-text-accent shadow-accent transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-dark hover:shadow-accent-lg"
               >
                 {tHome('therapistBanner.cta')}
               </Link>

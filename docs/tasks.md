@@ -2,7 +2,7 @@
 
 > Read this at the start of every session to know exactly where we are.
 > Update checkboxes and notes as work progresses.
-> Last updated: 2026-03-14
+> Last updated: 2026-03-15
 
 ---
 
@@ -105,7 +105,18 @@
 
 - [x] Run CI checks — lint/typecheck/test/build all pass
 - [x] Raise PR: `feat/151-homepage-redesign` → `dev` — PR #162
-- [ ] Patient Management Platform — see `docs/patient-management-plan.md`
+- [x] Patient Management Platform — Stories 7.1–7.8 complete
+- [x] Dashboard redesign — tabbed shell, KPI cards, Today's Schedule, Needs Attention, Quick Actions (2026-03-15)
+  - [x] `dashboard/layout.tsx` — auth + profile fetch + DashboardShell
+  - [x] `DashboardShell.tsx` — hero card (main pages only) + sticky tab bar
+  - [x] Overview page — premium: 5 KPI cards, today's schedule, needs attention; free: completeness + upgrade banner
+  - [x] Hide completeness card when profile is 100%
+  - [x] Patients / Schedule / Billing pages — stripped outer wrappers, layout owns chrome
+  - [x] i18n — `tabs.*` + `overview.*` keys added to all 4 locales
+- [x] Persistent breadcrumb — dashboard sub-pages + admin. BreadcrumbContext + BreadcrumbLabel + BreadcrumbNav. RTL-aware. Dynamic segment labels via context. (2026-03-15)
+- [x] Confetti on milestones — onboarding complete + first patient. canvas-confetti + ConfettiEffect toast. Clean URL after fire. (2026-03-15)
+- [x] Emerald accent (#059669), patients icon stat pills, PatientList unified filter bar + rich empty state, Navbar avatar header + dot role badge, Edit Profile removed (2026-03-15)
+- [x] PR #172 raised: feat/patient-mgmt → main — awaiting review
 
 ---
 

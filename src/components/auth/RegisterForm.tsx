@@ -21,23 +21,29 @@ export default function RegisterForm() {
   const passwordsMatch = confirmPassword.length > 0 && password === confirmPassword;
   const passwordMismatch = confirmPassword.length > 0 && password !== confirmPassword;
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError('');
 
-    if (!email.trim() || !password) {
+    // Read directly from DOM — handles browser autofill not triggering onChange
+    const form = e.currentTarget;
+    const emailVal = (form.elements.namedItem('reg-email') as HTMLInputElement).value.trim();
+    const passwordVal = (form.elements.namedItem('reg-password') as HTMLInputElement).value;
+    const confirmVal = (form.elements.namedItem('confirm-password') as HTMLInputElement).value;
+
+    if (!emailVal || !passwordVal || !confirmVal) {
       setError(t('errors.required'));
       return;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
       setError(t('errors.invalidEmail'));
       return;
     }
-    if (password.length < 8 || !/[0-9]/.test(password) || !/[a-zA-Z]/.test(password)) {
+    if (passwordVal.length < 8 || !/[0-9]/.test(passwordVal) || !/[a-zA-Z]/.test(passwordVal)) {
       setError(t('errors.passwordWeak'));
       return;
     }
-    if (password !== confirmPassword) {
+    if (passwordVal !== confirmVal) {
       setError(t('errors.passwordMismatch'));
       return;
     }
@@ -47,16 +53,17 @@ export default function RegisterForm() {
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim().toLowerCase(), password }),
+        body: JSON.stringify({ email: emailVal.toLowerCase(), password: passwordVal }),
       });
 
       const data = await res.json() as { error?: string };
 
       if (!res.ok) {
         const key = data.error as string;
-        const msg = key in { emailExists: 1, passwordWeak: 1, invalidEmail: 1, required: 1 }
-          ? t(`errors.${key as 'emailExists' | 'passwordWeak' | 'invalidEmail' | 'required'}`)
-          : t('errors.required');
+        const knownKeys = { emailExists: 1, passwordWeak: 1, invalidEmail: 1, required: 1 } as const;
+        const msg = key in knownKeys
+          ? t(`errors.${key as keyof typeof knownKeys}`)
+          : t('errors.serverError');
         setError(msg);
         setLoading(false);
         return;
@@ -64,8 +71,8 @@ export default function RegisterForm() {
 
       // Auto-login, then go to onboarding
       const result = await signIn('credentials', {
-        email: email.trim().toLowerCase(),
-        password,
+        email: emailVal.toLowerCase(),
+        password: passwordVal,
         redirect: false,
       });
       setLoading(false);
@@ -76,7 +83,7 @@ export default function RegisterForm() {
       router.push('/onboarding/therapist');
       router.refresh();
     } catch {
-      setError(t('errors.required'));
+      setError(t('errors.serverError'));
       setLoading(false);
     }
   }

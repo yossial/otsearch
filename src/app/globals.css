@@ -25,9 +25,9 @@ button, [role="button"], select, label { cursor: pointer; }
 
 /* ─── Focus ring ─────────────────────────────────────────────── */
 /* Visible only on keyboard navigation (not mouse clicks).
-   Components with Tailwind focus-visible:ring-* utilities
-   should add focus-visible:outline-none to suppress this fallback. */
-:focus-visible {
+   Form elements (.form-field, .form-checkbox, .form-radio) handle
+   their own focus styles — excluded here to prevent double-ring. */
+:focus-visible:not(.form-field):not(.form-checkbox):not(.form-radio) {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
   border-radius: 4px;
@@ -82,7 +82,173 @@ button, [role="button"], select, label { cursor: pointer; }
       var(--color-accent)
     );
   }
+
+  /* ─── Label ─────────────────────────────────────────────────── */
+  .form-label {
+    display: block;
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-normal);
+    color: var(--color-text-secondary);
+    margin-bottom: 0.375rem;
+  }
+
+  /* ─── Error message ─────────────────────────────────────────── */
+  .form-error {
+    font-size: var(--text-xs);
+    color: var(--color-error);
+    margin-top: 0.375rem;
+  }
+
+  /* ─── Toggle — standard dimensions (h-6 w-11, thumb h-5 w-5)
+     Usage pattern:
+       <button className="form-toggle" data-checked={on}>
+         <span className="form-toggle-thumb" />
+       </button>                                                   */
+  .form-toggle {
+    position: relative;
+    display: inline-flex;
+    height: 1.5rem;     /* h-6 */
+    width: 2.75rem;     /* w-11 */
+    flex-shrink: 0;
+    cursor: pointer;
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    transition: background-color 200ms ease;
+  }
+  .form-toggle-thumb {
+    pointer-events: none;
+    display: inline-block;
+    height: 1.25rem;    /* h-5 */
+    width: 1.25rem;     /* w-5 */
+    border-radius: 9999px;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    transition: transform 200ms ease;
+  }
 }
+
+/* ─── Form design system ─────────────────────────────────────────────────────
+   Unlayered (highest cascade priority) so focus styles beat :focus-visible.
+   Option B: outlined + elevated — light-gray resting bg, visible border,
+   white on focus ("lights up"), charcoal border + soft glow ring.           */
+
+/* input, select, textarea */
+.form-field {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  border: 1px solid #D1D5DB;
+  background-color: #F9FAFB;
+  padding: 0.625rem 0.875rem;
+  font-size: var(--text-sm);
+  line-height: 1.5rem;
+  color: var(--color-text-primary);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+  outline: none;
+}
+.form-field::placeholder {
+  color: var(--color-text-muted);
+}
+.form-field:hover:not(:disabled) {
+  border-color: #9CA3AF;
+}
+.form-field:focus,
+.form-field:focus-visible {
+  background-color: var(--color-surface);
+  border-color: var(--color-primary);
+  outline: none;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 0 0 3px rgba(27, 15, 147, 0.12);
+}
+.form-field:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #F3F4F6;
+}
+.form-field--error {
+  border-color: var(--color-error) !important;
+  background-color: var(--color-error-light) !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.08) !important;
+}
+
+/* Select — hide native arrow, add custom RTL-aware chevron */
+select.form-field {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-inline-end: 2.25rem;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-size: 14px 14px;
+  background-position: right 0.75rem center;
+}
+[dir="rtl"] select.form-field {
+  background-position: left 0.75rem center;
+}
+
+/* Checkbox */
+.form-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid #D1D5DB;
+  background-color: #F9FAFB;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: background-color 150ms ease, border-color 150ms ease;
+  cursor: pointer;
+  vertical-align: middle;
+}
+.form-checkbox:hover:not(:disabled) {
+  border-color: #9CA3AF;
+}
+.form-checkbox:checked {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+  background-size: 10px 10px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.form-checkbox:focus,
+.form-checkbox:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-surface), 0 0 0 4px var(--color-primary);
+}
+.form-checkbox:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Radio */
+.form-radio {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  border: 1px solid #D1D5DB;
+  background-color: #F9FAFB;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: background-color 150ms ease, border-color 150ms ease;
+  cursor: pointer;
+  vertical-align: middle;
+}
+.form-radio:hover:not(:disabled) {
+  border-color: #9CA3AF;
+}
+.form-radio:checked {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
+  background-size: 10px 10px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.form-radio:focus,
+.form-radio:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-surface), 0 0 0 4px var(--color-primary);
+}
+.form-radio:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* ─── RTL directional icon flip ─────────────────────────────── */
 [dir="rtl"] .icon-directional {
@@ -156,8 +322,26 @@ input[type="password"]::-webkit-credentials-auto-fill-button { display: none; }
   background-position: 150% 0%, 0% 0%;
   animation: hero-shimmer-rtl 2.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s 1 forwards;
 }
+/* Gradient text with shimmer for hero accent phrase (RTL default, LTR override) */
+.hero-text-accent {
+  background-image:
+    linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.28) 50%, transparent 100%),
+    linear-gradient(135deg, #047857 0%, #059669 35%, #10b981 62%, #34d399 100%);
+  background-size: 50% 100%, 100% 100%;
+  background-position: 150% 0%, 0% 0%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: hero-shimmer-rtl 2.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.7s 1 forwards;
+}
+[dir="ltr"] .hero-text-accent {
+  background-position: -50% 0%, 0% 0%;
+  animation: hero-shimmer-ltr 2.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.7s 1 forwards;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-shimmer { animation: none; }
+  .hero-text-accent { animation: none; background-image: linear-gradient(135deg, #047857 0%, #059669 35%, #10b981 62%, #34d399 100%); background-size: 100% 100%; }
   [style*="word-up"] { animation: none !important; opacity: 1 !important; }
 }
 @keyframes spine-glow {

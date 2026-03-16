@@ -255,7 +255,7 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
           dir="rtl"
           className={textareaCls}
         />
-        <label className="mt-3 block text-sm font-normal text-text-primary">{t('bioAr')}</label>
+        <label className="form-label mt-3">{t('bioAr')}</label>
         <textarea
           value={bioAr}
           onChange={(e) => setBioAr(e.target.value)}
@@ -263,7 +263,7 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
           dir="rtl"
           className={`mt-1.5 ${textareaCls}`}
         />
-        <label className="mt-3 block text-sm font-normal text-text-primary">{t('bioEn')}</label>
+        <label className="form-label mt-3">{t('bioEn')}</label>
         <textarea
           value={bioEn}
           onChange={(e) => setBioEn(e.target.value)}
@@ -297,15 +297,15 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
       <Section title={t('city')}>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
-            <label className="mb-1.5 block text-sm font-normal text-text-primary">{t('city')}</label>
+            <label className="form-label">{t('city')}</label>
             <input value={city} onChange={(e) => setCity(e.target.value)} className={inputCls} />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-normal text-text-primary">{t('address')}</label>
+            <label className="form-label">{t('address')}</label>
             <input value={address} onChange={(e) => setAddress(e.target.value)} className={inputCls} />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-normal text-text-primary">{t('phone')}</label>
+            <label className="form-label">{t('phone')}</label>
             <input value={phone} onChange={(e) => setPhone(e.target.value)} type="tel" className={inputCls} dir="ltr" />
           </div>
         </div>
@@ -315,11 +315,11 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
       <Section title={t('feeMin')}>
         <div className="grid grid-cols-2 gap-3 sm:w-64">
           <div>
-            <label className="mb-1.5 block text-sm font-normal text-text-primary">{t('feeMin')}</label>
+            <label className="form-label">{t('feeMin')}</label>
             <input value={feeMin} onChange={(e) => setFeeMin(e.target.value)} type="number" min={0} className={inputCls} dir="ltr" />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-normal text-text-primary">{t('feeMax')}</label>
+            <label className="form-label">{t('feeMax')}</label>
             <input value={feeMax} onChange={(e) => setFeeMax(e.target.value)} type="number" min={0} className={inputCls} dir="ltr" />
           </div>
         </div>
@@ -423,10 +423,8 @@ export default function ProfileEditForm({ profile, onSaved }: Props) {
   );
 }
 
-const inputCls =
-  'w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:outline-none';
-const textareaCls =
-  'w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text-primary focus:outline-none';
+const inputCls = 'form-field w-full';
+const textareaCls = 'form-field w-full';
 
 function OtherTagInput({
   tags, onAdd, onRemove, placeholder,

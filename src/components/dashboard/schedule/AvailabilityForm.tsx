@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import type { AvailabilityData } from './ScheduleTabs';
+import FormSelect from '@/components/ui/FormSelect';
 
 interface WeeklyScheduleEntry {
   dayOfWeek: number;
@@ -284,16 +285,17 @@ export default function AvailabilityForm({ initialAvailability }: Props) {
               className="form-field w-36"
             />
           </div>
-          <select
+          <FormSelect
             value={newException.type}
-            onChange={(e) =>
-              setNewException((p) => ({ ...p, type: e.target.value as 'unavailable' | 'special_hours' }))
+            onChange={(v) =>
+              setNewException((p) => ({ ...p, type: v as 'unavailable' | 'special_hours' }))
             }
-            className="form-field w-40"
-          >
-            <option value="unavailable">{t('exceptionUnavailable')}</option>
-            <option value="special_hours">{t('exceptionSpecialHours')}</option>
-          </select>
+            options={[
+              { value: 'unavailable', label: t('exceptionUnavailable') },
+              { value: 'special_hours', label: t('exceptionSpecialHours') },
+            ]}
+            className="w-40"
+          />
           {newException.type === 'special_hours' && (
             <>
               <input

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
+import FormSelect from '@/components/ui/FormSelect';
 
 interface Props {
   therapistSlug: string;
@@ -109,19 +110,17 @@ export default function ContactForm({ therapistSlug, therapistName, therapistEma
           <label htmlFor="subject" className={labelClass}>
             {t('subjectLabel')} <span className="text-red-500">*</span>
           </label>
-          <select
-            id="subject"
-            required
+          <FormSelect
             value={form.subject}
-            onChange={(e) => set('subject', e.target.value)}
-            className={cn(inputClass, 'cursor-pointer')}
-          >
-            <option value="newPatient">{t('subjects.newPatient')}</option>
-            <option value="appointment">{t('subjects.appointment')}</option>
-            <option value="insurance">{t('subjects.insurance')}</option>
-            <option value="general">{t('subjects.general')}</option>
-            <option value="other">{t('subjects.other')}</option>
-          </select>
+            onChange={(v) => set('subject', v)}
+            options={[
+              { value: 'newPatient', label: t('subjects.newPatient') },
+              { value: 'appointment', label: t('subjects.appointment') },
+              { value: 'insurance', label: t('subjects.insurance') },
+              { value: 'general', label: t('subjects.general') },
+              { value: 'other', label: t('subjects.other') },
+            ]}
+          />
         </div>
       </div>
 

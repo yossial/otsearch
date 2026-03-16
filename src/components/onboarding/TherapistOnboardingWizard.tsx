@@ -9,6 +9,7 @@ import type { Specialisation, InsuranceType, SessionType } from '@/types';
 import CitySelect from '@/components/ui/CitySelect';
 import StreetSelect from '@/components/ui/StreetSelect';
 import { Button } from '@/components/ui/Button';
+import FormSelect from '@/components/ui/FormSelect';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -533,15 +534,13 @@ function Step3({
         <div className="flex flex-col gap-1.5">
           <FieldLabel>{t('phone')}</FieldLabel>
           <div className="flex gap-2" dir="ltr">
-            <select
+            <FormSelect
               value={prefix}
-              onChange={(e) => setPrefix(e.target.value)}
-              className="form-field w-24"
-            >
-              {PHONE_PREFIXES.map((p) => (
-                <option key={p} value={p}>{p}</option>
-              ))}
-            </select>
+              onChange={setPrefix}
+              options={PHONE_PREFIXES.map((p) => ({ value: p, label: p }))}
+              dir="ltr"
+              className="w-24"
+            />
             <input
               id="phone"
               type="tel"

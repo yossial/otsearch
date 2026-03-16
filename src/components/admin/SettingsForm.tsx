@@ -3,6 +3,7 @@
 import { useOptimistic, useTransition } from 'react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
+import FormSelect from '@/components/ui/FormSelect';
 
 interface Settings {
   showTherapistFee: boolean;
@@ -85,15 +86,16 @@ export default function SettingsForm({ settings: initial }: { settings: Settings
         </div>
         <div className="flex flex-col gap-1">
           <label className="form-label">{t('settings.fields.defaultSort')}</label>
-          <select
-            defaultValue={optimisticSettings.defaultSortOrder}
-            onChange={(e) => updateField('defaultSortOrder', e.target.value)}
-            className="form-field w-48"
-          >
-            <option value="relevance">{t('settings.sortOptions.relevance')}</option>
-            <option value="rating">{t('settings.sortOptions.rating')}</option>
-            <option value="newest">{t('settings.sortOptions.newest')}</option>
-          </select>
+          <FormSelect
+            value={optimisticSettings.defaultSortOrder}
+            onChange={(v) => updateField('defaultSortOrder', v)}
+            options={[
+              { value: 'relevance', label: t('settings.sortOptions.relevance') },
+              { value: 'rating', label: t('settings.sortOptions.rating') },
+              { value: 'newest', label: t('settings.sortOptions.newest') },
+            ]}
+            className="w-48"
+          />
         </div>
       </Section>
 

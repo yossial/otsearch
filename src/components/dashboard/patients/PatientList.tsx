@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
+import FormSelect from '@/components/ui/FormSelect';
 
 interface Patient {
   _id: string;
@@ -97,33 +98,35 @@ export default function PatientList({ initialPatients, initialTotal }: PatientLi
 
   return (
     <div className="space-y-4">
-      {/* Unified filter bar */}
-      <div className="flex items-center gap-0 overflow-hidden rounded-lg border border-border bg-surface focus-within:ring-1 focus-within:ring-primary/30">
-        {/* Search icon */}
-        <span className="flex items-center ps-3 text-text-muted">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
-        </span>
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder={t('searchPlaceholder')}
-          className="flex-1 bg-transparent px-2 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
-        />
-        {/* Divider */}
-        <div className="h-5 w-px bg-border" />
-        <select
+      {/* Filter bar */}
+      <div className="flex items-center gap-3">
+        {/* Search input */}
+        <div className="relative flex-1">
+          <span className="pointer-events-none absolute inset-y-0 flex items-center ps-3.5 text-text-muted">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+          </span>
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder={t('searchPlaceholder')}
+            className="form-field w-full ps-9"
+          />
+        </div>
+        {/* Status filter */}
+        <FormSelect
           value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          className="bg-transparent pe-3 ps-2 py-2 text-sm text-text-secondary focus:outline-none"
-        >
-          <option value="">{t('filterAll')}</option>
-          <option value="active">{t('filterActive')}</option>
-          <option value="inactive">{t('filterInactive')}</option>
-          <option value="archived">{t('filterArchived')}</option>
-        </select>
+          onChange={setStatus}
+          placeholder={t('filterAll')}
+          options={[
+            { value: 'active', label: t('filterActive') },
+            { value: 'inactive', label: t('filterInactive') },
+            { value: 'archived', label: t('filterArchived') },
+          ]}
+          className="w-44"
+        />
       </div>
 
       {/* Result count below filter bar */}

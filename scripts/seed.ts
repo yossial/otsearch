@@ -21,6 +21,12 @@ import bcrypt from 'bcryptjs';
 import { TherapistProfile } from '../src/lib/db/models/TherapistProfile';
 import { Review } from '../src/lib/db/models/Review';
 import { User } from '../src/lib/db/models/User';
+import { Patient } from '../src/lib/db/models/Patient';
+import { TreatmentSession } from '../src/lib/db/models/TreatmentSession';
+import { Invoice } from '../src/lib/db/models/Invoice';
+import { Appointment } from '../src/lib/db/models/Appointment';
+import { Goal } from '../src/lib/db/models/Goal';
+import { Counter } from '../src/lib/db/models/Counter';
 
 const SEED_PASSWORD = 'Therapist1!';
 
@@ -675,6 +681,341 @@ async function seed() {
   }
 
   console.log(`\nReviews: ${reviewsCreated} created, ${reviewsUpdated} updated.`);
+
+  // ── Seed patient management data for michal-cohen ─────────────────────────
+  console.log('\nSeeding patient management data (michal-cohen)...');
+
+  const michalUser = await User.findOne({ email: 'michal.cohen@therapio.co.il' }).lean();
+  if (!michalUser) {
+    console.warn('  michal-cohen user not found — skipping patient management seed');
+  } else {
+    const therapistOid = michalUser._id;
+
+    // Clear existing patient-management seed data for this therapist
+    await Patient.deleteMany({ therapistId: therapistOid });
+    await Invoice.deleteMany({ therapistId: therapistOid });
+    await TreatmentSession.deleteMany({ therapistId: therapistOid });
+    await Appointment.deleteMany({ therapistId: therapistOid });
+    await Goal.deleteMany({ therapistId: therapistOid });
+    await Counter.deleteOne({ _id: `invoice:${String(therapistOid)}` });
+
+    const now = new Date();
+    const sevenYearsOut = new Date(now.getFullYear() + 7, now.getMonth(), now.getDate());
+
+    // ── Patients ─────────────────────────────────────────────────────────────
+    const patientDefs = [
+      {
+        firstName: 'יעל', lastName: 'אבי',
+        type: 'direct' as const, dateOfBirth: new Date('1990-03-15'), gender: 'female' as const,
+        insurance: 'clalit' as const, status: 'active' as const,
+        contactInfo: { phone: '050-111-2222', email: 'yael.avi@example.com' },
+        consentSignedBy: 'יעל אבי',
+      },
+      {
+        firstName: 'משה', lastName: 'כהן',
+        type: 'direct' as const, dateOfBirth: new Date('1983-07-22'), gender: 'male' as const,
+        insurance: 'maccabi' as const, status: 'active' as const,
+        contactInfo: { phone: '052-333-4444' },
+        consentSignedBy: 'משה כהן',
+      },
+      {
+        firstName: 'ליאה', lastName: 'פרץ',
+        type: 'child' as const, dateOfBirth: new Date('2017-11-10'), gender: 'female' as const,
+        insurance: 'meuhedet' as const, status: 'active' as const,
+        parentInfo: { firstName: 'דוד', lastName: 'פרץ', phone: '054-555-6666', relationship: 'father' as const },
+        consentSignedBy: 'דוד פרץ',
+      },
+      {
+        firstName: 'דוד', lastName: 'כץ',
+        type: 'direct' as const, dateOfBirth: new Date('1970-05-30'), gender: 'male' as const,
+        insurance: 'leumit' as const, status: 'active' as const,
+        contactInfo: { phone: '050-777-8888' },
+        consentSignedBy: 'דוד כץ',
+      },
+      {
+        firstName: 'שרה', lastName: 'מזרחי',
+        type: 'direct' as const, dateOfBirth: new Date('1997-12-05'), gender: 'female' as const,
+        insurance: 'none' as const, status: 'active' as const,
+        contactInfo: { phone: '052-999-0000' },
+        consentSignedBy: 'שרה מזרחי',
+      },
+      {
+        firstName: 'אבי', lastName: 'בן-עמי',
+        type: 'child' as const, dateOfBirth: new Date('2019-04-18'), gender: 'male' as const,
+        insurance: 'clalit' as const, status: 'active' as const,
+        parentInfo: { firstName: 'רחל', lastName: 'בן-עמי', phone: '054-001-1112', relationship: 'mother' as const },
+        consentSignedBy: 'רחל בן-עמי',
+      },
+      {
+        firstName: 'נועה', lastName: 'שפירא',
+        type: 'direct' as const, dateOfBirth: new Date('1994-08-25'), gender: 'female' as const,
+        insurance: 'maccabi' as const, status: 'active' as const,
+        contactInfo: { phone: '050-223-3334' },
+        consentSignedBy: 'נועה שפירא',
+      },
+      {
+        firstName: 'רון', lastName: 'לוי',
+        type: 'direct' as const, dateOfBirth: new Date('1977-01-12'), gender: 'male' as const,
+        insurance: 'clalit' as const, status: 'inactive' as const,
+        contactInfo: { phone: '052-445-5556' },
+        consentSignedBy: 'רון לוי',
+      },
+      {
+        firstName: 'טל', lastName: 'דגן',
+        type: 'child' as const, dateOfBirth: new Date('2020-09-03'), gender: 'female' as const,
+        insurance: 'none' as const, status: 'active' as const,
+        parentInfo: { firstName: 'אירית', lastName: 'דגן', phone: '054-667-7778', relationship: 'mother' as const },
+        consentSignedBy: 'אירית דגן',
+      },
+      {
+        firstName: 'איתי', lastName: 'פרידמן',
+        type: 'direct' as const, dateOfBirth: new Date('1962-06-14'), gender: 'male' as const,
+        insurance: 'maccabi' as const, status: 'active' as const,
+        contactInfo: { phone: '050-889-9900' },
+        consentSignedBy: 'איתי פרידמן',
+      },
+    ];
+
+    const consentDate = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+    const patients = await Patient.insertMany(
+      patientDefs.map((pd) => ({
+        therapistId: therapistOid,
+        consentGiven: true,
+        consentDate,
+        retentionDeleteAfter: sevenYearsOut,
+        ...pd,
+      }))
+    );
+    console.log(`  Created ${patients.length} patients`);
+
+    // ── Helper: date N days ago at a given hour ───────────────────────────
+    function daysAgoAt(n: number, hour: number, minute = 0): Date {
+      const d = new Date(now);
+      d.setDate(d.getDate() - n);
+      d.setHours(hour, minute, 0, 0);
+      return d;
+    }
+
+    // ── Completed appointments spread over 8 weeks (~56 days) ────────────
+    // Format: [daysAgo, hour, patientIdx, type]
+    const completedDefs: Array<[number, number, number, 'in-person' | 'telehealth']> = [
+      // Week 8 (days 49-55)
+      [54, 9, 0, 'in-person'], [52, 11, 3, 'telehealth'], [50, 14, 6, 'in-person'],
+      // Week 7 (days 42-48)
+      [47, 9, 0, 'in-person'], [46, 10, 1, 'in-person'],
+      [44, 11, 4, 'telehealth'], [43, 14, 6, 'in-person'],
+      // Week 6 (days 35-41)
+      [40, 9, 2, 'in-person'], [40, 11, 0, 'in-person'],
+      [38, 10, 1, 'telehealth'], [37, 9, 5, 'in-person'], [36, 14, 3, 'in-person'],
+      // Week 5 (days 28-34)
+      [33, 9, 0, 'in-person'], [33, 11, 7, 'in-person'],
+      [31, 10, 2, 'telehealth'], [31, 14, 4, 'in-person'],
+      [29, 9, 6, 'in-person'], [28, 11, 9, 'telehealth'],
+      // Week 4 (days 21-27)
+      [26, 9, 0, 'in-person'], [26, 11, 3, 'in-person'],
+      [24, 10, 1, 'telehealth'], [23, 9, 5, 'in-person'],
+      [23, 14, 8, 'in-person'], [21, 11, 2, 'in-person'],
+      // Week 3 (days 14-20)
+      [19, 9, 0, 'in-person'], [19, 11, 6, 'in-person'],
+      [17, 10, 3, 'telehealth'], [17, 14, 9, 'in-person'],
+      [15, 9, 1, 'in-person'], [15, 11, 4, 'telehealth'], [14, 9, 7, 'in-person'],
+      // Week 2 (days 7-13)
+      [12, 9, 0, 'in-person'], [12, 11, 2, 'in-person'],
+      [10, 10, 5, 'telehealth'], [10, 14, 3, 'in-person'],
+      [8, 9, 8, 'in-person'], [8, 11, 6, 'in-person'],
+      [7, 9, 1, 'telehealth'], [7, 14, 9, 'in-person'],
+      // Week 1 (days 1-6)
+      [5, 9, 0, 'in-person'], [5, 11, 4, 'telehealth'],
+      [3, 10, 2, 'in-person'], [3, 14, 7, 'in-person'],
+      [2, 9, 5, 'in-person'], [2, 11, 1, 'telehealth'],
+    ];
+
+    const completedAppts = await Appointment.insertMany(
+      completedDefs.map(([ago, hour, pi, type]) => {
+        const startTime = daysAgoAt(ago, hour);
+        return {
+          therapistId: therapistOid,
+          patientId: patients[pi]._id,
+          startTime,
+          endTime: new Date(startTime.getTime() + 45 * 60 * 1000),
+          duration: 45,
+          type,
+          status: 'completed',
+          bookedBy: 'therapist',
+          fee: 400,
+        };
+      })
+    );
+    console.log(`  Created ${completedAppts.length} completed appointments`);
+
+    // ── Today's appointments ──────────────────────────────────────────────
+    const todayBase = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const todayApptDefs: Array<[number, number, number, 'in-person' | 'telehealth']> = [
+      [9, 0, 0, 'in-person'],
+      [10, 0, 3, 'telehealth'],
+      [11, 30, 6, 'in-person'],
+      [14, 0, 2, 'in-person'],
+    ];
+    await Appointment.insertMany(
+      todayApptDefs.map(([hour, minute, pi, type]) => {
+        const startTime = new Date(todayBase);
+        startTime.setHours(hour, minute, 0, 0);
+        return {
+          therapistId: therapistOid,
+          patientId: patients[pi]._id,
+          startTime,
+          endTime: new Date(startTime.getTime() + 45 * 60 * 1000),
+          duration: 45,
+          type,
+          status: startTime < now ? 'completed' : 'scheduled',
+          bookedBy: 'therapist',
+          fee: 400,
+        };
+      })
+    );
+    console.log('  Created today\'s appointments');
+
+    // ── Treatment sessions (one per completed appointment) ─────────────────
+    const sessions = await TreatmentSession.insertMany(
+      completedAppts.map((appt) => ({
+        therapistId: therapistOid,
+        patientId: appt.patientId,
+        appointmentId: appt._id,
+        date: appt.startTime,
+        duration: 45,
+        fee: 400,
+        aiDraftUsed: false,
+        status: 'signed',
+        signedAt: new Date((appt.startTime as Date).getTime() + 60 * 60 * 1000),
+        notes: { freeText: 'הטיפול התנהל בצורה תקינה. ניכר שיפור בביצוע המטלות.' },
+      }))
+    );
+    console.log(`  Created ${sessions.length} treatment sessions`);
+
+    // Update lastTreatmentDate on each patient
+    for (const appt of completedAppts) {
+      await Patient.updateOne(
+        {
+          _id: appt.patientId,
+          $or: [{ lastTreatmentDate: { $exists: false } }, { lastTreatmentDate: { $lt: appt.startTime } }],
+        },
+        { $set: { lastTreatmentDate: appt.startTime } }
+      );
+    }
+
+    // ── Invoices ──────────────────────────────────────────────────────────
+    // Paid invoices over 6 months → revenue chart
+    // Some sent/overdue → outstanding balance KPI
+    type InvStatus = 'paid' | 'sent' | 'overdue';
+    const invoiceDefs: Array<{
+      pi: number; monthsAgo: number; day: number;
+      sessions: number; fee: number; status: InvStatus;
+    }> = [
+      // 5 months ago  (~5,500 ILS)
+      { pi: 0, monthsAgo: 5, day: 5,  sessions: 4, fee: 400, status: 'paid' },
+      { pi: 1, monthsAgo: 5, day: 9,  sessions: 3, fee: 420, status: 'paid' },
+      { pi: 3, monthsAgo: 5, day: 14, sessions: 4, fee: 400, status: 'paid' },
+      // 4 months ago  (~8,200 ILS)
+      { pi: 0, monthsAgo: 4, day: 4,  sessions: 4, fee: 400, status: 'paid' },
+      { pi: 1, monthsAgo: 4, day: 7,  sessions: 4, fee: 420, status: 'paid' },
+      { pi: 2, monthsAgo: 4, day: 10, sessions: 3, fee: 430, status: 'paid' },
+      { pi: 4, monthsAgo: 4, day: 15, sessions: 4, fee: 400, status: 'paid' },
+      // 3 months ago — holiday dip  (~4,900 ILS)
+      { pi: 0, monthsAgo: 3, day: 5,  sessions: 3, fee: 400, status: 'paid' },
+      { pi: 1, monthsAgo: 3, day: 8,  sessions: 2, fee: 420, status: 'paid' },
+      { pi: 6, monthsAgo: 3, day: 13, sessions: 4, fee: 400, status: 'paid' },
+      // 2 months ago  (~9,800 ILS)
+      { pi: 0, monthsAgo: 2, day: 4,  sessions: 4, fee: 400, status: 'paid' },
+      { pi: 1, monthsAgo: 2, day: 6,  sessions: 4, fee: 420, status: 'paid' },
+      { pi: 3, monthsAgo: 2, day: 9,  sessions: 4, fee: 450, status: 'paid' },
+      { pi: 5, monthsAgo: 2, day: 13, sessions: 4, fee: 400, status: 'paid' },
+      { pi: 9, monthsAgo: 2, day: 17, sessions: 3, fee: 430, status: 'paid' },
+      // 1 month ago  (~11,800 ILS)
+      { pi: 0, monthsAgo: 1, day: 4,  sessions: 4, fee: 400, status: 'paid' },
+      { pi: 1, monthsAgo: 1, day: 5,  sessions: 4, fee: 420, status: 'paid' },
+      { pi: 2, monthsAgo: 1, day: 8,  sessions: 4, fee: 430, status: 'paid' },
+      { pi: 4, monthsAgo: 1, day: 10, sessions: 4, fee: 400, status: 'paid' },
+      { pi: 6, monthsAgo: 1, day: 13, sessions: 4, fee: 400, status: 'paid' },
+      { pi: 9, monthsAgo: 1, day: 16, sessions: 4, fee: 430, status: 'paid' },
+      // Current month  (~7,600 ILS paid so far)
+      { pi: 0, monthsAgo: 0, day: 3,  sessions: 4, fee: 400, status: 'paid' },
+      { pi: 1, monthsAgo: 0, day: 5,  sessions: 4, fee: 420, status: 'paid' },
+      { pi: 3, monthsAgo: 0, day: 7,  sessions: 3, fee: 450, status: 'paid' },
+      { pi: 5, monthsAgo: 0, day: 9,  sessions: 3, fee: 400, status: 'paid' },
+      // Outstanding invoices
+      { pi: 4, monthsAgo: 0, day: 2,  sessions: 4, fee: 400, status: 'sent' },
+      { pi: 7, monthsAgo: 1, day: 3,  sessions: 4, fee: 420, status: 'overdue' },
+      { pi: 8, monthsAgo: 0, day: 5,  sessions: 3, fee: 430, status: 'sent' },
+    ];
+
+    let invoiceSeq = 1;
+    const invoices = await Invoice.insertMany(
+      invoiceDefs.map((def) => {
+        const invoiceNumber = `INV-${String(invoiceSeq++).padStart(4, '0')}`;
+        const issueDate = new Date(now.getFullYear(), now.getMonth() - def.monthsAgo, def.day);
+        const dueDate = new Date(issueDate.getTime() + 30 * 24 * 60 * 60 * 1000);
+        const subtotal = def.sessions * def.fee;
+        const vatAmount = Math.round(subtotal * 0.18);
+        const total = subtotal + vatAmount;
+        const patient = patients[def.pi];
+        return {
+          therapistId: therapistOid,
+          patientId: patient._id,
+          invoiceNumber,
+          issueDate,
+          dueDate,
+          therapistName: 'מיכל כהן',
+          therapistLicense: 'MOH-12345',
+          patientName: `${patient.firstName} ${patient.lastName}`,
+          lineItems: [{
+            description: `ריפוי בעיסוק — ${def.sessions} טיפולים`,
+            quantity: def.sessions,
+            unitPrice: def.fee,
+            sessionIds: [],
+          }],
+          subtotal,
+          vatRate: 0.18,
+          vatAmount,
+          total,
+          type: 'invoice_receipt' as const,
+          status: def.status,
+          ...(def.status === 'paid' ? {
+            paidAt: new Date(issueDate.getTime() + 7 * 24 * 60 * 60 * 1000),
+            paidAmount: total,
+          } : {}),
+        };
+      })
+    );
+    const paidCount = invoiceDefs.filter((d) => d.status === 'paid').length;
+    const outstandingCount = invoiceDefs.filter((d) => d.status !== 'paid').length;
+    console.log(`  Created ${invoices.length} invoices (${paidCount} paid, ${outstandingCount} outstanding)`);
+
+    // ── Goals ─────────────────────────────────────────────────────────────
+    const goalDefs = [
+      { pi: 0, title: 'שיפור טווח תנועה ביד ימין',               status: 'active' as const,   targetWeeks: 12 },
+      { pi: 1, title: 'תפקוד יומיומי — לבישה עצמאית',            status: 'achieved' as const, targetWeeks: 8  },
+      { pi: 2, title: 'פיתוח יכולת כתיבה ומוטוריקה עדינה',       status: 'active' as const,   targetWeeks: 16 },
+      { pi: 3, title: 'חיזוק שרירי הגריפה והאחיזה',              status: 'active' as const,   targetWeeks: 10 },
+      { pi: 4, title: 'הפחתת חרדה בסביבה חברתית',               status: 'active' as const,   targetWeeks: 12 },
+      { pi: 5, title: 'שיפור עיבוד חושי — סבילות למגע',          status: 'active' as const,   targetWeeks: 20 },
+      { pi: 6, title: 'שיפור יציבה בישיבה ממושכת',               status: 'achieved' as const, targetWeeks: 8  },
+      { pi: 9, title: 'שיפור קואורדינציה עין-יד',                status: 'active' as const,   targetWeeks: 16 },
+    ];
+
+    await Goal.insertMany(
+      goalDefs.map((g) => ({
+        therapistId: therapistOid,
+        patientId: patients[g.pi]._id,
+        title: g.title,
+        targetDate: new Date(now.getTime() + g.targetWeeks * 7 * 24 * 60 * 60 * 1000),
+        status: g.status,
+        progressEntries: [],
+        ...(g.status === 'achieved' ? { achievedDate: new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000) } : {}),
+      }))
+    );
+    console.log(`  Created ${goalDefs.length} goals`);
+  }
+
   await mongoose.disconnect();
 }
 

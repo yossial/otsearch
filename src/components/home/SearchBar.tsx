@@ -142,7 +142,7 @@ export default function SearchBar({ initialQuery = '', size = 'default', onDark 
   if (size === 'hero') {
     const wrapClass = onDark
       ? 'shadow-[0_8px_48px_rgba(0,0,0,0.5)]'
-      : 'border border-border/60 shadow-md focus-within:border-primary/30 focus-within:shadow-[0_4px_28px_rgba(0,0,128,0.10)]';
+      : 'border border-border/60 shadow-md focus-within:border-primary/30 focus-within:shadow-[0_4px_28px_rgba(27,15,147,0.15)]';
 
     return (
       <form

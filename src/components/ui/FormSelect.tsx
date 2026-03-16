@@ -35,9 +35,9 @@ export default function FormSelect({
           'text-start text-[color:var(--color-text-primary)]',
           'transition-all outline-none',
           'focus:bg-white focus:border-[color:var(--color-primary)]',
-          'focus:shadow-[0_1px_2px_0_rgba(0,0,0,0.05),_0_0_0_3px_rgba(31,41,55,0.10)]',
+          'focus:shadow-[0_1px_2px_0_rgba(0,0,0,0.05),_0_0_0_3px_rgba(27,15,147,0.12)]',
           'data-[state=open]:bg-white data-[state=open]:border-[color:var(--color-primary)]',
-          'data-[state=open]:shadow-[0_1px_2px_0_rgba(0,0,0,0.05),_0_0_0_3px_rgba(31,41,55,0.10)]',
+          'data-[state=open]:shadow-[0_1px_2px_0_rgba(0,0,0,0.05),_0_0_0_3px_rgba(27,15,147,0.12)]',
           'disabled:opacity-50 disabled:cursor-not-allowed',
           className,
         )}

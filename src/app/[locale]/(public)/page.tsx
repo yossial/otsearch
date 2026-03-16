@@ -161,7 +161,8 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
                 <a
                   href="#search"
-                  className="group inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-normal text-text-accent shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-dark hover:shadow-accent"
+                  className="group inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-normal text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+                  style={{ background: 'linear-gradient(135deg, #1b0f93 0%, #1b007c 30%, #0a013d 58%, #02001a 80%, #02000e 100%)' }}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>

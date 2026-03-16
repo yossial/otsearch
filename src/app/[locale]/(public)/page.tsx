@@ -97,7 +97,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       <section id="hero" className="relative overflow-hidden border-b border-border bg-surface"
         style={{ backgroundImage: 'radial-gradient(ellipse 70% 60% at 100% 0%, color-mix(in srgb, var(--color-primary) 4%, transparent), transparent)' }}
       >
-        <div className="relative mx-auto max-w-7xl px-4 pb-12 pt-6 sm:px-6 sm:pb-16 sm:pt-8 lg:px-8 lg:pb-20 lg:pt-10">
+        <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-8 sm:px-6 sm:pb-20 sm:pt-12 lg:px-8 lg:pb-24 lg:pt-14">
           <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-16">
 
             {/* Text column */}
@@ -110,13 +110,13 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                   style={{ animation: 'pulse-dot 2s ease-in-out infinite' }}
                   aria-hidden="true"
                 />
-                <span className="text-xs font-normal tracking-wide text-primary">
+                <span className="text-sm font-normal tracking-wide text-primary">
                   {tHome('heroEyebrow')}
                 </span>
               </div>
 
               {/* Headline — flows as one natural line, no forced breaks */}
-              <h1 className="font-display text-3xl font-normal leading-[1.2] tracking-tight text-text-primary sm:text-4xl lg:text-[2.85rem] xl:text-[3.2rem]">
+              <h1 className="font-display text-4xl font-normal leading-[1.2] tracking-tight text-text-primary sm:text-5xl lg:text-[3.4rem] xl:text-[3.8rem]">
                 <span className="inline-block opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.1s_forwards]">
                   {tHome('heroTitlePre')}
                 </span>
@@ -127,29 +127,29 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               </h1>
 
               {/* Sub-headline */}
-              <p className="mx-auto mt-5 max-w-xl text-lg leading-snug text-text-secondary opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.5s_forwards] lg:mx-0 lg:max-w-lg">
+              <p className="mx-auto mt-6 max-w-xl text-xl leading-snug text-text-secondary opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.5s_forwards] lg:mx-0 lg:max-w-lg">
                 {tHome('heroSubtitle')}
               </p>
 
               {/* Feature rows + tagline */}
-              <div className="mx-auto mt-5 max-w-xl space-y-2 opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.65s_forwards] lg:mx-0">
+              <div className="mx-auto mt-6 max-w-xl space-y-3 opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.65s_forwards] lg:mx-0">
                 <div className="flex items-center gap-3 text-start">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent" aria-hidden="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                       <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/>
                     </svg>
                   </span>
-                  <span className="text-sm text-text-secondary">{tHome('heroFeaturePatients')}</span>
+                  <span className="text-base text-text-secondary">{tHome('heroFeaturePatients')}</span>
                 </div>
                 <div className="flex items-center gap-3 text-start">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/8 text-primary" aria-hidden="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/8 text-primary" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 17h3m0 0h3m-3 0V14m0 3v3"/>
                     </svg>
                   </span>
-                  <span className="text-sm text-text-secondary">{tHome('heroFeatureTherapists')}</span>
+                  <span className="text-base text-text-secondary">{tHome('heroFeatureTherapists')}</span>
                 </div>
-                <p className="pt-0.5 text-xs leading-relaxed text-text-muted">
+                <p className="pt-2 text-base font-normal leading-relaxed text-text-primary">
                   {tHome('heroTagline')}
                 </p>
               </div>
@@ -157,18 +157,18 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               {/* Trust signals */}
               <div className="mt-10 flex flex-wrap justify-center gap-8 lg:justify-start">
                 <div className="flex flex-col items-center lg:items-start">
-                  <span className="text-3xl font-extrabold text-primary">{tHome('stats.therapists')}</span>
-                  <span className="mt-0.5 text-xs text-text-secondary">{tHome('stats.therapistsLabel')}</span>
+                  <span className="text-4xl font-extrabold text-primary">{tHome('stats.therapists')}</span>
+                  <span className="mt-0.5 text-sm text-text-secondary">{tHome('stats.therapistsLabel')}</span>
                 </div>
                 <div className="w-px self-stretch bg-border" aria-hidden="true" />
                 <div className="flex flex-col items-center lg:items-start">
-                  <span className="text-3xl font-extrabold text-primary">{tHome('stats.cities')}</span>
-                  <span className="mt-0.5 text-xs text-text-secondary">{tHome('stats.citiesLabel')}</span>
+                  <span className="text-4xl font-extrabold text-primary">{tHome('stats.cities')}</span>
+                  <span className="mt-0.5 text-sm text-text-secondary">{tHome('stats.citiesLabel')}</span>
                 </div>
                 <div className="w-px self-stretch bg-border" aria-hidden="true" />
                 <div className="flex flex-col items-center lg:items-start">
-                  <span className="text-3xl font-extrabold text-primary">{tHome('stats.funds')}</span>
-                  <span className="mt-0.5 text-xs text-text-secondary">{tHome('stats.fundsLabel')}</span>
+                  <span className="text-4xl font-extrabold text-primary">{tHome('stats.funds')}</span>
+                  <span className="mt-0.5 text-sm text-text-secondary">{tHome('stats.fundsLabel')}</span>
                 </div>
               </div>
 
@@ -176,7 +176,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
                 <a
                   href="#search"
-                  className="group inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-normal text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+                  className="group inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-base font-normal text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
                   style={{ background: 'linear-gradient(135deg, #1b0f93 0%, #1b007c 30%, #0a013d 58%, #02001a 80%, #02000e 100%)' }}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -186,7 +186,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                 </a>
                 <a
                   href="#for-therapists"
-                  className="inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-6 py-3 text-sm font-normal text-text-primary transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:text-primary"
+                  className="inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-7 py-3.5 text-base font-normal text-text-primary transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:text-primary"
                 >
                   {tHome('heroTherapistCta')}
                 </a>
@@ -251,7 +251,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         {/* Ambient accent glow */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -end-16 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full bg-accent opacity-[0.06] blur-[80px]"
+          className="pointer-events-none absolute -inset-e-16 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full bg-accent opacity-[0.06] blur-[80px]"
         />
 
         <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">

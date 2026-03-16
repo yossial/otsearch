@@ -23,7 +23,7 @@ function FreeCheck() {
 
 function PremiumCheck() {
   return (
-    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/20 text-accent">
+    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/30 text-accent">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <polyline points="20 6 9 17 4 12" />
       </svg>
@@ -110,7 +110,7 @@ export default async function Pricing() {
                 </div>
 
                 <div className="mt-2 flex items-baseline gap-1.5">
-                  <span className="text-5xl font-extrabold text-white">{t('premiumPrice')}</span>
+                  <span className="text-5xl font-extrabold text-accent">{t('premiumPrice')}</span>
                   <span className="text-sm text-white/60">{t('premiumPeriod')}</span>
                 </div>
                 <p className="mt-1 text-xs text-white/50">{t('premiumTrialNote')}</p>
@@ -128,8 +128,8 @@ export default async function Pricing() {
               </ul>
 
               {/* ROI note */}
-              <div className="mt-5 rounded-lg bg-white/8 px-4 py-2.5">
-                <p className="text-xs text-white/55">{t('premiumRoiNote')}</p>
+              <div className="mt-5 rounded-lg border border-accent/25 bg-accent/10 px-4 py-2.5">
+                <p className="text-xs text-white/70">{t('premiumRoiNote')}</p>
               </div>
 
               <div className="mt-auto pt-7">

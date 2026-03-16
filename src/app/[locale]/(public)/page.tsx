@@ -116,15 +116,26 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               </div>
 
               {/* Headline */}
-              <h1 className="font-display text-3xl font-normal leading-[1.25] tracking-tight text-text-primary sm:text-4xl lg:text-[2.75rem] xl:text-[3rem]">
-                <HeroTitleHighlight
-                  pre={tHome('heroTitlePre')}
-                  accent={tHome('heroTitleAccent')}
-                  post={tHome('heroTitlePost')}
-                />
+              <h1 className="font-display text-3xl font-normal leading-[1.15] tracking-tight text-text-primary sm:text-4xl lg:text-[2.75rem] xl:text-[3rem]">
+                <span className="block opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.1s_forwards]">
+                  {tHome('heroTitlePre')}
+                </span>
+                <span className="inline-flex items-center gap-2.5 opacity-0 [animation:word-up_0.55s_cubic-bezier(0.22,1,0.36,1)_0.25s_forwards]">
+                  <span className="text-accent">{tHome('heroTitleAccent')}</span>
+                  <span
+                    className="h-2.5 w-2.5 shrink-0 rounded-full bg-accent"
+                    style={{ animation: 'pulse-dot 2s ease-in-out infinite' }}
+                    aria-hidden="true"
+                  />
+                </span>
               </h1>
 
-              <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-text-secondary lg:mx-0 lg:max-w-lg">
+              {/* Sub-headline */}
+              <p className="mx-auto mt-4 max-w-xl text-lg leading-snug text-text-secondary lg:mx-0 lg:max-w-lg">
+                {tHome('heroSubtitle')}
+              </p>
+
+              <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-text-muted lg:mx-0 lg:max-w-lg">
                 {tHome('heroParagraph')}
               </p>
 

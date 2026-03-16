@@ -237,6 +237,12 @@ export default async function PatientDetailPage({ params }: PageProps) {
               >
                 {t('invoicesTab')}
               </Link>
+              <Link
+                href={`/dashboard/patients/${id}/documents`}
+                className="border-b-2 border-transparent px-5 py-3 text-sm font-normal text-text-muted transition-colors hover:text-primary"
+              >
+                {t('documentsTab')}
+              </Link>
             </div>
             <Link
               href={`/dashboard/patients/${id}/sessions/new`}

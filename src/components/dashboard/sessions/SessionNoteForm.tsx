@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
+import FormSelect from '@/components/ui/FormSelect';
 
 interface Goal {
   _id: string;
@@ -381,18 +382,15 @@ export default function SessionNoteForm({
           {appointments.length > 0 && (
             <div>
               <label className="form-label">{t('linkAppointment')}</label>
-              <select
+              <FormSelect
                 value={appointmentId}
-                onChange={(e) => setAppointmentId(e.target.value)}
-                className="form-field w-full"
-              >
-                <option value="">—</option>
-                {appointments.map((a) => (
-                  <option key={a._id} value={a._id}>
-                    {new Date(a.startTime).toLocaleDateString(locale)} — {a.type}
-                  </option>
-                ))}
-              </select>
+                onChange={setAppointmentId}
+                placeholder="—"
+                options={appointments.map((a) => ({
+                  value: a._id,
+                  label: `${new Date(a.startTime).toLocaleDateString(locale)} — ${a.type}`,
+                }))}
+              />
             </div>
           )}
         </div>

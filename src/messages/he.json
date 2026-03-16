@@ -510,6 +510,7 @@
       "sessionsTab": "פגישות",
       "goalsTab": "מטרות",
       "invoicesTab": "חשבוניות",
+      "documentsTab": "מסמכים",
       "savePatient": "שמור מטופל",
       "newPatient": "מטופל חדש",
       "age": "גיל",
@@ -691,6 +692,26 @@
       "save": "שמור מטרה",
       "achievedDate": "תאריך הגעה ליעד",
       "avgRating": "ממוצע דירוג"
+    },
+    "documents": {
+      "title": "מסמכים",
+      "upload": "העלה מסמך",
+      "fileLabel": "קובץ",
+      "fileHint": "PDF, תמונה — עד 10MB",
+      "titleLabel": "כותרת",
+      "typeLabel": "סוג מסמך",
+      "noteLabel": "הערה",
+      "save": "שמור",
+      "view": "פתח",
+      "delete": "מחק",
+      "noDocs": "אין מסמכים עדיין",
+      "type_referral": "הפניה",
+      "type_diagnosis": "אבחון",
+      "type_prescription": "מרשם",
+      "type_insurance": "ביטוח",
+      "type_consent": "הסכמה",
+      "type_scan": "סריקה",
+      "type_other": "אחר"
     },
     "tabs": {
       "overview": "סקירה"

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useRouter } from '@/i18n/navigation';
+import { useRouter, usePathname } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 
 interface SearchBarProps {
@@ -42,6 +42,8 @@ function getInlineSuggestion(q: string): string {
 export default function SearchBar({ initialQuery = '', size = 'default', onDark = false }: SearchBarProps) {
   const t = useTranslations('home');
   const router = useRouter();
+  const pathname = usePathname();
+  const basePath = pathname.startsWith('/search') ? '/search' : '/';
   const [query, setQuery] = useState(initialQuery);
   const [inlineSuggestion, setInlineSuggestion] = useState('');
   const [isFocused, setIsFocused] = useState(false);
@@ -58,11 +60,11 @@ export default function SearchBar({ initialQuery = '', size = 'default', onDark 
       const trimmed = query.trim();
       const params = trimmed.length >= 2 ? `?q=${encodeURIComponent(trimmed)}` : '';
       setIsNavigating(true);
-      router.push(`/${params}`, { scroll: false });
+      router.push(`${basePath}${params}`, { scroll: false });
       setTimeout(() => setIsNavigating(false), 600);
     }, 500);
     return () => { if (navDebounceRef.current) clearTimeout(navDebounceRef.current); };
-  }, [query, isFocused, router]);
+  }, [query, isFocused, router, basePath]);
 
   function applyClientFilter(q: string) {
     const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-therapist-name]'));
@@ -85,7 +87,7 @@ export default function SearchBar({ initialQuery = '', size = 'default', onDark 
 
   function navigate(q: string) {
     const params = q.trim() ? `?q=${encodeURIComponent(q.trim())}` : '';
-    router.push(`/${params}`, { scroll: false });
+    router.push(`${basePath}${params}`, { scroll: false });
   }
 
   function handleSubmit(e: React.FormEvent) {

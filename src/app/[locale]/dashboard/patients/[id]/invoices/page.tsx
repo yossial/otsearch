@@ -82,9 +82,15 @@ export default async function PatientInvoicesPage({ params }: PageProps) {
             >
               {tPatients('goalsTab')}
             </Link>
-            <span className="border-b-2 border-primary px-5 py-3 text-sm font-normal text-text-primary -mb-px">
+            <span className="-mb-px border-b-2 border-primary px-5 py-3 text-sm font-normal text-text-primary">
               {tPatients('invoicesTab')}
             </span>
+            <Link
+              href={`/dashboard/patients/${id}/documents`}
+              className="border-b-2 border-transparent px-5 py-3 text-sm font-normal text-text-muted transition-colors hover:text-primary"
+            >
+              {tPatients('documentsTab')}
+            </Link>
           </div>
 
           <InvoiceList patientId={id} locale={locale} />

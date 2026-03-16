@@ -3,6 +3,8 @@
 import { useState, type FormEvent } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
+import FormSelect from '@/components/ui/FormSelect';
+import RadioGroup from '@/components/ui/RadioGroup';
 
 type PatientType = 'direct' | 'child';
 type PatientGender = 'male' | 'female' | 'other' | 'unspecified';
@@ -150,23 +152,14 @@ export default function PatientForm({ patientId, initialData, isFirstPatient }: 
       {/* Patient type */}
       <div className="card p-6">
         <h2 className="mb-4 text-base font-normal text-text-primary">{t('patientType')}</h2>
-        <div className="flex gap-4">
-          {(['direct', 'child'] as PatientType[]).map((type) => (
-            <label key={type} className="flex cursor-pointer items-center gap-2">
-              <input
-                type="radio"
-                name="type"
-                value={type}
-                checked={data.type === type}
-                onChange={() => set('type', type)}
-                className="form-radio"
-              />
-              <span className="text-sm text-text-primary">
-                {type === 'direct' ? t('typeDirect') : t('typeChild')}
-              </span>
-            </label>
-          ))}
-        </div>
+        <RadioGroup
+          value={data.type}
+          onChange={(v) => set('type', v as PatientType)}
+          options={[
+            { value: 'direct', label: t('typeDirect') },
+            { value: 'child', label: t('typeChild') },
+          ]}
+        />
       </div>
 
       {/* Basic info */}
@@ -205,31 +198,31 @@ export default function PatientForm({ patientId, initialData, isFirstPatient }: 
           </div>
           <div>
             <label className="form-label">{t('gender')}</label>
-            <select
+            <FormSelect
               value={data.gender}
-              onChange={(e) => set('gender', e.target.value as PatientGender)}
-              className="form-field w-full"
-            >
-              <option value="male">{t('genderMale')}</option>
-              <option value="female">{t('genderFemale')}</option>
-              <option value="other">{t('genderOther')}</option>
-              <option value="unspecified">{t('genderUnspecified')}</option>
-            </select>
+              onChange={(v) => set('gender', v as PatientGender)}
+              options={[
+                { value: 'male', label: t('genderMale') },
+                { value: 'female', label: t('genderFemale') },
+                { value: 'other', label: t('genderOther') },
+                { value: 'unspecified', label: t('genderUnspecified') },
+              ]}
+            />
           </div>
           <div>
             <label className="form-label">{t('insuranceLabel')}</label>
-            <select
+            <FormSelect
               value={data.insurance}
-              onChange={(e) => set('insurance', e.target.value as InsuranceFund | '')}
-              className="form-field w-full"
-            >
-              <option value="">—</option>
-              <option value="clalit">{t('insuranceClalit')}</option>
-              <option value="maccabi">{t('insuranceMaccabi')}</option>
-              <option value="meuhedet">{t('insuranceMeuhedet')}</option>
-              <option value="leumit">{t('insuranceLeumit')}</option>
-              <option value="none">{t('insuranceNone')}</option>
-            </select>
+              onChange={(v) => set('insurance', v as InsuranceFund | '')}
+              placeholder="—"
+              options={[
+                { value: 'clalit', label: t('insuranceClalit') },
+                { value: 'maccabi', label: t('insuranceMaccabi') },
+                { value: 'meuhedet', label: t('insuranceMeuhedet') },
+                { value: 'leumit', label: t('insuranceLeumit') },
+                { value: 'none', label: t('insuranceNone') },
+              ]}
+            />
           </div>
           <div>
             <label className="form-label">{t('referralSource')}</label>
@@ -310,16 +303,16 @@ export default function PatientForm({ patientId, initialData, isFirstPatient }: 
             </div>
             <div>
               <label className="form-label">{t('relationship')}</label>
-              <select
+              <FormSelect
                 value={data.parentRelationship}
-                onChange={(e) => set('parentRelationship', e.target.value as ParentRelationship | '')}
-                className="form-field w-full"
-              >
-                <option value="">—</option>
-                <option value="mother">{t('relationshipMother')}</option>
-                <option value="father">{t('relationshipFather')}</option>
-                <option value="guardian">{t('relationshipGuardian')}</option>
-              </select>
+                onChange={(v) => set('parentRelationship', v as ParentRelationship | '')}
+                placeholder="—"
+                options={[
+                  { value: 'mother', label: t('relationshipMother') },
+                  { value: 'father', label: t('relationshipFather') },
+                  { value: 'guardian', label: t('relationshipGuardian') },
+                ]}
+              />
             </div>
           </div>
         </div>

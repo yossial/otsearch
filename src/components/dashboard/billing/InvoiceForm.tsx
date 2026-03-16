@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
+import FormSelect from '@/components/ui/FormSelect';
 
 interface LineItem {
   description: string;
@@ -104,17 +105,12 @@ export default function InvoiceForm({
           <label className="form-label">
             {t('selectPatient')} <span className="text-red-500">*</span>
           </label>
-          <select
+          <FormSelect
             value={patientId}
-            onChange={(e) => setPatientId(e.target.value)}
-            required
-            className="form-field w-full"
-          >
-            <option value="">—</option>
-            {patients.map((p) => (
-              <option key={p._id} value={p._id}>{p.name}</option>
-            ))}
-          </select>
+            onChange={setPatientId}
+            placeholder="—"
+            options={patients.map((p) => ({ value: p._id, label: p.name }))}
+          />
         </div>
       </div>
 

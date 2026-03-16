@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import type { AppointmentData } from './ScheduleTabs';
+import FormSelect from '@/components/ui/FormSelect';
 
 interface Patient {
   _id: string;
@@ -112,19 +113,15 @@ export default function NewAppointmentModal({
           {/* Patient */}
           <div className="flex flex-col gap-1">
             <label className="form-label">{t('selectPatient')}</label>
-            <select
+            <FormSelect
               value={patientId}
-              onChange={(e) => setPatientId(e.target.value)}
-              required
-              className="form-field"
-            >
-              <option value="">{t('selectPatient')}</option>
-              {patients.map((p) => (
-                <option key={p._id} value={p._id}>
-                  {p.firstName} {p.lastName}
-                </option>
-              ))}
-            </select>
+              onChange={setPatientId}
+              placeholder={t('selectPatient')}
+              options={patients.map((p) => ({
+                value: p._id,
+                label: `${p.firstName} ${p.lastName}`,
+              }))}
+            />
           </div>
 
           {/* Date */}
@@ -172,15 +169,15 @@ export default function NewAppointmentModal({
           {/* Type */}
           <div className="flex flex-col gap-1">
             <label className="form-label">{t('appointmentType')}</label>
-            <select
+            <FormSelect
               value={type}
-              onChange={(e) => setType(e.target.value as typeof type)}
-              className="form-field"
-            >
-              <option value="in-person">{t('typeInPerson')}</option>
-              <option value="telehealth">{t('typeTelehealth')}</option>
-              <option value="home-visit">{t('typeHomeVisit')}</option>
-            </select>
+              onChange={(v) => setType(v as typeof type)}
+              options={[
+                { value: 'in-person', label: t('typeInPerson') },
+                { value: 'telehealth', label: t('typeTelehealth') },
+                { value: 'home-visit', label: t('typeHomeVisit') },
+              ]}
+            />
           </div>
 
           {/* Location */}

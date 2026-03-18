@@ -62,7 +62,7 @@ export default function DashboardShell({
 
   return (
     <BreadcrumbProvider>
-    <div className="min-h-screen bg-[#EEF1F8]">
+    <div className="min-h-screen bg-[#EEF1F8] print:bg-white">
       {/* Hero card — only on main tab pages */}
       {isMainPage && heroData && (
         <div className="no-print mx-auto max-w-5xl px-4 pt-8 sm:px-6 lg:px-8">
@@ -113,7 +113,7 @@ export default function DashboardShell({
       </div>
 
       {/* Page content */}
-      <div className="mx-auto max-w-5xl space-y-4 px-4 pb-6 pt-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-5xl space-y-4 px-4 pb-6 pt-4 sm:px-6 lg:px-8 print:max-w-none print:p-0">
         <Suspense fallback={null}>
           <ConfettiEffect />
         </Suspense>

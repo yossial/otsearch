@@ -69,7 +69,7 @@ export default async function InvoiceDetailPage({ params }: PageProps) {
   const docTitle = typeLabel[invoice.type] ?? invoice.type;
 
   return (
-    <div className="min-h-screen bg-[#e8e8e8] py-6 print:bg-white print:py-0">
+    <div className="bg-[#e8e8e8] py-6 print:bg-white print:py-0">
       {/* ── Toolbar — hidden on print ─────────────────────────────────────────── */}
       <div className="no-print mx-auto mb-4 flex max-w-[794px] items-center justify-between gap-3 px-2">
         <Link
@@ -246,8 +246,8 @@ export default async function InvoiceDetailPage({ params }: PageProps) {
                 </div>
               )}
               <div className="invoice-grand-total flex justify-between bg-primary px-4 py-3">
-                <span className="text-sm font-bold text-white">{t('total')}</span>
-                <span className="text-base font-bold text-white" dir="ltr">₪{invoice.total.toFixed(2)}</span>
+                <span className="text-sm font-bold text-[#fff]">{t('total')}</span>
+                <span className="text-base font-bold text-[#fff]" dir="ltr">₪{invoice.total.toFixed(2)}</span>
               </div>
               {invoice.status === 'paid' && invoice.paidAt && (
                 <div className="flex justify-between bg-green-50 px-4 py-2 text-xs">

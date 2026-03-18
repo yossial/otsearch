@@ -179,7 +179,7 @@ export default async function HomePage({ params }: HomePageProps) {
       <WhatIsOccupationalTherapy />
 
       {/* ── For therapists CTA (inverted dark section) ────────────────────── */}
-      <section id="for-therapists" className="relative overflow-hidden bg-bg-dark py-20">
+      <section id="for-therapists" className="relative overflow-hidden py-20" style={{ background: 'radial-gradient(ellipse at 20% 60%, #1b0f93 0%, #0d0b50 45%, #06041e 100%)' }}>
         {/* Dot texture */}
         <div
           aria-hidden="true"
@@ -199,7 +199,7 @@ export default async function HomePage({ params }: HomePageProps) {
           <FadeInUp>
             <div className="flex flex-col items-center gap-8 text-center sm:flex-row sm:justify-between sm:text-start">
               <div>
-                <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-accent/70 bg-accent/25 px-3.5 py-1">
+                <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-3.5 py-1">
                   <span
                     className="h-1.5 w-1.5 rounded-full bg-accent"
                     style={{ animation: 'pulse-dot 2s ease-in-out infinite' }}
@@ -212,13 +212,13 @@ export default async function HomePage({ params }: HomePageProps) {
                 <h2 className="font-display text-2xl font-normal text-white sm:text-3xl">
                   {tHome('therapistBanner.title')}
                 </h2>
-                <p className="mt-2 max-w-lg text-base text-white/60">
+                <p className="mt-2 max-w-lg text-base text-white/85">
                   {tHome('therapistBanner.subtitle')}
                 </p>
               </div>
               <Link
                 href="/auth/register"
-                className="shrink-0 rounded-xl bg-accent px-8 py-3.5 text-sm font-normal text-text-accent shadow-accent transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-dark hover:shadow-accent-lg"
+                className="shrink-0 rounded-xl bg-white px-8 py-3.5 text-sm font-normal text-primary transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90"
               >
                 {tHome('therapistBanner.cta')}
               </Link>

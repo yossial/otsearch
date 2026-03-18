@@ -12,7 +12,10 @@ export default async function StatsBar() {
   ];
 
   return (
-    <section className="relative overflow-hidden bg-bg-dark py-14">
+    <section
+      className="relative overflow-hidden py-14"
+      style={{ background: 'radial-gradient(ellipse at 20% 60%, #1b0f93 0%, #0d0b50 45%, #06041e 100%)' }}
+    >
       {/* Dot texture */}
       <div
         aria-hidden="true"
@@ -21,11 +24,6 @@ export default async function StatsBar() {
           backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
           backgroundSize: '28px 28px',
         }}
-      />
-      {/* Ambient accent glow */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -start-10 top-1/2 h-[200px] w-[200px] -translate-y-1/2 rounded-full bg-accent opacity-[0.06] blur-[80px]"
       />
 
       <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
@@ -36,7 +34,7 @@ export default async function StatsBar() {
                 <span className="text-4xl font-extrabold tabular-nums text-accent sm:text-5xl">
                   {value}
                 </span>
-                <span className="text-xs font-normal uppercase tracking-widest text-white/50">
+                <span className="text-xs font-normal uppercase tracking-widest text-white/75">
                   {label}
                 </span>
               </div>

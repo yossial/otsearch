@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ISRAEL_CENTER } from '@/lib/gov/israel-city-coords';
 import type { Map as MaplibreMap } from 'maplibre-gl';
 import type { TherapistProfilePublic } from '@/types';
@@ -61,9 +61,13 @@ function makeAvatarEl(photo: string | null, name: string): HTMLDivElement {
   return wrapper;
 }
 
+// Low-zoom OSM tile covering Israel + surroundings (zoom 6, x=38, y=26)
+const TILE_PLACEHOLDER = 'https://tile.openstreetmap.org/6/38/26.png';
+
 export default function NetworkMap({ profiles, locale }: NetworkMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<MaplibreMap | null>(null);
+  const [mapLoaded, setMapLoaded] = useState(false);
 
   useEffect(() => {
     if (!mapRef.current || mapInstanceRef.current) return;
@@ -131,6 +135,7 @@ export default function NetworkMap({ profiles, locale }: NetworkMapProps) {
 
       // Fly after map loads (tiles ready)
       map.on('load', () => {
+        setMapLoaded(true);
         flyToTarget();
 
         const popup = new maplibregl.Popup({
@@ -192,6 +197,22 @@ export default function NetworkMap({ profiles, locale }: NetworkMapProps) {
 
   return (
     <div className="relative">
+      {/* Blurred low-res tile — fades out once the real map loads */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-10 overflow-hidden rounded-xl transition-opacity duration-700"
+        style={{ opacity: mapLoaded ? 0 : 1 }}
+      >
+        <img
+          src={TILE_PLACEHOLDER}
+          alt=""
+          className="h-full w-full object-cover"
+          style={{ filter: 'blur(6px)', transform: 'scale(1.06)' }}
+        />
+        {/* subtle dark veil so it reads as "loading" rather than content */}
+        <div className="absolute inset-0 bg-white/30" />
+      </div>
+
       <div
         ref={mapRef}
         className="h-[400px] w-full overflow-hidden rounded-xl md:h-[480px]"

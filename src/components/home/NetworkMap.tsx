@@ -134,6 +134,7 @@ export default function NetworkMap({ profiles, locale }: NetworkMapProps) {
         });
 
         const jitter = () => (Math.random() - 0.5) * 0.004;
+        const isRtl = locale === 'he' || locale === 'ar';
 
         profiles.forEach((p) => {
           const [lng, lat] = p.location.coordinates;
@@ -152,7 +153,7 @@ export default function NetworkMap({ profiles, locale }: NetworkMapProps) {
             popup
               .setLngLat(marker.getLngLat())
               .setHTML(
-                `<div class="net-popup-inner">
+                `<div class="net-popup-inner"${isRtl ? ' dir="rtl"' : ''}>
                   <p class="net-popup-name">${name}</p>
                   ${p.location.city ? `<p class="net-popup-city">${p.location.city}</p>` : ''}
                   ${specs ? `<p class="net-popup-specs">${specs}</p>` : ''}

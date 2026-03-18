@@ -37,9 +37,9 @@ export default function NetworkMap({ cityStats, locale }: NetworkMapProps) {
       });
       mapInstanceRef.current = map;
 
-      // ── CartoDB Dark Matter — clean, dark, unique ─────────────────────────
+      // ── CartoDB Positron — clean light tile layer ─────────────────────────
       L.tileLayer(
-        'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+        'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
         {
           attribution:
             '&copy; <a href="https://www.openstreetmap.org/copyright" tabindex="-1">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" tabindex="-1">CARTO</a>',
@@ -63,16 +63,16 @@ export default function NetworkMap({ cityStats, locale }: NetworkMapProps) {
         const size = Math.round(32 + ratio * 24);
         const half = size / 2;
 
-        // Indigo circle with white count, glow on hover
+        // Navy circle with white count
         const html = `
           <div class="net-marker" style="
             width:${size}px;height:${size}px;border-radius:50%;
-            background:rgba(27,15,147,0.85);
-            border:2px solid rgba(100,80,255,0.6);
+            background:rgba(0,0,128,0.9);
+            border:2px solid rgba(0,0,128,0.4);
             display:flex;align-items:center;justify-content:center;
             color:#fff;font-size:${count >= 10 ? 12 : 13}px;font-weight:700;
             font-family:system-ui,sans-serif;
-            box-shadow:0 0 0 4px rgba(27,15,147,0.25),0 2px 8px rgba(0,0,0,0.5);
+            box-shadow:0 0 0 4px rgba(0,0,128,0.15),0 2px 8px rgba(0,0,0,0.2);
             cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;
           ">${count}</div>`;
 
@@ -119,29 +119,29 @@ export default function NetworkMap({ cityStats, locale }: NetworkMapProps) {
       {/* Custom tooltip + hover styles injected once */}
       <style>{`
         .net-tooltip {
-          background: #0a013d !important;
-          border: 1px solid rgba(100,80,255,0.4) !important;
-          color: #fff !important;
+          background: #fff !important;
+          border: 1px solid rgba(0,0,128,0.2) !important;
+          color: #00044a !important;
           font-size: 12px !important;
           font-weight: 600 !important;
           padding: 4px 10px !important;
           border-radius: 6px !important;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.5) !important;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.12) !important;
           white-space: nowrap !important;
         }
         .net-tooltip::before { display: none !important; }
         .net-marker:hover {
           transform: scale(1.15) !important;
-          box-shadow: 0 0 0 6px rgba(27,15,147,0.35), 0 4px 12px rgba(0,0,0,0.6) !important;
+          box-shadow: 0 0 0 6px rgba(0,0,128,0.2), 0 4px 12px rgba(0,0,0,0.2) !important;
         }
-        .leaflet-control-attribution a { color: #555 !important; }
-        .leaflet-control-attribution { background: rgba(0,0,0,0.5) !important; color: #555 !important; }
+        .leaflet-control-attribution a { color: #888 !important; }
+        .leaflet-control-attribution { background: rgba(255,255,255,0.8) !important; color: #888 !important; }
         .leaflet-control-zoom a {
-          background: #0a013d !important;
-          color: #fff !important;
-          border-color: rgba(100,80,255,0.3) !important;
+          background: #fff !important;
+          color: #000080 !important;
+          border-color: rgba(0,0,128,0.2) !important;
         }
-        .leaflet-control-zoom a:hover { background: #1b0f93 !important; }
+        .leaflet-control-zoom a:hover { background: #f0f0ff !important; }
       `}</style>
     </div>
   );

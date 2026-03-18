@@ -44,10 +44,10 @@ export default function CountUpStat({ value, suffix = '', label, duration = 1800
 
   return (
     <div ref={ref} className="flex flex-col items-center gap-1 text-center">
-      <span className="font-display text-5xl font-extrabold leading-none tracking-tight text-white lg:text-6xl">
+      <span className="font-display text-5xl font-extrabold leading-none tracking-tight text-primary lg:text-6xl">
         {display.toLocaleString()}{suffix}
       </span>
-      <span className="mt-1 text-sm font-normal text-white/50 lg:text-base">{label}</span>
+      <span className="mt-1 text-sm font-normal text-text-secondary lg:text-base">{label}</span>
     </div>
   );
 }

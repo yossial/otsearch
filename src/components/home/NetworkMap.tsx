@@ -74,6 +74,14 @@ export default function NetworkMap({ profiles, locale }: NetworkMapProps) {
     void (async () => {
       const maplibregl = (await import('maplibre-gl')).default;
 
+      // Enable RTL text rendering (Hebrew / Arabic map labels)
+      if (!maplibregl.getRTLTextPluginStatus || maplibregl.getRTLTextPluginStatus() === 'unavailable') {
+        maplibregl.setRTLTextPlugin(
+          'https://unpkg.com/@mapbox/mapbox-gl-rtl-text@0.2.3/mapbox-gl-rtl-text.min.js',
+          true, // lazy-load
+        );
+      }
+
       if (!document.querySelector('link[data-maplibre]')) {
         const link = document.createElement('link');
         link.rel = 'stylesheet';

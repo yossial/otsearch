@@ -116,6 +116,17 @@
     },
     "resultsCount": "{count, plural, =0 {No therapists found} one {1 therapist found} other {{count} therapists found}}",
     "mapTitle": "Therapists near you",
+    "network": {
+      "eyebrow": "Our network",
+      "title": "Certified therapists — across the country",
+      "subtitle": "Find an occupational therapist near you, faster than ever",
+      "statTherapists": "registered therapists",
+      "statCities": "cities & towns",
+      "statFunds": "health funds",
+      "statLanguages": "treatment languages",
+      "cta": "Find a therapist",
+      "mapAriaLabel": "Map of therapists in Israel"
+    },
     "therapistBanner": {
       "title": "Are you a therapist? Join us",
       "subtitle": "Free profile, no commissions — just patients looking for exactly what you offer",

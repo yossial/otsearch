@@ -1,10 +1,8 @@
 import { getTranslations } from 'next-intl/server';
-import dynamic from 'next/dynamic';
 import { Link } from '@/i18n/navigation';
 import CountUpStat from './CountUpStat';
+import NetworkMapClient from './NetworkMapClient';
 import type { TherapistProfilePublic } from '@/types';
-
-const NetworkMap = dynamic(() => import('./NetworkMap'), { ssr: false });
 
 interface Props {
   profiles: TherapistProfilePublic[];
@@ -60,7 +58,7 @@ export default async function StatsMapSection({ profiles, total, locale }: Props
         </div>
 
         {/* ── Map ────────────────────────────────────────────────────────── */}
-        <NetworkMap cityStats={cityStats} locale={locale} />
+        <NetworkMapClient cityStats={cityStats} locale={locale} />
 
         {/* ── Avatar strip + CTA ─────────────────────────────────────────── */}
         <div className="mt-8 flex flex-col items-center gap-5 sm:flex-row sm:justify-between">

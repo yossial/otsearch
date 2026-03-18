@@ -13,14 +13,6 @@ export const dynamic = 'force-dynamic';
 
 type PageProps = { params: Promise<{ locale: string; id: string }> };
 
-const STATUS_COLORS: Record<string, string> = {
-  draft: 'bg-bg-alt text-text-muted',
-  sent: 'bg-primary-light text-primary',
-  paid: 'bg-green-50 text-green-700',
-  overdue: 'bg-red-50 text-red-600',
-  cancelled: 'bg-bg-alt text-text-muted',
-};
-
 export default async function InvoiceDetailPage({ params }: PageProps) {
   const { locale, id } = await params;
   const session = await auth();
@@ -49,30 +41,40 @@ export default async function InvoiceDetailPage({ params }: PageProps) {
 
   const bd = profile?.businessDetails as Record<string, string> | undefined;
   const dn = profile?.displayName as Record<string, string> | undefined;
-  const therapistDisplayName = dn?.[locale] ?? dn?.he ?? dn?.en ?? invoice.therapistName ?? '';
+  const therapistName = dn?.[locale] ?? dn?.he ?? dn?.en ?? invoice.therapistName ?? '';
+
+  const businessName   = bd?.businessName ?? therapistName;
+  const businessNumber = invoice.businessNumber ?? bd?.businessNumber;
+  const vatNumber      = invoice.vatNumber ?? bd?.vatNumber;
+  const address        = invoice.therapistAddress ?? bd?.businessAddress;
+  const phone          = profile?.contactPhone as string | undefined;
+  const email          = profile?.contactEmail as string | undefined;
+
+  const vatPct = Math.round(invoice.vatRate * 100);
 
   const statusLabel: Record<string, string> = {
-    draft: t('statusDraft'),
-    sent: t('statusSent'),
-    paid: t('statusPaid'),
-    overdue: t('statusOverdue'),
+    draft:     t('statusDraft'),
+    sent:      t('statusSent'),
+    paid:      t('statusPaid'),
+    overdue:   t('statusOverdue'),
     cancelled: t('statusCancelled'),
   };
 
   const typeLabel: Record<string, string> = {
-    invoice: t('typeInvoice'),
-    receipt: t('typeReceipt'),
-    invoice_receipt: t('typeInvoiceReceipt'),
+    invoice:          t('typeInvoice'),
+    receipt:          t('typeReceipt'),
+    invoice_receipt:  t('typeInvoiceReceipt'),
   };
 
+  const docTitle = typeLabel[invoice.type] ?? invoice.type;
 
   return (
-    <div className="space-y-4">
-      {/* Back + actions bar — hidden on print */}
-      <div className="no-print flex items-center justify-between gap-3">
+    <div className="min-h-screen bg-[#e8e8e8] py-6 print:bg-white print:py-0">
+      {/* ── Toolbar — hidden on print ─────────────────────────────────────────── */}
+      <div className="no-print mx-auto mb-4 flex max-w-[794px] items-center justify-between gap-3 px-2">
         <Link
           href="/dashboard/billing"
-          className="inline-flex items-center gap-1 text-sm text-text-muted hover:text-primary"
+          className="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-primary"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="rtl:rotate-180">
             <path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>
@@ -82,121 +84,133 @@ export default async function InvoiceDetailPage({ params }: PageProps) {
         <PrintInvoiceButton />
       </div>
 
-      {/* ── Invoice document ──────────────────────────────────────────────────── */}
-      <div className="print-invoice card overflow-hidden bg-white">
+      {/* ── Paper ────────────────────────────────────────────────────────────── */}
+      <div
+        dir="rtl"
+        className="invoice-paper mx-auto max-w-[794px] bg-white shadow-[0_4px_24px_rgba(0,0,0,0.14)] print:shadow-none"
+      >
+        {/* 1 ── Top accent stripe ──────────────────────────────────────────── */}
+        <div className="invoice-stripe h-[6px] bg-primary" />
 
-        {/* Colour bar — screen only */}
-        <div className="gradient-bar no-print" />
+        {/* 2 ── Header: provider RIGHT · document meta LEFT ───────────────── */}
+        <div className="invoice-header grid grid-cols-2 gap-8 px-10 pb-6 pt-8">
 
-        {/* ── HEADER: provider left · document meta right ────────────────────── */}
-        <div className="invoice-header flex flex-wrap items-start justify-between gap-6 p-8 pb-6">
-
-          {/* Provider block */}
-          <div className="invoice-from space-y-0.5">
-            <p className="invoice-from-name text-lg font-normal text-text-primary">{therapistDisplayName}</p>
-            {bd?.businessName && (
-              <p className="text-sm text-text-secondary">{bd.businessName}</p>
+          {/* RIGHT col — provider details */}
+          <div className="invoice-from">
+            <p className="invoice-provider-name mb-1 text-xl font-semibold text-[#111]">{businessName}</p>
+            {businessName !== therapistName && (
+              <p className="text-sm text-[#444]">{therapistName}</p>
             )}
-            {bd?.businessNumber && (
-              <p className="text-sm text-text-secondary">
-                {t('businessNumber')}: <span className="text-text-primary">{bd.businessNumber}</span>
+            {businessNumber && (
+              <p className="mt-0.5 text-sm text-[#444]">
+                <span className="font-medium text-[#111]">עוסק מורשה</span> מס׳ {businessNumber}
               </p>
             )}
-            {bd?.vatNumber && (
-              <p className="text-sm text-text-secondary">
-                {t('vatNumber')}: <span className="text-text-primary">{bd.vatNumber}</span>
+            {vatNumber && (
+              <p className="text-sm text-[#444]">
+                {t('vatNumber')}: {vatNumber}
               </p>
             )}
-            {bd?.businessAddress && (
-              <p className="text-sm text-text-secondary">{bd.businessAddress}</p>
-            )}
-            {profile?.contactPhone && (
-              <p className="text-sm text-text-secondary" dir="ltr">{profile.contactPhone as string}</p>
-            )}
-            {profile?.contactEmail && (
-              <p className="text-sm text-text-secondary">{profile.contactEmail as string}</p>
-            )}
+            {address && <p className="mt-0.5 text-sm text-[#444]">{address}</p>}
+            {phone  && <p className="text-sm text-[#444]" dir="ltr">{phone}</p>}
+            {email  && <p className="text-sm text-[#444]">{email}</p>}
           </div>
 
-          {/* Document meta block */}
-          <div className="invoice-meta space-y-2 text-end">
-            <p className="invoice-type-heading text-2xl font-normal text-text-primary">
-              {typeLabel[invoice.type] ?? invoice.type}
-            </p>
-            <table className="invoice-meta-table ms-auto text-sm">
+          {/* LEFT col — document type, number, dates */}
+          <div className="invoice-meta flex flex-col items-start gap-1.5">
+            <p className="invoice-doc-title text-3xl font-bold text-primary leading-tight">{docTitle}</p>
+            <table className="invoice-meta-table mt-1 text-sm">
               <tbody>
                 <tr>
-                  <td className="py-0.5 text-text-muted ltr:pr-4 rtl:pl-4">{t('invoiceNumber')}</td>
-                  <td className="py-0.5 font-normal text-text-primary">{invoice.invoiceNumber}</td>
+                  <td className="py-0.5 pl-5 text-[#777]">{t('invoiceNumber')}</td>
+                  <td className="py-0.5 font-semibold text-[#111]">{invoice.invoiceNumber}</td>
                 </tr>
                 <tr>
-                  <td className="py-0.5 text-text-muted ltr:pr-4 rtl:pl-4">{t('issueDate')}</td>
-                  <td className="py-0.5 font-normal text-text-primary">
+                  <td className="py-0.5 pl-5 text-[#777]">{t('issueDate')}</td>
+                  <td className="py-0.5 font-medium text-[#111]">
                     {new Date(invoice.issueDate).toLocaleDateString(locale)}
                   </td>
                 </tr>
                 {invoice.dueDate && (
                   <tr>
-                    <td className="py-0.5 text-text-muted ltr:pr-4 rtl:pl-4">{t('dueDate')}</td>
-                    <td className="py-0.5 font-normal text-text-primary">
+                    <td className="py-0.5 pl-5 text-[#777]">{t('dueDate')}</td>
+                    <td className="py-0.5 font-medium text-[#111]">
                       {new Date(invoice.dueDate).toLocaleDateString(locale)}
                     </td>
                   </tr>
                 )}
                 <tr>
-                  <td className="py-0.5 text-text-muted ltr:pr-4 rtl:pl-4">{t('status')}</td>
-                  <td className="py-0.5">
-                    {/* Screen: badge; print: plain text (CSS handles the swap) */}
-                    <span className={`invoice-status-badge no-print inline-block rounded-full px-2.5 py-0.5 text-xs font-normal ${STATUS_COLORS[invoice.status] ?? ''}`}>
-                      {statusLabel[invoice.status] ?? invoice.status}
-                    </span>
-                    <span className="invoice-status-text print-only hidden font-normal text-text-primary">
-                      {statusLabel[invoice.status] ?? invoice.status}
-                    </span>
+                  <td className="py-0.5 pl-5 text-[#777]">{t('status')}</td>
+                  <td className="py-0.5 font-medium text-[#111]">
+                    {statusLabel[invoice.status] ?? invoice.status}
                   </td>
                 </tr>
               </tbody>
             </table>
+            {/* Original stamp */}
+            <span className="invoice-original mt-1 inline-block rounded border border-primary/40 px-2 py-0.5 text-xs font-medium text-primary">
+              מקור
+            </span>
           </div>
         </div>
 
-        {/* ── BILL TO ───────────────────────────────────────────────────────────── */}
-        <div className="invoice-bill-to border-t border-border px-8 py-5">
-          <p className="invoice-section-label mb-1.5 text-xs font-normal uppercase tracking-widest text-text-muted">
-            {t('patientDetails')}
-          </p>
-          <p className="text-base font-normal text-text-primary">{invoice.patientName ?? '—'}</p>
-          {invoice.patientAddress && (
-            <p className="text-sm text-text-secondary">{invoice.patientAddress}</p>
-          )}
+        {/* 3 ── FROM / TO band ─────────────────────────────────────────────── */}
+        <div className="invoice-parties grid grid-cols-2 border-y border-[#e0e0e0] bg-[#f7f7f7]">
+          {/* RIGHT — supplier short (mirrors header but compact) */}
+          <div className="invoice-party-from border-l border-[#e0e0e0] px-10 py-4">
+            <p className="invoice-party-label mb-1 text-[10px] font-bold uppercase tracking-widest text-[#999]">
+              מאת
+            </p>
+            <p className="text-sm font-semibold text-[#111]">{businessName}</p>
+            {businessNumber && (
+              <p className="text-xs text-[#555]">עוסק מורשה: {businessNumber}</p>
+            )}
+            {address && <p className="text-xs text-[#555]">{address}</p>}
+          </div>
+
+          {/* LEFT — customer */}
+          <div className="invoice-party-to px-10 py-4">
+            <p className="invoice-party-label mb-1 text-[10px] font-bold uppercase tracking-widest text-[#999]">
+              לכבוד
+            </p>
+            <p className="text-sm font-semibold text-[#111]">{invoice.patientName ?? '—'}</p>
+            {invoice.patientAddress && (
+              <p className="text-xs text-[#555]">{invoice.patientAddress}</p>
+            )}
+          </div>
         </div>
 
-        {/* ── LINE ITEMS ────────────────────────────────────────────────────────── */}
-        <div className="invoice-items border-t border-border px-8 pb-2 pt-4">
-          <table className="invoice-table w-full text-sm">
+        {/* 4 ── Line items ─────────────────────────────────────────────────── */}
+        <div className="invoice-items px-10 py-6">
+          <table className="invoice-table w-full border-collapse text-sm">
             <thead>
-              <tr className="border-b border-border">
-                <th className="pb-2.5 text-start text-xs font-normal uppercase tracking-widest text-text-muted">
-                  {t('description')}
-                </th>
-                <th className="pb-2.5 text-end text-xs font-normal uppercase tracking-widest text-text-muted">
-                  {t('quantity')}
-                </th>
-                <th className="pb-2.5 text-end text-xs font-normal uppercase tracking-widest text-text-muted">
-                  {t('unitPrice')}
-                </th>
-                <th className="pb-2.5 text-end text-xs font-normal uppercase tracking-widest text-text-muted">
-                  {t('subtotal')}
-                </th>
+              <tr className="invoice-thead-row bg-primary text-white">
+                <th className="invoice-th w-8 px-3 py-3 text-center text-xs font-semibold">#</th>
+                <th className="invoice-th px-3 py-3 text-right text-xs font-semibold">{t('description')}</th>
+                <th className="invoice-th w-16 px-3 py-3 text-center text-xs font-semibold">{t('quantity')}</th>
+                <th className="invoice-th w-28 px-3 py-3 text-left text-xs font-semibold">{t('unitPrice')}</th>
+                <th className="invoice-th w-28 px-3 py-3 text-left text-xs font-semibold">{t('subtotal')}</th>
               </tr>
             </thead>
             <tbody>
               {invoice.lineItems.map((item, i) => (
-                <tr key={i} className="border-b border-border/50 last:border-0">
-                  <td className="py-3 text-text-primary">{item.description}</td>
-                  <td className="py-3 text-end text-text-secondary">{item.quantity}</td>
-                  <td className="py-3 text-end text-text-secondary">₪{item.unitPrice.toFixed(2)}</td>
-                  <td className="py-3 text-end font-normal text-text-primary">
+                <tr
+                  key={i}
+                  className={i % 2 === 0 ? 'bg-white' : 'bg-[#f9f9f9]'}
+                >
+                  <td className="invoice-td border-b border-[#ececec] px-3 py-3 text-center text-[#888]">
+                    {i + 1}
+                  </td>
+                  <td className="invoice-td border-b border-[#ececec] px-3 py-3 text-right text-[#222]">
+                    {item.description}
+                  </td>
+                  <td className="invoice-td border-b border-[#ececec] px-3 py-3 text-center text-[#555]">
+                    {item.quantity}
+                  </td>
+                  <td className="invoice-td border-b border-[#ececec] px-3 py-3 text-left text-[#555]" dir="ltr">
+                    ₪{item.unitPrice.toFixed(2)}
+                  </td>
+                  <td className="invoice-td border-b border-[#ececec] px-3 py-3 text-left font-semibold text-[#111]" dir="ltr">
                     ₪{(item.quantity * item.unitPrice).toFixed(2)}
                   </td>
                 </tr>
@@ -205,56 +219,61 @@ export default async function InvoiceDetailPage({ params }: PageProps) {
           </table>
         </div>
 
-        {/* ── TOTALS ────────────────────────────────────────────────────────────── */}
-        <div className="invoice-totals border-t border-border px-8 py-5">
-          <div className="ms-auto max-w-xs">
-            <table className="w-full text-sm">
-              <tbody>
-                <tr>
-                  <td className="py-1 text-text-muted ltr:pr-6 rtl:pl-6">{t('subtotal')}</td>
-                  <td className="py-1 text-end text-text-primary">₪{invoice.subtotal.toFixed(2)}</td>
-                </tr>
-                {invoice.vatRate > 0 && (
-                  <tr>
-                    <td className="py-1 text-text-muted ltr:pr-6 rtl:pl-6">
-                      {t('vat')}
-                    </td>
-                    <td className="py-1 text-end text-text-primary">₪{invoice.vatAmount.toFixed(2)}</td>
-                  </tr>
-                )}
-                <tr className="invoice-total-row border-t-2 border-border">
-                  <td className="pt-2 text-base font-normal text-text-primary ltr:pr-6 rtl:pl-6">
-                    {t('total')}
-                  </td>
-                  <td className="pt-2 text-end text-base font-normal text-text-primary">
-                    ₪{invoice.total.toFixed(2)}
-                  </td>
-                </tr>
-                {invoice.status === 'paid' && invoice.paidAt && (
-                  <tr>
-                    <td className="pt-1 text-xs text-green-600 ltr:pr-6 rtl:pl-6">{t('paidAt')}</td>
-                    <td className="pt-1 text-end text-xs text-green-600">
-                      {new Date(invoice.paidAt).toLocaleDateString(locale)}
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+        {/* 5 ── Totals + footer in one row ─────────────────────────────────── */}
+        <div className="invoice-bottom flex items-end justify-between gap-8 border-t border-[#e0e0e0] px-10 py-6">
+
+          {/* LEFT — notes / thank-you */}
+          <div className="invoice-notes flex-1 text-sm text-[#777]">
+            <p className="font-medium text-[#333]">תודה על עסקך</p>
+            {invoice.dueDate && (
+              <p className="mt-1 text-xs">
+                תשלום עד: {new Date(invoice.dueDate).toLocaleDateString(locale)}
+              </p>
+            )}
+          </div>
+
+          {/* RIGHT — totals box */}
+          <div className="invoice-totals-box w-56 shrink-0 border border-[#e0e0e0]">
+            <div className="space-y-0 divide-y divide-[#e0e0e0]">
+              <div className="flex justify-between px-4 py-2 text-sm">
+                <span className="text-[#555]">{t('subtotal')}</span>
+                <span className="font-medium text-[#111]" dir="ltr">₪{invoice.subtotal.toFixed(2)}</span>
+              </div>
+              {invoice.vatRate > 0 && (
+                <div className="flex justify-between px-4 py-2 text-sm">
+                  <span className="text-[#555]">מע&quot;מ {vatPct}%</span>
+                  <span className="font-medium text-[#111]" dir="ltr">₪{invoice.vatAmount.toFixed(2)}</span>
+                </div>
+              )}
+              <div className="invoice-grand-total flex justify-between bg-primary px-4 py-3">
+                <span className="text-sm font-bold text-white">{t('total')}</span>
+                <span className="text-base font-bold text-white" dir="ltr">₪{invoice.total.toFixed(2)}</span>
+              </div>
+              {invoice.status === 'paid' && invoice.paidAt && (
+                <div className="flex justify-between bg-green-50 px-4 py-2 text-xs">
+                  <span className="text-green-700">{t('paidAt')}</span>
+                  <span className="font-medium text-green-700">
+                    {new Date(invoice.paidAt).toLocaleDateString(locale)}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
-        {/* ── FOOTER: registration line ─────────────────────────────────────────── */}
-        {(bd?.businessNumber ?? bd?.vatNumber ?? bd?.businessType) && (
-          <div className="invoice-footer border-t border-border px-8 py-4 text-center text-xs text-text-muted">
+        {/* 6 ── Legal footer ───────────────────────────────────────────────── */}
+        <div className="invoice-footer border-t border-[#e0e0e0] px-10 py-3">
+          <p className="text-center text-[11px] text-[#aaa]">
             {[
-              bd?.businessName ?? therapistDisplayName,
-              bd?.businessNumber && `${t('businessNumber')}: ${bd.businessNumber}`,
-              bd?.vatNumber && `${t('vatNumber')}: ${bd.vatNumber}`,
+              businessName,
+              businessNumber && `עוסק מורשה מס׳ ${businessNumber}`,
+              vatNumber && `מע"מ: ${vatNumber}`,
+              address,
             ]
               .filter(Boolean)
               .join(' · ')}
-          </div>
-        )}
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -116,6 +116,17 @@
     },
     "resultsCount": "{count, plural, =0 {No therapists found} one {1 therapist found} other {{count} therapists found}}",
     "mapTitle": "Therapists near you",
+    "network": {
+      "eyebrow": "Our network",
+      "title": "Certified therapists — across the country",
+      "subtitle": "Find an occupational therapist near you, faster than ever",
+      "statTherapists": "registered therapists",
+      "statCities": "cities & towns",
+      "statFunds": "health funds",
+      "statLanguages": "treatment languages",
+      "cta": "Find a therapist",
+      "mapAriaLabel": "Map of therapists in Israel"
+    },
     "therapistBanner": {
       "title": "Are you a therapist? Join us",
       "subtitle": "Free profile, no commissions — just patients looking for exactly what you offer",
@@ -674,7 +685,9 @@
       "paidAt": "Paid At",
       "paidAmount": "Amount Paid",
       "save": "Save Invoice",
-      "premiumRequired": "This feature is available to Premium subscribers only"
+      "premiumRequired": "This feature is available to Premium subscribers only",
+      "view": "View",
+      "upgradeCtaShort": "Upgrade to Premium"
     },
     "goals": {
       "title": "Therapy Goals",
@@ -718,7 +731,8 @@
       "type_other": "Other"
     },
     "tabs": {
-      "overview": "Overview"
+      "overview": "Overview",
+      "settings": "Settings"
     },
     "overview": {
       "quickActions": "Quick Actions",
@@ -754,6 +768,27 @@
       "onboardedSub": "Your profile is set up and ready",
       "firstPatient": "First patient added!",
       "firstPatientSub": "Your clinic is open for business"
+    },
+    "settings": {
+      "business": {
+        "pageTitle": "Business Settings",
+        "pageSubtitle": "These details will appear on invoices you issue",
+        "sectionTitle": "Business Details",
+        "businessName": "Business Name",
+        "businessNamePlaceholder": "My Clinic...",
+        "businessType": "Business Type",
+        "businessTypeNone": "Select type",
+        "businessTypeLicensed": "Licensed Dealer",
+        "businessTypeExempt": "Exempt Dealer",
+        "businessTypeCompany": "Limited Company",
+        "businessNumber": "Business / Registration Number",
+        "businessNumberPlaceholder": "123456789",
+        "vatNumber": "VAT Number",
+        "vatNumberPlaceholder": "123456789",
+        "businessAddress": "Business Address",
+        "businessAddressPlaceholder": "Street, City",
+        "saved": "Details saved successfully"
+      }
     }
   },
   "reviews": {

@@ -3,19 +3,16 @@ import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { searchTherapists } from '@/lib/db/therapists';
 import { searchMockTherapists } from '@/lib/mock-search';
-import HomepageSearch from '@/components/home/HomepageSearch';
+import StatsMapSection from '@/components/home/StatsMapSection';
 import HowItWorks from '@/components/home/HowItWorks';
 import WhatIsOccupationalTherapy from '@/components/home/WhatIsOccupationalTherapy';
 import WhyJoinUs from '@/components/home/WhyJoinUs';
 import ContactSection from '@/components/home/ContactSection';
-import TherapistMapWrapper from '@/components/home/TherapistMapWrapper';
 import HeroGraphic from '@/components/home/HeroGraphic';
-import HeroTitleHighlight from '@/components/home/HeroTitleHighlight';
 import Testimonials from '@/components/home/Testimonials';
 import Pricing from '@/components/home/Pricing';
 import FAQ from '@/components/home/FAQ';
 import { FadeInUp } from '@/components/ui/motion';
-import type { SearchParams } from '@/types';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('home.meta');
@@ -48,46 +45,22 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 interface HomePageProps {
-  searchParams: Promise<{
-    q?: string;
-    specialisation?: string | string[];
-    insurance?: string | string[];
-    sessionType?: string | string[];
-    language?: string | string[];
-    city?: string;
-    district?: string;
-    acceptingOnly?: string;
-    sort?: string;
-    page?: string;
-  }>;
+  params: Promise<{ locale: string }>;
 }
 
-export default async function HomePage({ searchParams }: HomePageProps) {
-  const sp = await searchParams;
+export default async function HomePage({ params }: HomePageProps) {
+  const { locale } = await params;
   const tHome = await getTranslations('home');
 
-  const query: SearchParams = {
-    q: sp.q,
-    specialisation: sp.specialisation as SearchParams['specialisation'],
-    insurance: sp.insurance as SearchParams['insurance'],
-    sessionType: sp.sessionType as SearchParams['sessionType'],
-    language: sp.language,
-    city: sp.city,
-    district: sp.district,
-    acceptingOnly: sp.acceptingOnly === 'true',
-    sort: (sp.sort as SearchParams['sort']) ?? 'rating',
-    page: 1,
-    limit: 10,
-  };
-
+  // Fetch a broad set of profiles for avatars + city stats
   let profiles = [] as Awaited<ReturnType<typeof searchTherapists>>['profiles'];
   let total = 0;
 
   try {
-    ({ profiles, total } = await searchTherapists(query));
+    ({ profiles, total } = await searchTherapists({ page: 1, limit: 50 }));
   } catch (err) {
     console.warn('[HomePage] DB unavailable, falling back to mock data:', (err as Error).message);
-    ({ profiles, total } = searchMockTherapists(query));
+    ({ profiles, total } = searchMockTherapists({ page: 1, limit: 50 }));
   }
 
   return (
@@ -136,35 +109,63 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                 {tHome('heroBody')}
               </p>
 
-              {/* Trust signals */}
-              <div className="mt-10 flex flex-wrap justify-center gap-8 lg:justify-start">
-                <div className="flex flex-col items-center lg:items-start">
-                  <span className="text-4xl font-extrabold text-primary">{tHome('stats.therapists')}</span>
-                  <span className="mt-0.5 text-sm text-text-secondary">{tHome('stats.therapistsLabel')}</span>
+              {/* Trust signals — stat cards */}
+              <div className="mt-10 flex flex-wrap justify-center gap-3 lg:justify-start">
+                {/* Therapists */}
+                <div className="flex items-center gap-3 rounded-xl border border-border bg-surface px-4 py-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-light text-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-xl font-extrabold leading-none text-primary">{tHome('stats.therapists')}</p>
+                    <p className="mt-0.5 text-xs text-text-secondary">{tHome('stats.therapistsLabel')}</p>
+                  </div>
                 </div>
-                <div className="w-px self-stretch bg-border" aria-hidden="true" />
-                <div className="flex flex-col items-center lg:items-start">
-                  <span className="text-4xl font-extrabold text-primary">{tHome('stats.cities')}</span>
-                  <span className="mt-0.5 text-sm text-text-secondary">{tHome('stats.citiesLabel')}</span>
+
+                {/* Cities */}
+                <div className="flex items-center gap-3 rounded-xl border border-border bg-surface px-4 py-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-light text-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-xl font-extrabold leading-none text-primary">{tHome('stats.cities')}</p>
+                    <p className="mt-0.5 text-xs text-text-secondary">{tHome('stats.citiesLabel')}</p>
+                  </div>
                 </div>
-                <div className="w-px self-stretch bg-border" aria-hidden="true" />
-                <div className="flex flex-col items-center lg:items-start">
-                  <span className="text-4xl font-extrabold text-primary">{tHome('stats.funds')}</span>
-                  <span className="mt-0.5 text-sm text-text-secondary">{tHome('stats.fundsLabel')}</span>
+
+                {/* Health funds */}
+                <div className="flex items-center gap-3 rounded-xl border border-border bg-surface px-4 py-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-light text-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-xl font-extrabold leading-none text-primary">{tHome('stats.funds')}</p>
+                    <p className="mt-0.5 text-xs text-text-secondary">{tHome('stats.fundsLabel')}</p>
+                  </div>
                 </div>
               </div>
 
               {/* CTAs */}
               <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
                 <a
-                  href="#search"
-                  className="group inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-base font-normal text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+                  href={`/${locale}/search`}
+                  className="group inline-flex items-center gap-2.5 rounded-lg px-8 py-3.5 text-base font-normal text-white shadow-[0_4px_20px_rgba(27,15,147,0.45)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_6px_28px_rgba(27,15,147,0.6)]"
                   style={{ background: 'linear-gradient(135deg, #1b0f93 0%, #1b007c 30%, #0a013d 58%, #02001a 80%, #02000e 100%)' }}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
                   </svg>
                   {tHome('searchButton')}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="transition-transform duration-200 group-hover:-translate-x-0.5 rtl:rotate-180 rtl:group-hover:translate-x-0.5">
+                    <polyline points="9 18 15 12 9 6"/>
+                  </svg>
                 </a>
                 <a
                   href="#for-therapists"
@@ -184,8 +185,8 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         </div>
       </section>
 
-      {/* ── Search + results ─────────────────────────────────────────────── */}
-      <HomepageSearch profiles={profiles} total={total} initialQuery={sp.q} />
+      {/* ── Network stats + map ──────────────────────────────────────────── */}
+      <StatsMapSection profiles={profiles} total={total} locale={locale} />
 
       {/* ── Why join us ───────────────────────────────────────────────────── */}
       <WhyJoinUs />
@@ -202,25 +203,8 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       {/* ── What is OT ────────────────────────────────────────────────────── */}
       <WhatIsOccupationalTherapy />
 
-      {/* ── Map section ───────────────────────────────────────────────────── */}
-      <section id="map" className="border-t border-border bg-bg-alt py-10">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <FadeInUp>
-            <div className="mb-5 flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-light">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary" aria-hidden="true">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-                </svg>
-              </div>
-              <h2 className="font-display text-xl font-normal text-text-primary">{tHome('mapTitle')}</h2>
-            </div>
-          </FadeInUp>
-          <TherapistMapWrapper profiles={profiles} activeCity={sp.city} />
-        </div>
-      </section>
-
       {/* ── For therapists CTA (inverted dark section) ────────────────────── */}
-      <section id="for-therapists" className="relative overflow-hidden bg-bg-dark py-20">
+      <section id="for-therapists" className="relative overflow-hidden py-20" style={{ background: 'radial-gradient(ellipse at 20% 60%, #1b0f93 0%, #0d0b50 45%, #06041e 100%)' }}>
         {/* Dot texture */}
         <div
           aria-hidden="true"
@@ -240,26 +224,26 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           <FadeInUp>
             <div className="flex flex-col items-center gap-8 text-center sm:flex-row sm:justify-between sm:text-start">
               <div>
-                <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-accent/70 bg-accent/25 px-3.5 py-1">
+                <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-yellow-300/40 bg-yellow-300/10 px-3.5 py-1">
                   <span
-                    className="h-1.5 w-1.5 rounded-full bg-accent"
+                    className="h-1.5 w-1.5 rounded-full bg-yellow-300"
                     style={{ animation: 'pulse-dot 2s ease-in-out infinite' }}
                     aria-hidden="true"
                   />
-                  <span className="section-eyebrow text-white">
+                  <span className="section-eyebrow text-yellow-200">
                     {tHome('therapistBanner.free')}
                   </span>
                 </div>
                 <h2 className="font-display text-2xl font-normal text-white sm:text-3xl">
                   {tHome('therapistBanner.title')}
                 </h2>
-                <p className="mt-2 max-w-lg text-base text-white/60">
+                <p className="mt-2 max-w-lg text-base text-white/85">
                   {tHome('therapistBanner.subtitle')}
                 </p>
               </div>
               <Link
                 href="/auth/register"
-                className="shrink-0 rounded-xl bg-accent px-8 py-3.5 text-sm font-normal text-text-accent shadow-accent transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-dark hover:shadow-accent-lg"
+                className="shrink-0 rounded-xl border border-yellow-300/60 bg-yellow-300/10 px-8 py-3.5 text-sm font-normal text-yellow-100 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-yellow-300 hover:bg-yellow-300/20 hover:text-white"
               >
                 {tHome('therapistBanner.cta')}
               </Link>

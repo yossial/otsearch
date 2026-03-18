@@ -107,6 +107,7 @@ export async function POST(req: NextRequest) {
         feeRange: (body.feeRange as { min: number; max: number; currency: string } | null | undefined) ?? null,
         gender: (body.gender as 'male' | 'female' | null | undefined) ?? null,
         photo,
+        userId: user._id,
         subscriptionTier: 'free',
         isActive: !!(locationData.city?.trim()),
       });

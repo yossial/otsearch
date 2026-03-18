@@ -23,8 +23,8 @@ export type HeroData = {
   ratingCount: number;
 };
 
-// Hero card shown only on the 4 root tab pages, not on sub-pages
-const MAIN_PAGE_RE = /\/dashboard(\/patients|\/schedule|\/billing)?$/;
+// Hero card shown only on the 5 root tab pages, not on sub-pages
+const MAIN_PAGE_RE = /\/dashboard(\/patients|\/schedule|\/billing|\/settings)?$/;
 
 export default function DashboardShell({
   heroData,
@@ -44,6 +44,7 @@ export default function DashboardShell({
     { key: 'patients', href: '/dashboard/patients', segment: 'patients' },
     { key: 'schedule', href: '/dashboard/schedule', segment: 'schedule' },
     { key: 'billing', href: '/dashboard/billing', segment: 'billing' },
+    { key: 'settings', href: '/dashboard/settings', segment: 'settings' },
   ] as const;
 
   const tabLabels: Record<string, string> = {
@@ -51,6 +52,7 @@ export default function DashboardShell({
     patients: t('patients.title'),
     schedule: t('schedule.title'),
     billing: t('billing.title'),
+    settings: t('tabs.settings'),
   };
 
   function isActive(tab: (typeof tabs)[number]) {
@@ -60,16 +62,16 @@ export default function DashboardShell({
 
   return (
     <BreadcrumbProvider>
-    <div className="min-h-screen bg-[#EEF1F8]">
+    <div className="min-h-screen bg-[#EEF1F8] print:bg-white">
       {/* Hero card — only on main tab pages */}
       {isMainPage && heroData && (
-        <div className="mx-auto max-w-5xl px-4 pt-8 sm:px-6 lg:px-8">
+        <div className="no-print mx-auto max-w-5xl px-4 pt-8 sm:px-6 lg:px-8">
           <HeroCard data={heroData} t={t} />
         </div>
       )}
 
       {/* Sticky tab bar */}
-      <div className="sticky top-16 z-10 border-b border-border bg-[#EEF1F8]">
+      <div className="no-print sticky top-16 z-10 border-b border-border bg-[#EEF1F8]">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <nav className="-mb-px flex" aria-label="Dashboard sections">
             {tabs.map((tab) => {
@@ -85,7 +87,7 @@ export default function DashboardShell({
                   }`}
                 >
                   {tabLabels[tab.key]}
-                  {!isPremium && tab.key !== 'overview' && (
+                  {!isPremium && tab.key !== 'overview' && tab.key !== 'settings' && (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="11"
@@ -111,7 +113,7 @@ export default function DashboardShell({
       </div>
 
       {/* Page content */}
-      <div className="mx-auto max-w-5xl space-y-4 px-4 pb-6 pt-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-5xl space-y-4 px-4 pb-6 pt-4 sm:px-6 lg:px-8 print:max-w-none print:p-0">
         <Suspense fallback={null}>
           <ConfettiEffect />
         </Suspense>

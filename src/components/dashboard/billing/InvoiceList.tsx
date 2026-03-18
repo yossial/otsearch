@@ -158,15 +158,23 @@ export default function InvoiceList({ patientId, locale }: InvoiceListProps) {
                   </span>
                 </td>
                 <td className="px-5 py-3 text-end">
-                  {(inv.status === 'sent' || inv.status === 'draft') && (
-                    <button
-                      onClick={() => { void markPaid(inv._id); }}
-                      disabled={markingPaid === inv._id}
-                      className="rounded-lg border border-green-200 bg-green-50 px-2.5 py-1 text-xs text-green-700 transition-colors hover:bg-green-100 disabled:opacity-50"
+                  <div className="flex items-center justify-end gap-2">
+                    <Link
+                      href={`/dashboard/billing/${inv._id}`}
+                      className="rounded-lg border border-border px-2.5 py-1 text-xs text-text-secondary transition-colors hover:border-primary/30 hover:text-primary"
                     >
-                      {markingPaid === inv._id ? '...' : t('markPaid')}
-                    </button>
-                  )}
+                      {t('view')}
+                    </Link>
+                    {(inv.status === 'sent' || inv.status === 'draft') && (
+                      <button
+                        onClick={() => { void markPaid(inv._id); }}
+                        disabled={markingPaid === inv._id}
+                        className="rounded-lg border border-green-200 bg-green-50 px-2.5 py-1 text-xs text-green-700 transition-colors hover:bg-green-100 disabled:opacity-50"
+                      >
+                        {markingPaid === inv._id ? '...' : t('markPaid')}
+                      </button>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}

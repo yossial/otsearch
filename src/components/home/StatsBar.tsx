@@ -12,7 +12,10 @@ export default async function StatsBar() {
   ];
 
   return (
-    <section className="relative overflow-hidden bg-bg-dark py-14">
+    <section
+      className="relative overflow-hidden py-14"
+      style={{ background: 'radial-gradient(ellipse at 20% 60%, #1b0f93 0%, #0d0b50 45%, #06041e 100%)' }}
+    >
       {/* Dot texture */}
       <div
         aria-hidden="true"
@@ -22,21 +25,16 @@ export default async function StatsBar() {
           backgroundSize: '28px 28px',
         }}
       />
-      {/* Ambient accent glow */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -start-10 top-1/2 h-[200px] w-[200px] -translate-y-1/2 rounded-full bg-accent opacity-[0.06] blur-[80px]"
-      />
 
       <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 sm:grid-cols-4 sm:divide-x sm:divide-white/10 rtl:sm:divide-x-reverse">
           {STATS.map(({ value, label }, idx) => (
             <FadeInUp key={label} delay={idx * 0.07}>
               <div className="flex flex-col items-center gap-2 px-6 py-8 text-center">
-                <span className="text-4xl font-extrabold tabular-nums text-accent sm:text-5xl">
+                <span className="text-4xl font-extrabold tabular-nums text-white sm:text-5xl">
                   {value}
                 </span>
-                <span className="text-xs font-normal uppercase tracking-widest text-white/50">
+                <span className="text-xs font-normal uppercase tracking-widest text-white/75">
                   {label}
                 </span>
               </div>

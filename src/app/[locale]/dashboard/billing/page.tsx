@@ -4,6 +4,7 @@ import { getLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { auth } from '@/lib/auth/auth';
 import { connectDB } from '@/lib/db';
+import { User } from '@/lib/db/models/User';
 import { TherapistProfile } from '@/lib/db/models/TherapistProfile';
 import InvoiceList from '@/components/dashboard/billing/InvoiceList';
 
@@ -23,9 +24,10 @@ export default async function BillingPage() {
   const t = await getTranslations('dashboard.billing');
 
   await connectDB();
-  const profile = await TherapistProfile.findOne({ userId: session.user.id })
-    .select('subscriptionTier')
-    .lean();
+  const user = await User.findById(session.user.id).select('therapistProfileId').lean();
+  const profile = user?.therapistProfileId
+    ? await TherapistProfile.findById(user.therapistProfileId).select('subscriptionTier').lean()
+    : null;
 
   const isPremium = profile?.subscriptionTier === 'premium';
 

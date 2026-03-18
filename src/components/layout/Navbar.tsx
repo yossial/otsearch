@@ -82,7 +82,7 @@ export default function Navbar({ avatarUrl }: { avatarUrl?: string | null }) {
 
   return (
     <header
-      className={`fixed inset-s-0 inset-e-0 top-0 z-40 w-full border-b transition-all duration-300 ${
+      className={`no-print fixed inset-s-0 inset-e-0 top-0 z-40 w-full border-b transition-all duration-300 ${
         transparent
           ? 'border-transparent bg-transparent'
           : 'border-border bg-surface/95 shadow-[0_1px_4px_rgba(0,0,0,0.06)] backdrop-blur-md'

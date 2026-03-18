@@ -356,3 +356,194 @@ input[type="password"]::-webkit-credentials-auto-fill-button { display: none; }
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
+
+/* ─── Print ───────────────────────────────────────────────────── */
+@media print {
+  /* ── Page setup ──────────────────────────────────────────────── */
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm;
+  }
+
+  /* Force background colours / images to print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* ── Hide everything except the invoice ──────────────────────── */
+  .no-print { display: none !important; }
+
+  html, body {
+    background: #fff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 9pt !important;
+  }
+
+  /* ── Paper: remove shadow, fill page width ───────────────────── */
+  .invoice-paper {
+    box-shadow: none !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    background: #fff !important;
+    font-family: 'Heebo', Arial, sans-serif !important;
+    font-size: 9pt !important;
+    color: #111 !important;
+    direction: rtl !important;
+  }
+
+  /* ── Top stripe ──────────────────────────────────────────────── */
+  .invoice-stripe {
+    height: 4pt !important;
+    background: #1b0f93 !important;
+    display: block !important;
+  }
+
+  /* ── Header two-column grid ──────────────────────────────────── */
+  .invoice-header {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 14pt !important;
+    padding: 10pt 14pt 8pt !important;
+    border-bottom: 1.5pt solid #1b0f93 !important;
+  }
+
+  .invoice-provider-name {
+    font-size: 12pt !important;
+    font-weight: 700 !important;
+    color: #111 !important;
+    margin-bottom: 2pt !important;
+  }
+
+  .invoice-from p { font-size: 8pt !important; color: #444 !important; margin: 1pt 0 !important; }
+
+  .invoice-doc-title {
+    font-size: 18pt !important;
+    font-weight: 800 !important;
+    color: #1b0f93 !important;
+    line-height: 1.2 !important;
+    margin-bottom: 5pt !important;
+  }
+
+  .invoice-meta-table { font-size: 8pt !important; border-collapse: collapse !important; }
+  .invoice-meta-table td { padding: 1pt 0 !important; vertical-align: top !important; }
+  .invoice-meta-table td:first-child { color: #666 !important; padding-left: 10pt !important; }
+  .invoice-meta-table td:last-child { font-weight: 600 !important; color: #111 !important; }
+
+  .invoice-original {
+    display: inline-block !important;
+    border: 0.75pt solid #1b0f93 !important;
+    color: #1b0f93 !important;
+    font-size: 7pt !important;
+    font-weight: 600 !important;
+    padding: 0.5pt 4pt !important;
+    margin-top: 3pt !important;
+  }
+
+  /* ── From / To band ─────────────────────────────────────────── */
+  .invoice-parties {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    background: #f5f5f5 !important;
+    border-top: 0.75pt solid #ddd !important;
+    border-bottom: 0.75pt solid #ddd !important;
+  }
+
+  .invoice-party-from {
+    border-left: 0.75pt solid #ddd !important;
+    padding: 6pt 14pt !important;
+  }
+
+  .invoice-party-to { padding: 6pt 14pt !important; }
+
+  .invoice-party-label {
+    font-size: 6.5pt !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    color: #999 !important;
+    display: block !important;
+    margin-bottom: 2pt !important;
+  }
+
+  .invoice-party-from p,
+  .invoice-party-to p { font-size: 8pt !important; color: #333 !important; margin: 0.5pt 0 !important; }
+
+  /* ── Line items ──────────────────────────────────────────────── */
+  .invoice-items { padding: 8pt 14pt !important; }
+
+  .invoice-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 8.5pt !important;
+  }
+
+  .invoice-thead-row { background: #1b0f93 !important; }
+
+  .invoice-th {
+    padding: 4pt 6pt !important;
+    font-size: 7.5pt !important;
+    font-weight: 700 !important;
+    color: #fff !important;
+    background: #1b0f93 !important;
+  }
+
+  .invoice-td {
+    padding: 5pt 6pt !important;
+    border-bottom: 0.5pt solid #ececec !important;
+    vertical-align: middle !important;
+  }
+
+  .invoice-table tbody tr:nth-child(even) td { background: #f9f9f9 !important; }
+
+  /* ── Bottom row: notes + totals ──────────────────────────────── */
+  .invoice-bottom {
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: space-between !important;
+    gap: 12pt !important;
+    padding: 8pt 14pt !important;
+    border-top: 0.75pt solid #e0e0e0 !important;
+  }
+
+  .invoice-notes { font-size: 8pt !important; color: #666 !important; flex: 1 !important; }
+  .invoice-notes p { margin: 1.5pt 0 !important; }
+
+  /* ── Totals box ──────────────────────────────────────────────── */
+  .invoice-totals-box {
+    width: 140pt !important;
+    border: 0.75pt solid #ddd !important;
+    flex-shrink: 0 !important;
+  }
+
+  .invoice-totals-box > div > div {
+    display: flex !important;
+    justify-content: space-between !important;
+    padding: 3.5pt 7pt !important;
+    font-size: 8pt !important;
+    border-bottom: 0.5pt solid #e0e0e0 !important;
+  }
+
+  /* Subtotal / VAT rows — exclude the grand total row */
+  .invoice-totals-box > div > div:not(.invoice-grand-total) span:first-child { color: #555 !important; }
+  .invoice-totals-box > div > div:not(.invoice-grand-total) span:last-child { font-weight: 600 !important; color: #111 !important; }
+
+  .invoice-grand-total {
+    background: #1b0f93 !important;
+    border-bottom: none !important;
+  }
+
+  .invoice-grand-total span { color: #fff !important; font-weight: 700 !important; font-size: 8pt !important; }
+  .invoice-grand-total span:last-child { font-size: 10pt !important; }
+
+  /* ── Legal footer ────────────────────────────────────────────── */
+  .invoice-footer {
+    border-top: 0.5pt solid #ddd !important;
+    padding: 4pt 14pt !important;
+    text-align: center !important;
+    font-size: 7pt !important;
+    color: #aaa !important;
+  }
+}

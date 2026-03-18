@@ -3,6 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { auth } from '@/lib/auth/auth';
 import { connectDB } from '@/lib/db';
+import { User } from '@/lib/db/models/User';
 import { TherapistProfile } from '@/lib/db/models/TherapistProfile';
 import { Patient } from '@/lib/db/models/Patient';
 import InvoiceForm from '@/components/dashboard/billing/InvoiceForm';
@@ -25,10 +26,13 @@ export default async function NewInvoicePage({ params }: PageProps) {
   const t = await getTranslations('dashboard.billing');
 
   await connectDB();
+  const user = await User.findById(session.user.id).select('therapistProfileId').lean();
   const [profile, patients] = await Promise.all([
-    TherapistProfile.findOne({ userId: session.user.id })
-      .select('subscriptionTier displayName businessDetails')
-      .lean(),
+    user?.therapistProfileId
+      ? TherapistProfile.findById(user.therapistProfileId)
+          .select('subscriptionTier displayName businessDetails')
+          .lean()
+      : Promise.resolve(null),
     Patient.find({ therapistId: session.user.id, status: 'active' })
       .select('firstName lastName')
       .sort({ firstName: 1 })
@@ -39,13 +43,10 @@ export default async function NewInvoicePage({ params }: PageProps) {
     redirect(`/${locale}/dashboard/billing`);
   }
 
-  const dn = profile?.displayName;
-  const therapistName = (dn as Record<string, string> | undefined)?.[locale]
-    ?? dn?.he
-    ?? dn?.en
-    ?? dn?.ar
-    ?? '';
-  const businessNumber = '';
+  const dn = profile?.displayName as Record<string, string> | undefined;
+  const therapistName = dn?.[locale] ?? dn?.he ?? dn?.en ?? dn?.ar ?? '';
+  const bd = profile?.businessDetails as Record<string, string> | undefined;
+  const businessNumber = bd?.businessNumber ?? '';
 
   const patientOptions = patients.map((p) => ({
     _id: String(p._id),

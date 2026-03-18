@@ -6,13 +6,23 @@ import type {
   SubscriptionTier,
 } from '@/types';
 
+export interface BusinessDetails {
+  businessName?: string;
+  businessNumber?: string;   // מספר עוסק מורשה / ח.פ
+  vatNumber?: string;
+  businessAddress?: string;
+  businessType?: 'licensed' | 'exempt' | 'company';
+}
+
 export interface TherapistProfileDocument extends Document {
+  userId?: import('mongoose').Types.ObjectId;
   slug: string;
   displayName: { he: string; ar: string; en: string };
   bio: { he: string; ar: string; en: string };
   photo: string | null;
   mohRegistrationNumber: string;
   mohStatus?: string;
+  businessDetails?: BusinessDetails;
   specialisations: Specialisation[];
   specialisationsOther?: string[];
   sessionTypesOther?: string[];
@@ -51,9 +61,22 @@ const MultilingualOptionalSchema = new Schema(
   { _id: false }
 );
 
+const BusinessDetailsSchema = new Schema<BusinessDetails>(
+  {
+    businessName: String,
+    businessNumber: String,
+    vatNumber: String,
+    businessAddress: String,
+    businessType: { type: String, enum: ['licensed', 'exempt', 'company'] },
+  },
+  { _id: false }
+);
+
 const TherapistProfileSchema = new Schema<TherapistProfileDocument>(
   {
+    userId: { type: Schema.Types.ObjectId, ref: 'User', index: true },
     slug: { type: String, required: true, unique: true, lowercase: true, trim: true },
+    businessDetails: { type: BusinessDetailsSchema, default: () => ({}) },
     displayName: { type: MultilingualRequiredSchema, required: true },
     bio: { type: MultilingualOptionalSchema, default: () => ({ he: '', ar: '', en: '' }) },
     photo: { type: String, default: null },

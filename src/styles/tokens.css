@@ -48,8 +48,8 @@
   --color-surface-raised:  #f8f9fb;   /* slightly elevated        */
   --color-bg:              #ffffff;   /* page background          */
   --color-bg-alt:          #F8F9FA;   /* alternate sections       */
-  --color-bg-dark:         #02001a;   /* Near-black navy — dark sections */
-  --color-bg-darker:       #02000e;   /* Near black indigo               */
+  --color-bg-dark:         #13114a;   /* Dark indigo — dark sections     */
+  --color-bg-darker:       #0d0b38;   /* Deeper indigo — deepest dark    */
 
   /* Borders — Federal Blue at ~8% opacity on white               */
   --color-border:          #e5e3f5;   /* default border — indigo tint  */

@@ -27,9 +27,9 @@ const variantClasses = {
 
   secondary: [
     'border border-border bg-transparent text-text-secondary font-normal',
-    'hover:border-primary/30 hover:bg-primary-light hover:text-primary',
+    'hover:-translate-y-0.5 hover:border-border hover:shadow-sm',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2',
-    'disabled:opacity-40 disabled:cursor-not-allowed',
+    'disabled:opacity-40 disabled:cursor-not-allowed disabled:translate-y-0 disabled:shadow-none',
   ].join(' '),
 
   accent: [

@@ -156,7 +156,7 @@ export default async function HomePage({ params }: HomePageProps) {
               <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
                 <a
                   href={`/${locale}/search`}
-                  className="group inline-flex items-center gap-2.5 rounded-full px-8 py-3.5 text-base font-normal text-white shadow-[0_4px_20px_rgba(27,15,147,0.45)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_6px_28px_rgba(27,15,147,0.6)]"
+                  className="group inline-flex items-center gap-2.5 rounded-lg px-8 py-3.5 text-base font-normal text-white shadow-[0_4px_20px_rgba(27,15,147,0.45)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_6px_28px_rgba(27,15,147,0.6)]"
                   style={{ background: 'linear-gradient(135deg, #1b0f93 0%, #1b007c 30%, #0a013d 58%, #02001a 80%, #02000e 100%)' }}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

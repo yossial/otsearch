@@ -32,7 +32,7 @@ export default function Footer() {
           <div className="flex flex-col gap-4">
             <Link href="/" className="group flex items-center gap-2">
               <span
-                className="h-2 w-2 rounded-full bg-accent shadow-accent transition-transform duration-200 group-hover:scale-125"
+                className="h-2 w-2 rounded-full bg-yellow-300 transition-transform duration-200 group-hover:scale-125"
                 aria-hidden="true"
               />
               <span className="text-xl font-extrabold tracking-tight text-white">
@@ -50,13 +50,13 @@ export default function Footer() {
               {tFooter('forPatients')}
             </h3>
             <nav className="flex flex-col gap-2">
-              <Link href="/" className="text-sm text-white/80 transition-colors hover:text-accent">
+              <Link href="/" className="text-sm text-white/80 transition-colors hover:text-white">
                 {tNav('home')}
               </Link>
-              <Link href="/search" className="text-sm text-white/80 transition-colors hover:text-accent">
+              <Link href="/search" className="text-sm text-white/80 transition-colors hover:text-white">
                 {tFooter('searchTherapists')}
               </Link>
-              <Link href="/#contact" className="text-sm text-white/80 transition-colors hover:text-accent">
+              <Link href="/#contact" className="text-sm text-white/80 transition-colors hover:text-white">
                 {tFooter('contact')}
               </Link>
             </nav>
@@ -68,13 +68,13 @@ export default function Footer() {
               {tFooter('forTherapists')}
             </h3>
             <nav className="flex flex-col gap-2">
-              <Link href="/auth/register" className="text-sm text-white/80 transition-colors hover:text-accent">
+              <Link href="/auth/register" className="text-sm text-white/80 transition-colors hover:text-white">
                 {tFooter('joinAsTherapist')}
               </Link>
-              <Link href="/auth/login" className="text-sm text-white/80 transition-colors hover:text-accent">
+              <Link href="/auth/login" className="text-sm text-white/80 transition-colors hover:text-white">
                 {tNav('login')}
               </Link>
-              <Link href="/dashboard" className="text-sm text-white/80 transition-colors hover:text-accent">
+              <Link href="/dashboard" className="text-sm text-white/80 transition-colors hover:text-white">
                 {tNav('dashboard')}
               </Link>
             </nav>
@@ -86,13 +86,13 @@ export default function Footer() {
               {tFooter('company')}
             </h3>
             <nav className="flex flex-col gap-2">
-              <Link href="/about" className="text-sm text-white/80 transition-colors hover:text-accent">
+              <Link href="/about" className="text-sm text-white/80 transition-colors hover:text-white">
                 {tFooter('about')}
               </Link>
-              <Link href="/privacy" className="text-sm text-white/80 transition-colors hover:text-accent">
+              <Link href="/privacy" className="text-sm text-white/80 transition-colors hover:text-white">
                 {tFooter('privacy')}
               </Link>
-              <Link href="/terms" className="text-sm text-white/80 transition-colors hover:text-accent">
+              <Link href="/terms" className="text-sm text-white/80 transition-colors hover:text-white">
                 {tFooter('terms')}
               </Link>
             </nav>
@@ -111,7 +111,7 @@ export default function Footer() {
                 <Link
                   href="/"
                   locale={loc}
-                  className="rounded px-2 py-1 text-xs font-normal text-white/75 transition-colors hover:bg-white/10 hover:text-accent"
+                  className="rounded px-2 py-1 text-xs font-normal text-white/75 transition-colors hover:bg-white/10 hover:text-white"
                 >
                   {loc === 'he' ? 'עב' : loc === 'ar' ? 'عر' : loc === 'ru' ? 'РУ' : 'EN'}
                 </Link>

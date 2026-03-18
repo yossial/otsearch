@@ -1,6 +1,5 @@
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
-import CountUpStat from './CountUpStat';
 import NetworkMapClient from './NetworkMapClient';
 import type { TherapistProfilePublic } from '@/types';
 
@@ -48,16 +47,8 @@ export default async function StatsMapSection({ profiles, total, locale }: Props
           </p>
         </div>
 
-        {/* ── Stat counters ──────────────────────────────────────────────── */}
-        <div className="mb-12 grid grid-cols-2 gap-8 sm:grid-cols-4">
-          <CountUpStat value={therapistCount} suffix="+" label={t('statTherapists')} />
-          <CountUpStat value={cityCount}      suffix=""  label={t('statCities')}     />
-          <CountUpStat value={4}              suffix=""  label={t('statFunds')}       />
-          <CountUpStat value={5}              suffix=""  label={t('statLanguages')}   />
-        </div>
-
         {/* ── Map ────────────────────────────────────────────────────────── */}
-        <NetworkMapClient cityStats={cityStats} locale={locale} />
+        <NetworkMapClient profiles={profiles} locale={locale} />
 
         {/* ── Avatar strip + CTA ─────────────────────────────────────────── */}
         <div className="mt-8 flex flex-col items-center gap-5 sm:flex-row sm:justify-between">

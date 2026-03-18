@@ -31,7 +31,7 @@ export default async function StatsBar() {
           {STATS.map(({ value, label }, idx) => (
             <FadeInUp key={label} delay={idx * 0.07}>
               <div className="flex flex-col items-center gap-2 px-6 py-8 text-center">
-                <span className="text-4xl font-extrabold tabular-nums text-accent sm:text-5xl">
+                <span className="text-4xl font-extrabold tabular-nums text-white sm:text-5xl">
                   {value}
                 </span>
                 <span className="text-xs font-normal uppercase tracking-widest text-white/75">

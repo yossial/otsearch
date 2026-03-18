@@ -109,21 +109,46 @@ export default async function HomePage({ params }: HomePageProps) {
                 {tHome('heroBody')}
               </p>
 
-              {/* Trust signals */}
-              <div className="mt-10 flex flex-wrap justify-center gap-8 lg:justify-start">
-                <div className="flex flex-col items-center lg:items-start">
-                  <span className="text-4xl font-extrabold text-primary">{tHome('stats.therapists')}</span>
-                  <span className="mt-0.5 text-sm text-text-secondary">{tHome('stats.therapistsLabel')}</span>
+              {/* Trust signals — stat cards */}
+              <div className="mt-10 flex flex-wrap justify-center gap-3 lg:justify-start">
+                {/* Therapists */}
+                <div className="flex items-center gap-3 rounded-xl border border-border bg-surface px-4 py-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-light text-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-xl font-extrabold leading-none text-primary">{tHome('stats.therapists')}</p>
+                    <p className="mt-0.5 text-xs text-text-secondary">{tHome('stats.therapistsLabel')}</p>
+                  </div>
                 </div>
-                <div className="w-px self-stretch bg-border" aria-hidden="true" />
-                <div className="flex flex-col items-center lg:items-start">
-                  <span className="text-4xl font-extrabold text-primary">{tHome('stats.cities')}</span>
-                  <span className="mt-0.5 text-sm text-text-secondary">{tHome('stats.citiesLabel')}</span>
+
+                {/* Cities */}
+                <div className="flex items-center gap-3 rounded-xl border border-border bg-surface px-4 py-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-light text-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-xl font-extrabold leading-none text-primary">{tHome('stats.cities')}</p>
+                    <p className="mt-0.5 text-xs text-text-secondary">{tHome('stats.citiesLabel')}</p>
+                  </div>
                 </div>
-                <div className="w-px self-stretch bg-border" aria-hidden="true" />
-                <div className="flex flex-col items-center lg:items-start">
-                  <span className="text-4xl font-extrabold text-primary">{tHome('stats.funds')}</span>
-                  <span className="mt-0.5 text-sm text-text-secondary">{tHome('stats.fundsLabel')}</span>
+
+                {/* Health funds */}
+                <div className="flex items-center gap-3 rounded-xl border border-border bg-surface px-4 py-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-light text-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-xl font-extrabold leading-none text-primary">{tHome('stats.funds')}</p>
+                    <p className="mt-0.5 text-xs text-text-secondary">{tHome('stats.fundsLabel')}</p>
+                  </div>
                 </div>
               </div>
 
@@ -199,13 +224,13 @@ export default async function HomePage({ params }: HomePageProps) {
           <FadeInUp>
             <div className="flex flex-col items-center gap-8 text-center sm:flex-row sm:justify-between sm:text-start">
               <div>
-                <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-3.5 py-1">
+                <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-yellow-300/40 bg-yellow-300/10 px-3.5 py-1">
                   <span
-                    className="h-1.5 w-1.5 rounded-full bg-accent"
+                    className="h-1.5 w-1.5 rounded-full bg-yellow-300"
                     style={{ animation: 'pulse-dot 2s ease-in-out infinite' }}
                     aria-hidden="true"
                   />
-                  <span className="section-eyebrow text-white">
+                  <span className="section-eyebrow text-yellow-200">
                     {tHome('therapistBanner.free')}
                   </span>
                 </div>
@@ -218,7 +243,7 @@ export default async function HomePage({ params }: HomePageProps) {
               </div>
               <Link
                 href="/auth/register"
-                className="shrink-0 rounded-xl bg-white px-8 py-3.5 text-sm font-normal text-primary transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90"
+                className="shrink-0 rounded-xl border border-yellow-300/60 bg-yellow-300/10 px-8 py-3.5 text-sm font-normal text-yellow-100 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-yellow-300 hover:bg-yellow-300/20 hover:text-white"
               >
                 {tHome('therapistBanner.cta')}
               </Link>
